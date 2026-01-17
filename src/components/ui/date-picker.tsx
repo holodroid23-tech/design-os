@@ -59,13 +59,15 @@ export function DatePicker({
         </div>
 
         {/* Calendar */}
-        <div className="flex items-center justify-center py-4">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={handleDateSelect}
-            initialFocus
-          />
+        <div className="flex items-center justify-center py-4 px-4">
+          <div className="w-full max-w-sm">
+            <Calendar
+              mode="single"
+              selected={date}
+              onSelect={handleDateSelect}
+              initialFocus
+            />
+          </div>
         </div>
       </SheetContent>
     </Sheet>
