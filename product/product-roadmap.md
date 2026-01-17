@@ -5,14 +5,14 @@
 ### 1. Register & Sales
 Fast checkout flow with multi-order tabs, item search, cart management, and payment processing (cash, card, Tap to Pay).
 
-### 2. Inventory & Products
-Browse and manage products, create ad hoc custom items, maintain favorites, and control what appears on the register.
+### 2. Daily Expenses
+Quick daily logging for store costs like supplies, milk, and maintenance with immediate analytics impact.
 
 ### 3. Activity & Reports
-PIN-gated dashboard with role-based views (Cashier "My Shift" vs Manager "Command Center"), sales analytics, and daily expenses tracking.
+PIN-gated dashboard with role-based views (Cashier "My Shift" vs Manager "Command Center"), sales analytics, and historical record browsing.
 
 ### 4. Settings & Configuration
-Manage staff/users with PIN-based access, configure taxes and payment methods, pair printers, control device mode (Register vs Back Office), and customize receipts.
+Manage inventory and expense templates, staff/users, taxes, payment methods, printer pairing, and receipt customization.
 
-### 5. Offline Sync & Device Control
-Automatic background sync with offline-first architecture, device takeover/lockout for single active register enforcement, and session management.
+### 5. Onboarding
+The first-run experience: store registration, mode selection (Register vs Back Office), and initial system walkthrough.
