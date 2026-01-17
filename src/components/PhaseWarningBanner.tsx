@@ -53,11 +53,11 @@ export function PhaseWarningBanner() {
   }
 
   return (
-    <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg px-4 py-3 mb-6">
+    <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg px-4 py-3 mb-6">
       <div className="flex items-start gap-3">
-        <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400 mt-0.5 shrink-0" strokeWidth={2} />
+        <AlertTriangle className="w-4 h-4 text-yellow-600 dark:text-yellow-400 mt-0.5 shrink-0" strokeWidth={2} />
         <div className="flex-1 min-w-0">
-          <p className="text-sm text-amber-800 dark:text-amber-200">
+          <p className="text-sm text-yellow-800 dark:text-yellow-200">
             Consider completing{' '}
             {missingPhases.map((phase, index) => (
               <span key={phase.path}>
@@ -75,7 +75,7 @@ export function PhaseWarningBanner() {
         </div>
         <button
           onClick={handleDismiss}
-          className="text-amber-600 dark:text-amber-400 hover:text-amber-800 dark:hover:text-amber-200 transition-colors shrink-0"
+          className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-200 transition-colors shrink-0"
         >
           <X className="w-4 h-4" strokeWidth={2} />
         </button>

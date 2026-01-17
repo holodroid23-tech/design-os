@@ -11,7 +11,7 @@ const SettingsItem = React.forwardRef<
     <button
       ref={ref}
       className={cn(
-        "bg-layer-1 text-primary hover:bg-layer-hover active:bg-layer-active active:scale-[0.99] flex w-full items-center justify-between px-5 py-4 transition-all duration-75",
+        "bg-layer-1 text-primary hover:bg-layer-hover active:bg-layer-active active:scale-[0.99] flex w-full items-center justify-start gap-4 px-5 py-4 transition-all duration-75",
         className
       )}
       {...props}
@@ -84,7 +84,7 @@ const SettingsItemDescription = React.forwardRef<
   return (
     <span
       ref={ref}
-      className={cn("text-small text-secondary", className)}
+      className={cn("text-support-small text-secondary", className)}
       {...props}
     >
       {children}

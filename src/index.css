@@ -59,6 +59,19 @@
   --color-purple-500: oklch(0.627 0.265 303.9);
   --color-purple-600: oklch(0.558 0.240 303.9);
   --color-purple-900: oklch(0.306 0.135 303.9);
+
+  /* Semantic Colors from DS */
+  --color-layer-info: #d5efff;
+  --color-layer-warning: #fcf6c5;
+  --color-layer-danger: #fee2e2;
+  --color-layer-success: #dcfce4;
+  --color-layer-recent: #f0e7ff;
+
+  --color-on-layer-info: #0791f0; /* Derived from info tooltip */
+  --color-on-layer-warning: #e1ab11;
+  --color-on-layer-danger: #da2828;
+  --color-on-layer-success: #15a43e;
+  --color-on-layer-recent: #691cd4;
 }
 
 /* Shadcn theme integration */
@@ -266,5 +279,20 @@
   
   .no-scrollbar::-webkit-scrollbar {
     display: none; /* Chrome, Safari, and Opera */
+  }
+
+  /* Custom typography utilities from Design System */
+  @utility text-regular-semibold {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+  }
+  @utility text-small {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  @utility text-support-small {
+    font-size: 12px;
+    line-height: 16px;
   }
 }

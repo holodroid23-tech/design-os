@@ -41,7 +41,7 @@ const SettingsItem = React.forwardRef<HTMLButtonElement, SettingsItemProps>(
                             {label}
                         </span>
                         {description && (
-                            <span className="text-small text-secondary">{description}</span>
+                            <span className="text-support-small text-secondary">{description}</span>
                         )}
                     </div>
                 </div>

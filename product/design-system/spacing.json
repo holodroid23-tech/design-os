@@ -115,6 +115,16 @@
       }
     },
     "sizes": {
+      "36px": {
+        "value": "36px",
+        "description": "Small size for icons with background in lists or tight layouts",
+        "examples": [
+          "List icons",
+          "Action indicators",
+          "Secondary feedback"
+        ],
+        "spacingReference": "space-8 (36px) - 6 × 6px grid units"
+      },
       "42px": {
         "value": "42px",
         "description": "Compact size for interactive elements when space is constrained",

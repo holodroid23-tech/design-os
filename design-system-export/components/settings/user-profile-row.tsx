@@ -44,7 +44,7 @@ const UserProfileRow = React.forwardRef<HTMLButtonElement, UserProfileRowProps>(
                                 </span>
                             )}
                         </div>
-                        <span className="text-small text-muted-foreground">{email}</span>
+                        <span className="text-support-small text-muted-foreground">{email}</span>
                     </div>
                 </div>
 

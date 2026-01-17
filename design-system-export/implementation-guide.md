@@ -10,7 +10,7 @@
 2. **Radius**: Use only: 3px (3px), small (6px), medium (12px), large (18px), full (50%), pill (1998px)
 3. **Colors**: Use semantic color names from colors.json. Never hardcode hex values.
 4. **Typography**: Use exact sizes from typography.json (H1: 28px, H2: 22px, Regular: 16px, etc.)
-5. **Component Sizes**: 42px (compact), 48px (default), 54px (large), 60px (bars)
+5. **Component Sizes**: 36px (mini), 42px (compact), 48px (default), 54px (large), 60px (bars)
 6. **Touch Targets**: Minimum 48px for all interactive elements
 7. **Dark Mode Only**: All components designed for dark mode
 8. **6px Grid**: All spacing and sizes align with 6px base unit

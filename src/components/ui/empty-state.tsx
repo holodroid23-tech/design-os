@@ -20,7 +20,7 @@ const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(
                 {...props}
             >
                 {icon && (
-                    <div className="mb-4 text-muted-foreground bg-layer-1 p-4 rounded-full shadow-sm ring-1 ring-border/50">
+                    <div className="mb-4 text-muted-foreground bg-layer-1 p-4 rounded-xl shadow-sm ring-1 ring-border/50">
                         {icon}
                     </div>
                 )}

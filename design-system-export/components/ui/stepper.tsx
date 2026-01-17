@@ -34,8 +34,8 @@ export function Stepper({
             text: "text-red-500",
         },
         warning: {
-            active: "bg-amber-500",
-            text: "text-amber-500",
+            active: "bg-yellow-500",
+            text: "text-yellow-600",
         },
         primary: {
             active: "bg-primary",

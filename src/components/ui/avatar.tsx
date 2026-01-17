@@ -11,8 +11,10 @@ const avatarVariants = cva(
   {
     variants: {
       size: {
-        default: "size-9",   // 36px
-        large: "size-12",    // 48px
+        small: "size-9",     // 36px
+        medium: "size-12",   // 48px
+        large: "size-[60px]", // 60px
+        default: "size-9",
       },
         variant: {
         default: "",
@@ -58,7 +60,7 @@ const Avatar = React.forwardRef<
     {online && (
       <span className={cn(
         "absolute bottom-0 right-0 rounded-full border-2 border-background bg-[#20c54f] z-10",
-        size === "large" ? "size-3.5" : "size-2.5"
+        size === "large" ? "size-3.5" : size === "medium" ? "size-3" : "size-2.5"
       )} />
     )}
   </div>
@@ -99,7 +101,7 @@ const AvatarFallback = React.forwardRef<
       "group-data-[variant=purple]/avatar:bg-transparent group-data-[variant=purple]/avatar:text-white",
       "group-data-[variant=indigo]/avatar:bg-transparent group-data-[variant=indigo]/avatar:text-white",
       "group-data-[variant=secondary]/avatar:bg-secondary group-data-[variant=secondary]/avatar:text-secondary-foreground",
-      "&_svg:size-3.5 group-data-[size=large]/avatar:&_svg:size-5",
+      "&_svg:size-[18px] group-data-[size=medium]/avatar:&_svg:size-6 group-data-[size=large]/avatar:&_svg:size-8",
       className
     )}
     {...props}

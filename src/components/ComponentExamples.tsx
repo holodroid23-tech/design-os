@@ -70,7 +70,6 @@ import {
   Trash2,
   Store,
   BarChart3,
-  CheckCircle2,
   Check,
   X,
   AlertTriangle,
@@ -622,129 +621,6 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               value={sliderValue}
               onValueChange={setSliderValue}
             />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Icons with Background */}
-      <Card id="icons-with-background" className="shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
-            Icons with background
-          </CardTitle>
-          <CardDescription>
-            Standardized icon containers with background colors for lists, empty states, and feedback
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-8">
-          {/* Small Icons (List/Action size) */}
-          <div className="space-y-4">
-            <Label className="text-sm font-medium">
-              Small (40px) - Common colors
-            </Label>
-            <div className="flex flex-wrap gap-4">
-              {/* Gray/Default */}
-              <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground">
-                <Settings className="h-5 w-5" />
-              </div>
-              {/* Primary/Blue */}
-              <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                <Cloud className="h-5 w-5" />
-              </div>
-              {/* Success/Green */}
-              <div className="h-10 w-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-                <Check className="h-5 w-5" />
-              </div>
-              {/* Warning/Yellow */}
-              <div className="h-10 w-10 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
-                <AlertTriangle className="h-5 w-5" />
-              </div>
-              {/* Error/Red */}
-              <div className="h-10 w-10 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
-                <X className="h-5 w-5" />
-              </div>
-              {/* Purple */}
-              <div className="h-10 w-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
-                <Zap className="h-5 w-5" />
-              </div>
-            </div>
-          </div>
-
-          <Separator />
-
-          {/* Large Icons (Empty States/Feedback) */}
-          <div className="space-y-4">
-            <Label className="text-sm font-medium">
-              Large (empty states & feedback)
-            </Label>
-            <div className="flex flex-wrap gap-8 items-end">
-              {/* Success State */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="h-16 w-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600 dark:text-emerald-500">
-                  <Check className="h-8 w-8" />
-                </div>
-                <span className="text-xs font-medium text-muted-foreground">Success</span>
-              </div>
-
-              {/* Error State */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="h-16 w-16 rounded-2xl bg-red-100 dark:bg-red-900/20 flex items-center justify-center text-red-600 dark:text-red-500">
-                  <X className="h-8 w-8" />
-                </div>
-                <span className="text-xs font-medium text-stone-500">Error</span>
-              </div>
-
-              {/* Empty State / Lock */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="h-16 w-16 rounded-2xl bg-blue-50 dark:bg-blue-900/10 flex items-center justify-center text-blue-500">
-                  <Lock className="h-8 w-8" />
-                </div>
-                <span className="text-xs font-medium text-muted-foreground">Empty / Secure</span>
-              </div>
-
-              {/* Alert State */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="h-16 w-16 rounded-2xl bg-amber-100 dark:bg-amber-900/20 flex items-center justify-center text-amber-600 dark:text-amber-500">
-                  <AlertCircle className="h-8 w-8" />
-                </div>
-                <span className="text-xs font-medium text-muted-foreground">Alert</span>
-              </div>
-            </div>
-          </div>
-
-          <Separator />
-
-          {/* Gradients & Interesting Styles */}
-          <div className="space-y-4">
-            <Label className="text-sm font-medium">
-              Gradients & special styles
-            </Label>
-            <div className="flex flex-wrap gap-4">
-              {/* Warm Gradient */}
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
-                <Heart className="h-6 w-6 fill-current" />
-              </div>
-
-              {/* Cool Gradient */}
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
-                <Shield className="h-6 w-6" />
-              </div>
-
-              {/* Purple Haze */}
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-tr from-purple-500 via-purple-400 to-fuchsia-400 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
-                <Zap className="h-6 w-6 fill-current" />
-              </div>
-
-              {/* Emerald Growth */}
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
-                <BarChart3 className="h-6 w-6" />
-              </div>
-
-              {/* Pink Notification */}
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white shadow-lg shadow-pink-500/20">
-                <Bell className="h-6 w-6" />
-              </div>
-            </div>
           </div>
         </CardContent>
       </Card>
@@ -2492,45 +2368,194 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         </CardContent>
       </Card>
 
-      {/* Icons */}
-      <Card id="icons" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      {/* Building Blocks */}
+      <Card id="building-blocks" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Icons</CardTitle>
-          <CardDescription>Standardized icon sizes (12px, 18px, 24px, 30px)</CardDescription>
+          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Building blocks</CardTitle>
+          <CardDescription>Atomic elements: icons and avatars with standardized sizes</CardDescription>
           <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/30 rounded-lg">
             <p className="text-sm font-semibold text-amber-900 dark:text-amber-200 mb-1">?? Design rule: Outline icons only</p>
             <p className="text-xs text-amber-800 dark:text-amber-300">Always use outline/stroke variants of icons. Never use filled icons. This ensures visual consistency across the entire design system.</p>
           </div>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap items-end gap-8 p-6 bg-layer-2 border border-border rounded-xl">
-            <div className="flex flex-col items-center gap-2">
-              <div className="border border-dashed border-border p-2 rounded">
-                <Settings className="w-3 h-3" />
-              </div>
-              <span className="text-xs text-muted-foreground">Small (12px)</span>
-              <code className="text-[10px] text-muted-foreground bg-muted px-1 rounded">w-3 h-3</code>
+        <CardContent className="space-y-12">
+          {/* Raw Icons */}
+          <div id="icons" className="space-y-6">
+            <div className="flex flex-col gap-1">
+              <h3 className="text-sm font-semibold">Standardized icons</h3>
+              <p className="text-xs text-muted-foreground">Raw icon sizes (12px, 18px, 24px, 30px)</p>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="border border-dashed border-border p-2 rounded">
-                <Settings className="w-[18px] h-[18px]" />
+            <div className="flex flex-wrap items-end gap-8 p-6 bg-layer-2 border border-border rounded-xl">
+              <div className="flex flex-col items-center gap-2">
+                <div className="border border-dashed border-border p-2 rounded">
+                  <Settings className="w-3 h-3" />
+                </div>
+                <span className="text-xs text-muted-foreground">Small (12px)</span>
+                <code className="text-[10px] text-muted-foreground bg-muted px-1 rounded">w-3 h-3</code>
               </div>
-              <span className="text-xs text-muted-foreground">Regular (18px)</span>
-              <code className="text-[10px] text-muted-foreground bg-muted px-1 rounded">w-[18px] h-[18px]</code>
+              <div className="flex flex-col items-center gap-2">
+                <div className="border border-dashed border-border p-2 rounded">
+                  <Settings className="w-[18px] h-[18px]" />
+                </div>
+                <span className="text-xs text-muted-foreground">Regular (18px)</span>
+                <code className="text-[10px] text-muted-foreground bg-muted px-1 rounded">w-[18px] h-[18px]</code>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="border border-dashed border-border p-2 rounded">
+                  <Settings className="w-6 h-6" />
+                </div>
+                <span className="text-xs text-muted-foreground">Big (24px)</span>
+                <code className="text-[10px] text-muted-foreground bg-muted px-1 rounded">w-6 h-6</code>
+              </div>
+              <div className="flex flex-col items-center gap-2">
+                <div className="border border-dashed border-border p-2 rounded">
+                  <Settings className="w-[30px] h-[30px]" />
+                </div>
+                <span className="text-xs text-muted-foreground">Huge (30px)</span>
+                <code className="text-[10px] text-muted-foreground bg-muted px-1 rounded">w-[30px] h-[30px]</code>
+              </div>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="border border-dashed border-border p-2 rounded">
-                <Settings className="w-6 h-6" />
-              </div>
-              <span className="text-xs text-muted-foreground">Big (24px)</span>
-              <code className="text-[10px] text-muted-foreground bg-muted px-1 rounded">w-6 h-6</code>
+          </div>
+
+          <Separator />
+
+          {/* Icons with Background */}
+          <div id="icons-with-background" className="space-y-6">
+            <div className="flex flex-col gap-1">
+              <h3 className="text-sm font-semibold">Icons with background</h3>
+              <p className="text-xs text-muted-foreground">Standardized containers for lists and feedback</p>
             </div>
-            <div className="flex flex-col items-center gap-2">
-              <div className="border border-dashed border-border p-2 rounded">
-                <Settings className="w-[30px] h-[30px]" />
+            <div className="space-y-8">
+              {/* Small Icons (List/Action size) */}
+              <div className="space-y-4">
+                <div className="text-sm font-medium">Small (36px) - Common colors</div>
+                <div className="flex flex-wrap gap-4">
+                  <div className="h-9 w-9 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-400">
+                    <Settings className="h-5 w-5" />
+                  </div>
+                  <div className="h-9 w-9 rounded-xl bg-layer-info dark:bg-blue-900/30 flex items-center justify-center text-on-layer-info dark:text-blue-400">
+                    <Cloud className="h-5 w-5" />
+                  </div>
+                  <div className="h-9 w-9 rounded-xl bg-layer-success dark:bg-emerald-900/30 flex items-center justify-center text-on-layer-success dark:text-emerald-400">
+                    <Check className="h-5 w-5" />
+                  </div>
+                  <div className="h-9 w-9 rounded-xl bg-layer-warning dark:bg-amber-900/30 flex items-center justify-center text-on-layer-warning dark:text-amber-400">
+                    <AlertTriangle className="h-5 w-5" />
+                  </div>
+                  <div className="h-9 w-9 rounded-xl bg-layer-danger dark:bg-red-900/30 flex items-center justify-center text-on-layer-danger dark:text-red-400">
+                    <X className="h-5 w-5" />
+                  </div>
+                  <div className="h-9 w-9 rounded-xl bg-layer-recent dark:bg-purple-900/30 flex items-center justify-center text-on-layer-recent dark:text-purple-400">
+                    <Zap className="h-5 w-5" />
+                  </div>
+                </div>
               </div>
-              <span className="text-xs text-muted-foreground">Huge (30px)</span>
-              <code className="text-[10px] text-muted-foreground bg-muted px-1 rounded">w-[30px] h-[30px]</code>
+
+              {/* Medium Icons (Role Variants) */}
+              <div className="space-y-4">
+                <div className="text-sm font-medium">Medium (48px) - Role & action variants</div>
+                <div className="flex flex-wrap gap-4">
+                  <div className="h-12 w-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
+                    <Shield className="h-6 w-6" />
+                  </div>
+                  <div className="h-12 w-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400">
+                    <User className="h-6 w-6" />
+                  </div>
+                  <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
+                    <Store className="h-6 w-6" />
+                  </div>
+                </div>
+              </div>
+
+              {/* Large Icons */}
+              <div className="space-y-4">
+                <div className="text-sm font-medium">Large (60px) - Empty states & feedback</div>
+                <div className="flex flex-wrap gap-8 items-end">
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="h-[60px] w-[60px] rounded-xl bg-layer-success dark:bg-emerald-900/20 flex items-center justify-center text-on-layer-success dark:text-emerald-500">
+                      <Check className="h-8 w-8" />
+                    </div>
+                    <span className="text-xs font-medium text-muted-foreground">Success</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="h-[60px] w-[60px] rounded-xl bg-layer-danger dark:bg-red-900/20 flex items-center justify-center text-on-layer-danger dark:text-red-500">
+                      <X className="h-8 w-8" />
+                    </div>
+                    <span className="text-xs font-medium text-muted-foreground">Error</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="h-[60px] w-[60px] rounded-xl bg-layer-info dark:bg-blue-900/10 flex items-center justify-center text-on-layer-info dark:text-blue-500">
+                      <Lock className="h-8 w-8" />
+                    </div>
+                    <span className="text-xs font-medium text-muted-foreground">Empty / secure</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="h-[60px] w-[60px] rounded-xl bg-layer-warning dark:bg-amber-900/20 flex items-center justify-center text-on-layer-warning dark:text-amber-500">
+                      <AlertCircle className="h-8 w-8" />
+                    </div>
+                    <span className="text-xs font-medium text-muted-foreground">Alert</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <Separator />
+
+          {/* Avatars */}
+          <div id="avatars-sub" className="space-y-6">
+            <div className="flex flex-col gap-1">
+              <h3 className="text-sm font-semibold">Avatars</h3>
+              <p className="text-xs text-muted-foreground">User profile images with size variants</p>
+            </div>
+            <div className="space-y-8">
+              <div className="space-y-3">
+                <div className="text-sm font-medium">Small size (36px)</div>
+                <div className="flex items-center gap-3">
+                  <Avatar variant="primary" size="small">
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <Avatar variant="primary" size="small">
+                    <AvatarFallback>JD</AvatarFallback>
+                  </Avatar>
+                  <Avatar variant="primary" size="small" online>
+                    <AvatarImage src="https://i.pravatar.cc/150?u=morty" alt="Morty" />
+                    <AvatarFallback>M</AvatarFallback>
+                  </Avatar>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="text-sm font-medium">Medium size (48px)</div>
+                <div className="flex items-center gap-3">
+                  <Avatar variant="primary" size="medium">
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <Avatar variant="primary" size="medium">
+                    <AvatarFallback>JD</AvatarFallback>
+                  </Avatar>
+                  <Avatar variant="primary" size="medium" online>
+                    <AvatarImage src="https://i.pravatar.cc/150?u=morty" alt="Morty" />
+                    <AvatarFallback>M</AvatarFallback>
+                  </Avatar>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="text-sm font-medium">Large size (60px)</div>
+                <div className="flex items-center gap-3">
+                  <Avatar variant="primary" size="large">
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <Avatar variant="primary" size="large">
+                    <AvatarFallback>JD</AvatarFallback>
+                  </Avatar>
+                  <Avatar variant="primary" size="large" online>
+                    <AvatarImage src="https://i.pravatar.cc/150?u=morty" alt="Morty" />
+                    <AvatarFallback>M</AvatarFallback>
+                  </Avatar>
+                </div>
+              </div>
             </div>
           </div>
         </CardContent>
@@ -2564,7 +2589,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           {/* User Profile */}
           <SettingsItem className="bg-layer-2 border border-border rounded-xl">
             <SettingsItemIcon>
-              <Avatar className="h-10 w-10">
+              <Avatar size="small">
                 <AvatarFallback>JD</AvatarFallback>
               </Avatar>
             </SettingsItemIcon>
@@ -2582,8 +2607,8 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           {/* Analytics */}
           <SettingsItem className="bg-layer-2 border border-border rounded-xl">
             <SettingsItemIcon>
-              <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-blue-500/10 text-blue-500">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[18px] w-[18px]"><path d="M3 3v18h18" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></svg>
+              <div className="h-9 w-9 rounded-xl flex items-center justify-center bg-blue-500/10 text-blue-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M3 3v18h18" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></svg>
               </div>
             </SettingsItemIcon>
             <SettingsItemContent>
@@ -2598,8 +2623,8 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           {/* Kitchen Printer */}
           <SettingsItem className="bg-layer-2 border border-border rounded-xl items-start">
             <SettingsItemIcon>
-              <div className="h-10 w-10 rounded-lg flex items-center justify-center bg-emerald-500/10 text-emerald-500">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-[18px] w-[18px]"><path d="m2 22 1-1h3l9-9" /><path d="M3 21v-8" /><path d="M16 4.04 11 9" /><path d="m2 22 1-1h3l9-9" /><path d="M3 21v-8" /><path d="M22 7 15 2l-1 1-1 1 5 5 4-2Z" /> <path d="M6 14h12c2 0 3-1 3-3V7c0-2-1-3-3-3H6C4 4 3 5 3 7v4c0 2 1 3 3 3Z" /><path d="M6 18h12" /></svg>
+              <div className="h-9 w-9 rounded-xl flex items-center justify-center bg-emerald-500/10 text-emerald-500">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="m2 22 1-1h3l9-9" /><path d="M3 21v-8" /><path d="M16 4.04 11 9" /><path d="m2 22 1-1h3l9-9" /><path d="M3 21v-8" /><path d="M22 7 15 2l-1 1-1 1 5 5 4-2Z" /> <path d="M6 14h12c2 0 3-1 3-3V7c0-2-1-3-3-3H6C4 4 3 5 3 7v4c0 2 1 3 3 3Z" /><path d="M6 18h12" /></svg>
               </div>
             </SettingsItemIcon>
             <SettingsItemContent>
@@ -2773,59 +2798,6 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
 
       {/* Avatars Section */}
-      <Card id="avatars" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Avatars</CardTitle>
-          <CardDescription>User profile images with size variants and online indicators</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-3">
-            <div className="text-sm font-medium">Default size (36px)</div>
-            <div className="flex items-center gap-3">
-              <Avatar variant="primary">
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <Avatar variant="primary">
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              <Avatar variant="primary" online>
-                <AvatarImage src="https://i.pravatar.cc/150?u=morty" alt="Morty" />
-                <AvatarFallback>M</AvatarFallback>
-              </Avatar>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="text-sm font-medium">Large size (48px)</div>
-            <div className="flex items-center gap-3">
-              <Avatar variant="primary" size="large">
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <Avatar variant="primary" size="large">
-                <AvatarFallback>JD</AvatarFallback>
-              </Avatar>
-              <Avatar variant="primary" size="large" online>
-                <AvatarImage src="https://i.pravatar.cc/150?u=morty" alt="Morty" />
-                <AvatarFallback>M</AvatarFallback>
-              </Avatar>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div className="text-sm font-medium">Gradient variants</div>
-            <div className="flex flex-wrap gap-3">
-              {["blue", "cyan", "teal", "emerald", "lime", "orange", "red", "pink", "purple", "indigo"].map((variant) => (
-                <Avatar key={variant} variant={variant as any}>
-                  <AvatarFallback>
-                    <User className="h-3 w-3" />
-                  </AvatarFallback>
-                </Avatar>
-              ))}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
 
 
 
@@ -3311,130 +3283,6 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
       </Card>
 
       {/* Icons with Background */}
-      <Card id="icons-with-background-ds" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Icons with background</CardTitle>
-          <CardDescription>Standardized icon containers with background colors for lists, empty states, and feedback</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-8">
-          {/* Small Icons (List/Action size) */}
-          <div className="space-y-4">
-            <div className="text-sm font-medium">Small (40px) - Common colors</div>
-            <div className="flex flex-wrap gap-4">
-              {/* Gray/Default */}
-              <div className="h-10 w-10 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-400">
-                <Settings className="h-[18px] w-[18px]" />
-              </div>
-              {/* Primary/Blue */}
-              <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                <Cloud className="h-[18px] w-[18px]" />
-              </div>
-              {/* Success/Green */}
-              <div className="h-10 w-10 rounded-lg bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
-                <Check className="h-[18px] w-[18px]" />
-              </div>
-              {/* Warning/Yellow */}
-              <div className="h-10 w-10 rounded-lg bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center text-amber-600 dark:text-amber-400">
-                <AlertTriangle className="h-[18px] w-[18px]" />
-              </div>
-              {/* Error/Red */}
-              <div className="h-10 w-10 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
-                <X className="h-[18px] w-[18px]" />
-              </div>
-              {/* Purple */}
-              <div className="h-10 w-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-purple-600 dark:text-purple-400">
-                <Zap className="h-[18px] w-[18px]" />
-              </div>
-            </div>
-          </div>
-
-          {/* Medium Icons (Role Variants) */}
-          <div className="space-y-4">
-            <div className="text-sm font-medium">Medium (48px) - Role & action variants</div>
-            <div className="flex flex-wrap gap-4">
-              {/* Administrator */}
-              <div className="h-12 w-12 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-400">
-                <Shield className="h-6 w-6" />
-              </div>
-              {/* Manager */}
-              <div className="h-12 w-12 rounded-xl bg-blue-500/10 flex items-center justify-center text-blue-400">
-                <User className="h-6 w-6" />
-              </div>
-              {/* Cashier */}
-              <div className="h-12 w-12 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-500">
-                <Store className="h-6 w-6" />
-              </div>
-            </div>
-          </div>
-
-          {/* Large Icons */}
-          <div className="space-y-4">
-            <div className="text-sm font-medium">Large (empty states & feedback)</div>
-            <div className="flex flex-wrap gap-8 items-end">
-              {/* Success State */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="h-16 w-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600 dark:text-emerald-500">
-                  <Check className="h-[30px] w-[30px]" />
-                </div>
-                <span className="text-xs font-medium text-muted-foreground">Success</span>
-              </div>
-              {/* Error State */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="h-16 w-16 rounded-2xl bg-red-100 dark:bg-red-900/20 flex items-center justify-center text-red-600 dark:text-red-500">
-                  <X className="h-[30px] w-[30px]" />
-                </div>
-                <span className="text-xs font-medium text-muted-foreground">Error</span>
-              </div>
-              {/* Empty State / Lock */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="h-16 w-16 rounded-2xl bg-blue-50 dark:bg-blue-900/10 flex items-center justify-center text-blue-500">
-                  <Lock className="h-[30px] w-[30px]" />
-                </div>
-                <span className="text-xs font-medium text-muted-foreground">Empty / secure</span>
-              </div>
-              {/* Alert State */}
-              <div className="flex flex-col items-center gap-2">
-                <div className="h-16 w-16 rounded-2xl bg-amber-100 dark:bg-amber-900/20 flex items-center justify-center text-amber-600 dark:text-amber-500">
-                  <AlertCircle className="h-[30px] w-[30px]" />
-                </div>
-                <span className="text-xs font-medium text-muted-foreground">Alert</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Gradients */}
-          <div className="space-y-4">
-            <div className="text-sm font-medium">Gradients & special styles</div>
-            <div className="flex flex-wrap gap-4">
-              {/* Warm Gradient */}
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center text-white shadow-lg shadow-orange-500/20">
-                <Heart className="h-6 w-6" />
-              </div>
-
-              {/* Cool Gradient */}
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-blue-400 to-cyan-500 flex items-center justify-center text-white shadow-lg shadow-blue-500/20">
-                <Shield className="h-6 w-6" />
-              </div>
-
-              {/* Purple Haze */}
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-tr from-purple-500 via-purple-400 to-fuchsia-400 flex items-center justify-center text-white shadow-lg shadow-purple-500/20">
-                <Zap className="h-6 w-6" />
-              </div>
-
-              {/* Emerald Growth */}
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
-                <BarChart3 className="h-6 w-6" />
-              </div>
-
-              {/* Pink Notification */}
-              <div className="h-12 w-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center text-white shadow-lg shadow-pink-500/20">
-                <Bell className="h-6 w-6" />
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Empty States */}
       <Card id="empty-states" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
