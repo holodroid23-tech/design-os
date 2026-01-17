@@ -91,7 +91,7 @@ export function SearchInputWithSuggestions({
             </div>
 
             {isOpen && filteredSuggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 z-50 overflow-hidden rounded-md border border-border bg-popover shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+                <div className="absolute top-full left-0 right-0 mt-2 z-50 overflow-hidden rounded-md border border-input bg-popover text-popover-foreground shadow-xs animate-in fade-in zoom-in-95 duration-200">
                     <div className="flex flex-col">
                         {filteredSuggestions.map((suggestion) => (
                             <button

@@ -13,17 +13,17 @@ export function ShellCard({ shell }: ShellCardProps) {
   const [navigationOpen, setNavigationOpen] = useState(false)
 
   return (
-    <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+    <Card className="border shadow-sm">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100 flex items-center gap-2">
-          <PanelLeft className="w-5 h-5 text-stone-500 dark:text-stone-400" strokeWidth={1.5} />
+        <CardTitle className="text-lg font-semibold text-foreground flex items-center gap-2">
+          <PanelLeft className="w-5 h-5 text-muted-foreground" strokeWidth={1.5} />
           Application Shell
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Overview */}
         {shell.spec && shell.spec.overview && (
-          <p className="text-stone-600 dark:text-stone-400 leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed">
             {shell.spec.overview}
           </p>
         )}
@@ -32,7 +32,7 @@ export function ShellCard({ shell }: ShellCardProps) {
         {shell.spec && shell.spec.navigationItems.length > 0 && (
           <Collapsible open={navigationOpen} onOpenChange={setNavigationOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-left group">
-              <span className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
+              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                 Navigation
                 <span className="ml-2 text-stone-400 dark:text-stone-500 normal-case tracking-normal">
                   ({shell.spec.navigationItems.length})
@@ -50,7 +50,7 @@ export function ShellCard({ shell }: ShellCardProps) {
                 {shell.spec.navigationItems.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
                     <span className="w-1.5 h-1.5 rounded-full bg-stone-400 dark:bg-stone-500 mt-2 shrink-0" />
-                    <span className="text-stone-600 dark:text-stone-400">
+                    <span className="text-muted-foreground">
                       {item}
                     </span>
                   </li>

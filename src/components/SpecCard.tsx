@@ -20,16 +20,16 @@ export function SpecCard({ spec, sectionTitle }: SpecCardProps) {
   }
 
   return (
-    <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+    <Card className="shadow-sm">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+        <CardTitle className="text-lg font-semibold">
           {sectionTitle || 'Specification'}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Overview */}
         {spec.overview && (
-          <p className="text-stone-600 dark:text-stone-400 leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed">
             {spec.overview}
           </p>
         )}
@@ -40,12 +40,12 @@ export function SpecCard({ spec, sectionTitle }: SpecCardProps) {
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-left group">
               <span className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
                 User Flows
-                <span className="ml-2 text-stone-400 dark:text-stone-500 normal-case tracking-normal">
+                <span className="ml-2 text-muted-foreground normal-case tracking-normal">
                   ({spec.userFlows.length})
                 </span>
               </span>
               <ChevronDown
-                className={`w-4 h-4 text-stone-400 dark:text-stone-500 transition-transform ${
+                className={`w-4 h-4 text-muted-foreground transition-transform ${
                   userFlowsOpen ? 'rotate-180' : ''
                 }`}
                 strokeWidth={1.5}
@@ -72,12 +72,12 @@ export function SpecCard({ spec, sectionTitle }: SpecCardProps) {
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-left group">
               <span className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
                 UI Requirements
-                <span className="ml-2 text-stone-400 dark:text-stone-500 normal-case tracking-normal">
+                <span className="ml-2 text-muted-foreground normal-case tracking-normal">
                   ({spec.uiRequirements.length})
                 </span>
               </span>
               <ChevronDown
-                className={`w-4 h-4 text-stone-400 dark:text-stone-500 transition-transform ${
+                className={`w-4 h-4 text-muted-foreground transition-transform ${
                   uiReqOpen ? 'rotate-180' : ''
                 }`}
                 strokeWidth={1.5}
@@ -99,18 +99,18 @@ export function SpecCard({ spec, sectionTitle }: SpecCardProps) {
         )}
 
         {/* Display Configuration */}
-        <div className="flex items-center gap-2 pt-2 border-t border-stone-100 dark:border-stone-800">
+        <div className="flex items-center gap-2 pt-2 border-t">
           {spec.useShell ? (
             <>
-              <PanelTop className="w-4 h-4 text-stone-400 dark:text-stone-500" strokeWidth={1.5} />
-              <span className="text-sm text-stone-500 dark:text-stone-400">
+              <PanelTop className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+              <span className="text-sm text-muted-foreground">
                 Displays inside app shell
               </span>
             </>
           ) : (
             <>
-              <Square className="w-4 h-4 text-stone-400 dark:text-stone-500" strokeWidth={1.5} />
-              <span className="text-sm text-stone-500 dark:text-stone-400">
+              <Square className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+              <span className="text-sm text-muted-foreground">
                 Standalone page (no shell)
               </span>
             </>

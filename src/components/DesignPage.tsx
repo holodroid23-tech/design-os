@@ -49,9 +49,9 @@ const colorMap: Record<string, { light: string; base: string; dark: string }> = 
  */
 function SimpleDesignSystemDisplay({ designSystem }: { designSystem: any }) {
   return (
-    <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+    <Card className="border shadow-sm">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+        <CardTitle className="text-lg font-semibold text-foreground">
           Design Tokens
         </CardTitle>
       </CardHeader>
@@ -59,7 +59,7 @@ function SimpleDesignSystemDisplay({ designSystem }: { designSystem: any }) {
         {/* Colors */}
         {designSystem?.colors && !isComprehensiveColorSystem(designSystem.colors) && (
           <div>
-            <h4 className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-4">
+            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-4">
               Colors
             </h4>
             <div className="grid grid-cols-3 gap-6">
@@ -82,25 +82,25 @@ function SimpleDesignSystemDisplay({ designSystem }: { designSystem: any }) {
         {/* Typography */}
         {designSystem?.typography && !isComprehensiveTypographySystem(designSystem.typography) && (
           <div>
-            <h4 className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-4">
+            <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-4">
               Typography
             </h4>
             <div className="grid grid-cols-3 gap-6">
               <div>
-                <p className="text-xs text-stone-500 dark:text-stone-400 mb-1">Heading</p>
-                <p className="font-semibold text-stone-900 dark:text-stone-100">
+                <p className="text-xs text-muted-foreground mb-1">Heading</p>
+                <p className="font-semibold text-foreground">
                   {(designSystem.typography as any).heading}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-stone-500 dark:text-stone-400 mb-1">Body</p>
-                <p className="text-stone-900 dark:text-stone-100">
+                <p className="text-xs text-muted-foreground mb-1">Body</p>
+                <p className="text-foreground">
                   {(designSystem.typography as any).body}
                 </p>
               </div>
               <div>
-                <p className="text-xs text-stone-500 dark:text-stone-400 mb-1">Mono</p>
-                <p className="font-mono text-stone-900 dark:text-stone-100">
+                <p className="text-xs text-muted-foreground mb-1">Mono</p>
+                <p className="font-mono text-foreground">
                   {(designSystem.typography as any).mono}
                 </p>
               </div>
@@ -109,8 +109,8 @@ function SimpleDesignSystemDisplay({ designSystem }: { designSystem: any }) {
         )}
 
         {/* Edit hint */}
-        <div className="bg-stone-100 dark:bg-stone-800 rounded-md px-4 py-2.5">
-          <p className="text-xs text-stone-500 dark:text-stone-400">
+        <div className="bg-muted rounded-md px-4 py-2.5">
+          <p className="text-xs text-muted-foreground">
             Run <code className="font-mono text-stone-700 dark:text-stone-300">/design-tokens</code> to update
           </p>
         </div>
@@ -191,10 +191,10 @@ export function DesignPage() {
       <div className="space-y-6">
         {/* Page intro */}
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
+          <h1 className="text-2xl font-semibold text-foreground mb-2">
             Design System
           </h1>
-          <p className="text-stone-600 dark:text-stone-400">
+          <p className="text-muted-foreground">
             {hasComprehensiveSystem 
               ? 'Comprehensive design system with tokens, components, and implementation guidelines.'
               : 'Define the visual foundation and application shell for your product.'
@@ -208,9 +208,9 @@ export function DesignPage() {
             <EmptyState type="design-system" />
           ) : hasComprehensiveSystem ? (
             // Comprehensive Design System with Tabs
-            <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+            <Card className="border shadow-sm">
               <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+                <CardTitle className="text-lg font-semibold text-foreground">
                   Design System
                 </CardTitle>
               </CardHeader>
@@ -236,7 +236,7 @@ export function DesignPage() {
                     {/* Colors */}
                     {isComprehensiveColors && designSystem.colors && (
                       <div>
-                        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                        <h3 className="text-lg font-semibold text-foreground mb-4">
                           Colors
                         </h3>
                         <ColorTokensDisplay colors={designSystem.colors as ComprehensiveColorSystem} />
@@ -246,7 +246,7 @@ export function DesignPage() {
                     {/* Typography */}
                     {isComprehensiveTypography && designSystem.typography && (
                       <div>
-                        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                        <h3 className="text-lg font-semibold text-foreground mb-4">
                           Typography
                         </h3>
                         <TypographyTokensDisplay typography={designSystem.typography as ComprehensiveTypographySystem} />
@@ -256,7 +256,7 @@ export function DesignPage() {
                     {/* Spacing */}
                     {designSystem.spacing && (
                       <div>
-                        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                        <h3 className="text-lg font-semibold text-foreground mb-4">
                           Spacing
                         </h3>
                         <SpacingTokensDisplay spacing={designSystem.spacing} />
@@ -266,7 +266,7 @@ export function DesignPage() {
                     {/* Radius */}
                     {designSystem.radius && (
                       <div>
-                        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                        <h3 className="text-lg font-semibold text-foreground mb-4">
                           Border Radius
                         </h3>
                         <RadiusTokensDisplay radius={designSystem.radius} />
@@ -276,7 +276,7 @@ export function DesignPage() {
                     {/* Elevations */}
                     {designSystem.elevations && (
                       <div>
-                        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                        <h3 className="text-lg font-semibold text-foreground mb-4">
                           Elevations & Shadows
                         </h3>
                         <ElevationsDisplay elevations={designSystem.elevations} />
@@ -284,8 +284,8 @@ export function DesignPage() {
                     )}
 
                     {/* Edit hint */}
-                    <div className="bg-stone-100 dark:bg-stone-800 rounded-md px-4 py-2.5">
-                      <p className="text-xs text-stone-500 dark:text-stone-400">
+                    <div className="bg-muted rounded-md px-4 py-2.5">
+                      <p className="text-xs text-muted-foreground">
                         Design tokens are loaded from <code className="font-mono text-stone-700 dark:text-stone-300">product/design-system/</code>
                       </p>
                     </div>
@@ -314,16 +314,16 @@ export function DesignPage() {
           {!shell?.spec ? (
             <EmptyState type="shell" />
           ) : (
-            <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+            <Card className="border shadow-sm">
               <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+                <CardTitle className="text-lg font-semibold text-foreground">
                   Application Shell
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {/* Overview */}
                 {shell.spec.overview && (
-                  <p className="text-stone-600 dark:text-stone-400 leading-relaxed">
+                  <p className="text-muted-foreground leading-relaxed">
                     {shell.spec.overview}
                   </p>
                 )}
@@ -331,7 +331,7 @@ export function DesignPage() {
                 {/* Navigation items */}
                 {shell.spec.navigationItems.length > 0 && (
                   <div>
-                    <h4 className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-2">
+                    <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-2">
                       Navigation
                     </h4>
                     <ul className="space-y-1">
@@ -376,8 +376,8 @@ export function DesignPage() {
                 )}
 
                 {/* Edit hint */}
-                <div className="bg-stone-100 dark:bg-stone-800 rounded-md px-4 py-2.5">
-                  <p className="text-xs text-stone-500 dark:text-stone-400">
+                <div className="bg-muted rounded-md px-4 py-2.5">
+                  <p className="text-xs text-muted-foreground">
                     Run <code className="font-mono text-stone-700 dark:text-stone-300">/design-shell</code> to update
                   </p>
                 </div>
@@ -424,8 +424,8 @@ function ColorSwatch({ label, colorName }: ColorSwatchProps) {
           title={`${colorName}-600`}
         />
       </div>
-      <p className="text-sm font-medium text-stone-900 dark:text-stone-100">{label}</p>
-      <p className="text-xs text-stone-500 dark:text-stone-400">{colorName}</p>
+      <p className="text-sm font-medium text-foreground">{label}</p>
+      <p className="text-xs text-muted-foreground">{colorName}</p>
     </div>
   )
 }

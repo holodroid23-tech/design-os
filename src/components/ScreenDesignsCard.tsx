@@ -16,9 +16,9 @@ export function ScreenDesignsCard({ screenDesigns, sectionId }: ScreenDesignsCar
   }
 
   return (
-    <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+    <Card className="border shadow-sm">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+        <CardTitle className="text-lg font-semibold text-foreground">
           Screen Designs
         </CardTitle>
       </CardHeader>
@@ -34,7 +34,7 @@ export function ScreenDesignsCard({ screenDesigns, sectionId }: ScreenDesignsCar
                   <div className="w-8 h-8 rounded-md bg-stone-200 dark:bg-stone-700 flex items-center justify-center shrink-0">
                     <Layout className="w-4 h-4 text-stone-600 dark:text-stone-300" strokeWidth={1.5} />
                   </div>
-                  <span className="font-medium text-stone-900 dark:text-stone-100 truncate">
+                  <span className="font-medium text-foreground truncate">
                     {screenDesign.name}
                   </span>
                 </div>

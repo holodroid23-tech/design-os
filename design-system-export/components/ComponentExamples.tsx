@@ -2213,11 +2213,11 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Register (POS) Mode - Permanently Selected State */}
                   <div
-                    className="relative p-4 rounded-xl border transition-all border-blue-500 bg-blue-50/10 dark:bg-blue-900/10 cursor-pointer"
+                    className="relative p-4 rounded-xl border transition-all border-primary bg-primary/10 cursor-pointer"
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                        <Store className="h-5 w-5" />
+                      <div className="h-10 w-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+                        <CheckCircle2 className="h-5 w-5" />
                       </div>
                       <Badge>Selected</Badge>
                     </div>
@@ -2779,7 +2779,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-3">
-            <div className="text-sm font-medium">Default size (32px)</div>
+            <div className="text-sm font-medium">Default size (36px)</div>
             <div className="flex items-center gap-3">
               <Avatar variant="primary">
                 <AvatarFallback>CN</AvatarFallback>
@@ -2795,7 +2795,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
 
           <div className="space-y-3">
-            <div className="text-sm font-medium">Large size (48px)</div>
+            <div className="text-sm font-medium">Large size (42px)</div>
             <div className="flex items-center gap-3">
               <Avatar variant="primary" size="large">
                 <AvatarFallback>CN</AvatarFallback>
@@ -3103,7 +3103,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                           </div>
                           <div className="flex justify-between">
                             <span className="text-muted-foreground">Payment method:</span>
-                            <span>Visa •••• 4242</span>
+                            <span>Visa â€¢â€¢â€¢â€¢ 4242</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-muted-foreground">Processed by:</span>
@@ -3203,7 +3203,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                           </div>
                           <div className="flex justify-between">
                             <span className="text-muted-foreground">Payment Method:</span>
-                            <span>Visa •••• 4242</span>
+                            <span>Visa â€¢â€¢â€¢â€¢ 4242</span>
                           </div>
                           <div className="flex justify-between">
                             <span className="text-muted-foreground">Processed by:</span>

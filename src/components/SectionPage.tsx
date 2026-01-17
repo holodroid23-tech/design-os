@@ -63,7 +63,7 @@ export function SectionPage() {
     return (
       <AppLayout backTo="/sections" backLabel="Sections">
         <div className="text-center py-12">
-          <p className="text-stone-600 dark:text-stone-400">
+          <p className="text-muted-foreground">
             Section not found: {sectionId}
           </p>
         </div>
@@ -83,10 +83,10 @@ export function SectionPage() {
       <div className="space-y-6">
         {/* Page intro */}
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
+          <h1 className="text-2xl font-semibold text-foreground mb-2">
             {section.title}
           </h1>
-          <p className="text-stone-600 dark:text-stone-400">
+          <p className="text-muted-foreground">
             {section.description}
           </p>
         </div>
@@ -109,11 +109,11 @@ export function SectionPage() {
           {!sectionData?.screenDesigns || sectionData.screenDesigns.length === 0 ? (
             <EmptyState type="screen-designs" />
           ) : (
-            <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+            <Card className="border shadow-sm">
               <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+                <CardTitle className="text-lg font-semibold text-foreground">
                   Screen Designs
-                  <span className="ml-2 text-sm font-normal text-stone-500 dark:text-stone-400">
+                  <span className="ml-2 text-sm font-normal text-muted-foreground">
                     ({sectionData.screenDesigns.length})
                   </span>
                 </CardTitle>
@@ -130,7 +130,7 @@ export function SectionPage() {
                           <div className="w-8 h-8 rounded-md bg-stone-200 dark:bg-stone-700 flex items-center justify-center shrink-0">
                             <Layout className="w-4 h-4 text-stone-600 dark:text-stone-300" strokeWidth={1.5} />
                           </div>
-                          <span className="font-medium text-stone-900 dark:text-stone-100 truncate">
+                          <span className="font-medium text-foreground truncate">
                             {screenDesign.name}
                           </span>
                         </div>
@@ -147,20 +147,20 @@ export function SectionPage() {
         {/* Step 4: Screenshots */}
         <StepIndicator step={4} status={stepStatuses[3]} isLast={!requiredStepsComplete}>
           {!sectionData?.screenshots || sectionData.screenshots.length === 0 ? (
-            <Card className="border-stone-200 dark:border-stone-700 shadow-sm border-dashed">
+            <Card className="border shadow-sm border-dashed">
               <CardContent className="py-8">
                 <div className="flex flex-col items-center text-center max-w-sm mx-auto">
-                  <div className="w-10 h-10 rounded-full bg-stone-100 dark:bg-stone-800 flex items-center justify-center mb-3">
+                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-3">
                     <Image className="w-5 h-5 text-stone-400 dark:text-stone-500" strokeWidth={1.5} />
                   </div>
-                  <h3 className="text-base font-medium text-stone-600 dark:text-stone-400 mb-1">
+                  <h3 className="text-base font-medium text-muted-foreground mb-1">
                     No screenshots captured yet
                   </h3>
-                  <p className="text-sm text-stone-500 dark:text-stone-400 mb-4">
+                  <p className="text-sm text-muted-foreground mb-4">
                     Capture screenshots of your screen designs for documentation
                   </p>
-                  <div className="bg-stone-100 dark:bg-stone-800 rounded-md px-4 py-2.5 w-full">
-                    <p className="text-xs text-stone-500 dark:text-stone-400 mb-0.5">
+                  <div className="bg-muted rounded-md px-4 py-2.5 w-full">
+                    <p className="text-xs text-muted-foreground mb-0.5">
                       Run in Claude Code:
                     </p>
                     <code className="text-sm font-mono text-stone-700 dark:text-stone-300">
@@ -171,11 +171,11 @@ export function SectionPage() {
               </CardContent>
             </Card>
           ) : (
-            <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+            <Card className="border shadow-sm">
               <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+                <CardTitle className="text-lg font-semibold text-foreground">
                   Screenshots
-                  <span className="ml-2 text-sm font-normal text-stone-500 dark:text-stone-400">
+                  <span className="ml-2 text-sm font-normal text-muted-foreground">
                     ({sectionData.screenshots.length})
                   </span>
                 </CardTitle>
@@ -184,7 +184,7 @@ export function SectionPage() {
                 <div className="grid grid-cols-2 gap-4">
                   {sectionData.screenshots.map((screenshot) => (
                     <div key={screenshot.name} className="group">
-                      <div className="aspect-video rounded-lg overflow-hidden bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700">
+                      <div className="aspect-video rounded-lg overflow-hidden bg-muted border border">
                         <img
                           src={screenshot.url}
                           alt={screenshot.name}
@@ -192,7 +192,7 @@ export function SectionPage() {
                         />
                       </div>
                       <div className="mt-2 flex items-center justify-between gap-2">
-                        <p className="text-sm text-stone-600 dark:text-stone-400 truncate">
+                        <p className="text-sm text-muted-foreground truncate">
                           {screenshot.name}
                         </p>
                         <a
@@ -231,7 +231,7 @@ export function SectionPage() {
                   </button>
                   <button
                     onClick={() => navigate('/sections')}
-                    className="w-full flex items-center justify-between gap-4 px-6 py-4 bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 rounded-lg hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors group"
+                    className="w-full flex items-center justify-between gap-4 px-6 py-4 bg-muted text-stone-700 dark:text-stone-300 rounded-lg hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors group"
                   >
                     <div className="flex items-center gap-3">
                       <LayoutList className="w-5 h-5" strokeWidth={1.5} />

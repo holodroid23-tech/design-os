@@ -70,6 +70,7 @@ import {
   Trash2,
   Store,
   BarChart3,
+  CheckCircle2,
   Check,
   X,
   AlertTriangle,
@@ -453,19 +454,19 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
     <div className="space-y-6">
       {showHeader && (
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
+          <h2 className="text-xl font-semibold text-foreground mb-2">
             Component Examples
           </h2>
-          <p className="text-stone-600 dark:text-stone-400">
+          <p className="text-muted-foreground">
             Comprehensive UI components optimized for mobile and desktop
           </p>
         </div>
       )}
 
       {/* Buttons - Mobile Optimized */}
-      <Card id="buttons" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="buttons" className="shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold">
             Buttons
           </CardTitle>
           <CardDescription>Various button styles and sizes (min 48px touch target)</CardDescription>
@@ -473,7 +474,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Primary CTA button
               </Label>
               <Button
@@ -483,7 +484,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               </Button>
             </div>
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Button variants
               </Label>
               <div className="flex flex-wrap gap-3">
@@ -496,7 +497,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               </div>
             </div>
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Button sizes
               </Label>
               <div className="flex flex-wrap gap-3">
@@ -506,7 +507,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               </div>
             </div>
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Buttons with icons
               </Label>
               <div className="flex flex-wrap gap-3">
@@ -521,7 +522,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               </div>
             </div>
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Disabled state
               </Label>
               <div className="flex flex-wrap gap-3">
@@ -530,7 +531,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               </div>
             </div>
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Icon-only buttons (all variants)
               </Label>
               <div className="flex flex-wrap gap-3">
@@ -556,40 +557,40 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
       </Card>
 
       {/* Steppers */}
-      <Card id="steppers" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="steppers" className="shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold">
             Steppers
           </CardTitle>
           <CardDescription>Segmented progress indicators</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-3">
-            <Label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+            <Label className="text-sm font-medium">
               Primary variant
             </Label>
             <Stepper value={2} max={4} variant="primary" />
           </div>
           <div className="space-y-3">
-            <Label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+            <Label className="text-sm font-medium">
               Success variant
             </Label>
             <Stepper value={4} max={4} variant="success" />
           </div>
           <div className="space-y-3">
-            <Label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+            <Label className="text-sm font-medium">
               Destructive variant
             </Label>
             <Stepper value={0} max={4} variant="destructive" />
           </div>
           <div className="space-y-3">
-            <Label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+            <Label className="text-sm font-medium">
               Custom label
             </Label>
             <Stepper value={3} max={5} variant="warning" labelSuffix="stages completed" />
           </div>
           <div className="space-y-3">
-            <Label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+            <Label className="text-sm font-medium">
               Continuous mode
             </Label>
             <Stepper value={3} max={5} variant="primary" mode="continuous" />
@@ -597,9 +598,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         </CardContent>
       </Card>
 
-      <Card id="sliders" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="sliders" className="shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold">
             Sliders
           </CardTitle>
           <CardDescription>Adjustable values</CardDescription>
@@ -607,10 +608,10 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         <CardContent className="space-y-6">
           <div className="space-y-3">
             <div className="flex justify-between items-center">
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+              <Label className="text-sm font-medium">
                 Opacity
               </Label>
-              <span className="text-sm text-stone-500 dark:text-stone-400 font-mono">
+              <span className="text-sm text-muted-foreground font-mono">
                 {sliderValue[0]}%
               </span>
             </div>
@@ -626,9 +627,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
       </Card>
 
       {/* Icons with Background */}
-      <Card id="icons-with-background" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="icons-with-background" className="shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold">
             Icons with background
           </CardTitle>
           <CardDescription>
@@ -638,12 +639,12 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         <CardContent className="space-y-8">
           {/* Small Icons (List/Action size) */}
           <div className="space-y-4">
-            <Label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+            <Label className="text-sm font-medium">
               Small (40px) - Common colors
             </Label>
             <div className="flex flex-wrap gap-4">
               {/* Gray/Default */}
-              <div className="h-10 w-10 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-400">
+              <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground">
                 <Settings className="h-5 w-5" />
               </div>
               {/* Primary/Blue */}
@@ -673,7 +674,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
           {/* Large Icons (Empty States/Feedback) */}
           <div className="space-y-4">
-            <Label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+            <Label className="text-sm font-medium">
               Large (empty states & feedback)
             </Label>
             <div className="flex flex-wrap gap-8 items-end">
@@ -682,7 +683,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                 <div className="h-16 w-16 rounded-2xl bg-emerald-100 dark:bg-emerald-900/20 flex items-center justify-center text-emerald-600 dark:text-emerald-500">
                   <Check className="h-8 w-8" />
                 </div>
-                <span className="text-xs font-medium text-stone-500">Success</span>
+                <span className="text-xs font-medium text-muted-foreground">Success</span>
               </div>
 
               {/* Error State */}
@@ -698,7 +699,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                 <div className="h-16 w-16 rounded-2xl bg-blue-50 dark:bg-blue-900/10 flex items-center justify-center text-blue-500">
                   <Lock className="h-8 w-8" />
                 </div>
-                <span className="text-xs font-medium text-stone-500">Empty / Secure</span>
+                <span className="text-xs font-medium text-muted-foreground">Empty / Secure</span>
               </div>
 
               {/* Alert State */}
@@ -706,7 +707,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                 <div className="h-16 w-16 rounded-2xl bg-amber-100 dark:bg-amber-900/20 flex items-center justify-center text-amber-600 dark:text-amber-500">
                   <AlertCircle className="h-8 w-8" />
                 </div>
-                <span className="text-xs font-medium text-stone-500">Alert</span>
+                <span className="text-xs font-medium text-muted-foreground">Alert</span>
               </div>
             </div>
           </div>
@@ -715,7 +716,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
           {/* Gradients & Interesting Styles */}
           <div className="space-y-4">
-            <Label className="text-sm font-medium text-stone-700 dark:text-stone-300">
+            <Label className="text-sm font-medium">
               Gradients & special styles
             </Label>
             <div className="flex flex-wrap gap-4">
@@ -749,9 +750,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
       </Card>
 
       {/* Product/Expense Cards */}
-      <Card id="product-expense-cards" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="product-expense-cards" className="shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold">
             Product/expense cards
           </CardTitle>
           <CardDescription>
@@ -761,21 +762,21 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         <CardContent className="space-y-16">
           {/* Product / Order Section */}
           <div className="space-y-8">
-            <div className="pb-4 border-b border-stone-200 dark:border-stone-800">
-              <div className="text-base font-semibold text-stone-900 dark:text-stone-100">Product / order section</div>
-              <p className="text-sm text-stone-500 mt-1">Gradients, prices, and interactive quantity controls</p>
+            <div className="pb-4 border-b">
+              <div className="text-base font-semibold">Product / order section</div>
+              <p className="text-sm text-muted-foreground mt-1">Gradients, prices, and interactive quantity controls</p>
             </div>
 
             <div className="space-y-12">
               {/* Default - Gradient Variants (Name + Price) */}
               <div className="space-y-4">
-                <Label className="text-[11px] font-bold tracking-tight text-stone-400">Default gradient palette (13 colors)</Label>
+                <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Default gradient palette (13 colors)</Label>
                 <div className="grid grid-cols-3 gap-3">
                   {gradColors.map((item) => (
                     <button
                       key={item.name}
                       className={cn(
-                        "relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br flex flex-col items-center justify-center text-white p-3 shadow-sm border border-stone-100/20 active:scale-95 transition-all hover:shadow-md hover:-translate-y-0.5",
+                        "relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br flex flex-col items-center justify-center text-white p-3 shadow-sm border border-white/20 active:scale-95 transition-all hover:shadow-md hover:-translate-y-0.5",
                         item.grad
                       )}
                     >
@@ -788,7 +789,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
               {/* Status Variants */}
               <div className="space-y-4">
-                <Label className="text-[11px] font-bold tracking-tight text-stone-400">Interactive states & image variants</Label>
+                <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Interactive states & image variants</Label>
                 <div className="grid grid-cols-3 gap-3">
                   {/* Tapped Once - Color (Blue) */}
                   <div className="relative aspect-square rounded-2xl overflow-hidden bg-blue-500 border border-blue-600 flex flex-col items-center justify-center p-3 shadow-md hover:shadow-lg transition-shadow text-white">
@@ -859,13 +860,13 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
             </div>
           </div>
 
-          <Separator className="bg-stone-200 dark:bg-stone-800" />
+          <Separator />
 
           {/* Expense Section */}
           <div className="space-y-8">
-            <div className="pb-4 border-b border-stone-200 dark:border-stone-800">
-              <div className="text-base font-semibold text-stone-900 dark:text-stone-100">Expense section</div>
-              <p className="text-sm text-stone-500 mt-1">Clean cards with names only, no prices or controls</p>
+            <div className="pb-4 border-b">
+              <div className="text-base font-semibold">Expense section</div>
+              <p className="text-sm text-muted-foreground mt-1">Clean cards with names only, no prices or controls</p>
             </div>
 
             <div className="space-y-12">
@@ -877,7 +878,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                     <button
                       key={`${item.name}-expense`}
                       className={cn(
-                        "relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br flex flex-col items-center justify-center text-white p-3 shadow-sm border border-stone-100/20 active:scale-95 transition-all hover:shadow-md hover:-translate-y-0.5",
+                        "relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br flex flex-col items-center justify-center text-white p-3 shadow-sm border border-white/20 active:scale-95 transition-all hover:shadow-md hover:-translate-y-0.5",
                         item.grad
                       )}
                     >
@@ -895,7 +896,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                     <button
                       key={`${item.name}-folder-ex`}
                       className={cn(
-                        "relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br flex flex-col items-center justify-center text-white p-3 shadow-sm border border-stone-100/20 active:scale-95 transition-all hover:shadow-md hover:-translate-y-0.5",
+                        "relative aspect-square rounded-2xl overflow-hidden bg-gradient-to-br flex flex-col items-center justify-center text-white p-3 shadow-sm border border-white/20 active:scale-95 transition-all hover:shadow-md hover:-translate-y-0.5",
                         item.grad
                       )}
                     >
@@ -912,13 +913,13 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
             </div>
           </div>
 
-          <Separator className="bg-stone-200 dark:bg-stone-800" />
+          <Separator />
 
           {/* Border & Stroke Variants */}
           <div className="space-y-8">
-            <div className="pb-4 border-b border-stone-200 dark:border-stone-800">
-              <div className="text-base font-semibold text-stone-900 dark:text-stone-100">Border & stroke variants</div>
-              <p className="text-sm text-stone-500 mt-1">Different stroke styles for items and folders</p>
+            <div className="pb-4 border-b">
+              <div className="text-base font-semibold">Border & stroke variants</div>
+              <p className="text-sm text-muted-foreground mt-1">Different stroke styles for items and folders</p>
             </div>
 
             <div className="space-y-12">
@@ -984,11 +985,11 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
             </div>
           </div>
 
-          <Separator className="bg-stone-200 dark:bg-stone-800" />
+          <Separator />
 
           {/* Utility Section */}
           <div className="space-y-8">
-            <div className="pb-4 border-b border-stone-200 dark:border-stone-800">
+            <div className="pb-4 border-b">
               <div className="text-base font-semibold text-stone-900 dark:text-stone-100">Utility section</div>
               <p className="text-sm text-stone-500 mt-1">Special actions for adding items and expenses</p>
             </div>
@@ -1014,9 +1015,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
       </Card>
 
       {/* Bottom Menu - Mobile Optimized */}
-      <Card id="bottom-menu" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="bottom-menu" className="shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold">
             Bottom sliding menu
           </CardTitle>
           <CardDescription>
@@ -1026,7 +1027,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Simple bottom menu
               </Label>
               <BottomMenu>
@@ -1062,7 +1063,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               </BottomMenu>
             </div>
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Bottom menu with header
               </Label>
               <BottomMenu>
@@ -1110,7 +1111,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Single selection
               </Label>
               <Button
@@ -1138,7 +1139,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
             </div>
 
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Multiple selection
               </Label>
               <Button
@@ -1257,7 +1258,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Centered small modal
               </Label>
               <Dialog>
@@ -1295,7 +1296,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               </Dialog>
             </div>
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Fullscreen modal
               </Label>
               <Dialog>
@@ -1378,7 +1379,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         <CardContent className="space-y-4">
           <div className="space-y-3">
             <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
+              <Label className="text-sm font-medium mb-2 block">
                 Bottom sheet (enhanced)
               </Label>
               <Sheet>
@@ -1780,7 +1781,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           <div className="flex flex-col sm:flex-row gap-3">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-between">
+                <Button variant="select" className="w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-between">
                   Actions
                   <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
@@ -1809,7 +1810,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-between">
+                <Button variant="select" className="w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-between">
                   With Checkboxes
                   <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
@@ -1831,7 +1832,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-between">
+                <Button variant="select" className="w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-between">
                   Radio Group
                   <ChevronDown className="ml-2 h-4 w-4" />
                 </Button>
@@ -2213,11 +2214,11 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Register (POS) Mode - Permanently Selected State */}
                   <div
-                    className="relative p-4 rounded-xl border transition-all border-blue-500 bg-blue-50/10 dark:bg-blue-900/10 cursor-pointer"
+                    className="relative p-4 rounded-xl border transition-all border-primary bg-primary/10 cursor-pointer"
                   >
                     <div className="flex justify-between items-start mb-2">
-                      <div className="h-10 w-10 rounded-lg bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400">
-                        <Store className="h-5 w-5" />
+                      <div className="h-10 w-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+                        <CheckCircle2 className="h-5 w-5" />
                       </div>
                       <Badge>Selected</Badge>
                     </div>
@@ -2779,7 +2780,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-3">
-            <div className="text-sm font-medium">Default size (32px)</div>
+            <div className="text-sm font-medium">Default size (36px)</div>
             <div className="flex items-center gap-3">
               <Avatar variant="primary">
                 <AvatarFallback>CN</AvatarFallback>
@@ -2788,8 +2789,8 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                 <AvatarFallback>JD</AvatarFallback>
               </Avatar>
               <Avatar variant="primary" online>
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src="https://i.pravatar.cc/150?u=morty" alt="Morty" />
+                <AvatarFallback>M</AvatarFallback>
               </Avatar>
             </div>
           </div>
@@ -2804,8 +2805,8 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                 <AvatarFallback>JD</AvatarFallback>
               </Avatar>
               <Avatar variant="primary" size="large" online>
-                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-                <AvatarFallback>CN</AvatarFallback>
+                <AvatarImage src="https://i.pravatar.cc/150?u=morty" alt="Morty" />
+                <AvatarFallback>M</AvatarFallback>
               </Avatar>
             </div>
           </div>

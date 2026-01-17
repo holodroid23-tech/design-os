@@ -13,7 +13,7 @@ export function ElevationsDisplay({ elevations }: ElevationsDisplayProps) {
     <div className="space-y-8">
       {/* Elevation Levels */}
       <div>
-        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+        <h3 className="text-lg font-semibold text-foreground mb-4">
           Shadow Levels
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -25,18 +25,18 @@ export function ElevationsDisplay({ elevations }: ElevationsDisplayProps) {
                   className="w-full h-full bg-white dark:bg-stone-800 rounded-lg flex items-center justify-center"
                   style={{ boxShadow: level.value }}
                 >
-                  <span className="text-sm font-medium text-stone-900 dark:text-stone-100">
+                  <span className="text-sm font-medium text-foreground">
                     {key}
                   </span>
                 </div>
               </div>
               
               {/* Level Details */}
-              <div className="p-4 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border-stone-200 dark:border-stone-700">
-                <h4 className="text-sm font-medium text-stone-900 dark:text-stone-100 mb-2">
+              <div className="p-4 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border">
+                <h4 className="text-sm font-medium text-foreground mb-2">
                   {key}
                 </h4>
-                <p className="text-xs text-stone-600 dark:text-stone-400 mb-2">
+                <p className="text-xs text-muted-foreground mb-2">
                   {level.description}
                 </p>
                 <p className="text-xs text-stone-500 dark:text-stone-500 mb-2">
@@ -54,7 +54,7 @@ export function ElevationsDisplay({ elevations }: ElevationsDisplayProps) {
       {/* Rules */}
       {rules.length > 0 && (
         <div className="p-6 bg-lime-50 dark:bg-lime-950/20 rounded-lg border border-lime-200 dark:border-lime-900">
-          <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+          <h3 className="text-lg font-semibold text-foreground mb-4">
             Shadow Rules
           </h3>
           <ul className="space-y-2">

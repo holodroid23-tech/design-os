@@ -17,12 +17,12 @@ export function ImplementationGuide() {
 
       {/* Quick Reference */}
       <div>
-        <h2 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4">
+        <h2 className="text-xl font-semibold text-foreground mb-4">
           Quick Reference - Design System Rules
         </h2>
         <div className="space-y-2">
           {quickRules.map((rule, idx) => (
-            <div key={idx} className="flex gap-3 p-3 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border-stone-200 dark:border-stone-700">
+            <div key={idx} className="flex gap-3 p-3 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border">
               <span className="text-sm font-semibold text-lime-600 dark:text-lime-400 flex-shrink-0">
                 {idx + 1}.
               </span>
@@ -36,13 +36,13 @@ export function ImplementationGuide() {
 
       {/* Design System Rules Summary */}
       <div>
-        <h2 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4">
+        <h2 className="text-xl font-semibold text-foreground mb-4">
           Design System Rules Summary
         </h2>
         <div className="space-y-6">
           {designSystemRules.map((section, idx) => (
-            <div key={idx} className="p-5 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border-stone-200 dark:border-stone-700">
-              <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-3">
+            <div key={idx} className="p-5 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border">
+              <h3 className="text-lg font-semibold text-foreground mb-3">
                 {section.title}
               </h3>
               <ul className="space-y-2">
@@ -62,7 +62,7 @@ export function ImplementationGuide() {
 
       {/* Form Validation */}
       <div className="p-6 bg-lime-50 dark:bg-lime-950/20 rounded-lg border border-lime-200 dark:border-lime-900">
-        <h2 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-3">
+        <h2 className="text-xl font-semibold text-foreground mb-3">
           Form Validation & Disabled States
         </h2>
         <div className="p-4 bg-red-50 dark:bg-red-950/30 rounded-md border border-red-200 dark:border-red-900 mb-4">
@@ -75,19 +75,19 @@ export function ImplementationGuide() {
           and users can't understand what's wrong without clear feedback.
         </p>
         <div className="space-y-3">
-          <h4 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
+          <h4 className="text-sm font-semibold text-foreground">
             Instead, follow this pattern:
           </h4>
           {validationPattern.map((step, idx) => (
-            <div key={idx} className="flex gap-3 p-3 bg-white dark:bg-stone-800 rounded-md border border-stone-200 dark:border-stone-700">
+            <div key={idx} className="flex gap-3 p-3 bg-white dark:bg-stone-800 rounded-md border border">
               <span className="text-sm font-semibold text-lime-600 dark:text-lime-400 flex-shrink-0">
                 {idx + 1}.
               </span>
               <div>
-                <p className="text-sm font-medium text-stone-900 dark:text-stone-100 mb-1">
+                <p className="text-sm font-medium text-foreground mb-1">
                   {step.title}
                 </p>
-                <p className="text-sm text-stone-600 dark:text-stone-400">
+                <p className="text-sm text-muted-foreground">
                   {step.description}
                 </p>
                 {step.details && (
@@ -137,10 +137,10 @@ export function ImplementationGuide() {
 
       {/* Implementation Checklist */}
       <div className="p-6 bg-lime-50 dark:bg-lime-950/20 rounded-lg border border-lime-200 dark:border-lime-900">
-        <h2 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-4">
+        <h2 className="text-xl font-semibold text-foreground mb-4">
           Component Development Checklist
         </h2>
-        <p className="text-sm text-stone-600 dark:text-stone-400 mb-4">
+        <p className="text-sm text-muted-foreground mb-4">
           When building any component, verify:
         </p>
         <div className="space-y-2">
@@ -154,8 +154,8 @@ export function ImplementationGuide() {
       </div>
 
       {/* Footer Note */}
-      <div className="p-4 bg-stone-100 dark:bg-stone-800 rounded-lg border border-stone-200 dark:border-stone-700">
-        <p className="text-xs text-stone-600 dark:text-stone-400 text-center">
+      <div className="p-4 bg-muted rounded-lg border border">
+        <p className="text-xs text-muted-foreground text-center">
           For complete implementation details and code examples, refer to the full implementation guide at 
           <code className="mx-1 px-1.5 py-0.5 bg-stone-200 dark:bg-stone-700 rounded text-stone-700 dark:text-stone-300">
             product/implementation-guide.md

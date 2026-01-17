@@ -13,16 +13,16 @@ export function ProductOverviewCard({ overview }: ProductOverviewCardProps) {
   const [featuresOpen, setFeaturesOpen] = useState(false)
 
   return (
-    <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+    <Card className="shadow-sm">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+        <CardTitle className="text-lg font-semibold">
           Product overview: {overview.name}
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Description */}
         {overview.description && (
-          <p className="text-stone-600 dark:text-stone-400 leading-relaxed">
+          <p className="text-muted-foreground leading-relaxed">
             {overview.description}
           </p>
         )}

@@ -83,6 +83,8 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-border: var(--border);
+  --color-border-primary: var(--border-primary);
+  --color-border-secondary: var(--border-secondary);
   --color-input: var(--input);
   --color-ring: var(--ring);
   --color-chart-1: var(--chart-1);
@@ -129,6 +131,8 @@
   --destructive: oklch(0.532 0.217 25.331); /* red-600 #dc2626 (close to #da2828) */
   /* Borders & Inputs - Stone very light */
   --border: oklch(0.923 0.003 48.717); /* stone-200 #E7E5E4 */
+  --border-primary: rgba(0, 0, 0, 0.2);
+  --border-secondary: rgba(0, 0, 0, 0.1);
   --input: oklch(0.923 0.003 48.717); /* stone-200 */
   --ring: oklch(0.553 0.013 58.071); /* stone-500 */
   /* Chart colors */
@@ -175,6 +179,8 @@
   --destructive: oklch(0.627 0.257 27.325); /* red-500 #ef4444 */
   /* Borders & Inputs - Stone dark */
   --border: oklch(0.370 0.010 67.558); /* stone-600 */
+  --border-primary: rgba(255, 255, 255, 0.2);
+  --border-secondary: rgba(255, 255, 255, 0.1);
   --input: oklch(0.370 0.010 67.558); /* stone-600 */
   --ring: oklch(0.553 0.013 58.071); /* stone-500 */
   /* Chart colors - brighter for dark mode */
@@ -250,5 +256,15 @@
     to {
       height: 0;
     }
+  }
+
+  /* Hide scrollbars while maintaining scroll functionality */
+  .no-scrollbar {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  .no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, and Opera */
   }
 }

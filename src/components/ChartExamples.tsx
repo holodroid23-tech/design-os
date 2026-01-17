@@ -120,9 +120,9 @@ function BarChartWithHover() {
   const hoverBgColor = getHoverBackgroundColor()
 
   return (
-    <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+    <Card className="border shadow-sm">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+        <CardTitle className="text-lg font-semibold text-foreground">
           Bar Chart - Quarterly Revenue
         </CardTitle>
         <CardDescription>Compare revenue across quarters</CardDescription>
@@ -138,12 +138,12 @@ function BarChartWithHover() {
               <CartesianGrid strokeDasharray="3 3" className="stroke-stone-200 dark:stroke-stone-700" />
               <XAxis
                 dataKey="name"
-                className="text-stone-600 dark:text-stone-400 text-xs sm:text-sm"
+                className="text-muted-foreground text-xs sm:text-sm"
                 tick={{ fill: 'currentColor', fontSize: 12 }}
                 tickMargin={8}
               />
               <YAxis
-                className="text-stone-600 dark:text-stone-400 text-xs sm:text-sm"
+                className="text-muted-foreground text-xs sm:text-sm"
                 tick={{ fill: 'currentColor', fontSize: 12 }}
                 tickMargin={8}
                 width={60}
@@ -198,24 +198,24 @@ function ValueWidget({
   icon: React.ElementType
 }) {
   return (
-    <Card className="border-stone-200 dark:border-stone-700">
+    <Card className="border">
       <CardContent className="p-2 sm:p-3">
         <div className="flex flex-col items-center text-center space-y-2">
           {/* Icon first */}
           <div className="p-2 rounded-lg bg-stone-100 dark:bg-stone-800">
-            <Icon className="h-6 w-6 text-stone-600 dark:text-stone-400" />
+            <Icon className="h-6 w-6 text-muted-foreground" />
           </div>
 
           {/* Metric (title) */}
-          <p className="text-sm text-stone-600 dark:text-stone-400">{title}</p>
+          <p className="text-sm text-muted-foreground">{title}</p>
 
           {/* Date range */}
           {dateRange && (
-            <p className="text-xs text-stone-500 dark:text-stone-400">{dateRange}</p>
+            <p className="text-xs text-muted-foreground">{dateRange}</p>
           )}
 
           {/* Value */}
-          <p className="text-2xl font-bold text-stone-900 dark:text-stone-100">{value}</p>
+          <p className="text-2xl font-bold text-foreground">{value}</p>
 
           {/* Trend */}
           <div className="flex items-center justify-center gap-1">
@@ -242,10 +242,10 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
     <div className="space-y-6">
       {showHeader && (
         <div className="mb-6">
-          <h2 className="text-xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
+          <h2 className="text-xl font-semibold text-foreground mb-2">
             Chart Examples
           </h2>
-          <p className="text-stone-600 dark:text-stone-400">
+          <p className="text-muted-foreground">
             Mobile-optimized charts using Recharts library. All charts are responsive and touch-friendly.
           </p>
         </div>
@@ -253,7 +253,7 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
 
       {/* Value Widgets */}
       <div>
-        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+        <h3 className="text-lg font-semibold text-foreground mb-4">
           Value Widgets (Metric Cards)
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -285,9 +285,9 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
       </div>
 
       {/* Line Chart - Mobile Optimized */}
-      <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold text-foreground">
             Line Chart - Monthly Sales Trend
           </CardTitle>
           <CardDescription>Track sales and expenses over time</CardDescription>
@@ -302,12 +302,12 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
                 <CartesianGrid strokeDasharray="3 3" className="stroke-stone-200 dark:stroke-stone-700" />
                 <XAxis
                   dataKey="month"
-                  className="text-stone-600 dark:text-stone-400 text-xs sm:text-sm"
+                  className="text-muted-foreground text-xs sm:text-sm"
                   tick={{ fill: 'currentColor', fontSize: 12 }}
                   tickMargin={8}
                 />
                 <YAxis
-                  className="text-stone-600 dark:text-stone-400 text-xs sm:text-sm"
+                  className="text-muted-foreground text-xs sm:text-sm"
                   tick={{ fill: 'currentColor', fontSize: 12 }}
                   tickMargin={8}
                   width={60}
@@ -347,9 +347,9 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
       <BarChartWithHover />
 
       {/* Horizontal Bar Chart */}
-      <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold text-foreground">
             Horizontal Bar Chart - Sales by Category
           </CardTitle>
           <CardDescription>Category performance comparison</CardDescription>
@@ -363,11 +363,11 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
               >
                 <CartesianGrid strokeDasharray="3 3" className="stroke-stone-200 dark:stroke-stone-700" />
-                <XAxis type="number" className="text-stone-600 dark:text-stone-400 text-xs sm:text-sm" />
+                <XAxis type="number" className="text-muted-foreground text-xs sm:text-sm" />
                 <YAxis
                   dataKey="name"
                   type="category"
-                  className="text-stone-600 dark:text-stone-400 text-xs sm:text-sm"
+                  className="text-muted-foreground text-xs sm:text-sm"
                   width={80}
                 />
                 <Tooltip
@@ -381,9 +381,9 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
       </Card>
 
       {/* Area Chart - Mobile Optimized */}
-      <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold text-foreground">
             Area Chart - Profit Over Time
           </CardTitle>
           <CardDescription>Visualize profit trends with filled area</CardDescription>
@@ -404,12 +404,12 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
                 <CartesianGrid strokeDasharray="3 3" className="stroke-stone-200 dark:stroke-stone-700" />
                 <XAxis
                   dataKey="month"
-                  className="text-stone-600 dark:text-stone-400 text-xs sm:text-sm"
+                  className="text-muted-foreground text-xs sm:text-sm"
                   tick={{ fill: 'currentColor', fontSize: 12 }}
                   tickMargin={8}
                 />
                 <YAxis
-                  className="text-stone-600 dark:text-stone-400 text-xs sm:text-sm"
+                  className="text-muted-foreground text-xs sm:text-sm"
                   tick={{ fill: 'currentColor', fontSize: 12 }}
                   tickMargin={8}
                   width={60}
@@ -434,9 +434,9 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
       </Card>
 
       {/* Pie Chart - Mobile Optimized */}
-      <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold text-foreground">
             Pie Chart - Sales by Category
           </CardTitle>
           <CardDescription>Category distribution visualization</CardDescription>
@@ -476,7 +476,7 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
                   className="h-3 w-3 rounded-full"
                   style={{ backgroundColor: item.color }}
                 />
-                <span className="text-xs text-stone-600 dark:text-stone-400 truncate">
+                <span className="text-xs text-muted-foreground truncate">
                   {item.name}
                 </span>
               </div>
@@ -486,9 +486,9 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
       </Card>
 
       {/* Combined Chart - Mobile Optimized */}
-      <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold text-foreground">
             Combined Chart - Sales vs Expenses
           </CardTitle>
           <CardDescription>Compare multiple metrics side by side</CardDescription>
@@ -503,12 +503,12 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
                 <CartesianGrid strokeDasharray="3 3" className="stroke-stone-200 dark:stroke-stone-700" />
                 <XAxis
                   dataKey="month"
-                  className="text-stone-600 dark:text-stone-400 text-xs sm:text-sm"
+                  className="text-muted-foreground text-xs sm:text-sm"
                   tick={{ fill: 'currentColor', fontSize: 12 }}
                   tickMargin={8}
                 />
                 <YAxis
-                  className="text-stone-600 dark:text-stone-400 text-xs sm:text-sm"
+                  className="text-muted-foreground text-xs sm:text-sm"
                   tick={{ fill: 'currentColor', fontSize: 12 }}
                   tickMargin={8}
                   width={60}
@@ -539,9 +539,9 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
       </Card>
 
       {/* Data Table */}
-      <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold text-foreground">
             Data Table - Product Sales
           </CardTitle>
           <CardDescription>Sortable and responsive data table</CardDescription>
@@ -578,12 +578,12 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
 
 
       {/* Mobile Optimization Notes */}
-      <Card className="border-stone-200 dark:border-stone-700 shadow-sm bg-stone-50 dark:bg-stone-900">
+      <Card className="border shadow-sm bg-stone-50 dark:bg-stone-900">
         <CardContent className="pt-6">
-          <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100 mb-2">
+          <h3 className="text-sm font-semibold text-foreground mb-2">
             Mobile Optimization Features
           </h3>
-          <ul className="text-xs text-stone-600 dark:text-stone-400 space-y-1 list-disc list-inside">
+          <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
             <li>Responsive container that adapts to screen size</li>
             <li>Touch-friendly tooltips and interactions</li>
             <li>Optimized font sizes for mobile readability</li>

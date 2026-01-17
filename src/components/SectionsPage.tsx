@@ -57,14 +57,14 @@ export function SectionsPage() {
       <div className="space-y-6">
         {/* Page intro */}
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
+          <h1 className="text-2xl font-semibold text-foreground mb-2">
             Sections
           </h1>
-          <p className="text-stone-600 dark:text-stone-400">
+          <p className="text-muted-foreground">
             Design each section of your product with specifications, sample data, and screen designs.
           </p>
           {sections.length > 0 && (
-            <p className="text-sm text-stone-500 dark:text-stone-400 mt-2">
+            <p className="text-sm text-muted-foreground mt-2">
               {completedSections} of {sections.length} sections completed
             </p>
           )}
@@ -77,9 +77,9 @@ export function SectionsPage() {
         {sections.length === 0 ? (
           <EmptyState type="roadmap" />
         ) : (
-          <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+          <Card className="border shadow-sm">
             <CardHeader className="pb-2">
-              <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+              <CardTitle className="text-lg font-semibold text-foreground">
                 All Sections
               </CardTitle>
             </CardHeader>
@@ -104,7 +104,7 @@ export function SectionsPage() {
                               </div>
                             ) : (
                               <div className="w-6 h-6 rounded-full bg-stone-200 dark:bg-stone-700 flex items-center justify-center">
-                                <span className="text-xs font-medium text-stone-600 dark:text-stone-400">
+                                <span className="text-xs font-medium text-muted-foreground">
                                   {section.order}
                                 </span>
                               </div>
@@ -112,10 +112,10 @@ export function SectionsPage() {
                           </div>
 
                           <div className="min-w-0 flex-1">
-                            <h3 className="font-medium text-stone-900 dark:text-stone-100 truncate">
+                            <h3 className="font-medium text-foreground truncate">
                               {section.title}
                             </h3>
-                            <p className="text-sm text-stone-500 dark:text-stone-400 mt-0.5 line-clamp-1">
+                            <p className="text-sm text-muted-foreground mt-0.5 line-clamp-1">
                               {section.description}
                             </p>
 

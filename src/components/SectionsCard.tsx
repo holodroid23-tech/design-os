@@ -9,9 +9,9 @@ interface SectionsCardProps {
 
 export function SectionsCard({ roadmap, onSectionClick }: SectionsCardProps) {
   return (
-    <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+    <Card className="border shadow-sm">
       <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+        <CardTitle className="text-lg font-semibold text-foreground">
           Sections
         </CardTitle>
       </CardHeader>
@@ -28,15 +28,15 @@ export function SectionsCard({ roadmap, onSectionClick }: SectionsCardProps) {
                     {section.order}
                   </span>
                   <div className="min-w-0">
-                    <h3 className="font-medium text-stone-900 dark:text-stone-100 truncate">
+                    <h3 className="font-medium text-foreground truncate">
                       {section.title}
                     </h3>
-                    <p className="text-sm text-stone-500 dark:text-stone-400 mt-0.5 line-clamp-1">
+                    <p className="text-sm text-muted-foreground mt-0.5 line-clamp-1">
                       {section.description}
                     </p>
                   </div>
                 </div>
-                <ChevronRight className="w-4 h-4 text-stone-400 dark:text-stone-500 flex-shrink-0" strokeWidth={1.5} />
+                <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" strokeWidth={1.5} />
               </button>
             </li>
           ))}

@@ -51,10 +51,10 @@ export function ProductPage() {
       <div className="space-y-6">
         {/* Page intro */}
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
+          <h1 className="text-2xl font-semibold text-foreground mb-2">
             Product Definition
           </h1>
-          <p className="text-stone-600 dark:text-stone-400">
+          <p className="text-muted-foreground">
             Define your product vision and break it into development sections.
           </p>
         </div>

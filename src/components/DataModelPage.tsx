@@ -17,10 +17,10 @@ export function DataModelPage() {
       <div className="space-y-6">
         {/* Page intro */}
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold text-stone-900 dark:text-stone-100 mb-2">
+          <h1 className="text-2xl font-semibold text-foreground mb-2">
             Data Model
           </h1>
-          <p className="text-stone-600 dark:text-stone-400">
+          <p className="text-muted-foreground">
             Define the core entities and relationships in your product.
           </p>
         </div>
@@ -32,18 +32,18 @@ export function DataModelPage() {
           ) : (
             <div className="space-y-6">
               {/* Entities */}
-              <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+              <Card className="border shadow-sm">
                 <CardHeader>
-                  <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+                  <CardTitle className="text-lg font-semibold text-foreground">
                     Entities
-                    <span className="ml-2 text-sm font-normal text-stone-500 dark:text-stone-400">
+                    <span className="ml-2 text-sm font-normal text-muted-foreground">
                       ({dataModel.entities.length})
                     </span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   {dataModel.entities.length === 0 ? (
-                    <p className="text-stone-500 dark:text-stone-400">No entities defined.</p>
+                    <p className="text-muted-foreground">No entities defined.</p>
                   ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       {dataModel.entities.map((entity, index) => (
@@ -51,10 +51,10 @@ export function DataModelPage() {
                           key={index}
                           className="bg-stone-50 dark:bg-stone-800/50 rounded-lg p-4"
                         >
-                          <h3 className="font-semibold text-stone-900 dark:text-stone-100 mb-1">
+                          <h3 className="font-semibold text-foreground mb-1">
                             {entity.name}
                           </h3>
-                          <p className="text-stone-600 dark:text-stone-400 text-sm leading-relaxed">
+                          <p className="text-muted-foreground text-sm leading-relaxed">
                             {entity.description}
                           </p>
                         </div>
@@ -65,18 +65,18 @@ export function DataModelPage() {
               </Card>
 
               {/* Relationships */}
-              <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+              <Card className="border shadow-sm">
                 <CardHeader>
-                  <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+                  <CardTitle className="text-lg font-semibold text-foreground">
                     Relationships
-                    <span className="ml-2 text-sm font-normal text-stone-500 dark:text-stone-400">
+                    <span className="ml-2 text-sm font-normal text-muted-foreground">
                       ({dataModel.relationships.length})
                     </span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   {dataModel.relationships.length === 0 ? (
-                    <p className="text-stone-500 dark:text-stone-400">No relationships defined.</p>
+                    <p className="text-muted-foreground">No relationships defined.</p>
                   ) : (
                     <ul className="space-y-2">
                       {dataModel.relationships.map((relationship, index) => (
@@ -93,8 +93,8 @@ export function DataModelPage() {
               </Card>
 
               {/* Edit hint */}
-              <div className="bg-stone-100 dark:bg-stone-800 rounded-md px-4 py-3">
-                <p className="text-sm text-stone-600 dark:text-stone-400">
+              <div className="bg-muted rounded-md px-4 py-3">
+                <p className="text-sm text-muted-foreground">
                   To update the data model, run{' '}
                   <code className="font-mono text-stone-800 dark:text-stone-200">/data-model</code>{' '}
                   or edit the file directly at{' '}

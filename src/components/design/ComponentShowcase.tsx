@@ -12,7 +12,7 @@ export function ComponentShowcase() {
         <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-2">
           Component Library
         </h3>
-        <p className="text-sm text-stone-600 dark:text-stone-400">
+        <p className="text-sm text-muted-foreground">
           Interactive examples of all UI components in the ComPOSt Design System.
           All components are fully interactive and support dark mode.
         </p>

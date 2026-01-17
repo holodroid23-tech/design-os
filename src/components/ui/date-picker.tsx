@@ -1,7 +1,6 @@
 import * as React from "react"
 import { format } from "date-fns"
 import { Calendar as CalendarIcon, X } from "lucide-react"
-import { Button } from "./button"
 import { Calendar } from "./calendar"
 import {
   Sheet,
@@ -33,17 +32,19 @@ export function DatePicker({
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
-        <Button
-          variant={"ghost"}
+        <button
           className={cn(
-            "w-full justify-between text-left font-normal",
+            "bg-background dark:bg-input/30 border-input h-9 w-full rounded-md border px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
+            "hover:bg-accent hover:text-accent-foreground",
+            "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+            "flex items-center justify-between text-left font-normal",
             !date && "text-muted-foreground",
             className
           )}
         >
           {date ? format(date, "PPP") : <span>{placeholder}</span>}
           <CalendarIcon className="h-[18px] w-[18px]" />
-        </Button>
+        </button>
       </SheetTrigger>
       <SheetContent side="bottom" className="p-0 flex flex-col max-h-[80vh]" showCloseButton={false}>
         {/* Header */}

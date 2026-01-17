@@ -79,8 +79,9 @@ function Calendar({
           type="button"
           onClick={() => setMonthSelectorOpen(true)}
           className={cn(
-            buttonVariants({ variant: "outline" }),
-            "h-8 px-3 text-sm font-medium hover:bg-accent flex items-center gap-2"
+            "bg-background dark:bg-input/30 border-input h-8 rounded-md border px-3 text-sm shadow-xs transition-[color,box-shadow] outline-none font-medium flex items-center gap-2",
+            "hover:bg-accent hover:text-accent-foreground",
+            "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
           )}
         >
           <span>{MONTHS[displayMonthIndex]}</span>
@@ -100,8 +101,9 @@ function Calendar({
           type="button"
           onClick={() => setYearSelectorOpen(true)}
           className={cn(
-            buttonVariants({ variant: "outline" }),
-            "h-8 px-3 text-sm font-medium hover:bg-accent flex items-center gap-2"
+            "bg-background dark:bg-input/30 border-input h-8 rounded-md border px-3 text-sm shadow-xs transition-[color,box-shadow] outline-none font-medium flex items-center gap-2",
+            "hover:bg-accent hover:text-accent-foreground",
+            "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
           )}
         >
           <span>{displayYear}</span>

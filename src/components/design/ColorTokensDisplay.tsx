@@ -12,7 +12,7 @@ export function ColorTokensDisplay({ colors }: ColorTokensDisplayProps) {
     <div className="space-y-6">
       {/* Semantic Colors */}
       <div>
-        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+        <h3 className="text-lg font-semibold text-foreground mb-4">
           Semantic Colors
         </h3>
         <div className="space-y-4">
@@ -25,7 +25,7 @@ export function ColorTokensDisplay({ colors }: ColorTokensDisplayProps) {
       {/* Primitive Colors */}
       {colors.primitives && (
         <div>
-          <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+          <h3 className="text-lg font-semibold text-foreground mb-4">
             Primitive Colors
           </h3>
           <div className="space-y-4">
@@ -56,7 +56,7 @@ export function ColorTokensDisplay({ colors }: ColorTokensDisplayProps) {
       {/* Gradients */}
       {colors.gradients && (
         <div>
-          <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+          <h3 className="text-lg font-semibold text-foreground mb-4">
             Gradients
           </h3>
           <div className="space-y-4">
@@ -75,8 +75,8 @@ function ColorCategory({ category, tokens }: { category: string; tokens: Record<
   
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 bg-stone-100 dark:bg-stone-800 rounded-md hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
-        <span className="text-sm font-medium text-stone-900 dark:text-stone-100 capitalize">
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 bg-muted rounded-md hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
+        <span className="text-sm font-medium text-foreground capitalize">
           {category.replace(/([A-Z])/g, ' $1').trim()}
         </span>
         <ChevronDown className={`w-4 h-4 text-stone-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
@@ -96,13 +96,13 @@ function ColorSwatch({ name, value }: { name: string; value: string }) {
   return (
     <div className="group">
       <div
-        className="w-full h-16 rounded-md border border-stone-200 dark:border-stone-700 shadow-sm"
+        className="w-full h-16 rounded-md border border shadow-sm"
         style={{ backgroundColor: value }}
         title={value}
       />
       <div className="mt-1.5">
-        <p className="text-xs font-medium text-stone-900 dark:text-stone-100">{name}</p>
-        <p className="text-xs text-stone-500 dark:text-stone-400 font-mono">{value}</p>
+        <p className="text-xs font-medium text-foreground">{name}</p>
+        <p className="text-xs text-muted-foreground font-mono">{value}</p>
       </div>
     </div>
   )
@@ -114,7 +114,7 @@ function PrimitiveColorScale({ name, shades }: { name: string; shades: Record<st
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
       <CollapsibleTrigger className="flex items-center justify-between w-full px-3 py-2 bg-stone-50 dark:bg-stone-800/50 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors">
-        <span className="text-sm font-medium text-stone-900 dark:text-stone-100 capitalize">{name}</span>
+        <span className="text-sm font-medium text-foreground capitalize">{name}</span>
         <ChevronDown className={`w-4 h-4 text-stone-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </CollapsibleTrigger>
       <CollapsibleContent className="pt-2">
@@ -122,12 +122,12 @@ function PrimitiveColorScale({ name, shades }: { name: string; shades: Record<st
           {Object.entries(shades).map(([shade, value]) => (
             <div key={shade} className="flex-1 group relative">
               <div
-                className="w-full h-12 border border-stone-200 dark:border-stone-700"
+                className="w-full h-12 border border"
                 style={{ backgroundColor: value }}
                 title={`${name}-${shade}: ${value}`}
               />
               <div className="text-center mt-1">
-                <p className="text-xs text-stone-500 dark:text-stone-400">{shade}</p>
+                <p className="text-xs text-muted-foreground">{shade}</p>
               </div>
             </div>
           ))}
@@ -142,8 +142,8 @@ function GradientCategory({ category, gradients }: { category: string; gradients
   
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 bg-stone-100 dark:bg-stone-800 rounded-md hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
-        <span className="text-sm font-medium text-stone-900 dark:text-stone-100 capitalize">{category}</span>
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 bg-muted rounded-md hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
+        <span className="text-sm font-medium text-foreground capitalize">{category}</span>
         <ChevronDown className={`w-4 h-4 text-stone-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </CollapsibleTrigger>
       <CollapsibleContent className="pt-3">
@@ -158,12 +158,12 @@ function GradientCategory({ category, gradients }: { category: string; gradients
             return (
               <div key={name} className="group">
                 <div
-                  className="w-full h-16 rounded-md border border-stone-200 dark:border-stone-700 shadow-sm"
+                  className="w-full h-16 rounded-md border border shadow-sm"
                   style={{ background: gradientStyle }}
                   title={name}
                 />
                 <div className="mt-1.5">
-                  <p className="text-xs font-medium text-stone-900 dark:text-stone-100">{name}</p>
+                  <p className="text-xs font-medium text-foreground">{name}</p>
                 </div>
               </div>
             )

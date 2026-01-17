@@ -11,12 +11,12 @@ const avatarVariants = cva(
   {
     variants: {
       size: {
-        default: "size-8",
-        large: "size-12",
+        default: "size-9",   // 36px
+        large: "size-12",    // 48px
       },
       variant: {
         default: "",
-        primary: "bg-[linear-gradient(180deg,#4caf50_0%,#1b5e20_100%)] text-white",
+        primary: "bg-[linear-gradient(180deg,#20c54f_0%,#135428_100%)] text-white",
         secondary: "bg-secondary text-secondary-foreground",
         blue: "bg-[linear-gradient(180deg,#2f79ff_0%,#103a9f_100%)] text-white",
         cyan: "bg-[linear-gradient(180deg,#00bcd4_0%,#006064_100%)] text-white",
@@ -58,7 +58,7 @@ const Avatar = React.forwardRef<
     {online && (
       <span className={cn(
         "absolute bottom-0 right-0 rounded-full border-2 border-background bg-[#20c54f] z-10",
-        size === "large" ? "size-4 border-[3px]" : "size-2.5 border-2"
+        size === "large" ? "size-3.5" : "size-2.5"
       )} />
     )}
   </div>
@@ -86,7 +86,7 @@ const AvatarFallback = React.forwardRef<
     ref={ref}
     data-slot="avatar-fallback"
     className={cn(
-      "bg-muted flex size-full items-center justify-center rounded-full text-foreground",
+      "bg-muted flex size-full items-center justify-center rounded-full text-foreground font-medium",
       "group-data-[variant=primary]/avatar:bg-transparent group-data-[variant=primary]/avatar:text-white",
       "group-data-[variant=blue]/avatar:bg-transparent group-data-[variant=blue]/avatar:text-white",
       "group-data-[variant=cyan]/avatar:bg-transparent group-data-[variant=cyan]/avatar:text-white",
@@ -99,7 +99,7 @@ const AvatarFallback = React.forwardRef<
       "group-data-[variant=purple]/avatar:bg-transparent group-data-[variant=purple]/avatar:text-white",
       "group-data-[variant=indigo]/avatar:bg-transparent group-data-[variant=indigo]/avatar:text-white",
       "group-data-[variant=secondary]/avatar:bg-secondary group-data-[variant=secondary]/avatar:text-secondary-foreground",
-      "&_svg:size-4 group-data-[size=large]/avatar:&_svg:size-6",
+      "&_svg:size-3.5 group-data-[size=large]/avatar:&_svg:size-5",
       className
     )}
     {...props}

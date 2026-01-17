@@ -105,8 +105,8 @@ export function PhaseNav() {
               <div
                 className={`w-4 sm:w-8 lg:w-12 h-px transition-colors duration-200 ${
                   status === 'upcoming'
-                    ? 'bg-stone-200 dark:bg-stone-700'
-                    : 'bg-stone-400 dark:bg-stone-500'
+                    ? 'bg-muted'
+                    : 'bg-muted-foreground'
                 }`}
               />
             )}
@@ -117,10 +117,10 @@ export function PhaseNav() {
               className={`
                 group relative flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg transition-all duration-200 whitespace-nowrap
                 ${status === 'current'
-                  ? 'bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 shadow-sm'
+                  ? 'bg-foreground text-background shadow-sm'
                   : status === 'completed'
-                    ? 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700'
-                    : 'text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-400 hover:bg-stone-50 dark:hover:bg-stone-800/50'
+                    ? 'bg-muted text-foreground hover:bg-accent'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                 }
               `}
             >

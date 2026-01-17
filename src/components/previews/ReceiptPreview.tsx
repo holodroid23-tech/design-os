@@ -2,7 +2,7 @@ import { Coffee, QrCode } from "lucide-react"
 
 export function ReceiptPreview() {
     return (
-        <div className="w-full flex justify-center p-8 bg-zinc-100 dark:bg-zinc-900 rounded-xl">
+        <div className="w-full flex justify-center p-8 bg-background rounded-xl">
             <div className="relative w-full max-w-[340px] bg-white text-black shadow-xl drop-shadow-xl filter">
                 {/* Main Receipt Content */}
                 <div className="p-8 pb-4 flex flex-col items-center">

@@ -101,9 +101,33 @@ Full color ramps (5-100 scale) for:
 ### Gradients
 
 Pre-defined gradients for:
-- **AI**: AI feature gradients
-- **Avatar**: User avatar gradients
-- **Button**: Button gradient states
+- **AI**: AI feature gradients (teal to purple)
+- **Avatar**: User avatar gradients in multiple colors
+  - indigo, blue, cyan, teal, emerald, lime, yellow, orange, red, pink, purple, brown, gray, chatbot
+  - All gradients use 180deg linear direction (top to bottom)
+  - Each gradient defined with start and end color stops
+- **Button**: Button gradient states (hover, active)
+
+#### Avatar Gradient Colors
+
+All avatar gradients follow a consistent pattern with defined colors from the hue primitives:
+
+- **indigo**: `#6666ff` → `#291a98`
+- **blue**: `#2f79ff` → `#103a9f`
+- **cyan**: `#00bcd4` → `#006064`
+- **teal**: `#05c7bb` → `#0e5352`
+- **emerald**: `#20c54f` → `#135428`
+- **lime**: `#84cc16` → `#365314`
+- **yellow**: `#f5a017` → `#c46512`
+- **orange**: `#ff5a1f` → `#7f1c0f`
+- **red**: `#ed4646` → `#7e1e1e`
+- **pink**: `#ec4899` → `#831843`
+- **purple**: `#9c27b0` → `#4a148c`
+- **brown**: `#795548` → `#442c28`
+- **gray**: `#9f9f9f` → `#575757`
+- **chatbot**: `#1a91ff` → `#263dec`
+
+These gradients are defined in `colors.json` under `gradients.avatar` and should be referenced from there rather than hardcoded.
 
 ## Typography System
 
@@ -273,10 +297,15 @@ The spacing scale provides incremental values from 3px to 120px:
 
 All component sizes are aligned with the 6px spacing grid for design system consistency:
 
-- **42px**: Compact size for interactive elements when space is constrained
+- **30px**: Small avatar size (default)
+  - *Correlates with: 5 × 6px grid units*
+  - Default avatar size for most interfaces
+  - Aligned with 6px grid for consistency
+
+- **42px**: Large avatar size
   - *Correlates with: 7 × 6px grid units*
-  - Compact buttons, secondary actions, tight layouts
-  - Aligned with 6px grid. Slightly below iOS 44pt minimum - use sparingly when space is critical
+  - Larger avatar for emphasis (user profiles, settings)
+  - Aligned with 6px grid and compact touch target size
 
 - **48px**: Default size of buttons, inputs, and other interactive elements
   - *Correlates with: space-9 (48px) - 8 × 6px grid units*

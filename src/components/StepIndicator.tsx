@@ -16,7 +16,7 @@ export function StepIndicator({ step, status, children, isLast = false }: StepIn
       {/* Vertical connecting line - extends from this step to the next */}
       {!isLast && (
         <div
-          className="absolute left-[10px] top-[28px] w-[2px] h-[calc(100%+16px)] bg-stone-200 dark:bg-stone-700"
+          className="absolute left-[10px] top-[28px] w-[2px] h-[calc(100%+16px)] bg-muted"
           aria-hidden="true"
         />
       )}
@@ -44,7 +44,7 @@ function StepBadge({ step, status }: StepBadgeProps) {
 
   if (status === 'completed') {
     return (
-      <div className={`${baseClasses} bg-stone-200 dark:bg-stone-700 text-stone-500 dark:text-stone-400`}>
+      <div className={`${baseClasses} bg-muted text-stone-500 dark:text-stone-400`}>
         <Check className="w-3 h-3" strokeWidth={2.5} />
       </div>
     )
@@ -68,7 +68,7 @@ function StepBadge({ step, status }: StepBadgeProps) {
 
   // upcoming
   return (
-    <div className={`${baseClasses} bg-stone-200 dark:bg-stone-700 text-stone-500 dark:text-stone-400`}>
+    <div className={`${baseClasses} bg-muted text-stone-500 dark:text-stone-400`}>
       {step}
     </div>
   )

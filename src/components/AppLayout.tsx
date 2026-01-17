@@ -32,7 +32,7 @@ export function AppLayout({
   return (
     <div className="min-h-screen bg-background animate-fade-in flex flex-col">
       {/* Header */}
-      <header className="border-b border-stone-200 dark:border-stone-800 bg-card/80 backdrop-blur-sm sticky top-0 z-20">
+      <header className="border-b bg-card/80 backdrop-blur-sm sticky top-0 z-20">
         <div className="px-4 sm:px-6 py-3">
           {isSubPage ? (
             /* Sub-page header with back button */
@@ -41,7 +41,7 @@ export function AppLayout({
                 variant="ghost"
                 size="sm"
                 onClick={() => navigate(backTo)}
-                className="text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-100 -ml-2"
+                className="text-muted-foreground hover:text-foreground -ml-2"
               >
                 <ArrowLeft className="w-4 h-4 mr-2" strokeWidth={1.5} />
                 {backLabel}
@@ -93,11 +93,11 @@ export function AppLayout({
           href="https://buildermethods.com/design-os"
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-400 transition-colors group"
+          className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors group"
         >
           <span className="text-xs">Powered by</span>
-          <div className="w-5 h-5 rounded bg-stone-300 dark:bg-stone-600 flex items-center justify-center transition-colors group-hover:bg-stone-400 dark:group-hover:bg-stone-500">
-            <Layers className="w-3 h-3 text-stone-100 dark:text-stone-900" strokeWidth={1.5} />
+          <div className="w-5 h-5 rounded bg-muted flex items-center justify-center transition-colors group-hover:bg-accent">
+            <Layers className="w-3 h-3 text-foreground" strokeWidth={1.5} />
           </div>
           <span className="text-xs font-medium">Design OS</span>
         </a>
