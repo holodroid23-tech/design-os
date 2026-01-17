@@ -1,11 +1,22 @@
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AppLayout } from '@/components/AppLayout'
 import { EmptyState } from '@/components/EmptyState'
 import { StepIndicator, type StepStatus } from '@/components/StepIndicator'
 import { NextPhaseButton } from '@/components/NextPhaseButton'
 import { loadProductData } from '@/lib/product-loader'
-import { ChevronRight, Layout } from 'lucide-react'
+import { ChevronRight, Layout, Palette, Blocks, FileText } from 'lucide-react'
+import type { ComprehensiveColorSystem, ComprehensiveTypographySystem } from '@/types/product'
+
+// Import token display components
+import { ColorTokensDisplay } from '@/components/design/ColorTokensDisplay'
+import { TypographyTokensDisplay } from '@/components/design/TypographyTokensDisplay'
+import { SpacingTokensDisplay } from '@/components/design/SpacingTokensDisplay'
+import { RadiusTokensDisplay } from '@/components/design/RadiusTokensDisplay'
+import { ElevationsDisplay } from '@/components/design/ElevationsDisplay'
+import { ComponentShowcase } from '@/components/design/ComponentShowcase'
+import { ImplementationGuide } from '@/components/design/ImplementationGuide'
 
 // Map Tailwind color names to actual color values for preview
 const colorMap: Record<string, { light: string; base: string; dark: string }> = {
@@ -31,6 +42,103 @@ const colorMap: Record<string, { light: string; base: string; dark: string }> = 
   zinc: { light: '#d4d4d8', base: '#71717a', dark: '#52525b' },
   neutral: { light: '#d4d4d4', base: '#737373', dark: '#525252' },
   stone: { light: '#d6d3d1', base: '#78716c', dark: '#57534e' },
+}
+
+/**
+ * Simple Design System Display (backward compatible with simple color/typography format)
+ */
+function SimpleDesignSystemDisplay({ designSystem }: { designSystem: any }) {
+  return (
+    <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <CardHeader className="pb-4">
+        <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          Design Tokens
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-6">
+        {/* Colors */}
+        {designSystem?.colors && !isComprehensiveColorSystem(designSystem.colors) && (
+          <div>
+            <h4 className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-4">
+              Colors
+            </h4>
+            <div className="grid grid-cols-3 gap-6">
+              <ColorSwatch
+                label="Primary"
+                colorName={(designSystem.colors as any).primary}
+              />
+              <ColorSwatch
+                label="Secondary"
+                colorName={(designSystem.colors as any).secondary}
+              />
+              <ColorSwatch
+                label="Neutral"
+                colorName={(designSystem.colors as any).neutral}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Typography */}
+        {designSystem?.typography && !isComprehensiveTypographySystem(designSystem.typography) && (
+          <div>
+            <h4 className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-4">
+              Typography
+            </h4>
+            <div className="grid grid-cols-3 gap-6">
+              <div>
+                <p className="text-xs text-stone-500 dark:text-stone-400 mb-1">Heading</p>
+                <p className="font-semibold text-stone-900 dark:text-stone-100">
+                  {(designSystem.typography as any).heading}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-stone-500 dark:text-stone-400 mb-1">Body</p>
+                <p className="text-stone-900 dark:text-stone-100">
+                  {(designSystem.typography as any).body}
+                </p>
+              </div>
+              <div>
+                <p className="text-xs text-stone-500 dark:text-stone-400 mb-1">Mono</p>
+                <p className="font-mono text-stone-900 dark:text-stone-100">
+                  {(designSystem.typography as any).mono}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Edit hint */}
+        <div className="bg-stone-100 dark:bg-stone-800 rounded-md px-4 py-2.5">
+          <p className="text-xs text-stone-500 dark:text-stone-400">
+            Run <code className="font-mono text-stone-700 dark:text-stone-300">/design-tokens</code> to update
+          </p>
+        </div>
+      </CardContent>
+    </Card>
+  )
+}
+
+/**
+ * Check if colors are comprehensive (has semantic, primitives, gradients)
+ */
+function isComprehensiveColorSystem(colors: any): colors is ComprehensiveColorSystem {
+  return colors && 
+    typeof colors === 'object' && 
+    'semantic' in colors && 
+    'primitives' in colors && 
+    'gradients' in colors
+}
+
+/**
+ * Check if typography is comprehensive (has typefaces, styles, sizes)
+ */
+function isComprehensiveTypographySystem(typography: any): typography is ComprehensiveTypographySystem {
+  return typography && 
+    typeof typography === 'object' && 
+    'typefaces' in typography && 
+    'styles' in typography && 
+    'sizes' in typography
 }
 
 /**
@@ -68,10 +176,15 @@ export function DesignPage() {
   const shell = productData.shell
 
   const hasDesignSystem = !!(designSystem?.colors || designSystem?.typography)
+  const hasComprehensiveSystem = !!designSystem?.hasComprehensiveSystem
   const hasShell = !!shell?.spec
   const allStepsComplete = hasDesignSystem && hasShell
 
   const stepStatuses = getDesignPageStepStatuses(hasDesignSystem, hasShell)
+
+  // Check if comprehensive color system
+  const isComprehensiveColors = isComprehensiveColorSystem(designSystem?.colors)
+  const isComprehensiveTypography = isComprehensiveTypographySystem(designSystem?.typography)
 
   return (
     <AppLayout>
@@ -82,82 +195,117 @@ export function DesignPage() {
             Design System
           </h1>
           <p className="text-stone-600 dark:text-stone-400">
-            Define the visual foundation and application shell for your product.
+            {hasComprehensiveSystem 
+              ? 'Comprehensive design system with tokens, components, and implementation guidelines.'
+              : 'Define the visual foundation and application shell for your product.'
+            }
           </p>
         </div>
 
         {/* Step 1: Design Tokens */}
         <StepIndicator step={1} status={stepStatuses[0]}>
-          {!designSystem?.colors && !designSystem?.typography ? (
+          {!hasDesignSystem ? (
             <EmptyState type="design-system" />
-          ) : (
+          ) : hasComprehensiveSystem ? (
+            // Comprehensive Design System with Tabs
             <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-                  Design Tokens
+                  Design System
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-6">
-                {/* Colors */}
-                {designSystem?.colors && (
-                  <div>
-                    <h4 className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-4">
-                      Colors
-                    </h4>
-                    <div className="grid grid-cols-3 gap-6">
-                      <ColorSwatch
-                        label="Primary"
-                        colorName={designSystem.colors.primary}
-                      />
-                      <ColorSwatch
-                        label="Secondary"
-                        colorName={designSystem.colors.secondary}
-                      />
-                      <ColorSwatch
-                        label="Neutral"
-                        colorName={designSystem.colors.neutral}
-                      />
-                    </div>
-                  </div>
-                )}
+              <CardContent>
+                <Tabs defaultValue="tokens" className="w-full">
+                  <TabsList className="grid w-full grid-cols-3 mb-6">
+                    <TabsTrigger value="tokens" className="flex items-center gap-2">
+                      <Palette className="w-4 h-4" />
+                      Tokens
+                    </TabsTrigger>
+                    <TabsTrigger value="components" className="flex items-center gap-2">
+                      <Blocks className="w-4 h-4" />
+                      Components
+                    </TabsTrigger>
+                    <TabsTrigger value="guidelines" className="flex items-center gap-2">
+                      <FileText className="w-4 h-4" />
+                      Guidelines
+                    </TabsTrigger>
+                  </TabsList>
 
-                {/* Typography */}
-                {designSystem?.typography && (
-                  <div>
-                    <h4 className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-4">
-                      Typography
-                    </h4>
-                    <div className="grid grid-cols-3 gap-6">
+                  {/* Tokens Tab */}
+                  <TabsContent value="tokens" className="space-y-8">
+                    {/* Colors */}
+                    {isComprehensiveColors && designSystem.colors && (
                       <div>
-                        <p className="text-xs text-stone-500 dark:text-stone-400 mb-1">Heading</p>
-                        <p className="font-semibold text-stone-900 dark:text-stone-100">
-                          {designSystem.typography.heading}
-                        </p>
+                        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                          Colors
+                        </h3>
+                        <ColorTokensDisplay colors={designSystem.colors as ComprehensiveColorSystem} />
                       </div>
-                      <div>
-                        <p className="text-xs text-stone-500 dark:text-stone-400 mb-1">Body</p>
-                        <p className="text-stone-900 dark:text-stone-100">
-                          {designSystem.typography.body}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-xs text-stone-500 dark:text-stone-400 mb-1">Mono</p>
-                        <p className="font-mono text-stone-900 dark:text-stone-100">
-                          {designSystem.typography.mono}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                )}
+                    )}
 
-                {/* Edit hint */}
-                <div className="bg-stone-100 dark:bg-stone-800 rounded-md px-4 py-2.5">
-                  <p className="text-xs text-stone-500 dark:text-stone-400">
-                    Run <code className="font-mono text-stone-700 dark:text-stone-300">/design-tokens</code> to update
-                  </p>
-                </div>
+                    {/* Typography */}
+                    {isComprehensiveTypography && designSystem.typography && (
+                      <div>
+                        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                          Typography
+                        </h3>
+                        <TypographyTokensDisplay typography={designSystem.typography as ComprehensiveTypographySystem} />
+                      </div>
+                    )}
+
+                    {/* Spacing */}
+                    {designSystem.spacing && (
+                      <div>
+                        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                          Spacing
+                        </h3>
+                        <SpacingTokensDisplay spacing={designSystem.spacing} />
+                      </div>
+                    )}
+
+                    {/* Radius */}
+                    {designSystem.radius && (
+                      <div>
+                        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                          Border Radius
+                        </h3>
+                        <RadiusTokensDisplay radius={designSystem.radius} />
+                      </div>
+                    )}
+
+                    {/* Elevations */}
+                    {designSystem.elevations && (
+                      <div>
+                        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-4">
+                          Elevations & Shadows
+                        </h3>
+                        <ElevationsDisplay elevations={designSystem.elevations} />
+                      </div>
+                    )}
+
+                    {/* Edit hint */}
+                    <div className="bg-stone-100 dark:bg-stone-800 rounded-md px-4 py-2.5">
+                      <p className="text-xs text-stone-500 dark:text-stone-400">
+                        Design tokens are loaded from <code className="font-mono text-stone-700 dark:text-stone-300">product/design-system/</code>
+                      </p>
+                    </div>
+                  </TabsContent>
+
+                  {/* Components Tab */}
+                  <TabsContent value="components">
+                    <ComponentShowcase />
+                  </TabsContent>
+
+                  {/* Guidelines Tab */}
+                  <TabsContent value="guidelines">
+                    <ImplementationGuide />
+                  </TabsContent>
+                </Tabs>
               </CardContent>
             </Card>
+          ) : (
+            // Simple Design System (backward compatible)
+            <SimpleDesignSystemDisplay designSystem={designSystem} />
           )}
         </StepIndicator>
 

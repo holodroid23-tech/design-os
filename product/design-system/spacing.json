@@ -1,0 +1,198 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "system": "compost",
+  "description": "Spacing scale based on ComPOSt Design System, optimized for mobile app use",
+  "scale": {
+    "1": {
+      "value": "3px",
+      "description": "Primary space reserved for smaller components like Input, Select field, Button, etc. Using it as a general spacing (padding or margin) is not recommended.",
+      "usage": "Tight spacing within small components"
+    },
+    "2": {
+      "value": "6px",
+      "description": "The primary and default space unit",
+      "usage": "Standard space between logically associated elements (multiple buttons, checkbox and label, icon and text)"
+    },
+    "3": {
+      "value": "9px",
+      "description": "Primary space reserved for smaller components like Input, Select field, Button, etc. Using it as a general spacing (padding or margin) is not recommended.",
+      "usage": "Tight spacing within small components"
+    },
+    "4": {
+      "value": "12px",
+      "description": "Standard space between logically associated and unassociated elements",
+      "usage": "Inside of a tooltip; horizontal spacing between associated and unassociated buttons"
+    },
+    "5": {
+      "value": "18px",
+      "description": "Medium spacing between elements",
+      "usage": "Spacing between related groups of elements"
+    },
+    "6": {
+      "value": "24px",
+      "description": "Standard space between logically primarily unassociated but also secondarily associated elements",
+      "usage": "Form elements like inputs and selects; default app content padding for mobile"
+    },
+    "7": {
+      "value": "30px",
+      "description": "Larger spacing for separation",
+      "usage": "Spacing between major sections"
+    },
+    "8": {
+      "value": "36px",
+      "description": "Standard space between empty state and text; default app content padding for larger screens",
+      "usage": "Empty states; content padding on tablets"
+    },
+    "9": {
+      "value": "48px",
+      "description": "Large spacing for emphasis",
+      "usage": "Spacing between major content blocks"
+    },
+    "10": {
+      "value": "60px",
+      "description": "Extra large spacing",
+      "usage": "Standard height of bars (app header, bulk action bars)"
+    },
+    "11": {
+      "value": "72px",
+      "description": "Standard space below the empty state in panels or full-page elements",
+      "usage": "Bottom padding for content where there is a 'Go to up' button"
+    },
+    "12": {
+      "value": "96px",
+      "description": "Very large spacing",
+      "usage": "Spacing for hero sections, large empty states"
+    },
+    "13": {
+      "value": "120px",
+      "description": "Maximum spacing",
+      "usage": "Maximum spacing for special cases"
+    }
+  },
+  "recommendations": {
+    "paddingsAndMargins": {
+      "6px": {
+        "value": "6px",
+        "description": "Standard space between logically associated elements",
+        "examples": [
+          "Multiple buttons",
+          "Checkbox and a label",
+          "Tooltip and a button/icon",
+          "Icon and text"
+        ]
+      },
+      "12px": {
+        "value": "12px",
+        "description": "Standard space between logically associated and unassociated elements",
+        "examples": [
+          "Inside of a tooltip",
+          "Horizontal spacing between associated and unassociated buttons"
+        ]
+      },
+      "24px": {
+        "value": "24px",
+        "description": "Standard space between logically primarily unassociated but also secondarily associated elements",
+        "examples": [
+          "Form elements like inputs and selects",
+          "Default app content padding for mobile (portrait)"
+        ]
+      },
+      "36px": {
+        "value": "36px",
+        "description": "Standard space between empty state and text",
+        "examples": [
+          "Empty states",
+          "Default app content padding for tablets and larger screens"
+        ]
+      },
+      "72px": {
+        "value": "72px",
+        "description": "Standard space below the empty state in panels or full-page elements",
+        "examples": [
+          "Bottom padding for content where there is a 'Go to up' button"
+        ]
+      }
+    },
+    "sizes": {
+      "42px": {
+        "value": "42px",
+        "description": "Compact size for interactive elements when space is constrained",
+        "examples": [
+          "Compact buttons",
+          "Secondary actions",
+          "Tight layouts"
+        ],
+        "spacingReference": "7 × 6px grid units",
+        "spacingReference": "7 × 6px grid units"
+      },
+      "48px": {
+        "value": "48px",
+        "description": "The default size of buttons, inputs, and other interactive elements",
+        "examples": [
+          "Primary buttons",
+          "Text inputs",
+          "Select fields",
+          "Standard touch targets"
+        ],
+        "spacingReference": "space-9 (48px) - 8 × 6px grid units",
+        "spacingReference": "space-9 (48px) - 8 × 6px grid units"
+      },
+      "54px": {
+        "value": "54px",
+        "description": "The bigger size of interaction elements if you need to increase the attention of this element",
+        "examples": [
+          "Prominent CTAs",
+          "Request button on landing pages",
+          "Important actions",
+          "Large touch targets for accessibility"
+        ],
+        "spacingReference": "9 × 6px grid units",
+        "mobileNote": "Enhanced touch target for prominent actions. Aligned with 6px grid."
+      },
+      "60px": {
+        "value": "60px",
+        "description": "The standard height of bars",
+        "examples": [
+          "App header",
+          "Bar for bulk changes",
+          "Navigation bars"
+        ],
+        "spacingReference": "space-10 (60px) - 10 × 6px grid units"
+      }
+    }
+  },
+  "mobileOptimizations": {
+    "contentPadding": {
+      "portrait": "24px",
+      "landscape": "24px",
+      "tablet": "36px",
+      "description": "Default app content padding adjusted for mobile screens"
+    },
+    "touchTargets": {
+      "minimum": "42px",
+      "recommended": "48px",
+      "description": "Minimum touch target size aligned with 6px grid (7x6px)",
+      "guidelines": {
+        "grid": "All sizes must align with 6px grid",
+        "compact": "42px for tight spaces"
+      }
+    },
+    "sectionSpacing": {
+      "small": "24px",
+      "medium": "36px",
+      "large": "48px",
+      "description": "Spacing between major sections on mobile"
+    }
+  },
+  "usage": {
+    "web": {
+      "variablePrefix": "--space-",
+      "example": "--space-2: 6px;"
+    },
+    "native": {
+      "ios": "Use CGFloat values (e.g., 6.0)",
+      "android": "Use dp values (e.g., 6dp)"
+    }
+  }
+}

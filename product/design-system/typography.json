@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "system": "native",
+  "mode": "dark",
+  "heading": "System UI",
+  "body": "System UI",
+  "mono": "System Monospace",
+  "typefaces": {
+    "main": {
+      "name": "System Font",
+      "description": "Native system font (SF Pro on iOS, Roboto on Android, system-ui on web)",
+      "fallback": "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+    },
+    "code": {
+      "name": "System Monospace",
+      "description": "Native system monospace font (SF Mono on iOS, Roboto Mono on Android)",
+      "fallback": "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace"
+    }
+  },
+  "sizes": {
+    "summary": {
+      "h1": "28px / 36px line-height / Semibold (600)",
+      "h2": "22px / 30px line-height / Semibold (600)",
+      "h3": "18px / 26px line-height / Semibold (600)",
+      "regular": "16px / 24px line-height / Regular (400)",
+      "regular-semibold": "16px / 24px line-height / Semibold (600)",
+      "small": "14px / 20px line-height / Regular (400)",
+      "small-semibold": "14px / 20px line-height / Semibold (600)",
+      "support-small": "12px / 16px line-height / Regular (400)",
+      "support-small-semibold": "12px / 16px line-height / Semibold (600)"
+    }
+  },
+  "styles": {
+    "h1": {
+      "fontFamily": "system-ui",
+      "fontWeight": 600,
+      "fontSize": "28px",
+      "lineHeight": "36px",
+      "letterSpacing": "-0.02em",
+      "description": "Main page title",
+      "usage": "Primary heading, one per page",
+      "example": "Welcome to dashboard"
+    },
+    "h2": {
+      "fontFamily": "system-ui",
+      "fontWeight": 600,
+      "fontSize": "22px",
+      "lineHeight": "30px",
+      "letterSpacing": "-0.01em",
+      "description": "Section heading",
+      "usage": "Secondary heading for major sections",
+      "example": "Recent activity"
+    },
+    "h3": {
+      "fontFamily": "system-ui",
+      "fontWeight": 600,
+      "fontSize": "18px",
+      "lineHeight": "26px",
+      "letterSpacing": "0",
+      "description": "Subsection heading",
+      "usage": "Tertiary heading for subsections",
+      "example": "User settings"
+    },
+    "regular": {
+      "fontFamily": "system-ui",
+      "fontWeight": 400,
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "letterSpacing": "0",
+      "description": "Regular body text",
+      "usage": "Default paragraph and body text",
+      "example": "This is regular body text used for paragraphs and general content. It provides good readability for longer passages."
+    },
+    "regular-semibold": {
+      "fontFamily": "system-ui",
+      "fontWeight": 600,
+      "fontSize": "16px",
+      "lineHeight": "24px",
+      "letterSpacing": "0",
+      "description": "Semibold body text",
+      "usage": "Emphasized body text",
+      "example": "This is semibold body text for emphasis"
+    },
+    "small": {
+      "fontFamily": "system-ui",
+      "fontWeight": 400,
+      "fontSize": "14px",
+      "lineHeight": "20px",
+      "letterSpacing": "0",
+      "description": "Small text",
+      "usage": "Secondary information, captions",
+      "example": "This is small text for captions and secondary info"
+    },
+    "small-semibold": {
+      "fontFamily": "system-ui",
+      "fontWeight": 600,
+      "fontSize": "14px",
+      "lineHeight": "20px",
+      "letterSpacing": "0",
+      "description": "Semibold small text",
+      "usage": "Emphasized small text",
+      "example": "Semibold small text"
+    },
+    "support-small": {
+      "fontFamily": "system-ui",
+      "fontWeight": 400,
+      "fontSize": "12px",
+      "lineHeight": "16px",
+      "letterSpacing": "0",
+      "description": "Support small text",
+      "usage": "Helper text, metadata, fine print",
+      "example": "Helper text or metadata"
+    },
+    "support-small-semibold": {
+      "fontFamily": "system-ui",
+      "fontWeight": 600,
+      "fontSize": "12px",
+      "lineHeight": "16px",
+      "letterSpacing": "0",
+      "description": "Semibold support small text",
+      "usage": "Emphasized helper text, labels",
+      "example": "Label"
+    }
+  },
+  "colors": {
+    "dark": {
+      "primary": {
+        "value": "#f9f9fa",
+        "description": "Main text color - default for most UI text",
+        "usage": "Primary content, headings, body text"
+      },
+      "secondary": {
+        "value": "#b5b5b7",
+        "description": "Secondary text color - supplemental texts",
+        "usage": "Metadata, captions, less important information"
+      },
+      "tertiary": {
+        "value": "#6d6d71",
+        "description": "Tertiary text color - placeholder and subtle text",
+        "usage": "Placeholders, hints, disabled states"
+      },
+      "interactive": {
+        "value": "#003beb",
+        "description": "Interactive elements - hyperlinks and primary actions",
+        "usage": "Links, primary action text, interactive elements"
+      },
+      "success": {
+        "value": "#15a43e",
+        "description": "Positive confirmations and success messages",
+        "usage": "Success states, positive feedback"
+      },
+      "warning": {
+        "value": "#e1ab11",
+        "description": "Warnings and alerts",
+        "usage": "Warning messages, caution states"
+      },
+      "danger": {
+        "value": "#da2828",
+        "description": "Negative confirmations and errors",
+        "usage": "Error messages, destructive actions, negative feedback"
+      }
+    }
+  }
+}

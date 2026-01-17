@@ -51,21 +51,98 @@ export interface DataModel {
 // Design System
 // =============================================================================
 
+// Simple color tokens (backward compatible)
 export interface ColorTokens {
   primary: string
   secondary: string
   neutral: string
 }
 
+// Comprehensive color system
+export interface ComprehensiveColorSystem {
+  version: string
+  system: string
+  semantic: Record<string, any>
+  primitives: Record<string, any>
+  gradients: Record<string, any>
+}
+
+// Simple typography tokens (backward compatible)
 export interface TypographyTokens {
   heading: string
   body: string
   mono: string
 }
 
+// Comprehensive typography system
+export interface ComprehensiveTypographySystem {
+  version: string
+  system: string
+  mode: string
+  heading: string
+  body: string
+  mono: string
+  typefaces: {
+    main: {
+      name: string
+      description: string
+      fallback: string
+    }
+    code: {
+      name: string
+      description: string
+      fallback: string
+    }
+  }
+  sizes: {
+    summary: Record<string, string>
+  }
+  styles: Record<string, any>
+  colors: Record<string, any>
+}
+
+// Spacing tokens
+export interface SpacingTokens {
+  version: string
+  system: string
+  grid: string
+  scale: Record<string, { value: string; description: string }>
+  recommendations: {
+    paddings: Record<string, any>
+    sizes: Record<string, any>
+  }
+  mobile: Record<string, any>
+}
+
+// Radius tokens
+export interface RadiusTokens {
+  version: string
+  system: string
+  values: Record<string, { value: string; description: string; usage: string }>
+  hierarchy: string
+  correlation: string
+}
+
+// Elevation tokens
+export interface ElevationTokens {
+  version: string
+  system: string
+  levels: Record<string, { value: string; description: string; usage: string }>
+  rules: string[]
+}
+
 export interface DesignSystem {
-  colors: ColorTokens | null
-  typography: TypographyTokens | null
+  // Core tokens (can be simple or comprehensive)
+  colors: ColorTokens | ComprehensiveColorSystem | null
+  typography: TypographyTokens | ComprehensiveTypographySystem | null
+  
+  // Extended tokens (comprehensive system only)
+  spacing?: SpacingTokens | null
+  radius?: RadiusTokens | null
+  elevations?: ElevationTokens | null
+  
+  // Metadata
+  hasComprehensiveSystem?: boolean
 }
 
 // =============================================================================
