@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "system": "compost",
+  "description": "Border radius values based on ComPOSt Design System, optimized for mobile app use",
+  "variables": {
+    "3px": {
+      "value": "3px",
+      "description": "Extra small radius for tiny components like checkboxes",
+      "usage": "Checkboxes, small indicators",
+      "spacingReference": "space-1 (3px) - tight spacing unit"
+    },
+    "small": {
+      "value": "6px",
+      "description": "Use a small radius to soften the corners of areas you don't want to look like cards or boxes",
+      "usage": "Small elements, subtle rounding",
+      "spacingReference": "space-2 (6px) - primary spacing unit"
+    },
+    "medium": {
+      "value": "12px",
+      "description": "Medium is the default radius for most elements",
+      "usage": "Default radius for buttons, cards, inputs, and most UI elements",
+      "spacingReference": "space-4 (12px) - standard spacing"
+    },
+    "large": {
+      "value": "18px",
+      "description": "Use a large radius when an element is used as a Container for other elements and pieces of content",
+      "usage": "Container elements, cards that wrap content, modals",
+      "spacingReference": "space-5 (18px) - medium spacing"
+    },
+    "full": {
+      "value": "9999px",
+      "description": "Use full radius to create a circle (on squares) or pill shape (on rectangles)",
+      "usage": "Avatars, pills, badges, circular buttons"
+    }
+  },
+  "hierarchy": {
+    "description": "The purpose of radius rules is to highlight the container nesting level visually – the more the container envelops, the bigger its radius. This serves as a general guideline rather than a strict rule.",
+    "principle": "Higher nesting level = larger radius"
+  },
+  "correlation": {
+    "description": "Radius values are mathematically correlated with the spacing scale for design system consistency",
+    "relationships": {
+      "small": "Matches spacing-2 (6px) - primary spacing unit",
+      "medium": "Matches spacing-4 (12px) - standard spacing",
+      "large": "Matches spacing-5 (18px) - medium spacing"
+    }
+  },
+  "usage": {
+    "web": {
+      "variablePrefix": "--border-radius-",
+      "example": "--border-radius-medium: 12px;"
+    },
+    "native": {
+      "ios": "Use CGFloat values (e.g., 12.0)",
+      "android": "Use dp values (e.g., 12dp)"
+    }
+  }
+}

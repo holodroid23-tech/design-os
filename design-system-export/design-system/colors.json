@@ -1,0 +1,768 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "system": "compost",
+  "semantic": {
+    "layer": {
+      "level-0": "#111114",
+      "level-1": "#24242b",
+      "level-2": "#37373e",
+      "level-3": "#505057",
+      "hover": "rgba(0,0,0,0.05)",
+      "active": "rgba(0,0,0,0.1)",
+      "info": "#d5efff",
+      "warning": "#fcf6c5",
+      "danger": "#fee2e2",
+      "success": "#dcfce4",
+      "recent": "#f0e7ff",
+      "main-navigation": "#111114",
+      "highlight": "#f6d84e",
+      "transparent": "rgba(255,255,255,0.01)"
+    },
+    "onLayer": {
+      "primary": "#f9f9fa",
+      "secondary": "#b5b5b7",
+      "tertiary": "#6d6d71",
+      "inverse": "#f9f9fa",
+      "interactive": "#148134",
+      "warning": "#e1ab11",
+      "danger": "#da2828",
+      "success": "#15a43e",
+      "recent": "#691cd4"
+    },
+    "border": {
+      "primary": "rgba(0,0,0,0.2)",
+      "secondary": "rgba(0,0,0,0.1)",
+      "inverse": "rgba(255,255,255,0.2)",
+      "info": "#56a0ff",
+      "info-emphasis": "#003beb",
+      "warning": "#f6d84e",
+      "warning-emphasis": "#f1c21b",
+      "danger": "#f67373",
+      "danger-emphasis": "#da2828",
+      "success": "#85f0a3",
+      "success-emphasis": "#20c54f",
+      "recent": "#b180ff",
+      "recent-emphasis": "#7c2df0",
+      "focus-button": "#24242b",
+      "focus-ring": "#9d9da0",
+      "focus-ring-inner": "rgba(255,255,255,0.95)",
+      "focus-ring-inverse": "#85c7ff",
+      "focus-ring-inner-inverse": "rgba(0,0,0,0.7)",
+      "focus-form": "#9d9da0"
+    },
+    "overlay": {
+      "default": "rgba(0,0,0,0.7)",
+      "inverse": "rgba(255,255,255,0.8)"
+    },
+    "link": {
+      "primary": "#15a43e",
+      "secondary": "#85c7ff",
+      "tertiary": "#b5b5b7",
+      "inverse": "#f9f9fa",
+      "visited": "#691cd4"
+    },
+    "button": {
+      "primary": "#15a43e",
+      "light": "rgba(255,255,255,0.7)",
+      "ghost": "rgba(255,255,255,0)",
+      "invisible": "rgba(255,255,255,0)",
+      "inverse": "rgba(255,255,255,0)",
+      "request": "#15a43e",
+      "danger": "#da2828",
+      "purchase": "#f6d84e",
+      "ghost-hover": "rgba(0,0,0,0.05)",
+      "invisible-hover": "rgba(0,0,0,0.05)",
+      "inverse-hover": "rgba(255,255,255,0.05)",
+      "ghost-active": "rgba(0,0,0,0.1)",
+      "invisible-active": "rgba(0,0,0,0.1)",
+      "inverse-active": "rgba(255,255,255,0.1)",
+      "invisible-applied": "rgba(208,226,255,0.5)"
+    },
+    "tooltip": {
+      "default": "#24242b",
+      "guide": "#0791f0",
+      "caveat": "#f6d84e",
+      "danger": "#da2828"
+    },
+    "table": {
+      "row-odd": "#ffffff",
+      "row-even": "#f9f9fa",
+      "row-hover": "#d5efff",
+      "row-hover-border": "#85c7ff"
+    },
+    "platform": {
+      "facebook": "#0866ff",
+      "instagram": "#d73676",
+      "x": "#000000",
+      "youtube": "#ff0000",
+      "pinterest": "#bb0f23",
+      "linkedin": "#1078b3",
+      "google-analytics": "#f57e02",
+      "google-my-business": "#4c8bf5",
+      "vkontakte": "#4e76a1",
+      "snapchat": "#e6e300",
+      "tiktok": "#000000",
+      "tiktok-splash": "#0bd0ca",
+      "salesforce": "#00a1e0",
+      "news": "#354da3",
+      "forum": "#dd470f",
+      "blog": "#4b3827",
+      "web": "#f57e02",
+      "audience": "#6e50dc",
+      "reddit": "#ff5700",
+      "whatsapp": "#25d366",
+      "threads": "#000000",
+      "threads-purple": "#9c27b0",
+      "organic": "#406dd3",
+      "paid": "#26bca6"
+    },
+    "chart": {
+      "indigo": "#3f51b5",
+      "blue": "#2196f3",
+      "cyan": "#00bcd4",
+      "teal": "#009688",
+      "green": "#4caf50",
+      "light-green": "#8bc34a",
+      "lime": "#cddc39",
+      "yellow": "#ffcc02",
+      "orange": "#ff9800",
+      "red": "#f43636",
+      "deep-red": "#b01e1e",
+      "brown": "#795548",
+      "deep-pink": "#e91e63",
+      "pink": "#cd3497",
+      "purple": "#9c27b0",
+      "deep-purple": "#622cc2",
+      "gray": "#9f9f9f"
+    },
+    "operator": {
+      "if": "#24242b",
+      "and": "#20c54f",
+      "or": "#691cd4",
+      "near": "#ff5a1f",
+      "not": "#da2828"
+    },
+    "sentiment": {
+      "positive-strongly": "#148134",
+      "positive": "#20c54f",
+      "neutral": "#858589",
+      "negative": "#da2828",
+      "negative-strongly": "#c52020",
+      "mixed": "#ff5a1f",
+      "no": "#cececf"
+    },
+    "grade": {
+      "a-plus": "#8fd363",
+      "a": "#3a922b",
+      "b": "#ffcc26",
+      "c": "#f09e5b",
+      "d": "#d3d3d3"
+    },
+    "approvalFlow": {
+      "stage-1": "#3f51b5",
+      "stage-2": "#4caf50",
+      "stage-3": "#ffc107",
+      "stage-4": "#e91e63",
+      "stage-5": "#2196f3",
+      "stage-6": "#8bc34a",
+      "stage-7": "#cddc39",
+      "stage-8": "#009688",
+      "stage-9": "#ffeb3b",
+      "stage-10": "#00bcd4",
+      "stage-11": "#795548",
+      "stage-12": "#ff9800",
+      "stage-13": "#ff5722",
+      "stage-14": "#9c27b0",
+      "stage-15": "#673ab7"
+    },
+    "scrollbar": {
+      "thumb": "#9d9da0",
+      "thumb-hover": "#24242b",
+      "track": "#e7e7e7",
+      "thumb-inverse": "#6d6d71",
+      "thumb-inverse-hover": "#b5b5b7",
+      "track-inverse": "#505057"
+    },
+    "brand": {
+      "ocean": "#42c9f2",
+      "dark-blue": "#000066",
+      "plum": "#6666ff",
+      "coral": "#ff5a1f",
+      "charcoal": "#111114",
+      "sky-blue": "#e3f1ff",
+      "sand": "#ede9e3",
+      "teal": "#51f7e5",
+      "royal-blue": "#003beb",
+      "inverse": "#ffffff"
+    },
+    "ai": {
+      "gradient-start": "#00a19a",
+      "gradient-end": "#7c2df0"
+    },
+    "message": {
+      "incoming": "#e7e7e7",
+      "outgoing": "#b3dfff"
+    },
+    "loader": {
+      "spinner-light": "#0791f0",
+      "spinner-dark": "#063bcd",
+      "spinner-inverse": "rgba(255,255,255,0.85)",
+      "skeleton": "rgba(0,0,0,0.05)",
+      "skeleton-inverse": "rgba(255,255,255,0.1)"
+    },
+    "shadow": {
+      "inner": "rgba(0,0,0,0.05)",
+      "drop-10": "rgba(0,0,0,0.1)",
+      "drop-20": "rgba(0,0,0,0.2)",
+      "drop-30": "rgba(0,0,0,0.3)"
+    }
+  },
+  "primitives": {
+    "neutrals": {
+      "white": {
+        "0": "rgba(255,255,255,0)",
+        "10": "rgba(255,255,255,0.05)",
+        "20": "rgba(255,255,255,0.1)",
+        "30": "rgba(255,255,255,0.2)",
+        "40": "rgba(255,255,255,0.4)",
+        "50": "rgba(255,255,255,0.7)",
+        "60": "rgba(255,255,255,0.8)",
+        "70": "rgba(255,255,255,0.85)",
+        "80": "rgba(255,255,255,0.9)",
+        "90": "rgba(255,255,255,0.95)",
+        "100": "#ffffff"
+      },
+      "black": {
+        "0": "rgba(0,0,0,0)",
+        "10": "rgba(0,0,0,0.05)",
+        "20": "rgba(0,0,0,0.1)",
+        "30": "rgba(0,0,0,0.2)",
+        "40": "rgba(0,0,0,0.3)",
+        "50": "rgba(0,0,0,0.5)",
+        "60": "rgba(0,0,0,0.7)",
+        "70": "rgba(0,0,0,0.8)",
+        "80": "rgba(0,0,0,0.9)",
+        "90": "rgba(0,0,0,0.95)",
+        "100": "#000000"
+      },
+      "gray": {
+        "10": "#f9f9fa",
+        "20": "#f3f3f5",
+        "30": "#e7e7e7",
+        "40": "#cececf",
+        "50": "#b5b5b7",
+        "60": "#9d9da0",
+        "70": "#858589",
+        "80": "#6d6d71",
+        "90": "#505057",
+        "100": "#37373e",
+        "110": "#24242b",
+        "120": "#111114"
+      }
+    },
+    "hues": {
+      "red": {
+        "5": "#fef2f2",
+        "10": "#fee2e2",
+        "20": "#fdcbcb",
+        "30": "#fba6a6",
+        "40": "#f67373",
+        "50": "#ed4646",
+        "60": "#da2828",
+        "70": "#c52020",
+        "80": "#981c1c",
+        "90": "#7e1e1e",
+        "100": "#440b0b"
+      },
+      "orange": {
+        "5": "#fff4ed",
+        "10": "#ffe7d4",
+        "20": "#ffcaa8",
+        "30": "#ffa570",
+        "40": "#ff7437",
+        "50": "#ff5a1f",
+        "60": "#f03406",
+        "70": "#c72307",
+        "80": "#9e1d0e",
+        "90": "#7f1c0f",
+        "100": "#450a05"
+      },
+      "yellow": {
+        "5": "#fdfbe9",
+        "10": "#fcf6c5",
+        "20": "#faeb8e",
+        "30": "#f6d84e",
+        "40": "#f1c21b",
+        "50": "#e1ab11",
+        "60": "#c2840c",
+        "70": "#9b5e0d",
+        "80": "#804b13",
+        "90": "#6d3d16",
+        "100": "#401f08"
+      },
+      "pear": {
+        "5": "#fdfde8",
+        "10": "#f8facd",
+        "20": "#eff4a2",
+        "30": "#e0eb6b",
+        "40": "#d0df49",
+        "50": "#b0c31f",
+        "60": "#899b15",
+        "70": "#677615",
+        "80": "#525e16",
+        "90": "#465017",
+        "100": "#242c07"
+      },
+      "lime": {
+        "5": "#f7fee7",
+        "10": "#ecfccb",
+        "20": "#d9f99d",
+        "30": "#bef264",
+        "40": "#a3e635",
+        "50": "#84cc16",
+        "60": "#65a30d",
+        "70": "#4d7c0f",
+        "80": "#3f6212",
+        "90": "#365314",
+        "100": "#1a2e05"
+      },
+      "green": {
+        "5": "#f0fdf3",
+        "10": "#dcfce4",
+        "20": "#baf8cb",
+        "30": "#85f0a3",
+        "40": "#48e073",
+        "50": "#20c54f",
+        "60": "#15a43e",
+        "70": "#148134",
+        "80": "#15662d",
+        "90": "#135428",
+        "100": "#052e13"
+      },
+      "teal": {
+        "5": "#effefc",
+        "10": "#c8fff7",
+        "20": "#90ffee",
+        "30": "#51f7e5",
+        "40": "#1de4d5",
+        "50": "#05c7bb",
+        "60": "#00a19a",
+        "70": "#05807c",
+        "80": "#0a6563",
+        "90": "#0e5352",
+        "100": "#003233"
+      },
+      "ocean": {
+        "5": "#f0faff",
+        "10": "#e1f4fd",
+        "20": "#bceafb",
+        "30": "#81dbf8",
+        "40": "#42c9f2",
+        "50": "#15b1e2",
+        "60": "#0890c1",
+        "70": "#08739c",
+        "80": "#0b6181",
+        "90": "#0f506b",
+        "100": "#0a3447"
+      },
+      "sky": {
+        "5": "#eff7ff",
+        "10": "#e3f1ff",
+        "20": "#b8e0ff",
+        "30": "#79c7ff",
+        "40": "#32abfe",
+        "50": "#0791f0",
+        "60": "#0071ce",
+        "70": "#005aa6",
+        "80": "#034d89",
+        "90": "#094171",
+        "100": "#06284b"
+      },
+      "blue": {
+        "5": "#e8f7ff",
+        "10": "#d5efff",
+        "20": "#b3dfff",
+        "30": "#85c7ff",
+        "40": "#56a0ff",
+        "50": "#2f79ff",
+        "60": "#0c4bff",
+        "70": "#003beb",
+        "80": "#063bcd",
+        "90": "#103a9f",
+        "100": "#0a205c"
+      },
+      "indigo": {
+        "5": "#f9f5ff",
+        "10": "#e8e9ff",
+        "20": "#d5d9ff",
+        "30": "#b3b8ff",
+        "40": "#888bfd",
+        "50": "#6666ff",
+        "60": "#4835f2",
+        "70": "#3923de",
+        "80": "#2f1dba",
+        "90": "#291a98",
+        "100": "#000066"
+      },
+      "violet": {
+        "5": "#f9f5ff",
+        "10": "#f0e7ff",
+        "20": "#e4d4ff",
+        "30": "#cfb2ff",
+        "40": "#b180ff",
+        "50": "#8a3ffc",
+        "60": "#7c2df0",
+        "70": "#691cd4",
+        "80": "#5a1dac",
+        "90": "#4b198a",
+        "100": "#300467"
+      },
+      "fuchsia": {
+        "5": "#fdf4ff",
+        "10": "#fae8ff",
+        "20": "#f5d0fe",
+        "30": "#f0abfc",
+        "40": "#e879f9",
+        "50": "#d946ef",
+        "60": "#c026d3",
+        "70": "#a21caf",
+        "80": "#86198f",
+        "90": "#701a75",
+        "100": "#4a044e"
+      },
+      "pink": {
+        "5": "#fdf2f8",
+        "10": "#fce7f3",
+        "20": "#fbcfe8",
+        "30": "#f9a8d4",
+        "40": "#f472b6",
+        "50": "#ec4899",
+        "60": "#db2777",
+        "70": "#be185d",
+        "80": "#9d174d",
+        "90": "#831843",
+        "100": "#500724"
+      },
+      "sand": {
+        "5": "#f8f6f4",
+        "10": "#ede9e3",
+        "20": "#ded6ca",
+        "30": "#c8baa9",
+        "40": "#b19b86",
+        "50": "#a1856e",
+        "60": "#947562",
+        "70": "#7c6052",
+        "80": "#664f46",
+        "90": "#53423b",
+        "100": "#2c221e"
+      },
+      "brown": {
+        "5": "#f7f4ef",
+        "10": "#ebe3d6",
+        "20": "#d9c8af",
+        "30": "#c2a682",
+        "40": "#b0895f",
+        "50": "#a17751",
+        "60": "#8a5f44",
+        "70": "#6f4a39",
+        "80": "#5f3f34",
+        "90": "#4e342e",
+        "100": "#2f1d19"
+      }
+    }
+  },
+  "gradients": {
+    "ai": {
+      "on-layer": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#00a19a",
+            "position": 0
+          },
+          {
+            "color": "#7c2df0",
+            "position": 45
+          }
+        ]
+      },
+      "layer": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#effefc",
+            "position": 0.48
+          },
+          {
+            "color": "#ffffff",
+            "position": 24
+          },
+          {
+            "color": "#ffffff",
+            "position": 72
+          },
+          {
+            "color": "#f9f5ff",
+            "position": 99.5
+          }
+        ],
+        "note": "Figma only"
+      }
+    },
+    "avatar": {
+      "indigo": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#6666ff",
+            "position": 0
+          },
+          {
+            "color": "#291a98",
+            "position": 100
+          }
+        ]
+      },
+      "blue": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#2f79ff",
+            "position": 0
+          },
+          {
+            "color": "#103a9f",
+            "position": 100
+          }
+        ]
+      },
+      "cyan": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#00bcd4",
+            "position": 0
+          },
+          {
+            "color": "#006064",
+            "position": 100
+          }
+        ]
+      },
+      "teal": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#05c7bb",
+            "position": 0
+          },
+          {
+            "color": "#0e5352",
+            "position": 100
+          }
+        ]
+      },
+      "emerald": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#20c54f",
+            "position": 0
+          },
+          {
+            "color": "#135428",
+            "position": 100
+          }
+        ]
+      },
+      "lime": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#84cc16",
+            "position": 0
+          },
+          {
+            "color": "#365314",
+            "position": 100
+          }
+        ]
+      },
+      "yellow": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#f5a017",
+            "position": 0
+          },
+          {
+            "color": "#c46512",
+            "position": 100
+          }
+        ]
+      },
+      "orange": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#ff5a1f",
+            "position": 0
+          },
+          {
+            "color": "#7f1c0f",
+            "position": 100
+          }
+        ]
+      },
+      "red": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#ed4646",
+            "position": 0
+          },
+          {
+            "color": "#7e1e1e",
+            "position": 100
+          }
+        ]
+      },
+      "pink": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#ec4899",
+            "position": 0
+          },
+          {
+            "color": "#831843",
+            "position": 100
+          }
+        ]
+      },
+      "purple": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#9c27b0",
+            "position": 0
+          },
+          {
+            "color": "#4a148c",
+            "position": 100
+          }
+        ]
+      },
+      "brown": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#795548",
+            "position": 0
+          },
+          {
+            "color": "#442c28",
+            "position": 100
+          }
+        ]
+      },
+      "gray": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#9f9f9f",
+            "position": 0
+          },
+          {
+            "color": "#575757",
+            "position": 100
+          }
+        ]
+      },
+      "chatbot": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "#1a91ff",
+            "position": 0
+          },
+          {
+            "color": "#263dec",
+            "position": 100
+          }
+        ]
+      }
+    },
+    "button": {
+      "gradient": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "rgba(0,0,0,0)",
+            "position": 0
+          },
+          {
+            "color": "rgba(0,0,0,0.1)",
+            "position": 100
+          }
+        ]
+      },
+      "gradient-hover": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "rgba(0,0,0,0)",
+            "position": 0
+          },
+          {
+            "color": "rgba(0,0,0,0.2)",
+            "position": 100
+          }
+        ]
+      },
+      "gradient-active": {
+        "type": "linear",
+        "stops": [
+          {
+            "color": "rgba(0,0,0,0.1)",
+            "position": 0
+          },
+          {
+            "color": "rgba(0,0,0,0)",
+            "position": 100
+          }
+        ]
+      }
+    }
+  },
+  "rules": {
+    "modes": {
+      "dark": {
+        "description": "Dark mode primarily uses the color range of Gray 120 to Gray 90 for background layers and for text and icons, use Gray 10, Gray 70, and Gray 80 colors.",
+        "base": "Gray 110",
+        "background": "#111114"
+      }
+    },
+    "layering": {
+      "dark": {
+        "description": "In the dark mode, layers become one step lighter with each added layer.",
+        "pattern": "progressive"
+      }
+    },
+    "accessibility": {
+      "description": "ComPOSt Design System offers consistent color palettes for each color role. This means that each color is assigned a specific relationship within the overall palette. These relationships ensure that color contrasts remain consistent across every application of color and that proper legibility and understanding are achieved when combining texts with color and interactive shapes with various backgrounds.",
+      "contrast": "Colors are meant to be easily understood and read by all users. Sufficient contrast makes things easier to find, identify, and interact with."
+    },
+    "purpose": {
+      "description": "The purpose of using color has to be precise and clear. Each color needs to support a message, status, or action that needs to be easily identifiable by users.",
+      "guidelines": [
+        "Each use of color is purposely bound to a specific meaning.",
+        "Red signifies dangerous situations, such as critical errors.",
+        "Green represents success messages.",
+        "Purple draws attention to news and offers.",
+        "Using color as decoration is exclusive to illustrations."
+      ]
+    }
+  }
+}

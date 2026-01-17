@@ -1,0 +1,53 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "version": "1.0.0",
+    "system": "compost",
+    "description": "Elevation and shadow tokens for the ComPOSt Design System",
+    "tokens": {
+        "xs": {
+            "value": "0 1px 2px 0 rgba(0, 0, 0, 0.05)",
+            "description": "Extra small shadow for subtle depth.",
+            "usage": "Subtle separation"
+        },
+        "sm": {
+            "value": "0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 0 0.5px 0 rgba(0, 0, 0, 0.3), inset 0 0 1px 0 rgba(0, 0, 0, 0.05), inset 0 0.25px 0 0.25px rgba(0, 0, 0, 0.05)",
+            "description": "Shadow 100: Default shadow style used for most boxes.",
+            "usage": "Standard cards, widgets, tables"
+        },
+        "md": {
+            "value": "0 5px 12px 0 rgba(0, 0, 0, 0.1), 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 0 0.5px 0 rgba(0, 0, 0, 0.3), inset 0 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 0.25px 0 0.25px rgba(255, 255, 255, 0.05)",
+            "description": "Shadow 200: Used for hover states of elements with Shadow 100.",
+            "usage": "Hover states, interactive elements"
+        },
+        "lg": {
+            "value": "0 10px 16px 0 rgba(0, 0, 0, 0.1), 0 1px 5px 0 rgba(0, 0, 0, 0.2), 0 0 0.5px 0 rgba(0, 0, 0, 0.3), inset 0 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 0.25px 0 0.25px rgba(255, 255, 255, 0.05)",
+            "description": "Shadow 300: Used for elements populated by action.",
+            "usage": "Select lists, popovers, menus"
+        },
+        "xl": {
+            "value": "0 20px 32px 0 rgba(0, 0, 0, 0.15), 0 1px 8px 0 rgba(0, 0, 0, 0.2), 0 0 0.5px 0 rgba(0, 0, 0, 0.3), inset 0 0 1px 0 rgba(255, 255, 255, 0.05), inset 0 0.25px 0 0.25px rgba(255, 255, 255, 0.05)",
+            "description": "Shadow 400: Strongest shadow used on floating elements.",
+            "usage": "Multi-select bars, panels, dragged elements"
+        },
+        "2xl": {
+            "value": "0 25px 50px -12px rgba(0, 0, 0, 0.25)",
+            "description": "Maximum shadow for items with significant depth.",
+            "usage": "Floating navigation, search suggestions"
+        },
+        "inner": {
+            "value": "inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)",
+            "description": "Inset shadow for pressed states.",
+            "usage": "Active states, pressed feel"
+        }
+    },
+    "rules": {
+        "description": "Soul-inspired elevation system focusing on 4 primary shadow levels to guide user focus.",
+        "guidelines": [
+            "Shadow 100 (sm): Default for cards and containers.",
+            "Shadow 200 (md): Primary hover state for level 1 containers.",
+            "Shadow 300 (lg): Elements revealed by action (popovers, select lists).",
+            "Shadow 400 (xl): Floating bars and panels without overlays.",
+            "Pressed States: Standardize on shadow-inner for active displacement."
+        ]
+    }
+}
