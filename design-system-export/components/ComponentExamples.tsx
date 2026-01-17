@@ -2728,11 +2728,11 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           <CardDescription>Special variants designed for order and expense management</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid sm:grid-cols-2 gap-4">
+          <div className="flex flex-col gap-3">
             {/* Iced Matcha Card Item */}
-            <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-start">
+            <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-center">
               <SettingsItemIcon>
-                <div className="h-14 w-14 rounded-lg overflow-hidden border border-border">
+                <div className="h-9 w-9 rounded-lg overflow-hidden">
                   <img
                     src="https://images.unsplash.com/photo-1542332213-31f87348057f?q=80&w=1000&auto=format&fit=crop"
                     className="h-full w-full object-cover"
@@ -2740,23 +2740,27 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                   />
                 </div>
               </SettingsItemIcon>
-              <SettingsItemContent className="gap-2.5">
+              <SettingsItemContent>
                 <SettingsItemTitle>Iced Matcha</SettingsItemTitle>
-                <div className="flex items-center gap-1 bg-layer-1 border border-border rounded-lg p-0.5 w-fit">
-                  <Button variant="invisible" size="icon-sm" className="h-7 w-7 rounded-md"><Minus className="h-[18px] w-[18px]" /></Button>
-                  <span className="font-bold px-2 text-sm">2</span>
-                  <Button variant="invisible" size="icon-sm" className="h-7 w-7 rounded-md"><Plus className="h-[18px] w-[18px]" /></Button>
-                </div>
               </SettingsItemContent>
-              <SettingsItemAction className="self-start pt-0.5">
-                <span className="text-sm font-mono font-bold">$11.00</span>
+              <SettingsItemAction className="flex items-center gap-6">
+                <div className="flex items-center gap-1 bg-layer-1 border border-border rounded-lg p-0.5">
+                  <Button variant="invisible" size="icon-sm" className="h-7 w-7 rounded-md text-stone-900 dark:text-stone-100">
+                    <Minus className="h-[18px] w-[18px]" />
+                  </Button>
+                  <span className="font-bold px-2 text-sm text-stone-900 dark:text-stone-100">2</span>
+                  <Button variant="invisible" size="icon-sm" className="h-7 w-7 rounded-md text-stone-900 dark:text-stone-100">
+                    <Plus className="h-[18px] w-[18px]" />
+                  </Button>
+                </div>
+                <span className="text-sm font-mono font-bold text-stone-900 dark:text-stone-100">$11.00</span>
               </SettingsItemAction>
             </SettingsItem>
 
             {/* Cappuccino Card Item */}
-            <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-start">
+            <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-center">
               <SettingsItemIcon>
-                <div className="h-14 w-14 rounded-lg overflow-hidden border border-border">
+                <div className="h-9 w-9 rounded-lg overflow-hidden">
                   <img
                     src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=1000&auto=format&fit=crop"
                     className="h-full w-full object-cover"
@@ -2764,14 +2768,14 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                   />
                 </div>
               </SettingsItemIcon>
-              <SettingsItemContent className="gap-2.5">
+              <SettingsItemContent>
                 <SettingsItemTitle>Cappuccino</SettingsItemTitle>
-                <Button variant="secondary" size="icon-sm" className="mt-0.5">
-                  <Pencil className="h-[18px] w-[18px] text-muted-foreground" />
-                </Button>
               </SettingsItemContent>
-              <SettingsItemAction className="self-start pt-0.5">
-                <span className="text-sm font-mono font-bold">$4.50</span>
+              <SettingsItemAction className="flex items-center gap-6">
+                <Button variant="ghost" size="icon-sm" className="h-8 w-8 text-stone-900 dark:text-stone-100">
+                  <Pencil className="h-[18px] w-[18px]" />
+                </Button>
+                <span className="text-sm font-mono font-bold text-stone-900 dark:text-stone-100">$4.50</span>
               </SettingsItemAction>
             </SettingsItem>
           </div>

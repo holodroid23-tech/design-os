@@ -134,15 +134,15 @@ function Calendar({
         caption: "flex justify-center pt-1 relative items-center mb-2",
         caption_label: "hidden",
         nav: "hidden",
-        table: "w-full border-collapse space-y-0",
-        head_row: "",
+        table: "w-full border-separate border-spacing-1",
+        head_row: "flex gap-1",
         head_cell:
-          "text-muted-foreground font-normal text-[0.8rem] p-0",
-        row: "",
-        cell: "text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+          "text-muted-foreground rounded-md w-11 h-11 font-normal text-[0.8rem] flex items-center justify-center",
+        row: "flex w-full mt-2 gap-1",
+        cell: "h-11 w-11 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
         day: cn(
           buttonVariants({ variant: "ghost" }),
-          "h-9 w-9 p-0 font-normal aria-selected:opacity-100"
+          "h-11 w-11 p-0 font-normal aria-selected:opacity-100"
         ),
         day_range_end: "day-range-end",
         day_selected:
