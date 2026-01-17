@@ -7,7 +7,7 @@ import { loadProductData, hasExportZip, getExportZipUrl } from '@/lib/product-lo
 import { getAllSectionIds, getSectionScreenDesigns } from '@/lib/section-loader'
 
 export function ExportPage() {
-  const productData = useMemo(() => loadProductData(), [])
+  const productData = loadProductData()
 
   // Get section stats
   const sectionStats = useMemo(() => {

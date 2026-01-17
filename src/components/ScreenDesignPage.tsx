@@ -19,7 +19,7 @@ export function ScreenDesignPage() {
   const isDragging = useRef(false)
 
   // Load product data to get section title
-  const productData = useMemo(() => loadProductData(), [])
+  const productData = loadProductData()
   const section = productData.roadmap?.sections.find((s) => s.id === sectionId)
 
   // Handle resize drag

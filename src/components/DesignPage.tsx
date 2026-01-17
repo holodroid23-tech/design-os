@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { AppLayout } from '@/components/AppLayout'
@@ -64,7 +63,7 @@ function getDesignPageStepStatuses(
 }
 
 export function DesignPage() {
-  const productData = useMemo(() => loadProductData(), [])
+  const productData = loadProductData()
   const designSystem = productData.designSystem
   const shell = productData.shell
 

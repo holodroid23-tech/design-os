@@ -47,7 +47,7 @@ export function SectionPage() {
   const navigate = useNavigate()
 
   // Load product data to get section info
-  const productData = useMemo(() => loadProductData(), [])
+  const productData = loadProductData()
   const sections = productData.roadmap?.sections || []
   const section = sections.find((s) => s.id === sectionId)
   const currentIndex = sections.findIndex((s) => s.id === sectionId)

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { AlertTriangle, X } from 'lucide-react'
 import { loadProductData } from '@/lib/product-loader'
@@ -16,7 +16,7 @@ function getStorageKey(productName: string): string {
 }
 
 export function PhaseWarningBanner() {
-  const productData = useMemo(() => loadProductData(), [])
+  const productData = loadProductData()
   const [isDismissed, setIsDismissed] = useState(true) // Start dismissed to avoid flash
 
   const hasDataModel = !!productData.dataModel

@@ -31,7 +31,7 @@ interface PhaseInfo {
 
 function usePhaseStatuses(): PhaseInfo[] {
   const location = useLocation()
-  const productData = useMemo(() => loadProductData(), [])
+  const productData = loadProductData()
 
   // Calculate completion status for each phase
   const hasOverview = !!productData.overview

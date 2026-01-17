@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loadProductData } from '@/lib/product-loader'
 import { AppLayout } from '@/components/AppLayout'
@@ -39,7 +38,7 @@ function getProductPageStepStatuses(
 
 export function ProductPage() {
   const navigate = useNavigate()
-  const productData = useMemo(() => loadProductData(), [])
+  const productData = loadProductData()
 
   const hasOverview = !!productData.overview
   const hasRoadmap = !!productData.roadmap

@@ -33,7 +33,7 @@ function getSectionProgress(sectionId: string): SectionProgress {
 
 export function SectionsPage() {
   const navigate = useNavigate()
-  const productData = useMemo(() => loadProductData(), [])
+  const productData = loadProductData()
 
   const sections = productData.roadmap?.sections || []
 

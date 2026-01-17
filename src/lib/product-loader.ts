@@ -120,15 +120,23 @@ export function parseProductRoadmap(md: string): ProductRoadmap | null {
   if (!md || !md.trim()) return null
 
   try {
+    // Normalize line endings to \n (handle Windows \r\n)
+    const normalized = md.replace(/\r\n/g, '\n')
+    
     const sections: Section[] = []
 
     // Match sections with pattern ### N. Title
-    const sectionMatches = [...md.matchAll(/### (\d+)\.\s*(.+)\n+([\s\S]*?)(?=\n### |\n## |\n#[^#]|$)/g)]
+    // Updated regex to handle line endings better
+    const sectionMatches = [...normalized.matchAll(/### (\d+)\.\s*(.+)\n+([\s\S]*?)(?=\n### |\n## |\n#[^#]|$)/g)]
+
+    console.log('🔎 Roadmap parsing - section matches found:', sectionMatches.length)
 
     for (const match of sectionMatches) {
       const order = parseInt(match[1], 10)
       const title = match[2].trim()
       const description = match[3].trim()
+
+      console.log(`  Section ${order}: "${title}"`)
 
       sections.push({
         id: slugify(title),
@@ -142,11 +150,14 @@ export function parseProductRoadmap(md: string): ProductRoadmap | null {
     sections.sort((a, b) => a.order - b.order)
 
     if (sections.length === 0) {
+      console.log('⚠️ No sections found in roadmap')
       return null
     }
 
+    console.log(`✅ Parsed ${sections.length} sections`)
     return { sections }
-  } catch {
+  } catch (err) {
+    console.error('❌ Error parsing roadmap:', err)
     return null
   }
 }
@@ -158,9 +169,15 @@ export function loadProductData(): ProductData {
   const overviewContent = productFiles['/product/product-overview.md']
   const roadmapContent = productFiles['/product/product-roadmap.md']
 
+  console.log('🔍 Product files available:', Object.keys(productFiles))
+  console.log('📄 Roadmap content:', roadmapContent ? 'Found' : 'Missing')
+  
+  const parsedRoadmap = roadmapContent ? parseProductRoadmap(roadmapContent) : null
+  console.log('📋 Parsed roadmap:', parsedRoadmap)
+
   return {
     overview: overviewContent ? parseProductOverview(overviewContent) : null,
-    roadmap: roadmapContent ? parseProductRoadmap(roadmapContent) : null,
+    roadmap: parsedRoadmap,
     dataModel: loadDataModel(),
     designSystem: loadDesignSystem(),
     shell: loadShellInfo(),
