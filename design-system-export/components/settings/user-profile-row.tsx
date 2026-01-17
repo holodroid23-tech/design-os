@@ -19,7 +19,7 @@ const UserProfileRow = React.forwardRef<HTMLButtonElement, UserProfileRowProps>(
             <button
                 ref={ref}
                 className={cn(
-                    "bg-layer-1 hover:bg-layer-hover active:bg-layer-active active:scale-[0.99] border-border-1 text-primary flex w-full items-center justify-between rounded-xl border p-4 transition-all duration-75",
+                    "hover:bg-layer-hover active:bg-layer-active active:scale-[0.99] text-foreground flex w-full items-center justify-between p-4 transition-all duration-75",
                     className
                 )}
                 {...props}

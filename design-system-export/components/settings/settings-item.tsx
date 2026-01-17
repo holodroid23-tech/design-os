@@ -16,7 +16,7 @@ const SettingsItem = React.forwardRef<HTMLButtonElement, SettingsItemProps>(
             <button
                 ref={ref}
                 className={cn(
-                    "bg-layer-1 text-primary hover:bg-layer-hover active:bg-layer-active active:scale-[0.99] flex w-full items-start justify-between px-5 py-4 transition-all duration-75",
+                    "bg-layer-1 text-foreground hover:bg-layer-hover active:bg-layer-active active:scale-[0.99] flex w-full items-start justify-between px-5 py-4 transition-all duration-75",
                     className
                 )}
                 {...props}

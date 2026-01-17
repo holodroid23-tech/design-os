@@ -20,7 +20,7 @@ import {
     SettingsItemTitle,
     SettingsItemAction,
     SettingsItemDescription,
-} from "../ui/settings-item"
+} from "../settings/settings-item"
 import { UserProfileRow } from "@/components/settings/user-profile-row"
 import { SettingsFooter } from "@/components/settings/settings-footer"
 import { Badge } from "../ui/badge"

@@ -72,6 +72,14 @@
   --color-on-layer-danger: #da2828;
   --color-on-layer-success: #15a43e;
   --color-on-layer-recent: #691cd4;
+
+  /* On-layer colors from Design System */
+  --color-on-layer-primary: #f9f9fa;
+  --color-on-layer-secondary: #b5b5b7;
+  --color-on-layer-tertiary: #6d6d71;
+
+  /* Mapping semantic names to DS tokens */
+  --color-tertiary: var(--color-on-layer-tertiary);
 }
 
 /* Shadcn theme integration */
@@ -280,19 +288,19 @@
   .no-scrollbar::-webkit-scrollbar {
     display: none; /* Chrome, Safari, and Opera */
   }
+}
 
-  /* Custom typography utilities from Design System */
-  @utility text-regular-semibold {
-    font-size: 16px;
-    line-height: 24px;
-    font-weight: 600;
-  }
-  @utility text-small {
-    font-size: 14px;
-    line-height: 20px;
-  }
-  @utility text-support-small {
-    font-size: 12px;
-    line-height: 16px;
-  }
+/* Custom typography utilities from Design System */
+@utility text-regular-semibold {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+}
+@utility text-small {
+  font-size: 14px;
+  line-height: 20px;
+}
+@utility text-support-small {
+  font-size: 12px;
+  line-height: 16px;
 }

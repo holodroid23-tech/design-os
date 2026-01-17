@@ -1483,27 +1483,29 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                 <Label className="text-base font-semibold">Tax radio buttons</Label>
                 <p className="text-sm text-stone-500 dark:text-stone-400">Specialized selection with badges and actions</p>
               </div>
-              <Button
-                variant="secondary"
-                size="icon-lg"
-                onClick={handleAddTax}
-              >
-                <Plus className="h-5 w-5 text-green-500" />
-              </Button>
             </div>
 
             <SettingsItem className="border-none bg-transparent px-0 shadow-none h-auto py-2">
               <SettingsItemContent>
-                <Label htmlFor="use-taxes-section" className="text-base font-medium text-foreground cursor-pointer">
-                  Use taxes
-                </Label>
+                <div className="flex items-center gap-4">
+                  <Label htmlFor="use-taxes-section" className="text-base font-medium text-foreground cursor-pointer">
+                    Use taxes
+                  </Label>
+                  <Switch
+                    id="use-taxes-section"
+                    checked={useTaxes}
+                    onCheckedChange={setUseTaxes}
+                  />
+                </div>
               </SettingsItemContent>
               <SettingsItemAction>
-                <Switch
-                  id="use-taxes-section"
-                  checked={useTaxes}
-                  onCheckedChange={setUseTaxes}
-                />
+                <Button
+                  variant="secondary"
+                  size="icon-lg"
+                  onClick={handleAddTax}
+                >
+                  <Plus className="h-5 w-5 text-white" />
+                </Button>
               </SettingsItemAction>
             </SettingsItem>
 
