@@ -96,7 +96,11 @@ export function SectionPage() {
 
         {/* Step 1: Section Overview (Spec) */}
         <StepIndicator step={1} status={stepStatuses[0]}>
-          <SpecCard spec={sectionData?.specParsed || null} sectionTitle="Section Overview" />
+          <SpecCard 
+            spec={sectionData?.specParsed || null} 
+            rawContent={sectionData?.spec || null}
+            sectionTitle="Section Overview" 
+          />
         </StepIndicator>
 
         {/* Step 2: Sample Data */}

@@ -7,16 +7,56 @@ import type { ParsedSpec } from '@/types/section'
 
 interface SpecCardProps {
   spec: ParsedSpec | null
+  rawContent?: string | null
   sectionTitle?: string
 }
 
-export function SpecCard({ spec, sectionTitle }: SpecCardProps) {
+export function SpecCard({ spec, rawContent, sectionTitle }: SpecCardProps) {
   const [userFlowsOpen, setUserFlowsOpen] = useState(false)
   const [uiReqOpen, setUiReqOpen] = useState(false)
 
   // Empty state
-  if (!spec) {
+  if (!spec && !rawContent) {
     return <EmptyState type="spec" />
+  }
+
+  // If rawContent is provided and we want to display "as is"
+  if (rawContent) {
+    return (
+      <Card className="shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg font-semibold">
+            {sectionTitle || 'Section Specification'}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="max-w-none space-y-1">
+            {rawContent.split('\n').map((line, i) => {
+              const trimmed = line.trim()
+              if (trimmed.startsWith('# ')) {
+                return <h1 key={i} className="text-2xl font-bold mb-4 mt-6 first:mt-0 text-foreground">{trimmed.replace('# ', '')}</h1>
+              }
+              if (trimmed.startsWith('## ')) {
+                return <h2 key={i} className="text-xl font-semibold mb-3 mt-6 text-foreground">{trimmed.replace('## ', '')}</h2>
+              }
+              if (trimmed.startsWith('### ')) {
+                return <h3 key={i} className="text-lg font-semibold mb-2 mt-4 text-foreground">{trimmed.replace('### ', '')}</h3>
+              }
+              if (trimmed.startsWith('- ')) {
+                return (
+                  <div key={i} className="flex items-start gap-2 py-0.5 ml-4">
+                    <span className="w-1.5 h-1.5 rounded-full bg-stone-400 dark:bg-stone-500 mt-2 shrink-0" />
+                    <span className="text-sm text-foreground">{trimmed.replace('- ', '')}</span>
+                  </div>
+                )
+              }
+              if (!trimmed) return <div key={i} className="h-2" />
+              return <p key={i} className="text-sm text-foreground leading-relaxed">{line}</p>
+            })}
+          </div>
+        </CardContent>
+      </Card>
+    )
   }
 
   return (
