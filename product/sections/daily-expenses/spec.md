@@ -40,7 +40,7 @@
 - **Empty State**: Shows a clear prompt to "Start logging today's expenses" when no items have been added.
 
 ## Metadata & State
-- **Temporal Logic**: All entries are pinned to the current date and clear from this view automatically the next day (moving to historical reports in the Activity section).
+- **Temporal Logic**: All entries are pinned to the current date and clear from this view automatically the next day (they are then available in activity section).
 - **Analytics Sync**: Every addition or edit triggers an immediate update to the store's net profit calculations in the Activity dashboard.
 
 ## Configuration
