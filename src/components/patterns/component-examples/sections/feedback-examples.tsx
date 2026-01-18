@@ -290,14 +290,14 @@ export function EmptyStatesExamplesCard() {
       <CardContent>
         <div className="grid md:grid-cols-2 gap-8">
           <EmptyState
-            icon={<Search className="h-[30px] w-[30px]" />}
+            icon={Search}
             title="No results found"
             description="We couldn't find any items matching your search terms. Please try again with different keywords."
             action={<Button variant="secondary">Clear search</Button>}
           />
 
           <EmptyState
-            icon={<ShoppingCart className="h-[30px] w-[30px]" />}
+            icon={ShoppingCart}
             title="Your cart is empty"
             description="Looks like you haven't added any items to the cart yet."
             action={

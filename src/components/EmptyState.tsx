@@ -1,5 +1,6 @@
 import { FileText, Map, ClipboardList, Database, Package, Boxes, Palette, PanelLeft, Layout } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
+import { IconTile } from '@/components/atoms/icon'
 
 type EmptyStateType =
   | 'overview'
@@ -85,9 +86,7 @@ export function EmptyState({ type }: EmptyStateProps) {
     <Card className="shadow-sm border-dashed">
       <CardContent className="py-8">
         <div className="flex flex-col items-center text-center max-w-sm mx-auto">
-          <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-3">
-            <Icon className="w-5 h-5 text-muted-foreground" strokeWidth={1.5} />
-          </div>
+          <IconTile icon={Icon} size="medium" tone="neutral" className="mb-3" />
           <h3 className="text-base font-medium text-muted-foreground mb-1">
             {title}
           </h3>

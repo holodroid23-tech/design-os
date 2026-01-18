@@ -93,6 +93,32 @@ function OrderTabsDemo() {
 function OrderExpandableDemo() {
   const [open, setOpen] = useState(false)
 
+  const orderItems = useMemo(
+    () => [
+      { name: 'Cappuccino', qty: 2, unitPrice: 4.5 },
+      { name: 'Macchiato', qty: 1, unitPrice: 3.25 },
+      { name: 'Americano', qty: 1, unitPrice: 4.75 },
+    ],
+    []
+  )
+
+  const { subtotal, tax, total, summary } = useMemo(() => {
+    const subtotalValue = orderItems.reduce((acc, item) => acc + item.qty * item.unitPrice, 0)
+    const taxValue = 1.5
+    const totalValue = subtotalValue + taxValue
+
+    const baseSummary = orderItems
+      .map((item) => (item.qty > 1 ? `${item.name} (${item.qty})` : item.name))
+      .join(', ')
+
+    const maxChars = 30
+    const summaryValue = baseSummary.length > maxChars ? `${baseSummary.slice(0, maxChars - 3)}...` : baseSummary
+
+    return { subtotal: subtotalValue, tax: taxValue, total: totalValue, summary: summaryValue }
+  }, [orderItems])
+
+  const formatMoney = (value: number) => `$${value.toFixed(2)}`
+
   return (
     <div className="w-full max-w-md">
       <div className="bg-layer-2 border border-border rounded-2xl overflow-hidden">
@@ -101,13 +127,13 @@ function OrderExpandableDemo() {
           className="w-full flex items-center justify-between px-5 py-4 text-left hover:bg-layer-1/50 transition-colors"
         >
           <div>
-            <div className="text-sm font-semibold">Order summary</div>
-            <div className="text-xs text-muted-foreground">Tap to {open ? 'collapse' : 'expand'}</div>
+            <div className="text-sm font-semibold">{formatMoney(total)}</div>
+            <div className="text-xs text-muted-foreground">{summary}</div>
           </div>
           <SystemIcon
             icon={ChevronDown}
             size="regular"
-            className={cn('text-muted-foreground transition-transform', open && 'rotate-180')}
+            className={cn('text-muted-foreground transition-transform', !open && 'rotate-180')}
             aria-hidden="true"
           />
         </button>
@@ -118,15 +144,15 @@ function OrderExpandableDemo() {
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Items</span>
-                <span className="font-mono">$29.90</span>
+                <span className="font-mono">{formatMoney(subtotal)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Tax</span>
-                <span className="font-mono">$2.10</span>
+                <span className="font-mono">{formatMoney(tax)}</span>
               </div>
               <div className="flex justify-between font-semibold">
                 <span>Total</span>
-                <span className="font-mono">$32.00</span>
+                <span className="font-mono">{formatMoney(total)}</span>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3">
