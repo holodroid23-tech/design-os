@@ -72,13 +72,24 @@ Which view should I create first?"
 
 If there's only one obvious view, proceed directly.
 
-## Step 5: Invoke the Frontend Design Skill
+## Step 5: Invoke the Screen Coding Workflow v3 Skill
 
-Before creating the screen design, read the `frontend-design` skill to ensure high-quality design output.
+Before creating the screen design, read the `design analysis - implementation` skill to ensure high-quality design output following the mock-driven workflow.
 
-Read the file at `.claude/skills/frontend-design/SKILL.md` and follow its guidance for creating distinctive, production-grade interfaces.
+Read the file at `.claude/skills/design analysis - implementation.md` and follow its guidance for:
+- **Visual Reset**: Treating mocks as layout wireframes only.
+- **DS Supremacy**: Using comPOST Design System tokens and components.
+- **No Overlays**: Rendering all components flat/inline.
 
-## Step 6: Create the Props-Based Component
+## Step 6: Scan for Mocks
+
+Check if `product/sections/[section-id]/mocks/` exists and contains any image files (e.g., `.png`, `.jpg`). 
+
+If mocks exist:
+- Read the mock(s) to understand the intended layout and information hierarchy.
+- Use them as the primary source for structure, but ignore their visual styling.
+
+## Step 7: Create the Props-Based Component
 
 Create the main component file at `src/sections/[section-id]/components/[ViewName].tsx`.
 
@@ -90,11 +101,13 @@ The component MUST:
 - Accept all data via props (never import data.json directly)
 - Accept callback props for all actions
 - Be fully self-contained and portable
+- **Render Flat**: No overlays, modals, or absolute positioning for "popup" content.
 
 Example:
 
 ```tsx
 import type { InvoiceListProps } from '@/../product/sections/[section-id]/types'
+import { Card, Button } from '@/components/ui'
 
 export function InvoiceList({
   invoices,
@@ -104,21 +117,27 @@ export function InvoiceList({
   onCreate
 }: InvoiceListProps) {
   return (
-    <div className="max-w-4xl mx-auto">
-      {/* Component content here */}
+    <div className="max-w-4xl mx-auto p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl font-bold text-onLayer-primary">Invoices</h1>
+        <Button onClick={onCreate}>Create Invoice</Button>
+      </div>
 
-      {/* Example: Using a callback */}
-      <button onClick={onCreate}>Create Invoice</button>
-
-      {/* Example: Mapping data with callbacks */}
-      {invoices.map(invoice => (
-        <div key={invoice.id}>
-          <span>{invoice.clientName}</span>
-          <button onClick={() => onView?.(invoice.id)}>View</button>
-          <button onClick={() => onEdit?.(invoice.id)}>Edit</button>
-          <button onClick={() => onDelete?.(invoice.id)}>Delete</button>
-        </div>
-      ))}
+      <div className="grid gap-4">
+        {invoices.map(invoice => (
+          <Card key={invoice.id} className="p-4 flex items-center justify-between">
+            <div>
+              <p className="font-medium text-onLayer-primary">{invoice.clientName}</p>
+              <p className="text-sm text-onLayer-secondary">{invoice.invoiceNumber}</p>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="ghost" onClick={() => onView?.(invoice.id)}>View</Button>
+              <Button variant="ghost" onClick={() => onEdit?.(invoice.id)}>Edit</Button>
+              <Button variant="ghost" onClick={() => onDelete?.(invoice.id)}>Delete</Button>
+            </div>
+          </Card>
+        ))}
+      </div>
     </div>
   )
 }
@@ -128,40 +147,24 @@ export function InvoiceList({
 
 - **Mobile responsive:** Use Tailwind responsive prefixes (`sm:`, `md:`, `lg:`) and ensure the design layout works gracefully on mobile, tablet and desktop screen sizes.
 - **Light & dark mode:** Use `dark:` variants for all colors
-- **Use design tokens:** If defined, apply the product's color palette and typography
-- **Follow the frontend-design skill:** Create distinctive, memorable interfaces
+- **Use design tokens:** Use the semantic tokens defined in the design system (e.g., `bg-layer-level-1`, `text-onLayer-primary`).
+- **Follow the V3 Skill**: Use layout from mock, visuals from DS.
 
-### Applying Design Tokens
+## Step 8: Log Interactions
 
-**If `/product/design-system/colors.json` exists:**
-- Use the primary color for buttons, links, and key accents
-- Use the secondary color for tags, highlights, secondary elements
-- Use the neutral color for backgrounds, text, and borders
-- Example: If primary is `lime`, use `lime-500`, `lime-600`, etc. for primary actions
+Create or update `product/sections/[section-id]/interactions.md` with a simplified list of what happens when users interact with the screen.
 
-**If `/product/design-system/typography.json` exists:**
-- Note the font choices for reference in comments
-- The fonts will be applied at the app level, but use appropriate font weights
+Example `interactions.md`:
+```markdown
+# Interactions: Invoice List
 
-**If design tokens don't exist:**
-- Fall back to `stone` for neutrals and `lime` for accents (Design OS defaults)
+- **Create Invoice**: Opens the create form (inline).
+- **View Invoice**: Navigates to the detail view for the specific invoice.
+- **Edit Invoice**: Opens the edit form (inline).
+- **Delete Invoice**: Shows a confirmation prompt (inline).
+```
 
-### What to Include
-
-- Implement ALL user flows and UI requirements from the spec
-- Use the prop data (not hardcoded values)
-- Include realistic UI states (hover, active, etc.)
-- Use the callback props for all interactive elements
-- Handle optional callbacks with optional chaining: `onClick={() => onDelete?.(id)}`
-
-### What NOT to Include
-
-- No `import data from` statements - data comes via props
-- No features not specified in the spec
-- No routing logic - callbacks handle navigation intent
-- No navigation elements (shell handles navigation)
-
-## Step 7: Create Sub-Components (If Needed)
+## Step 9: Create Sub-Components (If Needed)
 
 For complex views, break down into sub-components. Each sub-component should also be props-based.
 
@@ -252,7 +255,98 @@ The preview wrapper:
 - Is NOT exported to the user's codebase - it's only for Design OS
 - **Will render inside the shell** if one has been designed
 
-## Step 9: Create Component Index
+## Step 9: Create Sub-Components (If Needed)
+
+For complex views, break down into sub-components. Each sub-component should also be props-based.
+
+Create sub-components at `src/sections/[section-id]/components/[SubComponent].tsx`.
+
+Example:
+
+```tsx
+import type { Invoice } from '@/../product/sections/[section-id]/types'
+
+interface InvoiceRowProps {
+  invoice: Invoice
+  onView?: () => void
+  onEdit?: () => void
+  onDelete?: () => void
+}
+
+export function InvoiceRow({ invoice, onView, onEdit, onDelete }: InvoiceRowProps) {
+  return (
+    <div className="flex items-center justify-between p-4 border-b">
+      <div>
+        <p className="font-medium">{invoice.clientName}</p>
+        <p className="text-sm text-stone-500">{invoice.invoiceNumber}</p>
+      </div>
+      <div className="flex gap-2">
+        <button onClick={onView}>View</button>
+        <button onClick={onEdit}>Edit</button>
+        <button onClick={onDelete}>Delete</button>
+      </div>
+    </div>
+  )
+}
+```
+
+Then import and use in the main component:
+
+```tsx
+import { InvoiceRow } from './InvoiceRow'
+
+export function InvoiceList({ invoices, onView, onEdit, onDelete }: InvoiceListProps) {
+  return (
+    <div>
+      {invoices.map(invoice => (
+        <InvoiceRow
+          key={invoice.id}
+          invoice={invoice}
+          onView={() => onView?.(invoice.id)}
+          onEdit={() => onEdit?.(invoice.id)}
+          onDelete={() => onDelete?.(invoice.id)}
+        />
+      ))}
+    </div>
+  )
+}
+```
+
+## Step 10: Create the Preview Wrapper
+
+Create a preview wrapper at `src/sections/[section-id]/[ViewName].tsx` (note: this is in the section root, not in components/).
+
+This wrapper is what Design OS renders. It imports the sample data and feeds it to the props-based component.
+
+Example:
+
+```tsx
+import data from '@/../product/sections/[section-id]/data.json'
+import { InvoiceList } from './components/InvoiceList'
+
+export default function InvoiceListPreview() {
+  return (
+    <InvoiceList
+      invoices={data.invoices}
+      onView={(id) => console.log('View invoice:', id)}
+      onEdit={(id) => console.log('Edit invoice:', id)}
+      onDelete={(id) => console.log('Delete invoice:', id)}
+      onCreate={() => console.log('Create new invoice')}
+    />
+  )
+}
+```
+
+The preview wrapper:
+
+- Has a `default` export (required for Design OS routing)
+- Imports sample data from data.json
+- Passes data to the component via props
+- Provides console.log handlers for callbacks (for testing interactions)
+- Is NOT exported to the user's codebase - it's only for Design OS
+- **Will render inside the shell** if one has been designed
+
+## Step 11: Create Component Index
 
 Create an index file at `src/sections/[section-id]/components/index.ts` to cleanly export all components.
 
@@ -264,7 +358,7 @@ export { InvoiceRow } from './InvoiceRow'
 // Add other sub-components as needed
 ```
 
-## Step 10: Confirm and Next Steps
+## Step 12: Confirm and Next Steps
 
 Let the user know:
 
@@ -279,6 +373,10 @@ Let the user know:
 **Preview wrapper** (for Design OS only):
 
 - `src/sections/[section-id]/[ViewName].tsx`
+
+**Interaction log**:
+
+- `product/sections/[section-id]/interactions.md`
 
 **Important:** Restart your dev server to see the changes.
 
@@ -298,7 +396,7 @@ If the spec indicates additional views are needed:
 
 ## Important Notes
 
-- ALWAYS read the `frontend-design` skill before creating screen designs
+- ALWAYS read the `design analysis - implementation` skill before creating screen designs
 - Components MUST be props-based - never import data.json in exportable components
 - The preview wrapper is the ONLY file that imports data.json
 - Use TypeScript interfaces from types.ts for all props
@@ -307,3 +405,4 @@ If the spec indicates additional views are needed:
 - Sub-components should also be props-based for maximum portability
 - Apply design tokens when available for consistent branding
 - Screen designs render inside the shell when viewed in Design OS (if shell exists)
+- **Render Flat**: No overlays or modals in section components.

@@ -61,25 +61,119 @@
   --color-purple-900: oklch(0.306 0.135 303.9);
 
   /* Semantic Colors from DS */
+  /* Layer */
+  --color-layer-level-0: #111114;
+  --color-layer-level-1: #24242b;
+  --color-layer-level-2: #37373e;
+  --color-layer-level-3: #505057;
+  --color-layer-hover: rgba(0,0,0,0.05);
+  --color-layer-active: rgba(0,0,0,0.1);
   --color-layer-info: #d5efff;
   --color-layer-warning: #fcf6c5;
   --color-layer-danger: #fee2e2;
   --color-layer-success: #dcfce4;
   --color-layer-recent: #f0e7ff;
+  --color-layer-main-navigation: #111114;
+  --color-layer-highlight: #f6d84e;
+  --color-layer-transparent: rgba(255,255,255,0.01);
 
-  --color-on-layer-info: #0791f0; /* Derived from info tooltip */
-  --color-on-layer-warning: #e1ab11;
-  --color-on-layer-danger: #da2828;
-  --color-on-layer-success: #15a43e;
-  --color-on-layer-recent: #691cd4;
+  /* On Layer */
+  --color-onLayer-primary: #f9f9fa;
+  --color-onLayer-secondary: #b5b5b7;
+  --color-onLayer-tertiary: #6d6d71;
+  --color-onLayer-inverse: #f9f9fa;
+  --color-onLayer-interactive: #148134;
+  --color-onLayer-warning: #e1ab11;
+  --color-onLayer-danger: #da2828;
+  --color-onLayer-success: #15a43e;
+  --color-onLayer-recent: #691cd4;
 
-  /* On-layer colors from Design System */
-  --color-on-layer-primary: #f9f9fa;
-  --color-on-layer-secondary: #b5b5b7;
-  --color-on-layer-tertiary: #6d6d71;
+  /* Border */
+  --color-border-primary: rgba(0,0,0,0.2);
+  --color-border-secondary: rgba(0,0,0,0.1);
+  --color-border-inverse: rgba(255,255,255,0.2);
+  --color-border-info: #56a0ff;
+  --color-border-info-emphasis: #003beb;
+  --color-border-warning: #f6d84e;
+  --color-border-warning-emphasis: #f1c21b;
+  --color-border-danger: #f67373;
+  --color-border-danger-emphasis: #da2828;
+  --color-border-success: #85f0a3;
+  --color-border-success-emphasis: #20c54f;
+  --color-border-recent: #b180ff;
+  --color-border-recent-emphasis: #7c2df0;
+  --color-border-focus-button: #24242b;
+  --color-border-focus-ring: #9d9da0;
+  --color-border-focus-ring-inner: rgba(255,255,255,0.95);
+  --color-border-focus-ring-inverse: #85c7ff;
+  --color-border-focus-ring-inner-inverse: rgba(0,0,0,0.7);
+  --color-border-focus-form: #9d9da0;
+
+  /* Overlay */
+  --color-overlay-default: rgba(0,0,0,0.7);
+  --color-overlay-inverse: rgba(255,255,255,0.8);
+
+  /* Link */
+  --color-link-primary: #15a43e;
+  --color-link-secondary: #85c7ff;
+  --color-link-tertiary: #b5b5b7;
+  --color-link-inverse: #f9f9fa;
+  --color-link-visited: #691cd4;
+
+  /* Button */
+  --color-button-primary: #15a43e;
+  --color-button-light: rgba(255,255,255,0.7);
+  --color-button-ghost: rgba(255,255,255,0);
+  --color-button-invisible: rgba(255,255,255,0);
+  --color-button-inverse: rgba(255,255,255,0);
+  --color-button-request: #15a43e;
+  --color-button-danger: #da2828;
+  --color-button-purchase: #f6d84e;
+  --color-button-ghost-hover: rgba(0,0,0,0.05);
+  --color-button-invisible-hover: rgba(0,0,0,0.05);
+  --color-button-inverse-hover: rgba(255,255,255,0.05);
+  --color-button-ghost-active: rgba(0,0,0,0.1);
+  --color-button-invisible-active: rgba(0,0,0,0.1);
+  --color-button-inverse-active: rgba(255,255,255,0.1);
+  --color-button-invisible-applied: rgba(208,226,255,0.5);
+
+  /* Status/Semantic (Legacy Mapping) */
+  --color-on-layer-info: var(--color-onLayer-interactive);
+  --color-on-layer-warning: var(--color-onLayer-warning);
+  --color-on-layer-danger: var(--color-onLayer-danger);
+  --color-on-layer-success: var(--color-onLayer-success);
+  --color-on-layer-recent: var(--color-onLayer-recent);
+
+  /* Brand */
+  --color-brand-ocean: #42c9f2;
+  --color-brand-dark-blue: #000066;
+  --color-brand-plum: #6666ff;
+  --color-brand-coral: #ff5a1f;
+  --color-brand-charcoal: #111114;
+  --color-brand-sky-blue: #e3f1ff;
+  --color-brand-sand: #ede9e3;
+  --color-brand-teal: #51f7e5;
+  --color-brand-royal-blue: #003beb;
+  --color-brand-inverse: #ffffff;
+
+  /* Sentiment */
+  --color-sentiment-positive-strongly: #148134;
+  --color-sentiment-positive: #20c54f;
+  --color-sentiment-neutral: #858589;
+  --color-sentiment-negative: #da2828;
+  --color-sentiment-negative-strongly: #c52020;
+  --color-sentiment-mixed: #ff5a1f;
+  --color-sentiment-no: #cececf;
+
+  /* Loader */
+  --color-loader-spinner-light: #0791f0;
+  --color-loader-spinner-dark: #063bcd;
+  --color-loader-spinner-inverse: rgba(255,255,255,0.85);
+  --color-loader-skeleton: rgba(0,0,0,0.05);
+  --color-loader-skeleton-inverse: rgba(255,255,255,0.1);
 
   /* Mapping semantic names to DS tokens */
-  --color-tertiary: var(--color-on-layer-tertiary);
+  --color-tertiary: var(--color-onLayer-tertiary);
 }
 
 /* Shadcn theme integration */

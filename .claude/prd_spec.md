@@ -40,7 +40,7 @@ ComPOSt is a modern, mobile-first Point of Sale (POS) system for small businesse
     - Push the previous POS device to a locked state
     - Transfer order-writing capability to the new device
 
-## Authentication & Onboarding
+## Onboarding & Security
 
 ### Registration (New Store)
 - **Create Store flow**:

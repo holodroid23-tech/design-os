@@ -14,8 +14,8 @@ PIN-gated dashboard with role-based views (Cashier "My Shift" vs Manager "Comman
 ### 4. Settings & Configuration
 Manage inventory and expense templates, staff/users, taxes, payment methods, printer pairing, and receipt customization.
 
-### 5. Onboarding
-The first-run experience: store registration, mode selection (Register vs Back Office), and initial system walkthrough.
+### 5. Onboarding & Security
+The first-run experience: store registration, mode selection (Register vs Back Office), and initial system walkthrough, plus security flows for password and PIN resets.
 
 ### 6. System Emails
 Transactional email templates for account lifecycle: welcome, password/PIN resets, and role promotions.

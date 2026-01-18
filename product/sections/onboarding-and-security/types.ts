@@ -21,7 +21,7 @@ export type DeviceMode = 'REGISTER' | 'BACK_OFFICE';
 // Component Props
 // =============================================================================
 
-export interface OnboardingProps {
+export interface OnboardingAndSecurityProps {
   /** Setup progress checklist items */
   checklist: ChecklistItem[];
   /** List of admins for the "Contact Your Admin" recovery screen */
@@ -38,6 +38,6 @@ export interface OnboardingProps {
   onSwitchMode?: (mode: DeviceMode) => void;
   /** Called when requesting a password or PIN reset email */
   onRequestReset?: (email: string, type: 'PASSWORD' | 'PIN') => void;
-  /** Called to finalize onboarding and launch the main app */
+  /** Called to finalize onboarding and security setup and launch the main app */
   onLaunchApp?: () => void;
 }
