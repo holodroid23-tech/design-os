@@ -76,14 +76,25 @@ const SettingsItemTitle = React.forwardRef<HTMLSpanElement, SettingsItemTitlePro
 SettingsItemTitle.displayName = "SettingsItemTitle"
 
 // Description
+interface SettingsItemDescriptionProps extends React.HTMLAttributes<HTMLSpanElement> {
+  tone?: "default" | "success" | "warning" | "danger"
+}
+
 const SettingsItemDescription = React.forwardRef<
   HTMLSpanElement,
-  React.HTMLAttributes<HTMLSpanElement>
->(({ className, children, ...props }, ref) => {
+  SettingsItemDescriptionProps
+>(({ className, tone = "default", children, ...props }, ref) => {
   return (
     <span
       ref={ref}
-      className={cn("text-support-small text-secondary", className)}
+      className={cn(
+        "text-support-small",
+        tone === "default" && "text-secondary",
+        tone === "success" && "text-emerald-600 dark:text-emerald-400",
+        tone === "warning" && "text-amber-600 dark:text-amber-400",
+        tone === "danger" && "text-red-600 dark:text-red-400",
+        className
+      )}
       {...props}
     >
       {children}
@@ -93,14 +104,22 @@ const SettingsItemDescription = React.forwardRef<
 SettingsItemDescription.displayName = "SettingsItemDescription"
 
 // Action/Right side element
+interface SettingsItemActionProps extends React.HTMLAttributes<HTMLDivElement> {
+  layout?: "row" | "stack"
+}
+
 const SettingsItemAction = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...props }, ref) => {
+  SettingsItemActionProps
+>(({ className, layout = "row", children, ...props }, ref) => {
   return (
     <div
       ref={ref}
-      className={cn("text-tertiary flex items-center gap-2 shrink-0", className)}
+      className={cn(
+        "text-tertiary shrink-0",
+        layout === "stack" ? "flex flex-col items-end gap-2" : "flex items-center gap-2",
+        className
+      )}
       {...props}
     >
       {children}

@@ -5,6 +5,7 @@ import { ImageTile } from '@/components/ui/image-tile'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { SettingsGroup } from '@/components/settings/settings-group'
 import {
   SettingsItem,
   SettingsItemAction,
@@ -13,7 +14,7 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from '@/components/settings/settings-item'
-import { ChevronDown, ChevronLeft, Settings, Star } from 'lucide-react'
+import { AlertTriangle, ChevronDown, ChevronLeft, ChevronRight, MoreVertical, Printer, Settings, Star, WifiOff } from 'lucide-react'
 
 export function BuildingBlocksExamplesCard() {
   return (
@@ -150,54 +151,194 @@ export function AtomicItemsExamplesCard() {
         <CardDescription>Examples of complex items built from atoms</CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
-        <SettingsItem className="bg-layer-2 border border-border rounded-xl">
-          <SettingsItemContent>
-            <SettingsItemTitle>Simple text item</SettingsItemTitle>
-          </SettingsItemContent>
-        </SettingsItem>
+        <SettingsGroup>
+          <SettingsItem>
+            <SettingsItemContent>
+              <SettingsItemTitle>Simple text item</SettingsItemTitle>
+            </SettingsItemContent>
+          </SettingsItem>
+        </SettingsGroup>
 
-        <SettingsItem className="bg-layer-2 border border-border rounded-xl">
-          <SettingsItemContent>
-            <SettingsItemTitle>Toggle option</SettingsItemTitle>
-            <SettingsItemDescription>Enable or disable this setting</SettingsItemDescription>
-          </SettingsItemContent>
-          <SettingsItemAction>
-            <Switch />
-          </SettingsItemAction>
-        </SettingsItem>
+        <SettingsGroup>
+          <SettingsItem>
+            <SettingsItemContent>
+              <SettingsItemTitle>Toggle option</SettingsItemTitle>
+              <SettingsItemDescription>Enable or disable this setting</SettingsItemDescription>
+            </SettingsItemContent>
+            <SettingsItemAction>
+              <Switch />
+            </SettingsItemAction>
+          </SettingsItem>
+        </SettingsGroup>
 
-        <SettingsItem className="bg-layer-2 border border-border rounded-xl">
-          <SettingsItemIcon>
-            <Avatar size="small">
-              <AvatarFallback>JD</AvatarFallback>
-            </Avatar>
-          </SettingsItemIcon>
-          <SettingsItemContent>
-            <SettingsItemTitle>User profile</SettingsItemTitle>
-            <SettingsItemDescription>Manage account settings</SettingsItemDescription>
-          </SettingsItemContent>
-          <SettingsItemAction>
-            <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground">
-              <span className="sr-only">More</span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="h-[18px] w-[18px]"
-              >
-                <circle cx="12" cy="12" r="1" />
-                <circle cx="12" cy="5" r="1" />
-                <circle cx="12" cy="19" r="1" />
-              </svg>
-            </Button>
-          </SettingsItemAction>
-        </SettingsItem>
+        <SettingsGroup>
+          <SettingsItem>
+            <SettingsItemIcon>
+              <Avatar size="small">
+                <AvatarFallback>JD</AvatarFallback>
+              </Avatar>
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>User profile</SettingsItemTitle>
+              <SettingsItemDescription>Manage account settings</SettingsItemDescription>
+            </SettingsItemContent>
+            <SettingsItemAction>
+              <Button variant="invisible" size="icon-sm" className="min-h-0 min-w-0">
+                <span className="sr-only">More</span>
+                <MoreVertical className="h-[18px] w-[18px]" aria-hidden="true" />
+              </Button>
+            </SettingsItemAction>
+          </SettingsItem>
+        </SettingsGroup>
+
+        <SettingsGroup>
+          <SettingsItem className="group">
+            <SettingsItemIcon>
+              <ImageTile
+                size="small"
+                src="https://i.pravatar.cc/150?u=thumbnail-coffee"
+                alt="Coffee shop"
+              />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>Coffee shop</SettingsItemTitle>
+              <SettingsItemDescription>View details and recent orders</SettingsItemDescription>
+            </SettingsItemContent>
+            <SettingsItemAction>
+              <ChevronRight
+                aria-hidden="true"
+                className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors"
+              />
+            </SettingsItemAction>
+          </SettingsItem>
+        </SettingsGroup>
+
+        <SettingsGroup>
+          <SettingsItem className="group">
+            <SettingsItemIcon>
+              <ImageTile
+                size="small"
+                src="https://i.pravatar.cc/150?u=thumbnail-invoice"
+                alt="Invoice logo"
+              />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>Invoices</SettingsItemTitle>
+              <SettingsItemDescription>Billing history and receipts</SettingsItemDescription>
+            </SettingsItemContent>
+            <SettingsItemAction>
+              <span className="text-xs text-muted-foreground">3 new</span>
+              <ChevronRight
+                aria-hidden="true"
+                className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors"
+              />
+            </SettingsItemAction>
+          </SettingsItem>
+        </SettingsGroup>
+
+        <SettingsGroup>
+          <SettingsItem className="group">
+            <SettingsItemIcon>
+              <Avatar size="small">
+                <AvatarImage src="https://i.pravatar.cc/150?u=owner" alt="Profile photo" />
+                <AvatarFallback>OP</AvatarFallback>
+              </Avatar>
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>Owner account</SettingsItemTitle>
+              <SettingsItemDescription>Security and sign-in methods</SettingsItemDescription>
+            </SettingsItemContent>
+            <SettingsItemAction>
+              <span className="text-xs text-muted-foreground">2FA</span>
+              <ChevronRight
+                aria-hidden="true"
+                className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors"
+              />
+            </SettingsItemAction>
+          </SettingsItem>
+        </SettingsGroup>
+
+        <SettingsGroup>
+          <SettingsItem className="group">
+            <SettingsItemIcon>
+              <IconTile icon={Settings} size="small" variant="tile" tone="neutral" />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>General</SettingsItemTitle>
+              <SettingsItemDescription>Language, region, and preferences</SettingsItemDescription>
+            </SettingsItemContent>
+            <SettingsItemAction>
+              <span className="text-xs text-muted-foreground">English</span>
+              <ChevronRight
+                aria-hidden="true"
+                className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors"
+              />
+            </SettingsItemAction>
+          </SettingsItem>
+        </SettingsGroup>
+
+        {/* Right-side button (single action) */}
+        <SettingsGroup>
+          <SettingsItem>
+            <SettingsItemIcon>
+              <IconTile icon={Printer} size="small" variant="tile" tone="success" />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>Kitchen printer</SettingsItemTitle>
+              <SettingsItemDescription tone="success" className="font-medium">
+                Connected
+              </SettingsItemDescription>
+            </SettingsItemContent>
+            <SettingsItemAction>
+              <Button variant="secondary" size="sm">
+                Test
+              </Button>
+            </SettingsItemAction>
+          </SettingsItem>
+        </SettingsGroup>
+
+        {/* Right-side buttons (two lines / stacked) */}
+        <SettingsGroup>
+          <SettingsItem className="items-start">
+            <SettingsItemIcon className="pt-0.5">
+              <IconTile icon={AlertTriangle} size="small" variant="tile" tone="warning" />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>Order alerts</SettingsItemTitle>
+              <SettingsItemDescription tone="warning" className="font-medium">
+                Degraded
+              </SettingsItemDescription>
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                <Button variant="secondary" size="sm">
+                  Details
+                </Button>
+                <Button variant="secondary" size="sm">
+                  Fix
+                </Button>
+              </div>
+            </SettingsItemContent>
+          </SettingsItem>
+        </SettingsGroup>
+
+        {/* Status subtext tone (danger) */}
+        <SettingsGroup>
+          <SettingsItem>
+            <SettingsItemIcon>
+              <IconTile icon={WifiOff} size="small" variant="tile" tone="danger" />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>Receipt printer</SettingsItemTitle>
+              <SettingsItemDescription tone="danger" className="font-medium">
+                Offline
+              </SettingsItemDescription>
+            </SettingsItemContent>
+            <SettingsItemAction>
+              <Button variant="destructive" size="sm">
+                Reconnect
+              </Button>
+            </SettingsItemAction>
+          </SettingsItem>
+        </SettingsGroup>
       </CardContent>
     </Card>
   )

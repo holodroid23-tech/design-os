@@ -1821,7 +1821,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         <CardContent>
           <div className="grid md:grid-cols-2 gap-8">
             <EmptyState
-              icon={<Search className="h-[30px] w-[30px]" />}
+              icon={Search}
               title="No results found"
               description="We couldn't find any items matching your search terms. Please try again with different keywords."
               action={
@@ -1830,7 +1830,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
             />
 
             <EmptyState
-              icon={<FileQuestion className="h-[30px] w-[30px]" />}
+              icon={FileQuestion}
               title="No expenses yet"
               description="Create your first expense tracking record to see analytics here."
               action={
@@ -1842,7 +1842,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
             />
 
             <EmptyState
-              icon={<ShoppingCart className="h-[30px] w-[30px]" />}
+              icon={ShoppingCart}
               title="Your cart is empty"
               description="Looks like you haven't added any items to the cart yet."
               action={
