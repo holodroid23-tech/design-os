@@ -165,7 +165,7 @@ function BarChartWithHover() {
                 name="Revenue ($)"
                 radius={[4, 4, 0, 0]}
               >
-                {revenueData.map((entry, index) => (
+                {revenueData.map((_, index) => (
                   <Cell
                     key={`cell-${index}`}
                     fill="#148134"
@@ -450,9 +450,11 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, percent }) =>
-                    `${name} ${percent ? (percent * 100).toFixed(0) : 0}%`
-                  }
+                  label={(props) => {
+                    const name = props?.name ?? ''
+                    const percent = props?.percent ?? 0
+                    return `${String(name)} ${(percent * 100).toFixed(0)}%`
+                  }}
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"

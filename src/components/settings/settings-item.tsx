@@ -1,5 +1,4 @@
 import * as React from "react"
-import { ChevronRight, type LucideIcon } from "lucide-react"
 import { cn } from "../../lib/utils"
 
 // Root settings item wrapper

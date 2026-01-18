@@ -24,16 +24,17 @@ function Calendar({
     props.month || props.defaultMonth || new Date()
   )
 
+  const selected = (props as { selected?: unknown }).selected
+
   // Sync month state when selected date changes
   React.useEffect(() => {
-    // @ts-expect-error - react-day-picker types vary by version
-    if (props.selected && typeof props.selected === 'object' && 'getMonth' in props.selected) {
-      const selectedDate = props.selected as Date
+    if (selected instanceof Date) {
+      const selectedDate = selected
       if (selectedDate.getMonth() !== month.getMonth() || selectedDate.getFullYear() !== month.getFullYear()) {
         setMonthState(selectedDate)
       }
     }
-  }, [props.selected, month])
+  }, [selected, month])
 
   // Generate years (100 years range: 50 years before and after current year)
   const years = React.useMemo(() => {

@@ -18,6 +18,14 @@ const designSystemFiles = import.meta.glob('/product/design-system/*.json', {
   eager: true,
 }) as Record<string, { default: any }>
 
+let cachedColorTokens: ColorTokens | ComprehensiveColorSystem | null | undefined
+
+function getColorTokensOnce(): ColorTokens | ComprehensiveColorSystem | null {
+  if (cachedColorTokens !== undefined) return cachedColorTokens
+  cachedColorTokens = loadColorTokens()
+  return cachedColorTokens
+}
+
 /**
  * Check if a color system is comprehensive (has semantic, primitives, gradients)
  */
@@ -68,6 +76,19 @@ export function loadColorTokens(): ColorTokens | ComprehensiveColorSystem | null
     secondary: colors.secondary,
     neutral: colors.neutral,
   }
+}
+
+/**
+ * Get a semantic color value from the comprehensive color system.
+ *
+ * Example: getSemanticColor('onLayer', 'secondary') -> "#b5b5b7"
+ */
+export function getSemanticColor(group: string, token: string): string | null {
+  const colors = getColorTokensOnce()
+  if (!isComprehensiveColorSystem(colors)) return null
+
+  const value = colors.semantic?.[group]?.[token]
+  return typeof value === 'string' ? value : null
 }
 
 /**

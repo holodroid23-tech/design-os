@@ -19,7 +19,6 @@ import {
     SettingsItemContent,
     SettingsItemTitle,
     SettingsItemAction,
-    SettingsItemDescription,
 } from "../settings/settings-item"
 import { UserProfileRow } from "@/components/settings/user-profile-row"
 import { SettingsFooter } from "@/components/settings/settings-footer"

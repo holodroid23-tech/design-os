@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { ChevronDown, PanelTop, Square } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import { EmptyState } from '@/components/EmptyState'
 import type { ParsedSpec } from '@/types/section'
 
@@ -57,6 +57,10 @@ export function SpecCard({ spec, rawContent, sectionTitle }: SpecCardProps) {
         </CardContent>
       </Card>
     )
+  }
+
+  if (!spec) {
+    return <EmptyState type="spec" />
   }
 
   return (
@@ -137,25 +141,6 @@ export function SpecCard({ spec, rawContent, sectionTitle }: SpecCardProps) {
             </CollapsibleContent>
           </Collapsible>
         )}
-
-        {/* Display Configuration */}
-        <div className="flex items-center gap-2 pt-2 border-t">
-          {spec.useShell ? (
-            <>
-              <PanelTop className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-              <span className="text-sm text-muted-foreground">
-                Displays inside app shell
-              </span>
-            </>
-          ) : (
-            <>
-              <Square className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
-              <span className="text-sm text-muted-foreground">
-                Standalone page (no shell)
-              </span>
-            </>
-          )}
-        </div>
       </CardContent>
     </Card>
   )

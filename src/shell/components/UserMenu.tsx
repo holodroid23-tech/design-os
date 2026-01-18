@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Shield, User, Lock, ChevronRight } from "lucide-react"
+import { Shield, Lock, ChevronRight } from "lucide-react"
 import { 
   Avatar, 
   AvatarImage, 

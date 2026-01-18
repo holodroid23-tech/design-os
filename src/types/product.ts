@@ -105,22 +105,58 @@ export interface ComprehensiveTypographySystem {
 export interface SpacingTokens {
   version: string
   system: string
-  grid: string
-  scale: Record<string, { value: string; description: string }>
+  description?: string
+  /**
+   * Optional base grid unit (some token files describe this implicitly).
+   * Example: "6px"
+   */
+  grid?: string
+  scale: Record<string, { value: string; description: string; usage?: string }>
   recommendations: {
-    paddings: Record<string, any>
-    sizes: Record<string, any>
+    paddingsAndMargins?: Record<string, { value: string; description: string; examples?: string[] }>
+    sizes?: Record<
+      string,
+      {
+        value: string
+        description: string
+        examples?: string[]
+        spacingReference?: string
+        mobileNote?: string
+      }
+    >
   }
-  mobile: Record<string, any>
+  mobileOptimizations?: {
+    contentPadding?: {
+      portrait: string
+      landscape: string
+      tablet: string
+      description: string
+    }
+    touchTargets?: {
+      minimum: string
+      recommended: string
+      description: string
+      guidelines?: Record<string, any>
+    }
+    sectionSpacing?: {
+      small: string
+      medium: string
+      large: string
+      description: string
+    }
+  }
+  usage?: Record<string, any>
 }
 
 // Radius tokens
 export interface RadiusTokens {
   version: string
   system: string
-  values: Record<string, { value: string; description: string; usage: string }>
-  hierarchy: string
-  correlation: string
+  description?: string
+  variables: Record<string, { value: string; description: string; usage: string; spacingReference?: string }>
+  hierarchy?: { description: string; principle: string }
+  correlation?: { description: string; relationships?: Record<string, string> }
+  usage?: Record<string, any>
 }
 
 // Elevation tokens

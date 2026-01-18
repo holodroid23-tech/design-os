@@ -6,8 +6,8 @@ import {
     SettingsItemTitle,
     SettingsItemDescription,
     SettingsItemAction,
-} from '../components/ui/settings-item'
-import { Button } from '../components/ui/button'
+} from '../settings/settings-item'
+import { Button } from '../ui/button'
 import { Lock, Package, ChevronRight, ExternalLink } from 'lucide-react'
 
 export default function WelcomePreview() {
