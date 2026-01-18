@@ -79,14 +79,24 @@ product-plan/
 │   ├── types.ts
 │   └── sample-data.json
 │
-└── shell/                       # Shell components
-    ├── README.md
-    ├── components/
-    │   ├── AppShell.tsx
-    │   ├── MainNav.tsx
-    │   ├── UserMenu.tsx
-    │   └── index.ts
-    └── screenshot.png (if exists)
+├── shell/                       # Shell components
+│   ├── README.md
+│   ├── components/
+│   │   ├── AppShell.tsx
+│   │   ├── MainNav.tsx
+│   │   ├── UserMenu.tsx
+│   │   └── index.ts
+│   └── screenshot.png (if exists)
+│
+└── sections/                    # Section specifications and designs
+    └── [section-id]/
+        ├── spec.md              # Section specification
+        ├── types.ts             # TypeScript interfaces
+        ├── sample-data.json     # Sample data
+        ├── mocks/               # Mockup images (if exist)
+        │   └── *.png
+        └── replicated/          # Replicated design components (if exist)
+            └── *.tsx
 ```
 
 ## Step 4: Generate product-overview.md
@@ -429,6 +439,14 @@ For each section:
 - Copy `product/sections/[section-id]/types.ts` to `product-plan/sections/[section-id]/types.ts`
 - Copy `product/sections/[section-id]/data.json` to `product-plan/sections/[section-id]/sample-data.json`
 
+### Replicated Designs
+
+For each section that has replicated designs:
+- Copy all files from `product/sections/[section-id]/replicated/` to `product-plan/sections/[section-id]/replicated/`
+- Copy all mockup images from `product/sections/[section-id]/mocks/` to `product-plan/sections/[section-id]/mocks/`
+- Transform import paths from `@/...` to relative paths in replicated components
+- Ensure components are self-contained and portable
+
 ## Step 8: Skip (sections don't need READMEs)
 
 ## Step 9: Skip (test instructions removed)
@@ -636,7 +654,16 @@ This folder contains everything needed to implement [Product Name].
 - `design-system/` — Colors, fonts, design tokens
 - `data-model/` — Core entities and TypeScript types
 - `shell/` — Application shell components
-- `sections/` — All section components, types, sample data, and test instructions
+- `sections/` — All section specifications with types, sample data, mockups, and replicated designs
+
+**About Replicated Designs:**
+
+Some sections may include replicated design components in `sections/[section-id]/replicated/`. These are reference implementations that show how to apply the design system to the mockups. They are:
+
+- Built using the design system tokens and components
+- Props-based and portable
+- Useful as starting points or examples
+- Optional — you can use them as-is or build your own implementations
 
 ## How to Use This
 
@@ -718,7 +745,7 @@ Let the user know:
 - `design-system/` — Colors, fonts, tokens
 - `data-model/` — Entity types and sample data
 - `shell/` — Application shell components
-- `sections/` — [N] section specifications with types and sample data
+- `sections/` — [N] section specifications with types, sample data, mockups, and replicated designs
 
 **Download:**
 

@@ -52,6 +52,7 @@ Design the persistent navigation and layout that wraps all sections.
 ### 6. For Each Section:
 - `/shape-section` — Define the specification
 - `/sample-data` — Create sample data and types
+- `/design-replication` — Replicate existing mockups using design system (optional)
 
 ### 7. Export (`/export-product`)
 Generate the complete export package with all components, types, and handoff documentation.
@@ -80,7 +81,11 @@ product/                           # Product definition (portable)
     └── [section-name]/
         ├── spec.md                # Section specification
         ├── data.json              # Sample data
-        └── types.ts               # TypeScript interfaces
+        ├── types.ts               # TypeScript interfaces
+        ├── mocks/                 # Mockup images (optional)
+        │   └── *.png
+        └── replicated/            # Replicated design components (optional)
+            └── *.tsx
 
 src/
 └── shell/                         # Shell design components
@@ -105,7 +110,14 @@ product-plan/                      # Export package (generated)
 │       └── [NN]-[section-id].md   # Section-specific instructions
 ├── design-system/                 # Tokens, colors, fonts
 ├── data-model/                    # Types and sample data
-└── shell/                         # Shell components
+├── shell/                         # Shell components
+└── sections/                      # Section specifications and designs
+    └── [section-id]/
+        ├── spec.md
+        ├── types.ts
+        ├── sample-data.json
+        ├── mocks/                 # Mockup images (if exist)
+        └── replicated/            # Replicated components (if exist)
 ```
 
 ---
@@ -172,6 +184,53 @@ Design OS separates concerns between its own UI and the product being designed:
 
 - **Design OS UI**: Always uses the stone/lime palette and DM Sans typography
 - **Product Shell**: Uses the design tokens defined for the product (when available)
+
+---
+
+## Design Replication Workflow
+
+Design OS supports replicating existing mockup designs using the Compost design system. This is useful when you have mockups from design tools (Figma, Sketch, etc.) and want to convert them to design-system-compliant components.
+
+### Mockup Storage
+
+- Place mockup PNG files in `product/sections/[section-id]/mocks/`
+- Naming convention: `kebab-case.png` (e.g., `analytics-cashier-view.png`)
+- Each mockup is auto-detected and displayed on the section page
+
+### Replication Process
+
+1. Run `/design-replication` command
+2. Select which section to work on
+3. Choose individual mockups or bulk-process all pending mockups
+4. The command analyzes the mockup and generates a component in `product/sections/[section-id]/replicated/[ComponentName].tsx`
+
+### Design System Enforcement
+
+Replicated components must strictly follow Compost design system rules:
+
+- **Colors**: Only semantic tokens from `colors.json` (e.g., `bg-layer-primary`, not `bg-blue-500`)
+- **Radius**: Only allowed values: `3px`, `6px`, `12px`, `18px`, `9999px` (e.g., `rounded-[12px]`, not `rounded-lg`)
+- **Text**: Always sentence case, never ALL CAPS
+- **Components**: Only use existing components from `src/components/ui/`, never create custom ones
+- **Styles**: Only Tailwind utility classes, no inline styles (`style={{}}`)
+- **Props**: Components must be props-based and portable
+
+### Component Naming
+
+Mockup filenames are converted to PascalCase component names:
+- `analytics-cashier-view.png` → `AnalyticsCashierView.tsx`
+- `expense-list.png` → `ExpenseList.tsx`
+
+### Viewing Replicated Designs
+
+Once replicated, components appear on the section page as Step 3: Replicated Designs. Click any replicated mockup to view the component in a modal preview.
+
+### Export Integration
+
+Replicated designs are automatically included in the product handoff package:
+- Components copied to `product-plan/sections/[section-id]/replicated/`
+- Mockup images copied to `product-plan/sections/[section-id]/mocks/`
+- Import paths transformed to be portable
 
 ---
 

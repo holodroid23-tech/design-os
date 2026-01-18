@@ -6,6 +6,7 @@ import { EmptyState } from '@/components/EmptyState'
 import { PhaseWarningBanner } from '@/components/PhaseWarningBanner'
 import { SpecCard } from '@/components/SpecCard'
 import { DataCard } from '@/components/DataCard'
+import { ReplicatedDesignsCard } from '@/components/ReplicatedDesignsCard'
 import { StepIndicator, type StepStatus } from '@/components/StepIndicator'
 import { loadProductData } from '@/lib/product-loader'
 import { loadSectionData } from '@/lib/section-loader'
@@ -13,13 +14,28 @@ import { ChevronRight, ArrowRight, LayoutList } from 'lucide-react'
 
 /**
  * Determine the status of each step based on what data exists
- * Steps: 1. Section Overview (Spec), 2. Sample Data
+ * Steps: 1. Section Overview (Spec), 2. Sample Data, 3. Replicated Designs (optional)
  */
 function getStepStatuses(sectionData: ReturnType<typeof loadSectionData> | null): StepStatus[] {
   const hasSpec = !!sectionData?.specParsed
   const hasData = !!sectionData?.data
+  const hasMocks = (sectionData?.mocks?.length ?? 0) > 0
+  const hasReplications = sectionData?.mocks?.some(m => m.isReplicated) ?? false
 
-  const steps: boolean[] = [hasSpec, hasData]
+  // Step 3 only exists if there are mocks
+  if (!hasMocks) {
+    const steps: boolean[] = [hasSpec, hasData]
+    const firstIncomplete = steps.findIndex((done) => !done)
+
+    return steps.map((done, index) => {
+      if (done) return 'completed'
+      if (index === firstIncomplete) return 'current'
+      return 'upcoming'
+    })
+  }
+
+  // With mocks, include Step 3
+  const steps: boolean[] = [hasSpec, hasData, hasReplications]
   const firstIncomplete = steps.findIndex((done) => !done)
 
   return steps.map((done, index) => {
@@ -31,6 +47,7 @@ function getStepStatuses(sectionData: ReturnType<typeof loadSectionData> | null)
 
 /**
  * Check if the required steps for a section are complete (Spec and Data)
+ * Replicated designs are optional
  */
 function areRequiredStepsComplete(sectionData: ReturnType<typeof loadSectionData> | null): boolean {
   const hasSpec = !!sectionData?.specParsed
@@ -69,6 +86,7 @@ export function SectionPage() {
 
   const stepStatuses = getStepStatuses(sectionData)
   const requiredStepsComplete = areRequiredStepsComplete(sectionData)
+  const hasMocks = (sectionData?.mocks?.length ?? 0) > 0
 
   // Next section navigation logic
   const isLastSection = currentIndex === sections.length - 1 || currentIndex === -1
@@ -100,13 +118,23 @@ export function SectionPage() {
         </StepIndicator>
 
         {/* Step 2: Sample Data */}
-        <StepIndicator step={2} status={stepStatuses[1]} isLast={!requiredStepsComplete}>
+        <StepIndicator step={2} status={stepStatuses[1]} isLast={!hasMocks && !requiredStepsComplete}>
           <DataCard data={sectionData?.data || null} />
         </StepIndicator>
 
+        {/* Step 3: Replicated Designs (only if mocks exist) */}
+        {hasMocks && (
+          <StepIndicator step={3} status={stepStatuses[2]} isLast={!requiredStepsComplete}>
+            <ReplicatedDesignsCard 
+              mocks={sectionData?.mocks || []} 
+              sectionId={sectionId!}
+            />
+          </StepIndicator>
+        )}
+
         {/* Next Step - shown when required steps (Spec and Data) are complete */}
         {requiredStepsComplete && (
-          <StepIndicator step={3} status="current" isLast>
+          <StepIndicator step={hasMocks ? 4 : 3} status="current" isLast>
             <div className="space-y-3">
               {/* If there's a next section, show two options */}
               {nextSection ? (

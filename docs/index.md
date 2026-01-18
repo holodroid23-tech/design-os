@@ -35,6 +35,7 @@ You interact with Design OS through slash commands. Each command walks you throu
 - `/shape-section` — Specify a section's scope and requirements
 - `/sample-data` — Generate realistic data for screen designs
 - `/design-screen` — Create production-ready React components
+- `/design-replication` — Replicate mockup designs using design system tokens
 - `/screenahot-design` — Snap a screenshot of a finished design screen for quick reference
 - `/export-product` — Generate the complete handoff package
 

@@ -4,9 +4,11 @@
  * File structure:
  * - product/sections/[section-id]/spec.md     - Section specification
  * - product/sections/[section-id]/data.json   - Sample data
+ * - product/sections/[section-id]/mocks/      - Mockup images
+ * - product/sections/[section-id]/replicated/ - Replicated components
  */
 
-import type { SectionData, ParsedSpec } from '@/types/section'
+import type { SectionData, ParsedSpec, MockupInfo } from '@/types/section'
 
 // Load spec.md files from product/sections at build time
 const specFiles = import.meta.glob('/product/sections/*/spec.md', {
@@ -19,6 +21,17 @@ const specFiles = import.meta.glob('/product/sections/*/spec.md', {
 const dataFiles = import.meta.glob('/product/sections/*/data.json', {
   eager: true,
 }) as Record<string, { default: Record<string, unknown> }>
+
+// Load mockup images from product/sections at build time
+const mockFiles = import.meta.glob('/product/sections/*/mocks/*.png', {
+  eager: true,
+  import: 'default',
+}) as Record<string, string>
+
+// Load replicated components dynamically
+const replicatedComponents = import.meta.glob('/product/sections/*/replicated/*.tsx', {
+  eager: false,
+}) as Record<string, () => Promise<{ default: React.ComponentType }>>
 
 /**
  * Extract section ID from a product/sections file path
@@ -95,6 +108,101 @@ export function parseSpec(md: string): ParsedSpec | null {
 }
 
 /**
+ * Convert filename to PascalCase component name
+ * e.g., "analytics-cashier-view.png" -> "AnalyticsCashierView"
+ */
+function fileNameToComponentName(fileName: string): string {
+  const nameWithoutExt = fileName.replace(/\.(png|jpg|jpeg)$/i, '')
+  return nameWithoutExt
+    .split(/[-_]/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join('')
+}
+
+/**
+ * Convert filename to display name
+ * e.g., "analytics-cashier-view.png" -> "Analytics Cashier View"
+ */
+function fileNameToDisplayName(fileName: string): string {
+  const nameWithoutExt = fileName.replace(/\.(png|jpg|jpeg)$/i, '')
+  return nameWithoutExt
+    .split(/[-_]/)
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ')
+}
+
+/**
+ * Load all mockups for a specific section
+ */
+export function loadSectionMocks(sectionId: string): MockupInfo[] {
+  const mockupsPrefix = `/product/sections/${sectionId}/mocks/`
+  const replicatedPrefix = `/product/sections/${sectionId}/replicated/`
+  
+  const mocks: MockupInfo[] = []
+  
+  for (const path of Object.keys(mockFiles)) {
+    if (path.startsWith(mockupsPrefix)) {
+      const fileName = path.replace(mockupsPrefix, '')
+      const componentName = fileNameToComponentName(fileName)
+      const displayName = fileNameToDisplayName(fileName)
+      const componentPath = `${replicatedPrefix}${componentName}.tsx`
+      const isReplicated = componentPath in replicatedComponents
+      
+      mocks.push({
+        fileName,
+        displayName,
+        componentName,
+        imagePath: path,
+        isReplicated,
+        componentPath: isReplicated ? componentPath : undefined,
+      })
+    }
+  }
+  
+  return mocks.sort((a, b) => a.displayName.localeCompare(b.displayName))
+}
+
+/**
+ * Check if a section has any mockups
+ */
+export function hasSectionMocks(sectionId: string): boolean {
+  const mockupsPrefix = `/product/sections/${sectionId}/mocks/`
+  return Object.keys(mockFiles).some(path => path.startsWith(mockupsPrefix))
+}
+
+/**
+ * Check if a specific mockup has a replicated design
+ */
+export function hasReplicatedDesign(sectionId: string, mockName: string): boolean {
+  const componentName = fileNameToComponentName(mockName)
+  const componentPath = `/product/sections/${sectionId}/replicated/${componentName}.tsx`
+  return componentPath in replicatedComponents
+}
+
+/**
+ * Load a replicated component dynamically
+ */
+export async function loadReplicatedComponent(
+  sectionId: string,
+  mockName: string
+): Promise<React.ComponentType | null> {
+  const componentName = fileNameToComponentName(mockName)
+  const componentPath = `/product/sections/${sectionId}/replicated/${componentName}.tsx`
+  
+  if (!(componentPath in replicatedComponents)) {
+    return null
+  }
+  
+  try {
+    const module = await replicatedComponents[componentPath]()
+    return module.default
+  } catch (error) {
+    console.error(`Failed to load replicated component: ${componentPath}`, error)
+    return null
+  }
+}
+
+/**
  * Load all data for a specific section
  */
 export function loadSectionData(sectionId: string): SectionData {
@@ -104,12 +212,14 @@ export function loadSectionData(sectionId: string): SectionData {
   const specContent = specFiles[specPath] || null
   const dataModule = dataFiles[dataPath]
   const data = dataModule?.default || null
+  const mocks = loadSectionMocks(sectionId)
 
   return {
     sectionId,
     spec: specContent,
     specParsed: specContent ? parseSpec(specContent) : null,
     data,
+    mocks,
   }
 }
 
