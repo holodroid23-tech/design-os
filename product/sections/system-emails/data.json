@@ -1,0 +1,34 @@
+{
+  "_meta": {
+    "models": {
+      "templates": "Preview data for the various transactional email types."
+    },
+    "relationships": [
+      "Templates provide the visual content for email screen designs."
+    ]
+  },
+  "templates": {
+    "welcome": {
+      "title": "Welcome to comPOSt",
+      "body": "Welcome to comPOSt. We're here to help you manage the chaos and power your daily grind. Here is everything you need to get running efficiently.",
+      "ctaLabel": "Setup Account",
+      "showChecklist": true
+    },
+    "passwordReset": {
+      "title": "Reset Your Password",
+      "body": "You requested a password reset. Hopefully, this wasn't the pig. Click the button below to secure your account and get back to the chaos.",
+      "ctaLabel": "Reset Password",
+      "showDisclaimer": true
+    },
+    "pinReset": {
+      "title": "Secure Your Access",
+      "body": "A PIN reset was requested for your account. To regain access to your POS terminal and secure your administrative settings, please follow the link below.",
+      "ctaLabel": "Reset My PIN"
+    },
+    "promotion": {
+      "title": "You've Been Promoted",
+      "body": "You have been promoted to Manager. You can now access the Back Office dashboard remotely. Please set a password to enable this feature.",
+      "ctaLabel": "Set Password"
+    }
+  }
+}
