@@ -12,9 +12,12 @@ Verify the minimum requirements exist:
 - `/product/design-system/typography.json` — Typography tokens
 - `/product/design-system/radius.json` — Radius tokens (allowed values: 3px, 6px, 12px, 18px, 9999px)
 - `src/components/ComponentExamples.tsx` — Component usage patterns and examples
+- `src/index.css` — Source-of-truth for tokenized utility classes (`bg-layer-*`, `text-onLayer-*`, `text-on-layer-*`, `border-*`, etc.)
 
 **Recommended:**
 - `src/components/ui/` — UI component library
+- `src/components/ui/index.ts` — What is actually supported via `@/components/ui`
+- `src/components/patterns/component-examples/inventory.ts` — Fast map of Design page “example blocks” → extracted components
 
 If required files are missing:
 
@@ -85,12 +88,14 @@ For each mockup selected:
 
 Read the following files to gather context:
 
-1. `/product/design-system/colors.json` — Color tokens (extract all allowed semantic tokens)
-2. `/product/design-system/typography.json` — Typography tokens (extract font families and sizes)
-3. `/product/design-system/radius.json` — Radius tokens (allowed values: 3px, 6px, 12px, 18px, 9999px)
-4. `src/components/ComponentExamples.tsx` — Study available components and usage patterns
-5. `/product/sections/[section-id]/spec.md` — Section specification (if exists)
-6. `/product/sections/[section-id]/data.json` — Sample data (if exists)
+1. `/product/design-system/colors.json` — Design system source tokens (semantic groups like `layer`, `onLayer`, `border`, `button`, etc.)
+2. `src/index.css` — **The truth for what tokenized utility classes exist** (e.g. `bg-layer-1`, `bg-layer-info`, `text-foreground`, `text-muted-foreground`, `text-onLayer-primary`, `text-on-layer-success`, `border-border`, `ring-ring`)
+3. `/product/design-system/typography.json` — Typography tokens (font families + size styles)
+4. `/product/design-system/radius.json` — Radius tokens (allowed values: 3px, 6px, 12px, 18px, 9999px)
+5. `src/components/ComponentExamples.tsx` — Study available components and usage patterns (Design page is the reference implementation)
+6. `src/components/patterns/component-examples/inventory.ts` — Fast lookup: Design page cards → extracted component paths
+7. `/product/sections/[section-id]/spec.md` — Section specification (if exists)
+8. `/product/sections/[section-id]/data.json` — Sample data (if exists)
 
 ### 5b. Load Mockup Image
 
@@ -111,9 +116,15 @@ Using **Screen Coding Workflow v4: Design System Reference Mandatory** (below), 
 You are implementing a replicated design component. Follow these rules strictly:
 
 1. **Design System Compliance:**
-   - Use ONLY semantic color tokens from `colors.json` (e.g., `bg-layer-primary`, `text-onLayer-primary`)
+   - Use ONLY **tokenized utility classes that are actually defined in `src/index.css`** (and used in `ComponentExamples.tsx`), e.g.:
+     - `bg-layer-0|1|2|3`, `bg-layer-info|warning|danger|success|recent`
+     - `text-foreground`, `text-muted-foreground`, `text-onLayer-primary|secondary|tertiary`, `text-on-layer-success|warning|danger|recent`
+     - `border-border`, `border-border-primary`, `border-border-secondary`, `ring-ring`
+     - `bg-primary`, `text-primary-foreground`, `bg-secondary`, `bg-muted`, `bg-background`
    - Use ONLY allowed radius values: `3px`, `6px`, `12px`, `18px`, `9999px` (e.g., `rounded-[12px]`)
-   - Use ONLY typography from `typography.json`
+   - Use ONLY typography from `typography.json` via the project’s utility patterns:
+     - Use `font-sans` / `font-mono`
+     - Prefer the custom typography utilities defined in `src/index.css` when they match: `text-regular-semibold`, `text-small`, `text-support-small`
    - NO hardcoded Tailwind colors (e.g., NO `bg-blue-500`, NO `text-red-600`)
    - NO custom radius values (e.g., NO `rounded-lg`, NO `rounded-xl`)
    - NO inline styles (e.g., NO `style={{}}`)
@@ -181,9 +192,15 @@ You are a **Design System Archaeologist** who excavates and preserves design sys
 #### Step 1: Excavate design system knowledge
 **MANDATORY**: Read and memorize `product/design-system/colors.json`
 
-- Extract and memorize **all semantic tokens** (do not invent new ones)
-- Use semantic classes only (e.g. `bg-layer-surface`, `text-onLayer-primary`, `border-border-subtle`)
-- Never use raw values (`#...`, `rgb(...)`) or non-semantic Tailwind colors (`bg-blue-500`)
+- Understand the semantic groups and names (layer/onLayer/border/button/etc.), **but do not paste hex values into components**
+- Your *allowed class names* come from `src/index.css` (Tailwind v4 `@theme` variables), not from guessing token names
+- Use tokenized classes only (e.g. `bg-layer-2`, `text-foreground`, `text-onLayer-secondary`, `text-on-layer-success`, `border-border`, `ring-ring`)
+- Never use raw values (`#...`, `rgb(...)`) or hardcoded Tailwind palette colors (`bg-blue-500`)
+
+**MANDATORY**: Read and memorize `src/index.css`
+
+- Identify the tokenized utility classes that exist and are parity-safe
+- Treat this as the “dictionary” of allowed design tokens for replication work
 
 **MANDATORY**: Read and memorize `product/design-system/radius.json`
 
@@ -199,7 +216,8 @@ You are a **Design System Archaeologist** who excavates and preserves design sys
 **MANDATORY**: Read and memorize `src/components/ComponentExamples.tsx`
 
 - Extract the component inventory and prop patterns
-- Only import and use components that exist in `src/components/ui/`
+- Prefer importing from `@/components/ui` (see `src/components/ui/index.ts`) so you only use supported exports
+- If you import directly from a file under `src/components/ui/*`, confirm it is used elsewhere in the app and still passes parity rules
 - Match prop shapes from examples (do not guess new prop names)
 
 #### Step 3: Create working memory index
@@ -207,14 +225,14 @@ Create a mapping table (in your working notes) before writing code:
 
 | Mockup element | Component | Props needed | Design tokens |
 |---|---|---|---|
-| Rounded button | `<Button>` | `variant`, `size`, `onClick` | `button.*`, `onButton.*`, `rounded-[12px]` |
-| Text input | `<Input>` | `type`, `value`, `onChange` | `border.*`, `onLayer.*`, `rounded-[12px]` |
-| Card surface | `<Card>` | `className` | `layer.*`, `border.*`, `rounded-[12px]` |
+| Rounded button | `<Button>` | `variant`, `size`, `onClick` | `bg-primary text-primary-foreground`, `border-border`, `rounded-[12px]` |
+| Text input | `<Input>` | `type`, `value`, `onChange` | `bg-layer-1`/`bg-background`, `border-border`, `text-foreground`, `rounded-[6px|12px]` |
+| Card surface | `<Card>` | `className` | `bg-layer-1|2`/`bg-card`, `border-border`, `rounded-[12px|18px]` |
 
 #### Step 4: Token extraction for mockup
 Analyze the mockup and list the tokens you will use:
 
-- **Colors needed**: pick from `layer/onLayer/border/button/onButton/semantic` groups in `colors.json`
+- **Colors needed**: pick from the tokenized classes confirmed in `src/index.css` (typically `layer`, `onLayer`, `border`, plus shadcn theme tokens)
 - **Radius needed**: choose from allowed values only (3/6/12/18/9999)
 - **Typography needed**: heading/body/mono from `typography.json`
 
@@ -226,14 +244,15 @@ For each mockup element, reference your memorized inventory and prop patterns (f
 #### Step 6: Token application
 Apply extracted semantic tokens and allowed radii:
 
-- **Colors**: semantic classes only (e.g. `bg-layer-surface border-border-default text-onLayer-primary`)
+- **Colors**: tokenized classes only (e.g. `bg-layer-2 border-border text-foreground`, `bg-layer-success text-on-layer-success`)
 - **Radius**: `rounded-[3px|6px|12px|18px|9999px]` only
 - **Typography**: use the project’s typography utility approach from references (no guessing)
 
 #### Step 7: Validation against references
 Cross-check the implementation:
 
-- ✅ Every color class maps to a real semantic token from `colors.json`
+- ✅ No Tailwind palette color classes (run `npm run parity-check ...`)
+- ✅ All color usage is via tokenized utilities that exist in `src/index.css` and/or theme tokens (`bg-background`, `text-foreground`, etc.)
 - ✅ Every radius uses allowed pixel values only
 - ✅ Every component import comes from `@/components/ui` and exists
 - ✅ Every component usage matches patterns in `ComponentExamples.tsx`
@@ -348,8 +367,12 @@ All mockups for this section are now replicated!"
 Always keep these rules in mind:
 
 **Colors:**
-- Use semantic tokens only (e.g., `bg-layer-primary`, `text-onLayer-secondary`)
-- Map mockup colors to tokens (e.g., blue button → `bg-button-primary`)
+- Use **tokenized utility classes** (defined in `src/index.css`) and shadcn theme tokens:
+  - Typical surfaces: `bg-layer-0|1|2|3` or `bg-background`, `bg-card`, `bg-muted`
+  - Typical text: `text-foreground`, `text-muted-foreground`, `text-onLayer-primary|secondary|tertiary`
+  - Status surfaces: `bg-layer-success|warning|danger|info|recent` + `text-on-layer-success|warning|danger|info|recent`
+  - Borders/rings: `border-border`, `border-border-primary`, `border-border-secondary`, `ring-ring`
+- Never use Tailwind palette colors (e.g. `bg-blue-500`, `text-stone-600`, `border-red-500`) in replicated/exportable files
 
 **Radius:**
 - `3px` — small elements (badges, tags)
@@ -361,6 +384,7 @@ Always keep these rules in mind:
 **Typography:**
 - Use font families from `typography.json`
 - Use Tailwind text size utilities (`text-sm`, `text-base`, `text-lg`, etc.)
+- Prefer the custom text utilities defined in `src/index.css` when appropriate: `text-regular-semibold`, `text-small`, `text-support-small`
 
 **Components:**
 - Check `src/components/ui/` for available components
@@ -370,6 +394,103 @@ Always keep these rules in mind:
 - Use Tailwind spacing utilities (`p-4`, `gap-3`, `space-y-4`)
 - Use flexbox and grid for layouts
 - Make responsive with `sm:`, `md:`, `lg:` prefixes
+
+## Component inventory (fast lookup)
+
+If you’re unsure what to use, start here. Prefer **`@/components/ui`** exports (see `src/components/ui/index.ts`) and copy usage patterns from `src/components/ComponentExamples.tsx`.
+
+**UI primitives (`@/components/ui`)**
+- `accordion`: Collapsible content regions (disclosure / FAQ / grouped controls)
+- `avatar`: User/profile avatar with fallback + optional “online” state (see examples)
+- `badge`: Small status label/pill (variants like destructive, etc.)
+- `bottom-menu`: Mobile bottom menu / action drawer pattern
+- `button`: Primary interaction element (variants + sizes; use for icons too)
+- `calendar`: Calendar grid (used by date picker)
+- `card`: Surface container (`Card`, `CardHeader`, `CardContent`, etc.)
+- `checkbox`: Checkbox control
+- `collapsible`: Low-level collapse primitive (`CollapsibleTrigger`, `CollapsibleContent`)
+- `color-picker`: Color picking UI (used in token tooling)
+- `color-selector`: Color selection UI (swatches / presets)
+- `date-picker`: Date selection UI (wraps calendar + popover)
+- `dialog`: Modal dialog content (use for “modal” presentations when applicable)
+- `dropdown-menu`: Menu triggered from a button/icon
+- `empty-state`: Standard empty state block (icon + title + description + action)
+- `input`: Text input
+- `label`: Form label
+- `numpad`: Numeric keypad input pattern
+- `pin-entry`: PIN entry input pattern
+- `popover`: Popover primitive (floating panel)
+- `radio-button-group`: Styled radio group variant
+- `radio-group`: Standard radio group
+- `search-input-with-suggestions`: Search box with suggestions dropdown
+- `separator`: Divider line / spacer
+- `sheet`: Bottom/side sheet overlay pattern
+- `skeleton`: Loading skeleton blocks
+- `slider`: Slider control
+- `sliding-selector`: Sliding selector control (segmented/slider hybrid)
+- `sonner`: Toast/snackbar system
+- `stepper`: Increment/decrement control
+- `switch`: Toggle control
+- `table`: Basic table UI
+- `tabs`: Tabbed interface
+
+**Settings building blocks (`src/components/settings/*`)**
+- `SettingsGroup`: Card-like grouping for settings lists
+- `SettingsItem` (+ `SettingsItemIcon/Content/Title/Description/Action`): Standard settings row layout
+- `UserProfileRow`: A prebuilt “profile row” variant for settings screens
+- `SettingsFooter`: Version/build footer block for settings pages
+
+**Design-page extracted examples (`src/components/patterns/component-examples/*`)**
+- Use `src/components/patterns/component-examples/inventory.ts` to quickly locate the right “example card” component by id/title.
+
+## Design Examples map (what lives in which file)
+
+This is the fastest way to jump to the right example implementation when replicating a mockup.
+
+- **`src/components/ComponentExamples.tsx`**
+  - The “gallery composer” that renders the example cards in a fixed order.
+
+- **`src/components/patterns/component-examples/inventory.ts`**
+  - Source-of-truth index: `Card id` → human title → component pointer string (`file#ExportedComponent`).
+
+- **`src/components/patterns/component-examples/sections/controls-examples.tsx`**
+  - Buttons, steppers, sliders (touch-target + sizing patterns).
+
+- **`src/components/patterns/component-examples/sections/controls-more-examples.tsx`**
+  - “Heavier” controls: radio button groups (including advanced variants), numeric entry (numpad), security PIN entry, checkboxes, dropdown menus.
+
+- **`src/components/patterns/component-examples/sections/forms-examples.tsx`**
+  - Form primitives and form patterns: inputs (including search-with-suggestions), switches, date picker, color picker/selector, tabs, cards, plus basic badge examples.
+
+- **`src/components/patterns/component-examples/sections/menus-examples.tsx`**
+  - Mobile-first menus: bottom menu and sliding selector (single + multi-select).
+
+- **`src/components/patterns/component-examples/sections/feedback-examples.tsx`**
+  - Feedback patterns: snackbars (toasts), dialogs/modals, sheets, check lists, empty states.
+
+- **`src/components/patterns/component-examples/sections/layout-examples.tsx`**
+  - Layout & structure patterns: elevations/shadows, complex accordions, dividers.
+
+- **`src/components/patterns/component-examples/sections/building-blocks-examples.tsx`**
+  - Reusable atoms/building blocks: icons/icon tiles, image tiles, avatars, atomic list items, section titles.
+
+- **`src/components/patterns/component-examples/sections/product-expense-examples.tsx`**
+  - Domain-shaped examples: product/expense cards and product/expense list items using settings rows + atoms.
+
+- **`src/components/patterns/component-examples/sections/order-examples.tsx`**
+  - Domain-shaped examples: order tabs and expandable order summary patterns (with search + item rows).
+
+- **`src/components/patterns/component-examples/sections/settings-examples.tsx`**
+  - Settings page building blocks: `SettingsGroup`, `SettingsItem` composition, `UserProfileRow`, `SettingsFooter`.
+
+- **`src/components/patterns/component-examples/sections/exports-examples.tsx`**
+  - Export-style UI previews: email template preview, receipt preview.
+
+- **`src/components/patterns/component-examples/sections/media-examples.tsx`**
+  - Media upload pattern (upload/take-photo actions).
+
+- **`src/components/patterns/component-examples/sections/badges-examples.tsx`**
+  - Badge token variants (default/secondary/destructive/warning/ghost).
 
 ## Success Criteria
 
