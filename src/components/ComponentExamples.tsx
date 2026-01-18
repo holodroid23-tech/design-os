@@ -266,7 +266,7 @@ function OrderExpandableDemo() {
           {/* Items List */}
           <div className="flex-1 overflow-y-auto px-6 space-y-3 pb-6 custom-scrollbar">
             {/* Item 1 */}
-            <SettingsItem className="bg-white/[0.03] border border-white/5 rounded-2xl p-3 h-auto min-h-0 items-start">
+            <SettingsItem className="border border-white/5 rounded-2xl p-3 h-auto min-h-0 items-start">
               <SettingsItemIcon>
                 <div className="h-14 w-14 rounded-xl overflow-hidden border border-white/10 bg-white/5">
                   <div className="h-full w-full bg-gradient-to-br from-orange-400 to-orange-600 flex items-center justify-center">
@@ -288,7 +288,7 @@ function OrderExpandableDemo() {
             </SettingsItem>
 
             {/* Item 2 */}
-            <SettingsItem className="bg-white/[0.03] border border-white/5 rounded-2xl p-3 h-auto min-h-0 items-start">
+            <SettingsItem className="border border-white/5 rounded-2xl p-3 h-auto min-h-0 items-start">
               <SettingsItemIcon>
                 <div className="h-14 w-14 rounded-xl overflow-hidden border border-white/10 bg-white/5">
                   <div className="h-full w-full bg-gradient-to-br from-emerald-400 to-emerald-600 flex items-center justify-center">
@@ -310,7 +310,7 @@ function OrderExpandableDemo() {
             </SettingsItem>
 
             {/* Item 3 */}
-            <SettingsItem className="bg-white/[0.03] border border-white/5 rounded-2xl p-3 h-auto min-h-0 items-start">
+            <SettingsItem className="border border-white/5 rounded-2xl p-3 h-auto min-h-0 items-start">
               <SettingsItemIcon>
                 <div className="h-14 w-14 rounded-xl overflow-hidden border border-white/10 bg-white/5">
                   <img
@@ -811,7 +811,6 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               <UserProfileRow
                 name="Ghhh"
                 email="holodroid23@gmail.com"
-                initials="G"
               />
             </SettingsGroup>
           </div>
@@ -869,7 +868,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                   <SettingsItemTitle>Users</SettingsItemTitle>
                 </SettingsItemContent>
               </SettingsItem>
-              <SettingsItem className="hover:bg-destructive/5">
+              <SettingsItem>
                 <SettingsItemIcon>
                   <div className="h-10 w-10 rounded-lg bg-red-100 dark:bg-red-900/30 flex items-center justify-center text-red-600 dark:text-red-400">
                     <LogOut className="h-5 w-5" />
@@ -1093,14 +1092,14 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         </CardHeader>
         <CardContent className="space-y-3">
           {/* Simple Text Item */}
-          <SettingsItem className="bg-layer-2 border border-border rounded-xl">
+          <SettingsItem className="border border-border rounded-xl">
             <SettingsItemContent>
               <SettingsItemTitle>Simple text item</SettingsItemTitle>
             </SettingsItemContent>
           </SettingsItem>
 
           {/* Toggle Option */}
-          <SettingsItem className="bg-layer-2 border border-border rounded-xl">
+          <SettingsItem className="border border-border rounded-xl">
             <SettingsItemContent>
               <SettingsItemTitle>Toggle option</SettingsItemTitle>
               <SettingsItemDescription>Enable or disable this setting</SettingsItemDescription>
@@ -1111,7 +1110,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </SettingsItem>
 
           {/* User Profile */}
-          <SettingsItem className="bg-layer-2 border border-border rounded-xl">
+          <SettingsItem className="border border-border rounded-xl">
             <SettingsItemIcon>
               <Avatar size="small">
                 <AvatarFallback>JD</AvatarFallback>
@@ -1129,7 +1128,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </SettingsItem>
 
           {/* Analytics */}
-          <SettingsItem className="bg-layer-2 border border-border rounded-xl">
+          <SettingsItem className="border border-border rounded-xl">
             <SettingsItemIcon>
               <div className="h-9 w-9 rounded-xl flex items-center justify-center bg-blue-500/10 text-blue-500">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="M3 3v18h18" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></svg>
@@ -1145,7 +1144,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </SettingsItem>
 
           {/* Kitchen Printer */}
-          <SettingsItem className="bg-layer-2 border border-border rounded-xl items-start">
+          <SettingsItem className="border border-border rounded-xl items-start">
             <SettingsItemIcon>
               <div className="h-9 w-9 rounded-xl flex items-center justify-center bg-emerald-500/10 text-emerald-500">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5"><path d="m2 22 1-1h3l9-9" /><path d="M3 21v-8" /><path d="M16 4.04 11 9" /><path d="m2 22 1-1h3l9-9" /><path d="M3 21v-8" /><path d="M22 7 15 2l-1 1-1 1 5 5 4-2Z" /> <path d="M6 14h12c2 0 3-1 3-3V7c0-2-1-3-3-3H6C4 4 3 5 3 7v4c0 2 1 3 3 3Z" /><path d="M6 18h12" /></svg>

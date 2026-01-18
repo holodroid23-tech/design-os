@@ -9,7 +9,7 @@ const SettingsGroup = React.forwardRef<
         <div
             ref={ref}
             className={cn(
-                "bg-layer-1 border-border-1 overflow-hidden rounded-xl border",
+                "border-border-1 overflow-hidden rounded-xl border",
                 className
             )}
             {...props}

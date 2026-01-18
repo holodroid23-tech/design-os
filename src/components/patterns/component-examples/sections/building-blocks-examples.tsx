@@ -6,6 +6,7 @@ import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { SettingsGroup } from '@/components/settings/settings-group'
+import { SectionTitle } from '@/components/ui/section-title'
 import {
   SettingsItem,
   SettingsItemAction,
@@ -14,7 +15,7 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from '@/components/settings/settings-item'
-import { AlertTriangle, ChevronDown, ChevronLeft, ChevronRight, MoreVertical, Printer, Settings, Star, WifiOff } from 'lucide-react'
+import { AlertTriangle, ChevronDown, ChevronLeft, ChevronRight, MoreVertical, Printer, Settings, Star, User, WifiOff } from 'lucide-react'
 
 export function BuildingBlocksExamplesCard() {
   return (
@@ -133,6 +134,23 @@ export function BuildingBlocksExamplesCard() {
                 <Avatar variant="primary" size="large" online>
                   <AvatarImage src="https://i.pravatar.cc/150?u=summer" alt="Summer" />
                   <AvatarFallback>S</AvatarFallback>
+                </Avatar>
+              </div>
+              <div className="flex items-center gap-3">
+                <Avatar size="small">
+                  <AvatarFallback>
+                    <User aria-hidden />
+                  </AvatarFallback>
+                </Avatar>
+                <Avatar size="medium">
+                  <AvatarFallback>
+                    <User aria-hidden />
+                  </AvatarFallback>
+                </Avatar>
+                <Avatar variant="primary" size="large">
+                  <AvatarFallback>
+                    <User aria-hidden />
+                  </AvatarFallback>
                 </Avatar>
               </div>
             </div>
@@ -352,30 +370,38 @@ export function SectionTitlesExamplesCard() {
         <CardDescription>Standardized headers (18px semibold)</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <div className="p-4 bg-layer-2 rounded-xl border border-border">
-          <h2 className="text-xl font-semibold text-foreground">Today's expenses</h2>
-        </div>
+        <SectionTitle titleAs="h2">Today's expenses</SectionTitle>
 
-        <div className="p-4 bg-layer-2 rounded-xl border border-border">
-          <div className="flex items-center justify-between cursor-pointer group">
-            <h2 className="text-xl font-semibold text-foreground">Today expenses</h2>
-            <ChevronDown className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors" />
-          </div>
-        </div>
+        <button type="button" className="w-full text-left group">
+          <SectionTitle
+            interactive
+            titleAs="h2"
+            trailing={
+              <ChevronDown className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors" />
+            }
+          >
+            Today expenses
+          </SectionTitle>
+        </button>
 
-        <div className="p-4 bg-layer-2 rounded-xl border border-border">
-          <div className="flex items-center gap-3 cursor-pointer group">
-            <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors" />
-            <h2 className="text-xl font-semibold text-foreground">Monthly utilities</h2>
-          </div>
-        </div>
+        <button type="button" className="w-full text-left group">
+          <SectionTitle
+            interactive
+            leading={
+              <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors" />
+            }
+            titleAs="h2"
+          >
+            Monthly utilities
+          </SectionTitle>
+        </button>
 
-        <div className="p-4 bg-layer-2 rounded-xl border border-border">
-          <div className="flex items-center gap-3">
-            <Star className="h-[18px] w-[18px] text-primary" />
-            <h3 className="text-lg font-semibold text-foreground">Favorites</h3>
-          </div>
-        </div>
+        <SectionTitle
+          leading={<Star className="h-[18px] w-[18px] text-primary" />}
+          titleAs="h3"
+        >
+          Favorites
+        </SectionTitle>
       </CardContent>
     </Card>
   )

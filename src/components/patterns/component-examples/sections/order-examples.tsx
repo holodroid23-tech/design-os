@@ -163,7 +163,7 @@ function OrderExpandableDemo() {
     <div className="w-full max-w-md mx-auto">
       <div
         className={cn(
-          'relative bg-layer-2 text-foreground',
+          'relative bg-layer-1 text-foreground',
           open ? 'rounded-none border-0 shadow-none overflow-visible' : 'overflow-hidden rounded-[18px] border border-border shadow-md'
         )}
       >
@@ -249,7 +249,7 @@ function OrderExpandableDemo() {
             </div>
 
             {/* Footer */}
-            <div className="sticky bottom-0 p-6 pt-5 border-t border-border bg-layer-2">
+            <div className="sticky bottom-0 p-6 pt-5 border-t border-border bg-layer-1">
               <div className="space-y-2 mb-6">
                 <div className="flex items-center justify-between gap-12 text-regular-semibold text-muted-foreground">
                   <span>Subtotal</span>

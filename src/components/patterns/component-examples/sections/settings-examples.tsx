@@ -24,7 +24,7 @@ export function SettingsComponentsExamplesCard() {
         <div className="space-y-4">
           <div className="text-sm font-medium text-muted-foreground">User profile row</div>
           <SettingsGroup>
-            <UserProfileRow name="Ghhh" email="holodroid23@gmail.com" initials="G" />
+            <UserProfileRow name="Ghhh" email="holodroid23@gmail.com" />
           </SettingsGroup>
         </div>
 
@@ -75,7 +75,7 @@ export function SettingsComponentsExamplesCard() {
               </SettingsItemContent>
             </SettingsItem>
 
-            <SettingsItem className="hover:bg-destructive/5">
+            <SettingsItem>
               <SettingsItemIcon>
                 <IconTile icon={LogOut} size="small" variant="tile" tone="danger" />
               </SettingsItemIcon>

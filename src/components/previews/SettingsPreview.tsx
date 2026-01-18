@@ -37,7 +37,6 @@ export function SettingsPreview() {
                     <UserProfileRow
                         name="Ghhh"
                         email="holodroid23@gmail.com"
-                        initials="G"
                         showBadge={true}
                         badgeText="ADMIN"
                         status="online"

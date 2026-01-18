@@ -64,7 +64,7 @@ export default function PaymentFailedTapToPay({
       <div className="fixed left-0 right-0 bottom-0 px-5 pb-6 pt-4 space-y-3 bg-layer-level-0">
         <Button
           type="button"
-          variant="outline"
+          variant="secondary"
           className="h-12 w-full rounded-[12px] bg-layer-2 border-border text-foreground hover:bg-layer-2/80"
           onClick={onChangePaymentMethod}
         >

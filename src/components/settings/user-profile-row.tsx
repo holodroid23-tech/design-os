@@ -1,12 +1,11 @@
 import * as React from "react"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, User } from "lucide-react"
 import { cn } from "../../lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
 
 interface UserProfileRowProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     name: string
     email: string
-    initials: string
     src?: string
     showBadge?: boolean
     badgeText?: string
@@ -14,7 +13,7 @@ interface UserProfileRowProps extends React.ButtonHTMLAttributes<HTMLButtonEleme
 }
 
 const UserProfileRow = React.forwardRef<HTMLButtonElement, UserProfileRowProps>(
-    ({ className, name, email, initials, src, showBadge, badgeText, status, ...props }, ref) => {
+    ({ className, name, email, src, showBadge, badgeText, status, ...props }, ref) => {
         return (
             <button
                 ref={ref}
@@ -26,13 +25,12 @@ const UserProfileRow = React.forwardRef<HTMLButtonElement, UserProfileRowProps>(
             >
                 <div className="flex items-center gap-4">
                     <div className="relative">
-                        <Avatar size="large" variant="primary">
+                        <Avatar size="large" variant="primary" online={status === "online"}>
                             <AvatarImage src={src} alt={name} />
-                            <AvatarFallback>{initials}</AvatarFallback>
+                            <AvatarFallback aria-hidden>
+                                <User aria-hidden />
+                            </AvatarFallback>
                         </Avatar>
-                        {status === "online" && (
-                            <span className="bg-green-500 absolute bottom-0 right-0 size-4 rounded-full border-2 border-white ring-1 ring-white dark:border-black dark:ring-black" />
-                        )}
                     </div>
 
                     <div className="flex flex-col items-start text-left">
@@ -49,7 +47,7 @@ const UserProfileRow = React.forwardRef<HTMLButtonElement, UserProfileRowProps>(
                 </div>
 
                 <div className="text-tertiary">
-                    <ChevronRight size={20} className="text-white opacity-40" />
+                    <ChevronRight size={20} className="text-muted-foreground" />
                 </div>
             </button>
         )

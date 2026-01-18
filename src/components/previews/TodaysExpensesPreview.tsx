@@ -195,24 +195,24 @@ export default function TodaysExpensesPreview() {
 
             {/* Bottom Summary Sheet (OrderExpandableDemo) */}
             <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
-                <div className="max-w-md mx-auto overflow-hidden rounded-[32px] border border-border bg-layer-2 shadow-2xl relative">
+                <div className="max-w-md mx-auto overflow-hidden rounded-[32px] border border-border bg-layer-1 shadow-2xl relative">
                     {/* Collapsed View */}
                     {!isSheetOpen && (
                         <div
                             onClick={() => setIsSheetOpen(true)}
-                            className="bg-[#0c141c] text-white p-5 cursor-pointer active:scale-[0.98] transition-all relative group h-[110px] flex flex-col justify-center"
+                            className="bg-layer-1 text-foreground p-5 cursor-pointer active:scale-[0.98] transition-all relative group h-[110px] flex flex-col justify-center"
                         >
                             {/* Drag Handle */}
-                            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-8 h-1 bg-white/20 rounded-full" />
+                            <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-8 h-1 bg-muted-foreground/30 rounded-full" />
 
                             <div className="flex items-center justify-between mt-1">
                                 <div className="flex flex-col">
                                     <span className="text-3xl font-bold font-sans tracking-tight">$18.50</span>
-                                    <span className="text-[11px] text-white/50 font-sans mt-0.5 truncate max-w-[180px]">
+                                    <span className="text-[11px] text-muted-foreground font-sans mt-0.5 truncate max-w-[180px]">
                                         Milk, Paper cups, Cleaning supplies...
                                     </span>
                                 </div>
-                                <div className="h-10 w-10 flex items-center justify-center text-white/40 group-hover:text-white transition-colors">
+                                <div className="h-10 w-10 flex items-center justify-center text-muted-foreground group-hover:text-foreground transition-colors">
                                     <ChevronUp className="h-7 w-7" />
                                 </div>
                             </div>
@@ -221,7 +221,7 @@ export default function TodaysExpensesPreview() {
 
                     {/* Expanded Content */}
                     {isSheetOpen && (
-                        <div className="bg-[#0c141c] text-white flex flex-col h-[600px] animate-in slide-in-from-bottom-4 duration-300">
+                        <div className="bg-layer-1 text-foreground flex flex-col h-[600px] animate-in slide-in-from-bottom-4 duration-300">
                             {/* Header */}
                             <div className="px-6 pt-8 pb-4">
                                 <div className="flex items-center justify-between mb-6">
@@ -229,7 +229,7 @@ export default function TodaysExpensesPreview() {
                                         <h2 className="text-base font-semibold font-sans">Today's expenses</h2>
                                     </div>
                                     <div
-                                        className="h-10 w-10 flex items-center justify-center text-white/40 hover:text-white transition-colors cursor-pointer"
+                                        className="h-10 w-10 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                                         onClick={() => setIsSheetOpen(false)}
                                     >
                                         <ChevronDown className="h-7 w-7" />
@@ -238,11 +238,11 @@ export default function TodaysExpensesPreview() {
 
                                 {/* Search */}
                                 <div className="relative">
-                                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-white/40" />
+                                    <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-muted-foreground" />
                                     <input
                                         type="text"
                                         placeholder="Search expenses..."
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-3.5 pl-11 pr-4 text-sm text-white placeholder:text-white/40 focus:outline-none focus:ring-1 focus:ring-white/20 transition-all font-sans"
+                                        className="w-full bg-layer-2 border border-border rounded-2xl py-3.5 pl-11 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring transition-all font-sans"
                                     />
                                 </div>
                             </div>
@@ -252,53 +252,53 @@ export default function TodaysExpensesPreview() {
                                 {/* Mock List Items based on the 'Favorites' above for consistency in the expanded view */}
 
                                 {/* Milk */}
-                                <div className="bg-white/[0.03] border border-white/5 rounded-2xl p-3 h-auto min-h-0 flex items-center gap-3">
-                                    <div className="h-14 w-14 rounded-xl overflow-hidden border border-white/10 bg-white/5 shrink-0">
+                                <div className="bg-layer-2 border border-border rounded-2xl p-3 h-auto min-h-0 flex items-center gap-3">
+                                    <div className="h-14 w-14 rounded-xl overflow-hidden border border-border bg-layer-3 shrink-0">
                                         <img src={IMAGES.milk} className="h-full w-full object-cover" alt="Milk" />
                                     </div>
                                     <div className="flex-1 flex flex-col gap-1">
-                                        <span className="text-white font-sans tracking-tight font-semibold">Milk</span>
-                                        <span className="text-white/50 text-xs">$3.00</span>
+                                        <span className="text-foreground font-sans tracking-tight font-semibold">Milk</span>
+                                        <span className="text-muted-foreground text-xs">$3.00</span>
                                     </div>
-                                    <div className="text-white font-mono font-bold">$3.00</div>
+                                    <div className="text-foreground font-mono font-bold">$3.00</div>
                                 </div>
 
                                 {/* Paper Cups */}
-                                <div className="bg-white/[0.03] border border-white/5 rounded-2xl p-3 h-auto min-h-0 flex items-center gap-3">
-                                    <div className="h-14 w-14 rounded-xl overflow-hidden border border-white/10 bg-white/5 shrink-0">
+                                <div className="bg-layer-2 border border-border rounded-2xl p-3 h-auto min-h-0 flex items-center gap-3">
+                                    <div className="h-14 w-14 rounded-xl overflow-hidden border border-border bg-layer-3 shrink-0">
                                         <div className="h-full w-full bg-gradient-to-br from-blue-600 to-blue-700 flex items-center justify-center text-white font-bold text-xs p-1 text-center">
                                             Paper cups
                                         </div>
                                     </div>
                                     <div className="flex-1 flex flex-col gap-1">
-                                        <span className="text-white font-sans tracking-tight font-semibold">Paper cups</span>
-                                        <span className="text-white/50 text-xs">$8.50</span>
+                                        <span className="text-foreground font-sans tracking-tight font-semibold">Paper cups</span>
+                                        <span className="text-muted-foreground text-xs">$8.50</span>
                                     </div>
-                                    <div className="text-white font-mono font-bold">$8.50</div>
+                                    <div className="text-foreground font-mono font-bold">$8.50</div>
                                 </div>
 
                                 {/* Cleaning Supplies */}
-                                <div className="bg-white/[0.03] border border-white/5 rounded-2xl p-3 h-auto min-h-0 flex items-center gap-3">
-                                    <div className="h-14 w-14 rounded-xl overflow-hidden border border-white/10 bg-white/5 shrink-0">
+                                <div className="bg-layer-2 border border-border rounded-2xl p-3 h-auto min-h-0 flex items-center gap-3">
+                                    <div className="h-14 w-14 rounded-xl overflow-hidden border border-border bg-layer-3 shrink-0">
                                         <img src={IMAGES.cleaning} className="h-full w-full object-cover" alt="Cleaning" />
                                     </div>
                                     <div className="flex-1 flex flex-col gap-1">
-                                        <span className="text-white font-sans tracking-tight font-semibold">Cleaning supplies</span>
-                                        <span className="text-white/50 text-xs">$7.00</span>
+                                        <span className="text-foreground font-sans tracking-tight font-semibold">Cleaning supplies</span>
+                                        <span className="text-muted-foreground text-xs">$7.00</span>
                                     </div>
-                                    <div className="text-white font-mono font-bold">$7.00</div>
+                                    <div className="text-foreground font-mono font-bold">$7.00</div>
                                 </div>
 
                             </div>
 
                             {/* Footer */}
-                            <div className="p-6 pt-5 bg-[#0c141c] border-t border-white/10">
+                            <div className="p-6 pt-5 bg-layer-1 border-t border-border">
                                 <div className="flex justify-between items-end">
-                                    <span className="text-[11px] font-bold text-white/50 uppercase tracking-widest mb-1.5">Total</span>
-                                    <div className="text-4xl font-mono font-bold text-white tracking-tighter leading-none">$18.50</div>
+                                    <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Total</span>
+                                    <div className="text-4xl font-mono font-bold text-foreground tracking-tighter leading-none">$18.50</div>
                                 </div>
                                 <div className="mt-6">
-                                    <Button variant="secondary" className="w-full h-14 rounded-2xl font-bold text-base hover:bg-secondary/20 shadow-none border-white/10">
+                                    <Button variant="secondary" className="w-full h-14 rounded-2xl font-bold text-base hover:bg-secondary/20 shadow-none">
                                         Add Expense
                                     </Button>
                                 </div>

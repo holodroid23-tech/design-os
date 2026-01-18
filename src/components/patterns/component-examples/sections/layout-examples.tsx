@@ -73,11 +73,11 @@ export function AccordionsExamplesCard() {
         <div className="grid md:grid-cols-2 gap-8 items-start">
           <div className="space-y-4">
             <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Expenses</h3>
-            <Collapsible defaultOpen className="bg-layer-2 rounded-[18px] border border-border overflow-hidden">
+            <Collapsible defaultOpen className="rounded-[18px] border border-border overflow-hidden">
               <CollapsibleTrigger asChild>
                 <button
                   type="button"
-                  className="group w-full flex items-center justify-between p-5 text-left hover:bg-layer-hover transition-colors"
+                  className="group w-full flex items-center justify-between p-5 text-left transition-colors"
                 >
                   <div className="flex flex-col">
                     <div className="flex items-center gap-2">
@@ -103,7 +103,7 @@ export function AccordionsExamplesCard() {
                     {/* Whole Milk (collapsed) */}
                     <Collapsible>
                       <CollapsibleTrigger asChild>
-                        <SettingsItem className="group bg-layer-2 hover:bg-layer-hover active:bg-layer-active rounded-none h-auto min-h-0 py-4 pl-6 pr-5">
+                        <SettingsItem className="group rounded-none h-auto min-h-0 py-4 pl-6 pr-5">
                           <SettingsItemContent className="flex-row items-center gap-4">
                             <ImageTile
                               size="small"
@@ -128,7 +128,7 @@ export function AccordionsExamplesCard() {
                         </SettingsItem>
                       </CollapsibleTrigger>
                       <CollapsibleContent>
-                        <div className="bg-layer-1/20 px-5 pb-5 pt-4 space-y-3 text-xs border-t border-border/50">
+                        <div className="px-5 pb-5 pt-4 space-y-3 text-xs border-t border-border/50">
                           <div className="space-y-1">
                             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                               <span className="text-muted-foreground">Created by:</span>
@@ -156,7 +156,7 @@ export function AccordionsExamplesCard() {
                     <Collapsible defaultOpen className="relative">
                       <div className="pointer-events-none absolute left-0 top-3 bottom-3 w-[3px] rounded-full bg-destructive" />
                       <CollapsibleTrigger asChild>
-                        <SettingsItem className="group bg-layer-2 hover:bg-layer-hover active:bg-layer-active rounded-none h-auto min-h-0 py-4 pl-6 pr-5">
+                        <SettingsItem className="group rounded-none h-auto min-h-0 py-4 pl-6 pr-5">
                           <SettingsItemContent className="flex-row items-center gap-4">
                             <IconTile icon={Home} size="small" variant="tile" tone="neutral" />
                             <div className="flex flex-col items-start text-left">
@@ -177,7 +177,7 @@ export function AccordionsExamplesCard() {
                         </SettingsItem>
                       </CollapsibleTrigger>
                       <CollapsibleContent>
-                        <div className="bg-layer-1/20 px-5 pb-5 pt-4 space-y-4 text-xs border-t border-border/50">
+                        <div className="px-5 pb-5 pt-4 space-y-4 text-xs border-t border-border/50">
                           <div className="space-y-1">
                             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                               <span className="text-muted-foreground">Created by:</span>
@@ -213,7 +213,7 @@ export function AccordionsExamplesCard() {
                     <Collapsible defaultOpen className="relative">
                       <div className="pointer-events-none absolute left-0 top-3 bottom-3 w-[3px] rounded-full bg-destructive" />
                       <CollapsibleTrigger asChild>
-                        <SettingsItem className="group bg-layer-2 hover:bg-layer-hover active:bg-layer-active rounded-none h-auto min-h-0 py-4 pl-6 pr-5">
+                        <SettingsItem className="group rounded-none h-auto min-h-0 py-4 pl-6 pr-5">
                           <SettingsItemContent className="flex-row items-center gap-4">
                             <ImageTile
                               size="small"
@@ -240,7 +240,7 @@ export function AccordionsExamplesCard() {
                         </SettingsItem>
                       </CollapsibleTrigger>
                       <CollapsibleContent>
-                        <div className="bg-layer-1/20 px-5 pb-5 pt-4 space-y-4 text-xs border-t border-border/50">
+                        <div className="px-5 pb-5 pt-4 space-y-4 text-xs border-t border-border/50">
                           <div className="space-y-1">
                             <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
                               <span className="text-muted-foreground">Created by:</span>
@@ -286,11 +286,11 @@ export function AccordionsExamplesCard() {
             <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Orders</h3>
             <div className="space-y-4">
               {/* Order #402 (expanded) */}
-              <Collapsible defaultOpen className="bg-layer-2 rounded-[18px] border border-border overflow-hidden">
+              <Collapsible defaultOpen className="rounded-[18px] border border-border overflow-hidden">
                 <CollapsibleTrigger asChild>
                   <button
                     type="button"
-                    className="group w-full flex items-center justify-between p-5 text-left hover:bg-layer-hover transition-colors"
+                    className="group w-full flex items-center justify-between p-5 text-left transition-colors"
                   >
                     <div className="flex flex-col">
                       <div className="flex items-center gap-2">
@@ -382,11 +382,11 @@ export function AccordionsExamplesCard() {
               </Collapsible>
 
               {/* Order #402 (collapsed) */}
-              <Collapsible className="bg-layer-2 rounded-[18px] border border-border overflow-hidden">
+              <Collapsible className="rounded-[18px] border border-border overflow-hidden">
                 <CollapsibleTrigger asChild>
                   <button
                     type="button"
-                    className="group w-full flex items-center justify-between p-5 text-left hover:bg-layer-hover transition-colors"
+                    className="group w-full flex items-center justify-between p-5 text-left transition-colors"
                   >
                     <div className="flex flex-col">
                       <div className="flex items-center gap-2">

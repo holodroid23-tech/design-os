@@ -54,6 +54,7 @@ const Avatar = React.forwardRef<
       ref={ref}
       data-slot="avatar"
       data-variant={variant}
+      data-size={size}
       className={cn("group/avatar", avatarVariants({ size, variant, className }))}
       {...props}
     />
@@ -101,7 +102,8 @@ const AvatarFallback = React.forwardRef<
       "group-data-[variant=purple]/avatar:bg-transparent group-data-[variant=purple]/avatar:text-white",
       "group-data-[variant=indigo]/avatar:bg-transparent group-data-[variant=indigo]/avatar:text-white",
       "group-data-[variant=secondary]/avatar:bg-secondary group-data-[variant=secondary]/avatar:text-secondary-foreground",
-      "&_svg:size-[18px] group-data-[size=medium]/avatar:&_svg:size-6 group-data-[size=large]/avatar:&_svg:size-8",
+      // Icon scaling inside avatar fallback (18 / 24 / 30px)
+      "[&_svg]:size-[18px] group-data-[size=medium]/avatar:[&_svg]:size-6 group-data-[size=large]/avatar:[&_svg]:size-[30px]",
       className
     )}
     {...props}

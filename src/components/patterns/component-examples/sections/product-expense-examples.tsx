@@ -172,7 +172,7 @@ export function ProductExpenseItemsDsExamplesCard() {
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-3">
-          <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-center">
+          <SettingsItem className="border border-border rounded-xl p-3 h-auto min-h-0 items-center">
             <SettingsItemIcon>
               <ImageTile
                 size="small"
@@ -197,7 +197,7 @@ export function ProductExpenseItemsDsExamplesCard() {
             </SettingsItemAction>
           </SettingsItem>
 
-          <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-center">
+          <SettingsItem className="border border-border rounded-xl p-3 h-auto min-h-0 items-center">
             <SettingsItemIcon>
               <ImageTile size="small" src="https://picsum.photos/seed/office-rent/72" alt="Office rent" />
             </SettingsItemIcon>
@@ -222,7 +222,7 @@ export function ProductExpenseItemsDsExamplesCard() {
             <div className="text-xs text-muted-foreground px-1">Alternatives (atoms): icon tiles with background</div>
           </div>
 
-          <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-center">
+          <SettingsItem className="border border-border rounded-xl p-3 h-auto min-h-0 items-center">
             <SettingsItemIcon>
               <IconTile icon={CreditCard} size="small" variant="tile" tone="neutral" />
             </SettingsItemIcon>
@@ -243,7 +243,7 @@ export function ProductExpenseItemsDsExamplesCard() {
             </SettingsItemAction>
           </SettingsItem>
 
-          <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-center">
+          <SettingsItem className="border border-border rounded-xl p-3 h-auto min-h-0 items-center">
             <SettingsItemIcon>
               <IconTile icon={Folder} size="small" variant="tile" tone="warning" />
             </SettingsItemIcon>
