@@ -1,6 +1,8 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { IconTile } from '@/components/atoms/icon'
+import { ImageTile } from '@/components/ui/image-tile'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -10,7 +12,7 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from '@/components/settings/settings-item'
-import { Minus, Plus, Trash2 } from 'lucide-react'
+import { CreditCard, Folder, Minus, Pencil, Plus, Trash2 } from 'lucide-react'
 
 const productSwatches = [
   { name: 'Primary', className: 'bg-gradient-to-br from-primary/70 to-primary' },
@@ -172,13 +174,11 @@ export function ProductExpenseItemsDsExamplesCard() {
         <div className="flex flex-col gap-3">
           <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-center">
             <SettingsItemIcon>
-              <div className="h-9 w-9 rounded-lg overflow-hidden">
-                <img
-                  src="https://images.unsplash.com/photo-1542332213-31f87348057f?q=80&w=1000&auto=format&fit=crop"
-                  className="h-full w-full object-cover"
-                  alt="Iced Matcha"
-                />
-              </div>
+              <ImageTile
+                size="small"
+                src="https://images.unsplash.com/photo-1542332213-31f87348057f?q=80&w=256&auto=format&fit=crop"
+                alt="Iced Matcha"
+              />
             </SettingsItemIcon>
             <SettingsItemContent>
               <SettingsItemTitle>Iced Matcha</SettingsItemTitle>
@@ -198,10 +198,68 @@ export function ProductExpenseItemsDsExamplesCard() {
           </SettingsItem>
 
           <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-center">
+            <SettingsItemIcon>
+              <ImageTile size="small" src="https://picsum.photos/seed/office-rent/72" alt="Office rent" />
+            </SettingsItemIcon>
             <SettingsItemContent>
               <SettingsItemTitle>Office rent</SettingsItemTitle>
             </SettingsItemContent>
-            <SettingsItemAction>
+            <SettingsItemAction className="flex items-center gap-6">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="h-8 w-8 text-foreground"
+                aria-label="Edit price"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Pencil className="h-[18px] w-[18px]" />
+              </Button>
+              <span className="text-sm font-mono font-bold text-foreground">$1,250.00</span>
+            </SettingsItemAction>
+          </SettingsItem>
+
+          <div className="pt-1">
+            <div className="text-xs text-muted-foreground px-1">Alternatives (atoms): icon tiles with background</div>
+          </div>
+
+          <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-center">
+            <SettingsItemIcon>
+              <IconTile icon={CreditCard} size="small" variant="tile" tone="neutral" />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>Iced Matcha</SettingsItemTitle>
+            </SettingsItemContent>
+            <SettingsItemAction className="flex items-center gap-6">
+              <div className="flex items-center gap-1 bg-layer-1 border border-border rounded-lg p-0.5">
+                <Button variant="invisible" size="icon-sm" className="h-7 w-7 rounded-md text-foreground">
+                  <Minus className="h-[18px] w-[18px]" />
+                </Button>
+                <span className="font-bold px-2 text-sm text-foreground">2</span>
+                <Button variant="invisible" size="icon-sm" className="h-7 w-7 rounded-md text-foreground">
+                  <Plus className="h-[18px] w-[18px]" />
+                </Button>
+              </div>
+              <span className="text-sm font-mono font-bold text-foreground">$11.00</span>
+            </SettingsItemAction>
+          </SettingsItem>
+
+          <SettingsItem className="bg-layer-2 border border-border rounded-xl p-3 h-auto min-h-0 items-center">
+            <SettingsItemIcon>
+              <IconTile icon={Folder} size="small" variant="tile" tone="warning" />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>Office rent</SettingsItemTitle>
+            </SettingsItemContent>
+            <SettingsItemAction className="flex items-center gap-6">
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="h-8 w-8 text-foreground"
+                aria-label="Edit price"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <Pencil className="h-[18px] w-[18px]" />
+              </Button>
               <span className="text-sm font-mono font-bold text-foreground">$1,250.00</span>
             </SettingsItemAction>
           </SettingsItem>

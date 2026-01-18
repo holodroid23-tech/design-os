@@ -1,4 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { IconTile } from '@/components/atoms/icon'
 import { SettingsGroup } from '@/components/settings/settings-group'
 import {
   SettingsItem,
@@ -33,9 +34,7 @@ export function SettingsComponentsExamplesCard() {
           <SettingsGroup>
             <SettingsItem>
               <SettingsItemIcon>
-                <div className="h-10 w-10 rounded-lg bg-layer-info text-on-layer-info flex items-center justify-center">
-                  <Store className="h-5 w-5" />
-                </div>
+                <IconTile icon={Store} size="small" variant="tile" tone="info" />
               </SettingsItemIcon>
               <SettingsItemContent>
                 <SettingsItemTitle>Inventory</SettingsItemTitle>
@@ -48,9 +47,7 @@ export function SettingsComponentsExamplesCard() {
 
             <SettingsItem>
               <SettingsItemIcon>
-                <div className="h-10 w-10 rounded-lg bg-layer-success text-on-layer-success flex items-center justify-center">
-                  <CreditCard className="h-5 w-5" />
-                </div>
+                <IconTile icon={CreditCard} size="small" variant="tile" tone="success" />
               </SettingsItemIcon>
               <SettingsItemContent>
                 <SettingsItemTitle>Expenses</SettingsItemTitle>
@@ -62,9 +59,7 @@ export function SettingsComponentsExamplesCard() {
           <SettingsGroup>
             <SettingsItem>
               <SettingsItemIcon>
-                <div className="h-10 w-10 rounded-lg bg-layer-2 text-foreground flex items-center justify-center">
-                  <Settings className="h-5 w-5" />
-                </div>
+                <IconTile icon={Settings} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
               <SettingsItemContent>
                 <SettingsItemTitle>General</SettingsItemTitle>
@@ -73,9 +68,7 @@ export function SettingsComponentsExamplesCard() {
 
             <SettingsItem>
               <SettingsItemIcon>
-                <div className="h-10 w-10 rounded-lg bg-layer-2 text-foreground flex items-center justify-center">
-                  <User className="h-5 w-5" />
-                </div>
+                <IconTile icon={User} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
               <SettingsItemContent>
                 <SettingsItemTitle>Users</SettingsItemTitle>
@@ -84,12 +77,10 @@ export function SettingsComponentsExamplesCard() {
 
             <SettingsItem className="hover:bg-destructive/5">
               <SettingsItemIcon>
-                <div className="h-10 w-10 rounded-lg bg-layer-danger text-on-layer-danger flex items-center justify-center">
-                  <LogOut className="h-5 w-5" />
-                </div>
+                <IconTile icon={LogOut} size="small" variant="tile" tone="danger" />
               </SettingsItemIcon>
               <SettingsItemContent>
-                <SettingsItemTitle className="text-on-layer-danger">Log out</SettingsItemTitle>
+                <SettingsItemTitle className="text-onLayer-danger">Log out</SettingsItemTitle>
               </SettingsItemContent>
             </SettingsItem>
           </SettingsGroup>

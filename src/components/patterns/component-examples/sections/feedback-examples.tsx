@@ -242,13 +242,9 @@ function PermissionItem({ allowed, children }: { allowed: boolean; children: Rea
   return (
     <div className="flex items-start gap-3">
       {allowed ? (
-        <span className="h-6 w-6 rounded-full bg-layer-success text-on-layer-success flex items-center justify-center shrink-0">
-          <CheckCircle2 className="h-[18px] w-[18px]" />
-        </span>
+        <CheckCircle2 className="h-[18px] w-[18px] text-on-layer-success shrink-0" />
       ) : (
-        <span className="h-6 w-6 rounded-full bg-layer-danger text-on-layer-danger flex items-center justify-center shrink-0">
-          <XCircle className="h-[18px] w-[18px]" />
-        </span>
+        <XCircle className="h-[18px] w-[18px] text-on-layer-danger shrink-0" />
       )}
       <span className="text-sm text-foreground leading-5">{children}</span>
     </div>
