@@ -16,3 +16,6 @@ Manage inventory and expense templates, staff/users, taxes, payment methods, pri
 
 ### 5. Onboarding
 The first-run experience: store registration, mode selection (Register vs Back Office), and initial system walkthrough.
+
+### 6. System Emails
+Transactional email templates for account lifecycle: welcome, password/PIN resets, and role promotions.
