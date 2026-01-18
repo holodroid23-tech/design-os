@@ -91,7 +91,6 @@ Read the following files to gather context:
 4. `src/components/ComponentExamples.tsx` — Study available components and usage patterns
 5. `/product/sections/[section-id]/spec.md` — Section specification (if exists)
 6. `/product/sections/[section-id]/data.json` — Sample data (if exists)
-7. `/.claude/skills/design analysis - implementation.md` — Screen Coding Workflow v1: Ultra-Strict Checklist
 
 ### 5b. Load Mockup Image
 
@@ -105,7 +104,7 @@ Convert the mockup filename to PascalCase:
 
 ### 5d. Implement Component
 
-Using the Screen Coding Workflow v1: Ultra-Strict Checklist from the skills file, implement the component.
+Using **Screen Coding Workflow v4: Design System Reference Mandatory** (below), implement the component.
 
 **Critical Instructions:**
 
@@ -120,9 +119,11 @@ You are implementing a replicated design component. Follow these rules strictly:
    - NO inline styles (e.g., NO `style={{}}`)
 
 2. **Component Usage:**
-   - Use ONLY existing components from `src/components/ui/`
-   - DO NOT create custom components
-   - Check available components first before implementing
+   - **Build from the Design page first**: treat `src/components/ComponentExamples.tsx` as the source of truth for how UI should look.
+   - Prefer composing existing components/patterns already demonstrated there (and in `src/components/ui/`, plus `src/components/settings/*`) over hand-rolling layouts with raw `<div>` + classes.
+   - Use ONLY existing components from `src/components/ui/` (and section-safe shared building blocks like `src/components/settings/*` when applicable).
+   - DO NOT create new base UI components during replication.
+   - If you must use plain elements, copy the closest pattern from `ComponentExamples.tsx` and keep the same spacing/typography conventions.
 
 3. **Text Formatting:**
    - Use sentence case for all text
@@ -144,42 +145,105 @@ You are implementing a replicated design component. Follow these rules strictly:
    - Design OS preview overlay closes on outside click; do **not** add extra title bars or “X” close buttons in the preview chrome
    - For modal screens, implement **modal content only** (no extra overlay/backdrop implementation)
 
-**Ultra-Strict Checklist (follow in order):**
+7. **Preview safety (critical):**
+   - Design OS previews render replicated components as `<Component />` (no props passed)
+   - Your component must be **safe to render with no props**:
+     - Optional props + sensible defaults
+     - Default array props to `[]` (never call `.map` on possibly-undefined)
+     - Provide fallback strings/numbers for required labels when props are absent
+   - Validate this by ensuring `<[ComponentName] />` renders without throwing
 
-**PRE-IMPLEMENTATION VALIDATION**
-☐ **MANDATORY**: Read `product/design-system/colors.json` - Extract all allowed semantic tokens
-☐ **MANDATORY**: Read `product/design-system/typography.json` - Extract font families and sizes
-☐ **MANDATORY**: Read `product/design-system/radius.json` - Extract allowed radius values: 3px, 6px, 12px, 18px, 9999px
-☐ **MANDATORY**: Read `src/components/ComponentExamples.tsx` - Study available components and usage patterns
+8. **Design-page parity rule (critical):**
+   - The Design page (`ComponentExamples.tsx`) sometimes uses Tailwind palette colors like `text-stone-500` / `border-stone-200` for demo purposes.
+   - Replicated designs must still pass the parity rules:
+     - ✅ Allowed: theme tokens like `bg-background`, `text-foreground`, `bg-primary/10`, `border-primary`, `text-muted-foreground`, etc.
+     - ❌ Forbidden: hardcoded Tailwind palette colors (e.g. `bg-stone-800`, `text-stone-500`, `border-blue-500`)
+   - When a Design-page example uses forbidden palette classes, **translate** them to the closest allowed semantic/theme tokens while keeping the same component structure and spacing.
 
-**COMPONENT MAPPING VALIDATION**
-☐ **MANDATORY**: For each UI element in mockup, list exact component from `src/components/ui/`
-☐ **MANDATORY**: Document required props for each component
-☐ **MANDATORY**: Verify component exists in `src/components/ui/` directory
-☐ **MANDATORY**: No custom components allowed - use only existing UI components
+## Screen Coding Workflow v4: Design System Reference Mandatory
 
-**FORBIDDEN PATTERNS CHECKLIST**
-☐ **FORBIDDEN**: No inline styles (`style={{}}`)
-☐ **FORBIDDEN**: No hardcoded Tailwind colors (`blue-500`, `red-600`, etc.)
-☐ **FORBIDDEN**: Only use semantic tokens from design system
-☐ **FORBIDDEN**: No custom radius values - only: 3px, 6px, 12px, 18px, 9999px
-☐ **FORBIDDEN**: No ALL CAPS text - sentence case only
-☐ **FORBIDDEN**: No custom CSS classes or utilities
-☐ **FORBIDDEN**: No direct color values (`#ff0000`, `rgb(255,0,0)`)
+### Role
+You are a **Design System Archaeologist** who excavates and preserves design system knowledge before building anything.
 
-**DESIGN SYSTEM COMPLIANCE CHECKLIST**
-☐ **MANDATORY**: All colors from `product/design-system/colors.json` semantic tokens only
-☐ **MANDATORY**: All border-radius values match design system: 3px|6px|12px|18px|9999px
-☐ **MANDATORY**: Typography uses design system fonts and sizes
-☐ **MANDATORY**: Spacing uses Tailwind spacing scale (4px increments)
-☐ **MANDATORY**: Components use exact prop patterns from `ComponentExamples.tsx`
+### Input
+- Screen mockup (image or ASCII art)
+- Component context (section name, screen name)
+- Design system files: `product/design-system/*.json`
+- Component examples: `src/components/ComponentExamples.tsx`
 
-**IMPLEMENTATION STEPS**
-1. **Read all design system files** - No exceptions
-2. **Map mockup elements to components** - List each element + component + props
-3. **Extract design tokens** - Create variables for all colors, spacing, typography
-4. **Implement component** - Use only approved patterns
-5. **Self-review against checklist** - Verify all checkboxes pass
+### Output
+- React component in `src/sections/[section-id]/[ComponentName].tsx`
+- Deep design system understanding
+- Reference-driven implementation
+
+### Mandatory Reference Phase (complete ALL before coding)
+
+#### Step 1: Excavate design system knowledge
+**MANDATORY**: Read and memorize `product/design-system/colors.json`
+
+- Extract and memorize **all semantic tokens** (do not invent new ones)
+- Use semantic classes only (e.g. `bg-layer-surface`, `text-onLayer-primary`, `border-border-subtle`)
+- Never use raw values (`#...`, `rgb(...)`) or non-semantic Tailwind colors (`bg-blue-500`)
+
+**MANDATORY**: Read and memorize `product/design-system/radius.json`
+
+- Extract and memorize allowed radius values: **3px, 6px, 12px, 18px, 9999px**
+- Use pixel-based radii only (e.g. `rounded-[12px]`) and never `rounded-lg` / `rounded-xl`
+
+**MANDATORY**: Read and memorize `product/design-system/typography.json`
+
+- Extract and memorize the typography system (font families, sizes, line heights)
+- Apply typography via the project’s typography utility patterns (as referenced in existing code/examples)
+
+#### Step 2: Catalog component library
+**MANDATORY**: Read and memorize `src/components/ComponentExamples.tsx`
+
+- Extract the component inventory and prop patterns
+- Only import and use components that exist in `src/components/ui/`
+- Match prop shapes from examples (do not guess new prop names)
+
+#### Step 3: Create working memory index
+Create a mapping table (in your working notes) before writing code:
+
+| Mockup element | Component | Props needed | Design tokens |
+|---|---|---|---|
+| Rounded button | `<Button>` | `variant`, `size`, `onClick` | `button.*`, `onButton.*`, `rounded-[12px]` |
+| Text input | `<Input>` | `type`, `value`, `onChange` | `border.*`, `onLayer.*`, `rounded-[12px]` |
+| Card surface | `<Card>` | `className` | `layer.*`, `border.*`, `rounded-[12px]` |
+
+#### Step 4: Token extraction for mockup
+Analyze the mockup and list the tokens you will use:
+
+- **Colors needed**: pick from `layer/onLayer/border/button/onButton/semantic` groups in `colors.json`
+- **Radius needed**: choose from allowed values only (3/6/12/18/9999)
+- **Typography needed**: heading/body/mono from `typography.json`
+
+### Implementation Phase (after reference complete)
+
+#### Step 5: Component mapping
+For each mockup element, reference your memorized inventory and prop patterns (from `ComponentExamples.tsx`).
+
+#### Step 6: Token application
+Apply extracted semantic tokens and allowed radii:
+
+- **Colors**: semantic classes only (e.g. `bg-layer-surface border-border-default text-onLayer-primary`)
+- **Radius**: `rounded-[3px|6px|12px|18px|9999px]` only
+- **Typography**: use the project’s typography utility approach from references (no guessing)
+
+#### Step 7: Validation against references
+Cross-check the implementation:
+
+- ✅ Every color class maps to a real semantic token from `colors.json`
+- ✅ Every radius uses allowed pixel values only
+- ✅ Every component import comes from `@/components/ui` and exists
+- ✅ Every component usage matches patterns in `ComponentExamples.tsx`
+- ✅ All text is sentence case (no all-caps)
+
+### Reference-driven problem solving (when unknown)
+1. Re-read the reference files (tokens + examples)
+2. Find the closest match in `ComponentExamples.tsx`
+3. Use allowed tokens only (do not invent)
+4. Document the gap as a design system / component library improvement
 
 **Write outputs (Design OS + export-ready)**
 1. **Primary output (export-ready)**: Write the React component to `src/sections/[section-id]/[ComponentName].tsx`
@@ -226,6 +290,7 @@ After generating the component, validate:
 - ✅ No custom components (only from `src/components/ui/`)
 - ✅ No inline styles
 - ✅ Props-based (accepts data and callbacks)
+- ✅ **Preview-safe**: component renders with no props (`<[ComponentName] />`) without runtime errors
 - ✅ Mobile responsive
 - ✅ Light/dark mode support
 - ✅ Parity check passes: `npm run parity-check src/sections/[section-id]/[ComponentName].tsx`
@@ -276,6 +341,7 @@ All mockups for this section are now replicated!"
 - **Validation**: Always validate before reporting success
 - **Sample data**: Use `data.json` for realistic content when available
 - **Error handling**: If component generation fails, report the error and ask if the user wants to retry
+- **Knowledge preservation**: If you hit a missing token/component/pattern, document the gap and suggest the smallest design system/library improvement
 
 ## Design System Reference
 
