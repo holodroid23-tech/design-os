@@ -1,13 +1,57 @@
-import { useState, useEffect, Suspense, lazy } from 'react'
+import { useEffect, useMemo, useState, Suspense } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
-import { EmptyState } from '@/components/EmptyState'
-import { Check, Circle, X } from 'lucide-react'
+import { Check, Circle } from 'lucide-react'
 import type { MockupInfo } from '@/types/section'
 
 interface ReplicatedDesignsCardProps {
   mocks: MockupInfo[]
   sectionId: string
+}
+
+type PreviewPresentation = 'page' | 'mobile' | 'modal'
+
+function inferPresentationFromMock(mock: MockupInfo): PreviewPresentation {
+  const haystack = `${mock.fileName} ${mock.componentName} ${mock.displayName}`.toLowerCase()
+
+  if (/(^|[-_ ])(modal|dialog|sheet|drawer)([-_ ]|$)/.test(haystack)) return 'modal'
+  if (/(^|[-_ ])(mobile|phone|portrait)([-_ ]|$)/.test(haystack)) return 'mobile'
+
+  return 'page'
+}
+
+function PreviewSurface({
+  presentation,
+  children,
+}: {
+  presentation: PreviewPresentation
+  children: React.ReactNode
+}) {
+  if (presentation === 'mobile') {
+    return (
+      <div className="p-4">
+        <div className="mx-auto w-full max-w-[420px] aspect-[9/19.5] rounded-[24px] border border-border bg-background shadow-2xl overflow-hidden">
+          <div className="h-full w-full overflow-y-auto overscroll-contain">
+            {children}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (presentation === 'modal') {
+    return (
+      <div className="w-full max-w-lg mx-auto">
+        {children}
+      </div>
+    )
+  }
+
+  return (
+    <div className="w-[min(1100px,calc(100vw-2rem))] max-h-[85vh] overflow-y-auto mx-auto">
+      {children}
+    </div>
+  )
 }
 
 /**
@@ -27,9 +71,17 @@ function ReplicatedDesignModal({
   const [Component, setComponent] = useState<React.ComponentType | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [presentation, setPresentation] = useState<PreviewPresentation>(
+    inferPresentationFromMock(mock),
+  )
+
+  const inferredPresentation = useMemo(() => inferPresentationFromMock(mock), [mock])
 
   useEffect(() => {
-    if (isOpen && mock.isReplicated && !Component) {
+    if (!isOpen || !mock.isReplicated) return
+
+    setPresentation(inferredPresentation)
+    setComponent(null)
       setLoading(true)
       setError(null)
 
@@ -37,6 +89,12 @@ function ReplicatedDesignModal({
       import(`../../product/sections/${sectionId}/replicated/${mock.componentName}.tsx`)
         .then((module) => {
           setComponent(() => module.default)
+          const modulePresentation = (module as any)?.designOS?.presentation as
+            | PreviewPresentation
+            | undefined
+          if (modulePresentation === 'page' || modulePresentation === 'mobile' || modulePresentation === 'modal') {
+            setPresentation(modulePresentation)
+          }
           setLoading(false)
         })
         .catch((err) => {
@@ -44,59 +102,47 @@ function ReplicatedDesignModal({
           setError('Failed to load component')
           setLoading(false)
         })
-    }
-  }, [isOpen, mock.isReplicated, mock.componentName, sectionId, Component])
+  }, [inferredPresentation, isOpen, mock.componentName, mock.isReplicated, sectionId])
 
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
-        <div className="space-y-4">
-          {/* Header */}
-          <div className="flex items-center justify-between">
-            <div>
-              <h2 className="text-xl font-semibold">{mock.displayName}</h2>
-              <p className="text-sm text-muted-foreground">
-                Replicated Design Preview
-              </p>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-muted rounded-md transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
+    <Dialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) onClose()
+      }}
+    >
+      <DialogContent
+        showCloseButton={false}
+        className="max-w-none w-auto border-0 bg-transparent p-0 shadow-none"
+      >
+        {loading && (
+          <div className="flex items-center justify-center py-12 px-6">
+            <div className="text-muted-foreground">Loading component...</div>
           </div>
+        )}
 
-          {/* Component Preview */}
-          {loading && (
-            <div className="flex items-center justify-center py-12">
-              <div className="text-muted-foreground">Loading component...</div>
-            </div>
-          )}
+        {error && (
+          <div className="flex flex-col items-center justify-center py-12 gap-3 px-6">
+            <div className="text-red-600 dark:text-red-400">{error}</div>
+            <p className="text-sm text-muted-foreground">
+              Component: {mock.componentName}
+            </p>
+          </div>
+        )}
 
-          {error && (
-            <div className="flex flex-col items-center justify-center py-12 gap-3">
-              <div className="text-red-600 dark:text-red-400">{error}</div>
-              <p className="text-sm text-muted-foreground">
-                Component: {mock.componentName}
-              </p>
-            </div>
-          )}
+        {!loading && !error && Component && (
+          <PreviewSurface presentation={presentation}>
+            <Suspense fallback={<div className="p-6">Loading...</div>}>
+              <Component />
+            </Suspense>
+          </PreviewSurface>
+        )}
 
-          {!loading && !error && Component && (
-            <div className="border rounded-lg p-6 bg-muted/30">
-              <Suspense fallback={<div>Loading...</div>}>
-                <Component />
-              </Suspense>
-            </div>
-          )}
-
-          {!loading && !error && !Component && mock.isReplicated && (
-            <div className="text-center py-12 text-muted-foreground">
-              Component could not be loaded
-            </div>
-          )}
-        </div>
+        {!loading && !error && !Component && mock.isReplicated && (
+          <div className="text-center py-12 text-muted-foreground px-6">
+            Component could not be loaded
+          </div>
+        )}
       </DialogContent>
     </Dialog>
   )

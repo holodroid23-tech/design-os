@@ -10,6 +10,8 @@ Verify the minimum requirements exist:
 - `/product/product-roadmap.md` — Sections defined
 - `/product/design-system/colors.json` — Color tokens
 - `/product/design-system/typography.json` — Typography tokens
+- `/product/design-system/radius.json` — Radius tokens (allowed values: 3px, 6px, 12px, 18px, 9999px)
+- `src/components/ComponentExamples.tsx` — Component usage patterns and examples
 
 **Recommended:**
 - `src/components/ui/` — UI component library
@@ -83,11 +85,13 @@ For each mockup selected:
 
 Read the following files to gather context:
 
-1. `/product/design-system/colors.json` — Color tokens
-2. `/product/design-system/typography.json` — Typography tokens
-3. `/product/sections/[section-id]/spec.md` — Section specification (if exists)
-4. `/product/sections/[section-id]/data.json` — Sample data (if exists)
-5. `/.claude/skills/design analysis - implementation.md` — Screen Coding Workflow v2
+1. `/product/design-system/colors.json` — Color tokens (extract all allowed semantic tokens)
+2. `/product/design-system/typography.json` — Typography tokens (extract font families and sizes)
+3. `/product/design-system/radius.json` — Radius tokens (allowed values: 3px, 6px, 12px, 18px, 9999px)
+4. `src/components/ComponentExamples.tsx` — Study available components and usage patterns
+5. `/product/sections/[section-id]/spec.md` — Section specification (if exists)
+6. `/product/sections/[section-id]/data.json` — Sample data (if exists)
+7. `/.claude/skills/design analysis - implementation.md` — Screen Coding Workflow v1: Ultra-Strict Checklist
 
 ### 5b. Load Mockup Image
 
@@ -101,7 +105,7 @@ Convert the mockup filename to PascalCase:
 
 ### 5d. Implement Component
 
-Using the Screen Coding Workflow v2 from the skills file, implement the component.
+Using the Screen Coding Workflow v1: Ultra-Strict Checklist from the skills file, implement the component.
 
 **Critical Instructions:**
 
@@ -134,15 +138,57 @@ You are implementing a replicated design component. Follow these rules strictly:
    - If `data.json` exists, use it to populate the component with realistic sample data
    - Pass sample data via props, not hardcoded
 
-**Implementation Steps:**
+6. **Preview Presentation (Design OS):**
+   - If the mockup is a **modal screen**, export `designOS.presentation = 'modal'`
+   - If the mockup is a **mobile screen**, export `designOS.presentation = 'mobile'`
+   - Design OS preview overlay closes on outside click; do **not** add extra title bars or “X” close buttons in the preview chrome
+   - For modal screens, implement **modal content only** (no extra overlay/backdrop implementation)
 
-1. Analyze the mockup image carefully
-2. Identify UI components needed from `src/components/ui/`
-3. Map mockup colors to semantic tokens from `colors.json`
-4. Implement the layout using Tailwind utilities
-5. Ensure mobile responsiveness
-6. Support light and dark mode with `dark:` variants
-7. Write the component to `product/sections/[section-id]/replicated/[ComponentName].tsx`
+**Ultra-Strict Checklist (follow in order):**
+
+**PRE-IMPLEMENTATION VALIDATION**
+☐ **MANDATORY**: Read `product/design-system/colors.json` - Extract all allowed semantic tokens
+☐ **MANDATORY**: Read `product/design-system/typography.json` - Extract font families and sizes
+☐ **MANDATORY**: Read `product/design-system/radius.json` - Extract allowed radius values: 3px, 6px, 12px, 18px, 9999px
+☐ **MANDATORY**: Read `src/components/ComponentExamples.tsx` - Study available components and usage patterns
+
+**COMPONENT MAPPING VALIDATION**
+☐ **MANDATORY**: For each UI element in mockup, list exact component from `src/components/ui/`
+☐ **MANDATORY**: Document required props for each component
+☐ **MANDATORY**: Verify component exists in `src/components/ui/` directory
+☐ **MANDATORY**: No custom components allowed - use only existing UI components
+
+**FORBIDDEN PATTERNS CHECKLIST**
+☐ **FORBIDDEN**: No inline styles (`style={{}}`)
+☐ **FORBIDDEN**: No hardcoded Tailwind colors (`blue-500`, `red-600`, etc.)
+☐ **FORBIDDEN**: Only use semantic tokens from design system
+☐ **FORBIDDEN**: No custom radius values - only: 3px, 6px, 12px, 18px, 9999px
+☐ **FORBIDDEN**: No ALL CAPS text - sentence case only
+☐ **FORBIDDEN**: No custom CSS classes or utilities
+☐ **FORBIDDEN**: No direct color values (`#ff0000`, `rgb(255,0,0)`)
+
+**DESIGN SYSTEM COMPLIANCE CHECKLIST**
+☐ **MANDATORY**: All colors from `product/design-system/colors.json` semantic tokens only
+☐ **MANDATORY**: All border-radius values match design system: 3px|6px|12px|18px|9999px
+☐ **MANDATORY**: Typography uses design system fonts and sizes
+☐ **MANDATORY**: Spacing uses Tailwind spacing scale (4px increments)
+☐ **MANDATORY**: Components use exact prop patterns from `ComponentExamples.tsx`
+
+**IMPLEMENTATION STEPS**
+1. **Read all design system files** - No exceptions
+2. **Map mockup elements to components** - List each element + component + props
+3. **Extract design tokens** - Create variables for all colors, spacing, typography
+4. **Implement component** - Use only approved patterns
+5. **Self-review against checklist** - Verify all checkboxes pass
+
+**Write outputs (Design OS + export-ready)**
+1. **Primary output (export-ready)**: Write the React component to `src/sections/[section-id]/[ComponentName].tsx`
+2. **Design OS preview hook (replicated designs list)**: Create/keep a file at `product/sections/[section-id]/replicated/[ComponentName].tsx` that re-exports the `src/sections/...` component
+3. **Presentation metadata (optional but preferred)**: In the exported component file, add:
+
+```ts
+export const designOS = { presentation: 'page' as const } // or 'mobile' | 'modal'
+```
 
 **Component Template:**
 
@@ -182,6 +228,7 @@ After generating the component, validate:
 - ✅ Props-based (accepts data and callbacks)
 - ✅ Mobile responsive
 - ✅ Light/dark mode support
+- ✅ Parity check passes: `npm run parity-check src/sections/[section-id]/[ComponentName].tsx`
 
 If validation fails, fix the issues before continuing.
 

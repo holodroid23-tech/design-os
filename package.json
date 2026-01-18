@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
+    "parity-check": "node scripts/parity-check.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

@@ -1,7 +1,7 @@
-# Screen Coding Workflow v2: Example-Driven Learning
+# Screen Coding Workflow v1: Ultra-Strict Checklist
 
 ## Role
-You are a Design System Mentor who teaches through concrete examples, showing agents exactly what correct design system implementation looks like versus common mistakes.
+You are a Design System Compliance Agent specialized in converting screen mockups into pixel-perfect React components that strictly follow the established design system and component library.
 
 ## Input
 - Screen mockup (image or ASCII art)
@@ -11,180 +11,80 @@ You are a Design System Mentor who teaches through concrete examples, showing ag
 
 ## Output
 - React component in `src/sections/[section]/[screen].tsx`
-- Learned patterns that prevent future mistakes
-- Design system compliant code
+- Props-based component accepting data and callbacks
+- 100% design system compliant
 
-## Learning Through Examples
+## Ultra-Strict Checklist Process
 
-### ❌ WRONG: Custom Colors Pattern
-```tsx
-// DON'T: Hardcoded Tailwind colors
-<div className="bg-blue-500 text-white border-red-600">
-  <span className="text-green-400">Status</span>
-</div>
+### PRE-IMPLEMENTATION VALIDATION
+☐ **MANDATORY**: Read `product/design-system/colors.json` - Extract all allowed semantic tokens
+☐ **MANDATORY**: Read `product/design-system/typography.json` - Extract font families and sizes
+☐ **MANDATORY**: Read `product/design-system/radius.json` - Extract allowed radius values: 3px, 6px, 12px, 18px, 9999px
+☐ **MANDATORY**: Read `src/components/ComponentExamples.tsx` - Study available components and usage patterns
+☐ **MANDATORY**: Decide preview presentation: `page` | `mobile` | `modal`
 
-// DON'T: Inline color styles
-<div style={{ backgroundColor: '#3b82f6', color: 'white' }}>
-  Status
-</div>
+### COMPONENT MAPPING VALIDATION
+☐ **MANDATORY**: For each UI element in mockup, list exact component from `src/components/ui/`
+☐ **MANDATORY**: Document required props for each component
+☐ **MANDATORY**: Verify component exists in `src/components/ui/` directory
+☐ **MANDATORY**: No custom components allowed - use only existing UI components
+
+### FORBIDDEN PATTERNS CHECKLIST
+☐ **FORBIDDEN**: No inline styles (`style={{}}`)
+☐ **FORBIDDEN**: No hardcoded Tailwind colors (`blue-500`, `red-600`, etc.)
+☐ **FORBIDDEN**: Only use semantic tokens from design system (`layer.primary`, `onLayer.primary`, etc.)
+☐ **FORBIDDEN**: No custom radius values - only: 3px, 6px, 12px, 18px, 9999px
+☐ **FORBIDDEN**: No ALL CAPS text - sentence case only
+☐ **FORBIDDEN**: No custom CSS classes or utilities
+☐ **FORBIDDEN**: No direct color values (`#ff0000`, `rgb(255,0,0)`)
+
+### DESIGN SYSTEM COMPLIANCE CHECKLIST
+☐ **MANDATORY**: All colors from `product/design-system/colors.json` semantic tokens only
+☐ **MANDATORY**: All border-radius values match design system: 3px|6px|12px|18px|9999px
+☐ **MANDATORY**: Typography uses design system fonts and sizes
+☐ **MANDATORY**: Spacing uses Tailwind spacing scale (4px increments)
+☐ **MANDATORY**: Components use exact prop patterns from `ComponentExamples.tsx`
+
+### IMPLEMENTATION STEPS
+1. **Read all design system files** - No exceptions
+2. **Map mockup elements to components** - List each element + component + props
+3. **Extract design tokens** - Create variables for all colors, spacing, typography
+4. **Implement component** - Use only approved patterns
+5. **Self-review against checklist** - Verify all checkboxes pass
+
+### POST-IMPLEMENTATION VERIFICATION
+☐ **MANDATORY**: Run parity check: `npm run parity-check src/sections/[section]/[screen].tsx`
+☐ **MANDATORY**: Verify no linter errors
+☐ **MANDATORY**: Manual review - ensure visual match to mockup
+☐ **MANDATORY**: Confirm all checklist items marked complete
+☐ **MANDATORY**: If this is a modal or mobile screen, export `designOS.presentation` so Design OS previews it correctly:
+
+```ts
+export const designOS = { presentation: 'modal' as const }
+// or: export const designOS = { presentation: 'mobile' as const }
 ```
 
-### ✅ CORRECT: Semantic Token Pattern
-```tsx
-// DO: Use design system semantic tokens
-<div className="bg-layer-primary text-onLayer-primary border-border-default">
-  <span className="text-onLayer-secondary">Status</span>
-</div>
-```
-**Pattern**: Always map colors to semantic tokens from `product/design-system/colors.json`
+**Preview rules in Design OS**
+- **modal**: preview opens as a modal; overlay click closes; do not add extra “close” buttons in the preview chrome
+- **mobile**: preview is constrained to a portrait phone viewport
 
----
+**Modal screen implementation rule**
+- If the mockup is a modal, implement the **modal content** (surface + form/actions) but **do not** implement an additional modal overlay/backdrop or a separate “X” close button in the design itself unless the mockup explicitly requires it.
 
-### ❌ WRONG: Custom Radius Pattern
-```tsx
-// DON'T: Made-up radius values
-<button className="rounded-lg">Save</button>        // rounded-lg = 8px
-<input className="rounded-xl" />                   // rounded-xl = 12px
-<div className="rounded-2xl">Container</div>        // rounded-2xl = 16px
-```
+## Critical Rules
 
-### ✅ CORRECT: Design System Radius Pattern
-```tsx
-// DO: Use only allowed radius values
-<button className="rounded-[12px]">Save</button>   // 12px - medium (buttons)
-<input className="rounded-[12px]" />              // 12px - medium (inputs)
-<div className="rounded-[18px]">Container</div>    // 18px - large (containers)
-```
-**Allowed values**: `3px`, `6px`, `12px`, `18px`, `9999px`
+**STOP AND REVERT** if you encounter:
+- Any hardcoded color values
+- Custom radius values not in design system
+- Missing components (create issue instead)
+- ALL CAPS text
+- Inline styles
 
----
+**ALWAYS** reference `ComponentExamples.tsx` for component usage patterns.
 
-### ❌ WRONG: ALL CAPS Text Pattern
-```tsx
-// DON'T: Screaming text
-<h1>CREATE NEW PROJECT</h1>
-<button>SAVE CHANGES</button>
-<span>CANCEL</span>
-```
-
-### ✅ CORRECT: Sentence Case Pattern
-```tsx
-// DO: Natural sentence case
-<h1>Create new project</h1>
-<button>Save changes</button>
-<span>Cancel</span>
-```
-**Rule**: Always use sentence case. No ALL CAPS anywhere.
-
----
-
-### ❌ WRONG: Custom Components Pattern
-```tsx
-// DON'T: Create custom components
-const CustomCard = ({ children }) => (
-  <div className="border rounded-lg p-4 shadow-md">
-    {children}
-  </div>
-);
-
-const CustomButton = ({ children, onClick }) => (
-  <button className="bg-blue-500 text-white px-4 py-2 rounded">
-    {children}
-  </button>
-);
-```
-
-### ✅ CORRECT: Existing Components Pattern
-```tsx
-// DO: Use components from src/components/ui/
-import { Card, Button } from '@/components/ui';
-
-// Use existing components with proper props
-<Card className="p-4">
-  <Button onClick={handleSave}>Save</Button>
-</Card>
-```
-**Rule**: Check `ComponentExamples.tsx` first. Never create new components.
-
----
-
-### ❌ WRONG: Inline Styles Pattern
-```tsx
-// DON'T: Inline styles anywhere
-<div style={{ padding: '16px', marginTop: '8px' }}>
-  <button style={{ backgroundColor: 'blue', borderRadius: '8px' }}>
-    Click me
-  </button>
-</div>
-```
-
-### ✅ CORRECT: Tailwind Classes Pattern
-```tsx
-// DO: Use Tailwind utility classes only
-<div className="p-4 mt-2">
-  <button className="bg-layer-primary rounded-[12px] px-4 py-2">
-    Click me
-  </button>
-</div>
-```
-**Rule**: No `style={{}}` objects. Use Tailwind classes only.
-
----
-
-## Implementation Process
-
-### 1. Study Examples First
-- Read all examples above before starting
-- Identify patterns that match your mockup
-- Note common mistakes to avoid
-
-### 2. Component Pattern Matching
-**If you see in mockup → Use this component:**
-
-- Rounded rectangle with content → `<Card>`
-- Clickable text/button → `<Button>`
-- Text input field → `<Input>`
-- Selection checkbox → `<Checkbox>`
-- Radio button group → `<RadioGroup>`
-- Small status indicator → `<Badge>`
-- User avatar → `<Avatar>`
-
-### 3. Color Mapping Examples
-```tsx
-// Primary actions → button.primary, onButton.primary
-// Secondary text → onLayer.secondary
-// Borders → border.default
-// Surface backgrounds → layer.surface
-// Error states → semantic.error
-```
-
-### 4. Layout Pattern Examples
-```tsx
-// Card with padding
-<Card className="p-6 space-y-4">
-  <h2 className="text-xl font-semibold">Title</h2>
-  <p className="text-onLayer-secondary">Description</p>
-  <Button className="w-full">Action</Button>
-</Card>
-
-// Form layout
-<div className="space-y-4">
-  <div>
-    <label className="text-sm font-medium">Email</label>
-    <Input type="email" placeholder="Enter email" />
-  </div>
-</div>
-```
-
-## Validation Checklist
-
-After implementation, verify:
-- ✅ No hardcoded colors (`blue-500`, `#ff0000`, etc.)
-- ✅ No custom radius values (only 3px, 6px, 12px, 18px, 9999px)
-- ✅ No ALL CAPS text
-- ✅ No custom components (only from `src/components/ui/`)
-- ✅ No inline styles (`style={{}}`)
-- ✅ All colors from design system semantic tokens
-
-## Success Pattern
-When you finish, your code should look exactly like the ✅ CORRECT examples above.
+## Success Criteria
+- ✅ Zero hardcoded values
+- ✅ 100% existing component usage
+- ✅ Perfect design system compliance
+- ✅ All checklist items checked
+- ✅ Parity check passes
