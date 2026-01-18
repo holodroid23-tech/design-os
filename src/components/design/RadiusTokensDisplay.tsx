@@ -14,9 +14,9 @@ export function RadiusTokensDisplay({ radius }: RadiusTokensDisplayProps) {
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {radius.variables && Object.entries(radius.variables).map(([key, token]: [string, any]) => (
-            <div key={key} className="p-4 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border">
+            <div key={key} className="p-4 bg-card rounded-lg border">
               {/* Visual Example */}
-              <div className="mb-4 flex items-center justify-center h-24 bg-stone-200 dark:bg-stone-700 rounded-lg">
+              <div className="mb-4 flex items-center justify-center h-24 bg-muted rounded-lg">
                 <div
                   className="w-20 h-20 bg-lime-500 dark:bg-lime-400"
                   style={{ borderRadius: token.value }}
@@ -29,18 +29,18 @@ export function RadiusTokensDisplay({ radius }: RadiusTokensDisplayProps) {
                   <span className="text-sm font-medium text-foreground">
                     {key}
                   </span>
-                  <span className="text-sm font-mono text-stone-700 dark:text-stone-300">
+                  <span className="text-sm font-mono text-muted-foreground">
                     {token.value}
                   </span>
                 </div>
                 <p className="text-xs text-muted-foreground mb-2">
                   {token.description}
                 </p>
-                <p className="text-xs text-stone-500 dark:text-stone-500 mb-1">
+                <p className="text-xs text-muted-foreground mb-1">
                   <span className="font-medium">Usage:</span> {token.usage}
                 </p>
                 {token.spacingReference && (
-                  <p className="text-xs text-stone-500 dark:text-stone-500">
+                  <p className="text-xs text-muted-foreground">
                     <span className="font-medium">Spacing:</span> {token.spacingReference}
                   </p>
                 )}
@@ -56,7 +56,7 @@ export function RadiusTokensDisplay({ radius }: RadiusTokensDisplayProps) {
           <h3 className="text-lg font-semibold text-foreground mb-3">
             Hierarchy Principle
           </h3>
-          <p className="text-sm text-stone-700 dark:text-stone-300 mb-2">
+          <p className="text-sm text-foreground mb-2">
             {radius.hierarchy.description}
           </p>
           <p className="text-sm font-medium text-lime-700 dark:text-lime-400">
@@ -76,7 +76,7 @@ export function RadiusTokensDisplay({ radius }: RadiusTokensDisplayProps) {
           </p>
           <div className="space-y-2">
             {Object.entries(radius.correlation.relationships || {}).map(([key, value]) => (
-              <div key={key} className="flex items-center gap-3 p-3 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border">
+              <div key={key} className="flex items-center gap-3 p-3 bg-card rounded-lg border">
                 <span className="text-sm font-medium text-foreground capitalize w-20">
                   {key}
                 </span>

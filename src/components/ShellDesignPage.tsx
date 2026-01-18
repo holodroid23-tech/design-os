@@ -57,23 +57,23 @@ export function ShellDesignPage() {
   const previewWidth = `${widthPercent}%`
 
   return (
-    <div className="h-screen bg-stone-100 dark:bg-stone-900 animate-fade-in flex flex-col overflow-hidden">
+    <div className="h-screen bg-background animate-fade-in flex flex-col overflow-hidden">
       {/* Header */}
-      <header className="border-b border-stone-200 dark:border-stone-800 bg-white dark:bg-stone-950 shrink-0 z-50">
+      <header className="border-b bg-card shrink-0 z-50">
         <div className="px-4 py-2 flex items-center gap-4">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => navigate('/design')}
-            className="text-muted-foreground hover:text-stone-900 dark:hover:text-stone-100 -ml-2"
+            className="text-muted-foreground hover:text-foreground -ml-2"
           >
             <ArrowLeft className="w-4 h-4 mr-2" strokeWidth={1.5} />
             Back
           </Button>
-          <div className="h-4 w-px bg-stone-200 dark:bg-stone-700" />
+          <div className="h-4 w-px bg-border" />
           <div className="flex items-center gap-2">
-            <PanelLeft className="w-4 h-4 text-stone-400" strokeWidth={1.5} />
-            <span className="text-sm font-medium text-stone-700 dark:text-stone-300">
+            <PanelLeft className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
+            <span className="text-sm font-medium text-foreground">
               Shell Design
             </span>
           </div>
@@ -86,8 +86,8 @@ export function ShellDesignPage() {
                 onClick={() => setWidthPercent(30)}
                 className={`p-1.5 rounded transition-colors ${
                   widthPercent <= 40
-                    ? 'bg-stone-200 dark:bg-stone-700 text-foreground'
-                    : 'text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800'
+                    ? 'bg-muted text-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
                 title="Mobile (30%)"
               >
@@ -97,8 +97,8 @@ export function ShellDesignPage() {
                 onClick={() => setWidthPercent(60)}
                 className={`p-1.5 rounded transition-colors ${
                   widthPercent > 40 && widthPercent <= 60
-                    ? 'bg-stone-200 dark:bg-stone-700 text-foreground'
-                    : 'text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800'
+                    ? 'bg-muted text-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
                 title="Tablet (60%)"
               >
@@ -108,8 +108,8 @@ export function ShellDesignPage() {
                 onClick={() => setWidthPercent(100)}
                 className={`p-1.5 rounded transition-colors ${
                   widthPercent > 60
-                    ? 'bg-stone-200 dark:bg-stone-700 text-foreground'
-                    : 'text-stone-400 dark:text-stone-500 hover:text-stone-600 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800'
+                    ? 'bg-muted text-foreground'
+                    : 'text-muted-foreground hover:text-foreground hover:bg-accent'
                 }`}
                 title="Desktop (100%)"
               >
@@ -124,7 +124,7 @@ export function ShellDesignPage() {
               href="/shell/design/fullscreen"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-stone-700 dark:hover:text-stone-200 transition-colors"
+              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
             >
               <Maximize2 className="w-3.5 h-3.5" strokeWidth={1.5} />
               Fullscreen
@@ -143,14 +143,14 @@ export function ShellDesignPage() {
           className="w-4 flex items-center justify-center cursor-ew-resize group shrink-0"
           onMouseDown={handleMouseDown}
         >
-          <div className="w-1 h-16 rounded-full bg-stone-300 dark:bg-stone-600 group-hover:bg-stone-400 dark:group-hover:bg-stone-500 transition-colors flex items-center justify-center">
+          <div className="w-1 h-16 rounded-full bg-border group-hover:bg-muted-foreground transition-colors flex items-center justify-center">
             <GripVertical className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={2} />
           </div>
         </div>
 
         {/* Preview container using iframe for true isolation */}
         <div
-          className="bg-white dark:bg-stone-950 rounded-lg shadow-xl border border overflow-hidden"
+          className="bg-background rounded-lg shadow-xl border overflow-hidden"
           style={{ width: previewWidth, minWidth: MIN_WIDTH, maxWidth: '100%' }}
         >
           <iframe
@@ -165,7 +165,7 @@ export function ShellDesignPage() {
           className="w-4 flex items-center justify-center cursor-ew-resize group shrink-0"
           onMouseDown={handleMouseDown}
         >
-          <div className="w-1 h-16 rounded-full bg-stone-300 dark:bg-stone-600 group-hover:bg-stone-400 dark:group-hover:bg-stone-500 transition-colors flex items-center justify-center">
+          <div className="w-1 h-16 rounded-full bg-border group-hover:bg-muted-foreground transition-colors flex items-center justify-center">
             <GripVertical className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" strokeWidth={2} />
           </div>
         </div>

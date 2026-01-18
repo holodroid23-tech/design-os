@@ -31,7 +31,7 @@ export function ColorTokensDisplay({ colors }: ColorTokensDisplayProps) {
           <div className="space-y-4">
             {colors.primitives.neutrals && (
               <div>
-                <h4 className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-3">Neutrals</h4>
+                <h4 className="text-sm font-medium text-muted-foreground mb-3">Neutrals</h4>
                 <div className="space-y-2">
                   {Object.entries(colors.primitives.neutrals).map(([name, shades]) => (
                     <PrimitiveColorScale key={name} name={name} shades={shades as Record<string, string>} />
@@ -41,7 +41,7 @@ export function ColorTokensDisplay({ colors }: ColorTokensDisplayProps) {
             )}
             {colors.primitives.hues && (
               <div>
-                <h4 className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-3">Hues</h4>
+                <h4 className="text-sm font-medium text-muted-foreground mb-3">Hues</h4>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {Object.entries(colors.primitives.hues).map(([name, shades]) => (
                     <PrimitiveColorScale key={name} name={name} shades={shades as Record<string, string>} />
@@ -75,11 +75,11 @@ function ColorCategory({ category, tokens }: { category: string; tokens: Record<
   
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 bg-muted rounded-md hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 bg-muted rounded-md hover:bg-accent transition-colors">
         <span className="text-sm font-medium text-foreground capitalize">
           {category.replace(/([A-Z])/g, ' $1').trim()}
         </span>
-        <ChevronDown className={`w-4 h-4 text-stone-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </CollapsibleTrigger>
       <CollapsibleContent className="pt-3">
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
@@ -113,9 +113,9 @@ function PrimitiveColorScale({ name, shades }: { name: string; shades: Record<st
   
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-3 py-2 bg-stone-50 dark:bg-stone-800/50 rounded-md hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors">
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-3 py-2 bg-muted rounded-md hover:bg-accent transition-colors">
         <span className="text-sm font-medium text-foreground capitalize">{name}</span>
-        <ChevronDown className={`w-4 h-4 text-stone-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </CollapsibleTrigger>
       <CollapsibleContent className="pt-2">
         <div className="flex gap-1">
@@ -142,9 +142,9 @@ function GradientCategory({ category, gradients }: { category: string; gradients
   
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 bg-muted rounded-md hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-2 bg-muted rounded-md hover:bg-accent transition-colors">
         <span className="text-sm font-medium text-foreground capitalize">{category}</span>
-        <ChevronDown className={`w-4 h-4 text-stone-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </CollapsibleTrigger>
       <CollapsibleContent className="pt-3">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">

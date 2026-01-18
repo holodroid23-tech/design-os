@@ -127,7 +127,7 @@ export function ExportPage() {
                     </a>
                   </div>
                   <p className="text-sm text-muted-foreground">
-                    To regenerate, run <code className="font-mono text-stone-700 dark:text-stone-300">/export-product</code> again.
+                    To regenerate, run <code className="font-mono text-foreground">/export-product</code> again.
                   </p>
                 </div>
               ) : (
@@ -136,7 +136,7 @@ export function ExportPage() {
                     Run the following command to generate a complete export package with all components, types, and handoff documentation:
                   </p>
                   <div className="bg-muted rounded-md px-4 py-3">
-                    <code className="text-sm font-mono text-stone-800 dark:text-stone-200">
+                    <code className="text-sm font-mono text-foreground">
                       /export-product
                     </code>
                   </div>
@@ -206,26 +206,26 @@ export function ExportPage() {
                     Build milestone by milestone for better control and easier debugging.
                   </p>
                 </div>
-                <ChevronDown className="w-4 h-4 text-stone-400 dark:text-stone-500 mt-1 shrink-0 transition-transform group-data-[state=open]:rotate-180" strokeWidth={1.5} />
+                <ChevronDown className="w-4 h-4 text-muted-foreground mt-1 shrink-0 transition-transform group-data-[state=open]:rotate-180" strokeWidth={1.5} />
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <ol className="text-sm text-muted-foreground space-y-2 list-decimal list-inside mt-4 pl-1">
-                  <li>Copy the <code className="font-mono text-stone-800 dark:text-stone-200">product-plan/</code> folder into your codebase</li>
-                  <li>Start with Foundation (<code className="font-mono text-stone-800 dark:text-stone-200">instructions/incremental/01-foundation.md</code>)</li>
-                  <li>Then Shell (<code className="font-mono text-stone-800 dark:text-stone-200">instructions/incremental/02-shell.md</code>)</li>
+                  <li>Copy the <code className="font-mono text-foreground">product-plan/</code> folder into your codebase</li>
+                  <li>Start with Foundation (<code className="font-mono text-foreground">instructions/incremental/01-foundation.md</code>)</li>
+                  <li>Then Shell (<code className="font-mono text-foreground">instructions/incremental/02-shell.md</code>)</li>
                   <li>
                     For each section:
                     <ul className="mt-1.5 ml-5 space-y-1">
                       <li className="flex items-center gap-2">
-                        <span className="w-1 h-1 rounded-full bg-stone-400 dark:bg-stone-500" />
-                        Open <code className="font-mono text-stone-800 dark:text-stone-200">prompts/section-prompt.md</code>
+                        <span className="w-1 h-1 rounded-full bg-muted-foreground" />
+                        Open <code className="font-mono text-foreground">prompts/section-prompt.md</code>
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="w-1 h-1 rounded-full bg-stone-400 dark:bg-stone-500" />
+                        <span className="w-1 h-1 rounded-full bg-muted-foreground" />
                         Fill in the section variables at the top (SECTION_NAME, SECTION_ID, NN)
                       </li>
                       <li className="flex items-center gap-2">
-                        <span className="w-1 h-1 rounded-full bg-stone-400 dark:bg-stone-500" />
+                        <span className="w-1 h-1 rounded-full bg-muted-foreground" />
                         Copy/paste the prompt into your AI coding agent
                       </li>
                     </ul>
@@ -248,12 +248,12 @@ export function ExportPage() {
                     Build the entire app in one session using a pre-written prompt.
                   </p>
                 </div>
-                <ChevronDown className="w-4 h-4 text-stone-400 dark:text-stone-500 mt-1 shrink-0 transition-transform group-data-[state=open]:rotate-180" strokeWidth={1.5} />
+                <ChevronDown className="w-4 h-4 text-muted-foreground mt-1 shrink-0 transition-transform group-data-[state=open]:rotate-180" strokeWidth={1.5} />
               </CollapsibleTrigger>
               <CollapsibleContent>
                 <ol className="text-sm text-muted-foreground space-y-2 list-decimal list-inside mt-4 pl-1">
-                  <li>Copy the <code className="font-mono text-stone-800 dark:text-stone-200">product-plan/</code> folder into your codebase</li>
-                  <li>Open <code className="font-mono text-stone-800 dark:text-stone-200">prompts/one-shot-prompt.md</code></li>
+                  <li>Copy the <code className="font-mono text-foreground">product-plan/</code> folder into your codebase</li>
+                  <li>Open <code className="font-mono text-foreground">prompts/one-shot-prompt.md</code></li>
                   <li>Add any additional notes to the prompt (tech stack preferences, etc.)</li>
                   <li>Copy/paste the prompt into your AI coding agent</li>
                   <li>Answer the agent's clarifying questions about auth, user modeling, etc.</li>
@@ -277,13 +277,13 @@ function ChecklistItem({ label, isComplete }: ChecklistItemProps) {
   return (
     <div className="flex items-center gap-2 py-1">
       {isComplete ? (
-        <div className="w-4 h-4 rounded bg-stone-200 dark:bg-stone-700 flex items-center justify-center">
+        <div className="w-4 h-4 rounded bg-muted flex items-center justify-center">
           <Check className="w-2.5 h-2.5 text-muted-foreground" strokeWidth={3} />
         </div>
       ) : (
         <div className="w-4 h-4 rounded border-2 border-amber-400 dark:border-amber-500" />
       )}
-      <span className="text-sm text-stone-700 dark:text-stone-300">
+      <span className="text-sm text-foreground">
         {label}
       </span>
     </div>
@@ -298,13 +298,13 @@ interface ExportItemProps {
 
 function ExportItem({ title, description, items }: ExportItemProps) {
   return (
-    <div className="bg-stone-50 dark:bg-stone-800/50 rounded-lg p-4">
+    <div className="bg-card rounded-lg p-4 border">
       <h4 className="font-medium text-foreground mb-1">{title}</h4>
       <p className="text-xs text-muted-foreground mb-3">{description}</p>
       <ul className="text-sm text-muted-foreground space-y-1">
         {items.map((item, index) => (
           <li key={index} className="flex items-center gap-2">
-            <span className="w-1 h-1 rounded-full bg-stone-400 dark:bg-stone-500" />
+            <span className="w-1 h-1 rounded-full bg-muted-foreground" />
             {item}
           </li>
         ))}

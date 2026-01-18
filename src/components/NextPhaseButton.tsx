@@ -21,7 +21,7 @@ export function NextPhaseButton({ nextPhase }: NextPhaseButtonProps) {
   return (
     <button
       onClick={() => navigate(config.path)}
-      className="w-full flex items-center justify-between gap-4 px-6 py-4 bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 rounded-lg hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors group"
+      className="w-full flex items-center justify-between gap-4 px-6 py-4 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors group"
     >
       <div className="flex items-center gap-3">
         <Icon className="w-5 h-5" strokeWidth={1.5} />

@@ -23,22 +23,22 @@ export function ScreenDesignsCard({ screenDesigns, sectionId }: ScreenDesignsCar
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <ul className="divide-y divide-stone-200 dark:divide-stone-700">
+        <ul className="divide-y divide-border">
           {screenDesigns.map((screenDesign) => (
             <li key={screenDesign.name}>
               <Link
                 to={`/sections/${sectionId}/screen-designs/${screenDesign.name}`}
-                className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors"
+                className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-accent transition-colors"
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <div className="w-8 h-8 rounded-md bg-stone-200 dark:bg-stone-700 flex items-center justify-center shrink-0">
-                    <Layout className="w-4 h-4 text-stone-600 dark:text-stone-300" strokeWidth={1.5} />
+                  <div className="w-8 h-8 rounded-md bg-muted flex items-center justify-center shrink-0">
+                    <Layout className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
                   </div>
                   <span className="font-medium text-foreground truncate">
                     {screenDesign.name}
                   </span>
                 </div>
-                <ChevronRight className="w-4 h-4 text-stone-400 dark:text-stone-500 shrink-0" strokeWidth={1.5} />
+                <ChevronRight className="w-4 h-4 text-muted-foreground shrink-0" strokeWidth={1.5} />
               </Link>
             </li>
           ))}

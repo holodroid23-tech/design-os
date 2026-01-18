@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useEffect, useMemo, useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { AppLayout } from '@/components/AppLayout'
@@ -111,7 +112,7 @@ function SimpleDesignSystemDisplay({ designSystem }: { designSystem: any }) {
         {/* Edit hint */}
         <div className="bg-muted rounded-md px-4 py-2.5">
           <p className="text-xs text-muted-foreground">
-            Run <code className="font-mono text-stone-700 dark:text-stone-300">/design-tokens</code> to update
+            Run <code className="font-mono text-foreground">/design-tokens</code> to update
           </p>
         </div>
       </CardContent>
@@ -286,8 +287,13 @@ export function DesignPage() {
                     {/* Edit hint */}
                     <div className="bg-muted rounded-md px-4 py-2.5">
                       <p className="text-xs text-muted-foreground">
-                        Design tokens are loaded from <code className="font-mono text-stone-700 dark:text-stone-300">product/design-system/</code>
+                        Design tokens are loaded from <code className="font-mono text-foreground">product/design-system/</code>
                       </p>
+                    </div>
+
+                    <div className="pt-2 border-t border-border">
+                      <h3 className="text-lg font-semibold text-foreground mb-4">Edit token files</h3>
+                      <DesignSystemJsonEditor />
                     </div>
                   </TabsContent>
 
@@ -339,8 +345,8 @@ export function DesignPage() {
                         // Parse markdown-style bold: **text** → <strong>text</strong>
                         const parts = item.split(/\*\*([^*]+)\*\*/)
                         return (
-                          <li key={index} className="flex items-center gap-2 text-stone-700 dark:text-stone-300">
-                            <span className="w-1 h-1 rounded-full bg-stone-400 dark:bg-stone-500" />
+                          <li key={index} className="flex items-center gap-2 text-foreground">
+                            <span className="w-1 h-1 rounded-full bg-muted-foreground" />
                             {parts.map((part, i) =>
                               i % 2 === 1 ? (
                                 <strong key={i} className="font-semibold">{part}</strong>
@@ -357,20 +363,20 @@ export function DesignPage() {
 
                 {/* View Shell Design Link */}
                 {shell.hasComponents && (
-                  <div className="pt-2 border-t border-stone-100 dark:border-stone-800">
+                  <div className="pt-2 border-t border">
                     <Link
                       to="/shell/design"
-                      className="flex items-center justify-between gap-4 py-2 hover:text-stone-900 dark:hover:text-stone-100 transition-colors group"
+                      className="flex items-center justify-between gap-4 py-2 hover:text-foreground transition-colors group"
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-md bg-stone-200 dark:bg-stone-700 flex items-center justify-center">
-                          <Layout className="w-4 h-4 text-stone-600 dark:text-stone-300" strokeWidth={1.5} />
+                        <div className="w-8 h-8 rounded-md bg-muted flex items-center justify-center">
+                          <Layout className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
                         </div>
-                        <span className="font-medium text-stone-700 dark:text-stone-300 group-hover:text-stone-900 dark:group-hover:text-stone-100">
+                        <span className="font-medium text-muted-foreground group-hover:text-foreground">
                           View Shell Design
                         </span>
                       </div>
-                      <ChevronRight className="w-4 h-4 text-stone-400 dark:text-stone-500" strokeWidth={1.5} />
+                      <ChevronRight className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
                     </Link>
                   </div>
                 )}
@@ -378,7 +384,7 @@ export function DesignPage() {
                 {/* Edit hint */}
                 <div className="bg-muted rounded-md px-4 py-2.5">
                   <p className="text-xs text-muted-foreground">
-                    Run <code className="font-mono text-stone-700 dark:text-stone-300">/design-shell</code> to update
+                    Run <code className="font-mono text-foreground">/design-shell</code> to update
                   </p>
                 </div>
               </CardContent>
@@ -426,6 +432,138 @@ function ColorSwatch({ label, colorName }: ColorSwatchProps) {
       </div>
       <p className="text-sm font-medium text-foreground">{label}</p>
       <p className="text-xs text-muted-foreground">{colorName}</p>
+    </div>
+  )
+}
+
+function DesignSystemJsonEditor() {
+  const isDev = import.meta.env.DEV
+  const [colorsText, setColorsText] = useState('')
+  const [typographyText, setTypographyText] = useState('')
+  const [status, setStatus] = useState<string | null>(null)
+  const [error, setError] = useState<string | null>(null)
+
+  const endpoints = useMemo(
+    () => ({
+      colors: '/__design_os__/design-system/colors.json',
+      typography: '/__design_os__/design-system/typography.json',
+    }),
+    []
+  )
+
+  useEffect(() => {
+    if (!isDev) return
+    let cancelled = false
+    ;(async () => {
+      try {
+        setError(null)
+        setStatus('Loading token files…')
+        const [cRes, tRes] = await Promise.all([
+          fetch(endpoints.colors),
+          fetch(endpoints.typography),
+        ])
+        if (!cRes.ok) throw new Error(`Failed to load colors.json (${cRes.status})`)
+        if (!tRes.ok) throw new Error(`Failed to load typography.json (${tRes.status})`)
+        const [c, t] = await Promise.all([cRes.text(), tRes.text()])
+        if (cancelled) return
+        setColorsText(c.trim() + '\n')
+        setTypographyText(t.trim() + '\n')
+        setStatus(null)
+      } catch (e: any) {
+        if (cancelled) return
+        setStatus(null)
+        setError(e?.message ?? 'Failed to load token files')
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [endpoints.colors, endpoints.typography, isDev])
+
+  if (!isDev) {
+    return (
+      <div className="rounded-md border bg-muted px-4 py-3 text-sm text-muted-foreground">
+        Token file editing is available in dev mode only.
+      </div>
+    )
+  }
+
+  async function save() {
+    try {
+      setError(null)
+      setStatus('Saving…')
+
+      // Validate JSON before sending
+      const parsedColors = JSON.parse(colorsText)
+      const parsedTypography = JSON.parse(typographyText)
+
+      const [cRes, tRes] = await Promise.all([
+        fetch(endpoints.colors, {
+          method: 'PUT',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(parsedColors),
+        }),
+        fetch(endpoints.typography, {
+          method: 'PUT',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify(parsedTypography),
+        }),
+      ])
+
+      if (!cRes.ok) throw new Error(`Save failed for colors.json (${cRes.status})`)
+      if (!tRes.ok) throw new Error(`Save failed for typography.json (${tRes.status})`)
+
+      setStatus('Saved. Reloading…')
+      // Vite plugin triggers full reload; keep UI consistent if it’s slow
+    } catch (e: any) {
+      setStatus(null)
+      setError(e?.message ?? 'Save failed')
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="rounded-md border bg-muted px-4 py-3 text-sm text-muted-foreground">
+        This writes directly to <code className="font-mono">product/design-system/</code> (dev server).
+      </div>
+
+      {error && (
+        <div className="rounded-md border border-destructive/40 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+          {error}
+        </div>
+      )}
+      {status && <div className="text-sm text-muted-foreground">{status}</div>}
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <div className="space-y-2">
+          <div className="text-sm font-medium text-foreground">colors.json</div>
+          <textarea
+            value={colorsText}
+            onChange={(e) => setColorsText(e.target.value)}
+            className="min-h-[360px] w-full rounded-md border bg-background p-3 font-mono text-xs leading-relaxed"
+            spellCheck={false}
+          />
+        </div>
+        <div className="space-y-2">
+          <div className="text-sm font-medium text-foreground">typography.json</div>
+          <textarea
+            value={typographyText}
+            onChange={(e) => setTypographyText(e.target.value)}
+            className="min-h-[360px] w-full rounded-md border bg-background p-3 font-mono text-xs leading-relaxed"
+            spellCheck={false}
+          />
+        </div>
+      </div>
+
+      <div className="flex items-center justify-end">
+        <button
+          type="button"
+          onClick={() => void save()}
+          className="inline-flex h-9 items-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+        >
+          Save tokens
+        </button>
+      </div>
     </div>
   )
 }

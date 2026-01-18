@@ -135,7 +135,7 @@ function BarChartWithHover() {
               margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
               onMouseLeave={() => setHoveredIndex(null)}
             >
-              <CartesianGrid strokeDasharray="3 3" className="stroke-stone-200 dark:stroke-stone-700" />
+              <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
               <XAxis
                 dataKey="name"
                 className="text-muted-foreground text-xs sm:text-sm"
@@ -202,7 +202,7 @@ function ValueWidget({
       <CardContent className="p-2 sm:p-3">
         <div className="flex flex-col items-center text-center space-y-2">
           {/* Icon first */}
-          <div className="p-2 rounded-lg bg-stone-100 dark:bg-stone-800">
+          <div className="p-2 rounded-lg bg-muted">
             <Icon className="h-6 w-6 text-muted-foreground" />
           </div>
 
@@ -299,7 +299,7 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
                 data={monthlySalesData}
                 margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" className="stroke-stone-200 dark:stroke-stone-700" />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                 <XAxis
                   dataKey="month"
                   className="text-muted-foreground text-xs sm:text-sm"
@@ -362,7 +362,7 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
                 data={categoryData}
                 margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" className="stroke-stone-200 dark:stroke-stone-700" />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                 <XAxis type="number" className="text-muted-foreground text-xs sm:text-sm" />
                 <YAxis
                   dataKey="name"
@@ -401,7 +401,7 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
                     <stop offset="95%" stopColor="#148134" stopOpacity={0.1} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" className="stroke-stone-200 dark:stroke-stone-700" />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                 <XAxis
                   dataKey="month"
                   className="text-muted-foreground text-xs sm:text-sm"
@@ -502,7 +502,7 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
                 data={monthlySalesData}
                 margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
               >
-                <CartesianGrid strokeDasharray="3 3" className="stroke-stone-200 dark:stroke-stone-700" />
+                <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
                 <XAxis
                   dataKey="month"
                   className="text-muted-foreground text-xs sm:text-sm"
@@ -580,7 +580,7 @@ export function ChartExamples({ showHeader = true }: ChartExamplesProps) {
 
 
       {/* Mobile Optimization Notes */}
-      <Card className="border shadow-sm bg-stone-50 dark:bg-stone-900">
+      <Card className="border shadow-sm bg-muted/40">
         <CardContent className="pt-6">
           <h3 className="text-sm font-semibold text-foreground mb-2">
             Mobile Optimization Features

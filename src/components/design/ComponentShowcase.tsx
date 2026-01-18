@@ -9,7 +9,7 @@ export function ComponentShowcase() {
   return (
     <div className="space-y-6">
       <div className="mb-8">
-        <h3 className="text-lg font-semibold text-stone-900 dark:text-stone-100 mb-2">
+        <h3 className="text-lg font-semibold text-foreground mb-2">
           Component Library
         </h3>
         <p className="text-sm text-muted-foreground">
@@ -41,11 +41,11 @@ function ComponentShowcaseSection({
   
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-3 bg-stone-100 dark:bg-stone-800 rounded-md hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
-        <span className="text-base font-semibold text-stone-900 dark:text-stone-100">
+      <CollapsibleTrigger className="flex items-center justify-between w-full px-4 py-3 bg-muted rounded-md hover:bg-accent transition-colors">
+        <span className="text-base font-semibold text-foreground">
           {title}
         </span>
-        <ChevronDown className={`w-5 h-5 text-stone-500 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </CollapsibleTrigger>
       <CollapsibleContent className="pt-6">
         {children}

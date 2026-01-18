@@ -4,6 +4,27 @@ You are helping the user **create a new component/element** while staying consis
 
 This command is the “always correct workflow” for new UI work.
 
+## Designer-first expectation (read this carefully)
+
+The user is a **designer**, not a programmer. They think in **what they see**.
+
+When the user asks for a change (e.g. “make the avatar bigger”, “increase radius”, “tighten spacing”), they expect:
+
+1. **The real source-of-truth is updated** (tokens and/or shared components), so the change propagates to all future screens that reuse it.
+2. **The Design page stays visually identical** to the source-of-truth (Design page is a catalog/demo, not a one-off custom style sandbox).
+
+### Non‑negotiable rule: never “fix it only on the page”
+
+Do **not** implement the change only in `DesignPage.tsx` / demo markup.
+If you do that, it becomes a one-off custom tweak and will NOT propagate.
+
+Always implement changes in one (or both) of these places:
+
+- **Design tokens (values)**: `product/design-system/*.json` (colors/typography/spacing/radius/elevations)
+- **Shared component library (composition + defaults)**: `src/components/ui/*` and `src/components/patterns/*`
+
+Then update the Design page examples to match.
+
 ## Source of Truth (read these first)
 
 **Tokens (the truth for design system values):**
@@ -63,13 +84,19 @@ If you must use a literal value, it must be justified by the design tokens (e.g.
 - **Portable**: don’t assume router state, global stores, or filesystem reads.
 - **Accessible**: preserve labels, focus states, and keyboard behavior (follow existing `ui/*` patterns).
 
-## Step 5: Implement the component in the right place
+## Step 5: Implement the component in the right place (source-of-truth)
 
 - If it’s a **UI primitive**, match the conventions in `src/components/ui/*`:
   - `forwardRef` where appropriate
   - `cn()` usage if other ui components use it
   - variants (CVA) only when consistent with existing primitives
 - If it’s a **pattern**, implement it as a small composition layer over primitives.
+
+### Special case: “change radius/spacing sizes everywhere”
+
+If the user requests a “global” value change (e.g. radius scale):
+- Update the appropriate token file (usually `product/design-system/radius.json` or `spacing.json`) **if that file is the intended source for the scale**.
+- Then ensure shared components and examples are using token-compliant classes (e.g. `rounded-[12px]`, `rounded-[18px]`) and not arbitrary values.
 
 ## Step 6: Register an example on the Design page (required)
 
@@ -82,6 +109,13 @@ Every new component/pattern must be visible in the Design page examples:
   - a title that includes the component name
 
 Then ensure it’s rendered via `src/components/ComponentExamples.tsx` (directly or through the imported section cards).
+
+### Definition of “done” for designers
+
+The change is not done until:
+- The new component/pattern exists in the correct shared folder, AND
+- It is showcased on the Design page using the same component (no page-only custom styling), AND
+- It compiles (`npm run build`).
 
 ## Step 7: Verification
 

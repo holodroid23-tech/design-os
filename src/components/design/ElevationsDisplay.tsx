@@ -20,9 +20,9 @@ export function ElevationsDisplay({ elevations }: ElevationsDisplayProps) {
           {Object.entries(tokens).map(([key, level]: [string, any]) => (
             <div key={key} className="space-y-3">
               {/* Visual Example */}
-              <div className="h-40 bg-stone-100 dark:bg-stone-900 rounded-lg flex items-center justify-center p-6">
+              <div className="h-40 bg-muted rounded-lg flex items-center justify-center p-6">
                 <div
-                  className="w-full h-full bg-white dark:bg-stone-800 rounded-lg flex items-center justify-center"
+                  className="w-full h-full bg-card rounded-lg flex items-center justify-center"
                   style={{ boxShadow: level.value }}
                 >
                   <span className="text-sm font-medium text-foreground">
@@ -32,17 +32,17 @@ export function ElevationsDisplay({ elevations }: ElevationsDisplayProps) {
               </div>
               
               {/* Level Details */}
-              <div className="p-4 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border">
+              <div className="p-4 bg-card rounded-lg border">
                 <h4 className="text-sm font-medium text-foreground mb-2">
                   {key}
                 </h4>
                 <p className="text-xs text-muted-foreground mb-2">
                   {level.description}
                 </p>
-                <p className="text-xs text-stone-500 dark:text-stone-500 mb-2">
+                <p className="text-xs text-muted-foreground mb-2">
                   <span className="font-medium">Usage:</span> {level.usage}
                 </p>
-                <p className="text-xs font-mono text-stone-500 dark:text-stone-500 break-all">
+                <p className="text-xs font-mono text-muted-foreground break-all">
                   {level.value}
                 </p>
               </div>
@@ -59,7 +59,7 @@ export function ElevationsDisplay({ elevations }: ElevationsDisplayProps) {
           </h3>
           <ul className="space-y-2">
             {rules.map((rule: string, idx: number) => (
-              <li key={idx} className="flex gap-2 text-sm text-stone-700 dark:text-stone-300">
+              <li key={idx} className="flex gap-2 text-sm text-foreground">
                 <span className="text-lime-600 dark:text-lime-400">•</span>
                 <span>{rule}</span>
               </li>

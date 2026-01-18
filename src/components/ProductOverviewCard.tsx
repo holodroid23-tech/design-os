@@ -31,14 +31,14 @@ export function ProductOverviewCard({ overview }: ProductOverviewCardProps) {
         {overview.problems.length > 0 && (
           <Collapsible open={problemsOpen} onOpenChange={setProblemsOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-left group">
-              <span className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
+              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                 Problems & Solutions
-                <span className="ml-2 text-stone-400 dark:text-stone-500 normal-case tracking-normal">
+                <span className="ml-2 text-muted-foreground normal-case tracking-normal">
                   ({overview.problems.length})
                 </span>
               </span>
               <ChevronDown
-                className={`w-4 h-4 text-stone-400 dark:text-stone-500 transition-transform ${
+                className={`w-4 h-4 text-muted-foreground transition-transform ${
                   problemsOpen ? 'rotate-180' : ''
                 }`}
                 strokeWidth={1.5}
@@ -48,13 +48,13 @@ export function ProductOverviewCard({ overview }: ProductOverviewCardProps) {
               <ul className="space-y-3 pt-2">
                 {overview.problems.map((problem, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <ArrowRight className="w-4 h-4 text-stone-900 dark:text-stone-100 mt-1 shrink-0" strokeWidth={2} />
+                    <ArrowRight className="w-4 h-4 text-foreground mt-1 shrink-0" strokeWidth={2} />
                     <div>
-                      <span className="font-medium text-stone-800 dark:text-stone-200">
+                      <span className="font-medium text-foreground">
                         {problem.title}
                       </span>
-                      <span className="text-stone-500 dark:text-stone-400 mx-2">—</span>
-                      <span className="text-stone-600 dark:text-stone-400">
+                      <span className="text-muted-foreground mx-2">—</span>
+                      <span className="text-muted-foreground">
                         {problem.solution}
                       </span>
                     </div>
@@ -69,14 +69,14 @@ export function ProductOverviewCard({ overview }: ProductOverviewCardProps) {
         {overview.features.length > 0 && (
           <Collapsible open={featuresOpen} onOpenChange={setFeaturesOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-left group">
-              <span className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
+              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                 Key Features
-                <span className="ml-2 text-stone-400 dark:text-stone-500 normal-case tracking-normal">
+                <span className="ml-2 text-muted-foreground normal-case tracking-normal">
                   ({overview.features.length})
                 </span>
               </span>
               <ChevronDown
-                className={`w-4 h-4 text-stone-400 dark:text-stone-500 transition-transform ${
+                className={`w-4 h-4 text-muted-foreground transition-transform ${
                   featuresOpen ? 'rotate-180' : ''
                 }`}
                 strokeWidth={1.5}
@@ -86,8 +86,8 @@ export function ProductOverviewCard({ overview }: ProductOverviewCardProps) {
               <ul className="space-y-2 pt-2 ml-1">
                 {overview.features.map((feature, index) => (
                   <li key={index} className="flex items-start gap-4">
-                    <span className="w-1.5 h-1.5 rounded-full bg-stone-900 dark:bg-stone-100 mt-2 shrink-0" />
-                    <span className="text-stone-700 dark:text-stone-300">
+                    <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground mt-2 shrink-0" />
+                    <span className="text-foreground">
                       {feature}
                     </span>
                   </li>

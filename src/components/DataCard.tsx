@@ -69,7 +69,7 @@ export function DataCard({ data }: DataCardProps) {
           <div className="space-y-6">
             {/* Models - Card Grid */}
             <div>
-              <h4 className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-3">
+              <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-3">
                 Data Models
               </h4>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -92,16 +92,16 @@ export function DataCard({ data }: DataCardProps) {
             {/* Relationships */}
             {meta.relationships.length > 0 && (
               <div>
-                <h4 className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide mb-3">
+                <h4 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-3">
                   How They Connect
                 </h4>
                 <ul className="space-y-2">
                   {meta.relationships.map((relationship, index) => (
                     <li
                       key={index}
-                      className="text-stone-700 dark:text-stone-300 flex items-start gap-3"
+                      className="text-foreground flex items-start gap-3"
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-stone-400 dark:bg-stone-500 mt-2 shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground mt-2 shrink-0" />
                       {relationship}
                     </li>
                   ))}

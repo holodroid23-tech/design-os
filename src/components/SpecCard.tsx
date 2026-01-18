@@ -45,7 +45,7 @@ export function SpecCard({ spec, rawContent, sectionTitle }: SpecCardProps) {
               if (trimmed.startsWith('- ')) {
                 return (
                   <div key={i} className="flex items-start gap-2 py-0.5 ml-4">
-                    <span className="w-1.5 h-1.5 rounded-full bg-stone-400 dark:bg-stone-500 mt-2 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground mt-2 shrink-0" />
                     <span className="text-sm text-foreground">{trimmed.replace('- ', '')}</span>
                   </div>
                 )
@@ -82,7 +82,7 @@ export function SpecCard({ spec, rawContent, sectionTitle }: SpecCardProps) {
         {spec.userFlows.length > 0 && (
           <Collapsible open={userFlowsOpen} onOpenChange={setUserFlowsOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-left group">
-              <span className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
+              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                 User Flows
                 <span className="ml-2 text-muted-foreground normal-case tracking-normal">
                   ({spec.userFlows.length})
@@ -99,8 +99,8 @@ export function SpecCard({ spec, rawContent, sectionTitle }: SpecCardProps) {
               <ul className="space-y-2 pt-2">
                 {spec.userFlows.map((flow, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-stone-900 dark:bg-stone-100 mt-2 shrink-0" />
-                    <span className="text-stone-700 dark:text-stone-300 text-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground mt-2 shrink-0" />
+                    <span className="text-foreground text-sm">
                       {flow}
                     </span>
                   </li>
@@ -114,7 +114,7 @@ export function SpecCard({ spec, rawContent, sectionTitle }: SpecCardProps) {
         {spec.uiRequirements.length > 0 && (
           <Collapsible open={uiReqOpen} onOpenChange={setUiReqOpen}>
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-left group">
-              <span className="text-sm font-medium text-stone-500 dark:text-stone-400 uppercase tracking-wide">
+              <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                 UI Requirements
                 <span className="ml-2 text-muted-foreground normal-case tracking-normal">
                   ({spec.uiRequirements.length})
@@ -131,8 +131,8 @@ export function SpecCard({ spec, rawContent, sectionTitle }: SpecCardProps) {
               <ul className="space-y-2 pt-2">
                 {spec.uiRequirements.map((req, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-stone-900 dark:bg-stone-100 mt-2 shrink-0" />
-                    <span className="text-stone-700 dark:text-stone-300 text-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground mt-2 shrink-0" />
+                    <span className="text-foreground text-sm">
                       {req}
                     </span>
                   </li>

@@ -29,7 +29,7 @@ export function BuildingBlocksExamplesCard() {
             <h3 className="text-sm font-semibold">Standardized icons</h3>
             <p className="text-xs text-muted-foreground">Icon glyph sizes + icon tiles (36px / 48px / 60px)</p>
           </div>
-          <div className="space-y-6 p-6 bg-layer-2 border border-border rounded-xl">
+          <div className="space-y-6 p-6 bg-background border border-border rounded-xl">
             <div className="space-y-4">
               <div className="text-xs text-muted-foreground">Small / regular / big / huge (plain vs bg)</div>
               <div className="space-y-6">
@@ -81,7 +81,7 @@ export function BuildingBlocksExamplesCard() {
             <h3 className="text-sm font-semibold">Image tiles</h3>
             <p className="text-xs text-muted-foreground">Square image atom (36px / 48px / 60px, radius 12px)</p>
           </div>
-          <div className="p-6 bg-layer-2 border border-border rounded-xl">
+          <div className="p-6 bg-background border border-border rounded-xl">
             <div className="space-y-6">
               <div className="flex items-center gap-3">
                 <ImageTile size="small" />
@@ -106,7 +106,7 @@ export function BuildingBlocksExamplesCard() {
             <h3 className="text-sm font-semibold">Avatars</h3>
             <p className="text-xs text-muted-foreground">Small / medium / large</p>
           </div>
-          <div className="p-6 bg-layer-2 border border-border rounded-xl">
+          <div className="p-6 bg-background border border-border rounded-xl">
             <div className="space-y-6">
               <div className="flex items-center gap-3">
                 <Avatar size="small">

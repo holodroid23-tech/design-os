@@ -427,7 +427,7 @@ export function DividersExamplesCard() {
       <CardContent className="space-y-8">
         <div className="space-y-4">
           <div className="text-sm font-medium">Horizontal</div>
-          <div className="bg-layer-2 border border-border rounded-xl p-6 space-y-4">
+          <div className="bg-background border border-border rounded-xl p-6 space-y-4">
             <div className="text-sm text-muted-foreground">Content above the separator</div>
             <Separator />
             <div className="text-sm text-muted-foreground">Content below the separator</div>
@@ -436,7 +436,7 @@ export function DividersExamplesCard() {
 
         <div className="space-y-4">
           <div className="text-sm font-medium">Vertical</div>
-          <div className="bg-layer-2 border border-border rounded-xl p-6 flex items-center h-16 space-x-4 text-sm text-muted-foreground">
+          <div className="bg-background border border-border rounded-xl p-6 flex items-center h-16 space-x-4 text-sm text-muted-foreground">
             <div>Item One</div>
             <Separator orientation="vertical" />
             <div>Item Two</div>

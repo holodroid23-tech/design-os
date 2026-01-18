@@ -66,6 +66,11 @@
   --color-layer-level-1: #24242b;
   --color-layer-level-2: #37373e;
   --color-layer-level-3: #505057;
+  /* Back-compat aliases used in some screens (bg-layer-1, etc.) */
+  --color-layer-0: var(--color-layer-level-0);
+  --color-layer-1: var(--color-layer-level-1);
+  --color-layer-2: var(--color-layer-level-2);
+  --color-layer-3: var(--color-layer-level-3);
   --color-layer-hover: rgba(0,0,0,0.05);
   --color-layer-active: rgba(0,0,0,0.1);
   --color-layer-info: #d5efff;

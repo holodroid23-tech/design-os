@@ -139,7 +139,7 @@ export function SectionPage() {
                 <>
                   <button
                     onClick={() => navigate(`/sections/${nextSection.id}`)}
-                    className="w-full flex items-center justify-between gap-4 px-6 py-4 bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 rounded-lg hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors group"
+                    className="w-full flex items-center justify-between gap-4 px-6 py-4 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors group"
                   >
                     <div className="flex items-center gap-3">
                       <ArrowRight className="w-5 h-5" strokeWidth={1.5} />
@@ -149,7 +149,7 @@ export function SectionPage() {
                   </button>
                   <button
                     onClick={() => navigate('/sections')}
-                    className="w-full flex items-center justify-between gap-4 px-6 py-4 bg-muted text-stone-700 dark:text-stone-300 rounded-lg hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors group"
+                    className="w-full flex items-center justify-between gap-4 px-6 py-4 bg-muted text-foreground rounded-lg hover:bg-accent transition-colors group"
                   >
                     <div className="flex items-center gap-3">
                       <LayoutList className="w-5 h-5" strokeWidth={1.5} />
@@ -162,7 +162,7 @@ export function SectionPage() {
                 /* If this is the last or only section, show single link back to sections */
                 <button
                   onClick={() => navigate('/sections')}
-                  className="w-full flex items-center justify-between gap-4 px-6 py-4 bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 rounded-lg hover:bg-stone-800 dark:hover:bg-stone-200 transition-colors group"
+                  className="w-full flex items-center justify-between gap-4 px-6 py-4 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors group"
                 >
                   <div className="flex items-center gap-3">
                     <LayoutList className="w-5 h-5" strokeWidth={1.5} />

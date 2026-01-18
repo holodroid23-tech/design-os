@@ -10,7 +10,7 @@ export function EmailTemplatesExamplesCard() {
         <CardDescription>Transactional email designs</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="bg-layer-2 border border-border rounded-xl p-6 flex justify-center bg-muted">
+        <div className="bg-background border border-border rounded-xl p-6 flex justify-center">
           <div className="w-full max-w-xl">
             <EmailTemplatePreview />
           </div>

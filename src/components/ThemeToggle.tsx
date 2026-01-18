@@ -54,7 +54,7 @@ export function ThemeToggle() {
       variant="ghost"
       size="icon"
       onClick={toggleTheme}
-      className="w-8 h-8 text-muted-foreground hover:text-stone-900 dark:hover:text-stone-100"
+      className="w-8 h-8 text-muted-foreground hover:text-foreground"
       title={`Theme: ${theme}`}
     >
       {isDark ? (

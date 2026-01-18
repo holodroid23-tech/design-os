@@ -48,8 +48,8 @@ export function AppLayout({
               </Button>
               {title && (
                 <>
-                  <div className="h-4 w-px bg-stone-200 dark:bg-stone-700" />
-                  <h1 className="text-sm font-medium text-stone-900 dark:text-stone-100 truncate">
+                  <div className="h-4 w-px bg-border" />
+                  <h1 className="text-sm font-medium text-foreground truncate">
                     {title}
                   </h1>
                 </>

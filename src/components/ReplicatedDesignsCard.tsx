@@ -1,8 +1,10 @@
-import { useEffect, useMemo, useState, Suspense } from 'react'
+import { useEffect, useMemo, useRef, useState, Suspense } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { Check, Circle } from 'lucide-react'
 import type { MockupInfo } from '@/types/section'
+import { loadProductData } from '@/lib/product-loader'
+import { applyDesignSystemToElement } from '@/lib/apply-design-system'
 
 interface ReplicatedDesignsCardProps {
   mocks: MockupInfo[]
@@ -27,13 +29,21 @@ function PreviewSurface({
   presentation: PreviewPresentation
   children: React.ReactNode
 }) {
+  const designSystem = useMemo(() => loadProductData().designSystem, [])
+  const scopeRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    applyDesignSystemToElement(scopeRef.current, designSystem)
+  }, [designSystem])
+
   if (presentation === 'mobile') {
     return (
       <div className="p-4">
-        <div className="mx-auto w-full max-w-[420px] aspect-[9/19.5] rounded-[24px] border border-border bg-background shadow-2xl overflow-hidden">
-          <div className="h-full w-full overflow-y-auto overscroll-contain">
-            {children}
-          </div>
+        <div
+          ref={scopeRef}
+          className="mx-auto w-full max-w-[420px] aspect-[9/19.5] rounded-[24px] border border-border bg-background shadow-2xl overflow-hidden"
+        >
+          <div className="h-full w-full overflow-y-auto overscroll-contain">{children}</div>
         </div>
       </div>
     )
@@ -41,14 +51,17 @@ function PreviewSurface({
 
   if (presentation === 'modal') {
     return (
-      <div className="w-full max-w-lg mx-auto">
+      <div ref={scopeRef} className="w-full max-w-lg mx-auto">
         {children}
       </div>
     )
   }
 
   return (
-    <div className="w-[min(1100px,calc(100vw-2rem))] max-h-[85vh] overflow-y-auto mx-auto">
+    <div
+      ref={scopeRef}
+      className="w-[min(1100px,calc(100vw-2rem))] max-h-[85vh] overflow-y-auto mx-auto"
+    >
       {children}
     </div>
   )

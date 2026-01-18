@@ -22,11 +22,11 @@ export function ImplementationGuide() {
         </h2>
         <div className="space-y-2">
           {quickRules.map((rule, idx) => (
-            <div key={idx} className="flex gap-3 p-3 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border">
+            <div key={idx} className="flex gap-3 p-3 bg-card rounded-lg border">
               <span className="text-sm font-semibold text-lime-600 dark:text-lime-400 flex-shrink-0">
                 {idx + 1}.
               </span>
-              <p className="text-sm text-stone-700 dark:text-stone-300">
+              <p className="text-sm text-foreground">
                 <strong>{rule.title}:</strong> {rule.description}
               </p>
             </div>
@@ -41,13 +41,13 @@ export function ImplementationGuide() {
         </h2>
         <div className="space-y-6">
           {designSystemRules.map((section, idx) => (
-            <div key={idx} className="p-5 bg-stone-50 dark:bg-stone-800/50 rounded-lg border border">
+            <div key={idx} className="p-5 bg-card rounded-lg border">
               <h3 className="text-lg font-semibold text-foreground mb-3">
                 {section.title}
               </h3>
               <ul className="space-y-2">
                 {section.rules.map((rule, ruleIdx) => (
-                  <li key={ruleIdx} className="flex gap-2 text-sm text-stone-700 dark:text-stone-300">
+                  <li key={ruleIdx} className="flex gap-2 text-sm text-foreground">
                     <span className="text-lime-600 dark:text-lime-400">•</span>
                     <span>
                       <strong>{rule.label}:</strong> {rule.value}
@@ -70,7 +70,7 @@ export function ImplementationGuide() {
             CRITICAL RULE: Never disable action buttons for validation purposes.
           </p>
         </div>
-        <p className="text-sm text-stone-700 dark:text-stone-300 mb-4">
+        <p className="text-sm text-foreground mb-4">
           Disabled buttons create poor user experience, especially on mobile devices where tooltips don't work 
           and users can't understand what's wrong without clear feedback.
         </p>
@@ -79,7 +79,7 @@ export function ImplementationGuide() {
             Instead, follow this pattern:
           </h4>
           {validationPattern.map((step, idx) => (
-            <div key={idx} className="flex gap-3 p-3 bg-white dark:bg-stone-800 rounded-md border border">
+            <div key={idx} className="flex gap-3 p-3 bg-card rounded-md border">
               <span className="text-sm font-semibold text-lime-600 dark:text-lime-400 flex-shrink-0">
                 {idx + 1}.
               </span>
@@ -93,7 +93,7 @@ export function ImplementationGuide() {
                 {step.details && (
                   <ul className="mt-2 space-y-1">
                     {step.details.map((detail, detailIdx) => (
-                      <li key={detailIdx} className="text-xs text-stone-500 dark:text-stone-500 ml-3">
+                      <li key={detailIdx} className="text-xs text-muted-foreground ml-3">
                         • {detail}
                       </li>
                     ))}
@@ -145,9 +145,9 @@ export function ImplementationGuide() {
         </p>
         <div className="space-y-2">
           {checklist.map((item, idx) => (
-            <label key={idx} className="flex items-start gap-3 p-2 hover:bg-white dark:hover:bg-stone-800 rounded cursor-pointer">
+            <label key={idx} className="flex items-start gap-3 p-2 hover:bg-accent rounded cursor-pointer">
               <input type="checkbox" className="mt-0.5" />
-              <span className="text-sm text-stone-700 dark:text-stone-300">{item}</span>
+              <span className="text-sm text-foreground">{item}</span>
             </label>
           ))}
         </div>
@@ -157,7 +157,7 @@ export function ImplementationGuide() {
       <div className="p-4 bg-muted rounded-lg border border">
         <p className="text-xs text-muted-foreground text-center">
           For complete implementation details and code examples, refer to the full implementation guide at 
-          <code className="mx-1 px-1.5 py-0.5 bg-stone-200 dark:bg-stone-700 rounded text-stone-700 dark:text-stone-300">
+          <code className="mx-1 px-1.5 py-0.5 bg-background rounded text-foreground">
             product/implementation-guide.md
           </code>
         </p>

@@ -34,12 +34,12 @@ export function ShellCard({ shell }: ShellCardProps) {
             <CollapsibleTrigger className="flex items-center justify-between w-full py-2 text-left group">
               <span className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                 Navigation
-                <span className="ml-2 text-stone-400 dark:text-stone-500 normal-case tracking-normal">
+                <span className="ml-2 text-muted-foreground normal-case tracking-normal">
                   ({shell.spec.navigationItems.length})
                 </span>
               </span>
               <ChevronDown
-                className={`w-4 h-4 text-stone-400 dark:text-stone-500 transition-transform ${
+                className={`w-4 h-4 text-muted-foreground transition-transform ${
                   navigationOpen ? 'rotate-180' : ''
                 }`}
                 strokeWidth={1.5}
@@ -49,7 +49,7 @@ export function ShellCard({ shell }: ShellCardProps) {
               <ul className="space-y-2 pt-2 ml-1">
                 {shell.spec.navigationItems.map((item, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-stone-400 dark:bg-stone-500 mt-2 shrink-0" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground mt-2 shrink-0" />
                     <span className="text-muted-foreground">
                       {item}
                     </span>
@@ -62,20 +62,20 @@ export function ShellCard({ shell }: ShellCardProps) {
 
         {/* View Shell Design Link */}
         {shell.hasComponents && (
-          <div className="pt-2 border-t border-stone-100 dark:border-stone-800">
+          <div className="pt-2 border-t border">
             <Link
               to="/shell/design"
-              className="flex items-center justify-between gap-4 py-2 hover:text-stone-900 dark:hover:text-stone-100 transition-colors group"
+              className="flex items-center justify-between gap-4 py-2 hover:text-foreground transition-colors group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-md bg-stone-200 dark:bg-stone-700 flex items-center justify-center">
-                  <Layout className="w-4 h-4 text-stone-600 dark:text-stone-300" strokeWidth={1.5} />
+                <div className="w-8 h-8 rounded-md bg-muted flex items-center justify-center">
+                  <Layout className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
                 </div>
-                <span className="font-medium text-stone-700 dark:text-stone-300 group-hover:text-stone-900 dark:group-hover:text-stone-100">
+                <span className="font-medium text-muted-foreground group-hover:text-foreground">
                   View Shell Design
                 </span>
               </div>
-              <ChevronRight className="w-4 h-4 text-stone-400 dark:text-stone-500" strokeWidth={1.5} />
+              <ChevronRight className="w-4 h-4 text-muted-foreground" strokeWidth={1.5} />
             </Link>
           </div>
         )}

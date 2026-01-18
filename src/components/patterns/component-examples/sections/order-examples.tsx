@@ -42,7 +42,7 @@ function OrderTabsDemo() {
   }
 
   return (
-    <div className="w-full max-w-3xl bg-layer-2 border border-border rounded-xl p-4 overflow-hidden">
+    <div className="w-full max-w-3xl bg-background border border-border rounded-xl p-4 overflow-hidden">
       <div className="flex items-center gap-3">
         <button
           onClick={handleAddTab}
@@ -290,7 +290,7 @@ export function OrderExpandableExamplesCard() {
         <CardTitle className="text-lg font-semibold">Expandable order summary</CardTitle>
         <CardDescription>Bottom bar that expands into an order view</CardDescription>
       </CardHeader>
-      <CardContent className="bg-muted/30 p-12 flex items-center justify-center">
+      <CardContent className="p-12 flex items-center justify-center">
         <OrderExpandableDemo />
       </CardContent>
     </Card>

@@ -74,7 +74,7 @@ export function SectionsPage() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
-              <ul className="divide-y divide-stone-200 dark:divide-stone-700">
+              <ul className="divide-y divide-border">
                 {sections.map((section) => {
                   const progress = sectionProgressMap[section.id]
                   const isComplete = progress?.hasSpec && progress?.hasData
@@ -83,7 +83,7 @@ export function SectionsPage() {
                     <li key={section.id}>
                       <button
                         onClick={() => navigate(`/sections/${section.id}`)}
-                        className="w-full px-6 py-4 flex items-center justify-between gap-4 text-left hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors"
+                        className="w-full px-6 py-4 flex items-center justify-between gap-4 text-left hover:bg-accent transition-colors"
                       >
                         <div className="flex items-start gap-4 min-w-0">
                           {/* Status indicator */}
@@ -93,7 +93,7 @@ export function SectionsPage() {
                                 <Check className="w-3.5 h-3.5 text-lime-600 dark:text-lime-400" strokeWidth={2.5} />
                               </div>
                             ) : (
-                              <div className="w-6 h-6 rounded-full bg-stone-200 dark:bg-stone-700 flex items-center justify-center">
+                              <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center">
                                 <span className="text-xs font-medium text-muted-foreground">
                                   {section.order}
                                 </span>
@@ -117,7 +117,7 @@ export function SectionsPage() {
                           </div>
                         </div>
 
-                        <ChevronRight className="w-4 h-4 text-stone-400 dark:text-stone-500 flex-shrink-0" strokeWidth={1.5} />
+                        <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" strokeWidth={1.5} />
                       </button>
                     </li>
                   )
@@ -145,10 +145,13 @@ function ProgressDot({ label, done }: ProgressDotProps) {
   return (
     <span className={`flex items-center gap-1 text-xs ${
       done
-        ? 'text-stone-700 dark:text-stone-300'
-        : 'text-stone-400 dark:text-stone-500'
+        ? 'text-foreground'
+        : 'text-muted-foreground'
     }`}>
-      <Check className={`w-3 h-3 ${done ? 'text-lime-600 dark:text-lime-400' : 'text-stone-400 dark:text-stone-500'}`} strokeWidth={2.5} />
+      <Check
+        className={`w-3 h-3 ${done ? 'text-lime-600 dark:text-lime-400' : 'text-muted-foreground'}`}
+        strokeWidth={2.5}
+      />
       {label}
     </span>
   )

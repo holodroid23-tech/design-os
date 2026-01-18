@@ -4,6 +4,26 @@ You are helping the user **edit an existing component/element** while preserving
 
 This command is the “always correct workflow” for changes to existing UI.
 
+## Designer-first expectation (read this carefully)
+
+The user is a **designer**, not a programmer. They describe changes based on what they see on the Design page.
+
+When the user asks for a visual change (example: “increase avatar size”, “make corners more rounded”), they expect:
+
+1. The change is applied to the **real source-of-truth** so it propagates (shared component or design tokens).
+2. The Design page catalog is updated so it matches the source-of-truth (no drift).
+
+### Non‑negotiable rule: no page-only tweaks
+
+Do **not** “just change the Design page”.
+If you only tweak markup/classes inside demos, you create a one-off custom styling that won’t propagate.
+
+Always implement changes in:
+- shared components (`src/components/ui/*`, `src/components/patterns/*`) and/or
+- token files (`product/design-system/*.json`)
+
+Then update Design page examples to match.
+
 ## Source of Truth (read these first)
 
 **Tokens (truth for values):**
@@ -58,6 +78,13 @@ If your change affects appearance, interaction, or API:
 - Update the relevant example card in `src/components/patterns/component-examples/sections/*.tsx`
 - Ensure `src/components/ComponentExamples.tsx` still renders it
 - Keep example `Card id="..."` stable (IDs are used for referencing)
+
+### “Propagate everywhere” checklist (what designers mean)
+
+If the user expects a change to show up “everywhere”, you must:
+- Make the change in the **shared component** (or token file), not in a screen, AND
+- Update **all consumers** that override styling/size props, AND
+- Update the Design page example(s) so they use the same component API (no custom page-only classes).
 
 ## Step 5: Verification
 

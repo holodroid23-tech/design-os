@@ -44,7 +44,7 @@ function StepBadge({ step, status }: StepBadgeProps) {
 
   if (status === 'completed') {
     return (
-      <div className={`${baseClasses} bg-muted text-stone-500 dark:text-stone-400`}>
+      <div className={`${baseClasses} bg-muted text-muted-foreground`}>
         <Check className="w-3 h-3" strokeWidth={2.5} />
       </div>
     )
@@ -52,7 +52,7 @@ function StepBadge({ step, status }: StepBadgeProps) {
 
   if (status === 'current') {
     return (
-      <div className={`${baseClasses} bg-stone-900 dark:bg-stone-100 text-stone-100 dark:text-stone-900 shadow-sm`}>
+      <div className={`${baseClasses} bg-primary text-primary-foreground shadow-sm`}>
         <ArrowRight className="w-3 h-3" strokeWidth={2.5} />
       </div>
     )
@@ -68,7 +68,7 @@ function StepBadge({ step, status }: StepBadgeProps) {
 
   // upcoming
   return (
-    <div className={`${baseClasses} bg-muted text-stone-500 dark:text-stone-400`}>
+    <div className={`${baseClasses} bg-muted text-muted-foreground`}>
       {step}
     </div>
   )

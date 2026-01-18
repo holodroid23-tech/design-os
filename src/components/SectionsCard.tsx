@@ -16,15 +16,15 @@ export function SectionsCard({ roadmap, onSectionClick }: SectionsCardProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-0">
-        <ul className="divide-y divide-stone-200 dark:divide-stone-700">
+        <ul className="divide-y divide-border">
           {roadmap.sections.map((section) => (
             <li key={section.id}>
               <button
                 onClick={() => onSectionClick(section.id)}
-                className="w-full px-6 py-4 flex items-center justify-between gap-4 text-left hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors"
+                className="w-full px-6 py-4 flex items-center justify-between gap-4 text-left hover:bg-accent transition-colors"
               >
                 <div className="flex items-start gap-4 min-w-0">
-                  <span className="shrink-0 w-6 h-6 rounded-full bg-stone-200 dark:bg-stone-700 text-stone-600 dark:text-stone-300 text-xs font-medium flex items-center justify-center">
+                  <span className="shrink-0 w-6 h-6 rounded-full bg-muted text-muted-foreground text-xs font-medium flex items-center justify-center">
                     {section.order}
                   </span>
                   <div className="min-w-0">

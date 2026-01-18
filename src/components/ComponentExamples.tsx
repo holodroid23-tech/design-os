@@ -216,19 +216,19 @@ function OrderExpandableDemo() {
       {!isOpen && (
         <div
           onClick={() => setIsOpen(true)}
-          className="bg-[#0c141c] text-white p-5 cursor-pointer active:scale-[0.98] transition-all relative group h-[110px] flex flex-col justify-center"
+          className="bg-foreground text-background p-5 cursor-pointer active:scale-[0.98] transition-all relative group h-[110px] flex flex-col justify-center"
         >
           {/* Drag Handle */}
-          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-8 h-1 bg-white/20 rounded-full" />
+          <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-8 h-1 bg-background/20 rounded-full" />
 
           <div className="flex items-center justify-between mt-1">
             <div className="flex flex-col">
               <span className="text-3xl font-bold font-sans tracking-tight">$18.50</span>
-              <span className="text-[11px] text-white/50 font-sans mt-0.5 truncate max-w-[180px]">
+              <span className="text-[11px] text-background/60 font-sans mt-0.5 truncate max-w-[180px]">
                 Cappuccino (2), Macchiato, Americano...
               </span>
             </div>
-            <div className="h-10 w-10 flex items-center justify-center text-white/40 group-hover:text-white transition-colors">
+            <div className="h-10 w-10 flex items-center justify-center text-background/60 group-hover:text-background transition-colors">
               <ChevronDown className="h-7 w-7 rotate-180" />
             </div>
           </div>
@@ -237,7 +237,7 @@ function OrderExpandableDemo() {
 
       {/* Expanded Content (Inline) */}
       {isOpen && (
-        <div className="bg-[#0c141c] text-white flex flex-col h-[600px] animate-in slide-in-from-bottom-4 duration-300">
+        <div className="bg-foreground text-background flex flex-col h-[600px] animate-in slide-in-from-bottom-4 duration-300">
           {/* Header */}
           <div className="px-6 pt-8 pb-4">
             <div className="flex items-center justify-between mb-6">
@@ -245,7 +245,7 @@ function OrderExpandableDemo() {
                 <h2 className="text-base font-semibold font-sans">Order #402 - Table 4</h2>
               </div>
               <div
-                className="h-10 w-10 flex items-center justify-center text-white/40 hover:text-white transition-colors cursor-pointer"
+                className="h-10 w-10 flex items-center justify-center text-background/60 hover:text-background transition-colors cursor-pointer"
                 onClick={() => setIsOpen(false)}
               >
                 <ChevronDown className="h-7 w-7" />
@@ -254,7 +254,7 @@ function OrderExpandableDemo() {
 
             {/* Search */}
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-white/40" />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-background/60" />
               <input
                 type="text"
                 placeholder="Search items..."
@@ -335,7 +335,7 @@ function OrderExpandableDemo() {
           </div>
 
           {/* Footer */}
-          <div className="p-6 pt-5 bg-[#0c141c] border-t border-white/10">
+          <div className="p-6 pt-5 bg-foreground border-t border-background/10">
             <div className="space-y-2 mb-6">
               <div className="flex justify-between text-[11px] text-white/30 uppercase tracking-widest font-bold">
                 <span>Subtotal</span>
@@ -542,7 +542,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
             <div className="space-y-12">
               {/* Default - Gradient Variants (Name Only) */}
               <div className="space-y-4">
-                <Label className="text-[11px] font-bold tracking-tight text-stone-400">Expense gradient palette (13 colors)</Label>
+                <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Expense gradient palette (13 colors)</Label>
                 <div className="grid grid-cols-3 gap-3">
                   {gradColors.map((item) => (
                     <button
@@ -560,7 +560,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
               {/* Folders Variants */}
               <div className="space-y-4">
-                <Label className="text-[11px] font-bold tracking-tight text-stone-400">Folder variants (13 colors)</Label>
+                <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Folder variants (13 colors)</Label>
                 <div className="grid grid-cols-3 gap-3">
                   {gradColors.map((item) => (
                     <button
@@ -595,7 +595,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
             <div className="space-y-12">
               {/* Dashed Stroke */}
               <div className="space-y-4">
-                <Label className="text-[11px] font-bold tracking-tight text-stone-400">Dashed stroke variants (long dashes)</Label>
+                <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Dashed stroke variants (long dashes)</Label>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="relative aspect-square rounded-2xl border-2 border-dashed bg-layer-1 border-border flex flex-col items-center justify-center p-3 text-foreground shadow-sm [border-style:dashed] [border-dasharray:12,8]">
                     <h3 className="font-sans text-base font-semibold mb-0.5 tracking-tight">Dashed item</h3>
@@ -615,7 +615,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
               {/* Dotted Stroke */}
               <div className="space-y-4">
-                <Label className="text-[11px] font-bold tracking-tight text-stone-400">Dotted stroke variants</Label>
+                <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Dotted stroke variants</Label>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="relative aspect-square rounded-2xl border-2 border-dotted bg-layer-1 border-border flex flex-col items-center justify-center p-3 text-foreground shadow-sm">
                     <h3 className="font-sans text-base font-semibold mb-0.5 tracking-tight">Dotted item</h3>
@@ -635,7 +635,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
               {/* Solid Stroke */}
               <div className="space-y-4">
-                <Label className="text-[11px] font-bold tracking-tight text-stone-400">Solid stroke variants</Label>
+                <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Solid stroke variants</Label>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="relative aspect-square rounded-2xl border-2 bg-layer-1 border-border flex flex-col items-center justify-center p-3 text-foreground shadow-sm">
                     <h3 className="font-sans text-base font-semibold mb-0.5 tracking-tight">Solid item</h3>
@@ -660,12 +660,12 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           {/* Utility Section */}
           <div className="space-y-8">
             <div className="pb-4 border-b">
-              <div className="text-base font-semibold text-stone-900 dark:text-stone-100">Utility section</div>
-              <p className="text-sm text-stone-500 mt-1">Special actions for adding items and expenses</p>
+              <div className="text-base font-semibold text-foreground">Utility section</div>
+              <p className="text-sm text-muted-foreground mt-1">Special actions for adding items and expenses</p>
             </div>
 
             <div className="space-y-4">
-              <Label className="text-[11px] font-bold tracking-tight text-stone-400">Custom creation variants (ghost)</Label>
+              <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Custom creation variants (ghost)</Label>
               <div className="grid grid-cols-3 gap-3">
                 {/* Custom Item */}
                 <button className="relative aspect-square rounded-2xl overflow-hidden bg-layer-1 border-2 border-border hover:bg-layer-2 flex flex-col items-center justify-center text-foreground p-3 transition-all active:scale-95 shadow-sm group">
@@ -707,9 +707,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
       <CardsExamplesCard />
 
       {/* Navigation Menu - Mobile Optimized */}
-      <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold text-foreground">
             Navigation menu
           </CardTitle>
           <CardDescription>Example navigation items (min 48px touch target)</CardDescription>
@@ -738,52 +738,52 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
       </Card>
 
       {/* Stats Cards - Mobile Optimized */}
-      <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className="text-lg font-semibold text-foreground">
             Stats cards
           </CardTitle>
           <CardDescription>Dashboard-style metric cards</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <Card className="border-stone-200 dark:border-stone-700">
+            <Card className="border">
               <CardHeader className="pb-2">
                 <CardDescription>Total revenue</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-stone-900 dark:text-stone-100">
+                <div className="text-2xl font-bold text-foreground">
                   $45,231
                 </div>
-                <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   +20.1% from last month
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-stone-200 dark:border-stone-700">
+            <Card className="border">
               <CardHeader className="pb-2">
                 <CardDescription>Active users</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-stone-900 dark:text-stone-100">
+                <div className="text-2xl font-bold text-foreground">
                   2,350
                 </div>
-                <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   +180.1% from last month
                 </p>
               </CardContent>
             </Card>
 
-            <Card className="border-stone-200 dark:border-stone-700">
+            <Card className="border">
               <CardHeader className="pb-2">
                 <CardDescription>Sales</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold text-stone-900 dark:text-stone-100">
+                <div className="text-2xl font-bold text-foreground">
                   12,234
                 </div>
-                <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   +19% from last month
                 </p>
               </CardContent>
@@ -795,16 +795,16 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
       <SettingsComponentsExamplesCard />
       {false && (
-      <Card id="settings-components" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="settings-components" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className=" text-lg font-semibold text-stone-900 dark:text-stone-100">
+          <CardTitle className=" text-lg font-semibold text-foreground">
             Settings components
           </CardTitle>
           <CardDescription>Specialized components for settings pages (SettingsGroup, SettingsItem, UserProfileRow)</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="space-y-4">
-            <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 block">
+            <Label className="text-sm font-medium text-foreground block">
               User profile row
             </Label>
             <SettingsGroup>
@@ -817,7 +817,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
 
           <div className="space-y-4">
-            <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 block">
+            <Label className="text-sm font-medium text-foreground block">
               Settings group with items
             </Label>
             <SettingsGroup>
@@ -851,7 +851,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
             <SettingsGroup>
               <SettingsItem>
                 <SettingsItemIcon>
-                  <div className="h-10 w-10 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-400">
+                  <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground">
                     <Settings className="h-5 w-5" />
                   </div>
                 </SettingsItemIcon>
@@ -861,7 +861,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               </SettingsItem>
               <SettingsItem>
                 <SettingsItemIcon>
-                  <div className="h-10 w-10 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-400">
+                  <div className="h-10 w-10 rounded-lg bg-muted flex items-center justify-center text-muted-foreground">
                     <User className="h-5 w-5" />
                   </div>
                 </SettingsItemIcon>
@@ -891,9 +891,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
       <BuildingBlocksExamplesCard />
       {false && (
-      <Card id="building-blocks" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="building-blocks" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Building blocks</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Building blocks</CardTitle>
           <CardDescription>Atomic elements: icons and avatars with standardized sizes</CardDescription>
           <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/30 rounded-lg">
             <p className="text-sm font-semibold text-amber-900 dark:text-amber-200 mb-1">?? Design rule: Outline icons only</p>
@@ -952,7 +952,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               <div className="space-y-4">
                 <div className="text-sm font-medium">Small (36px) - Common colors</div>
                 <div className="flex flex-wrap gap-4">
-                  <div className="h-9 w-9 rounded-xl bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-400">
+                  <div className="h-9 w-9 rounded-xl bg-muted flex items-center justify-center text-muted-foreground">
                     <Settings className="h-5 w-5" />
                   </div>
                   <div className="h-9 w-9 rounded-xl bg-layer-info dark:bg-blue-900/30 flex items-center justify-center text-on-layer-info dark:text-blue-400">
@@ -1086,9 +1086,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
       <AtomicItemsExamplesCard />
       {false && (
-      <Card id="atomic-items" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="atomic-items" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Atomic items</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Atomic items</CardTitle>
           <CardDescription>Examples of complex items built from atoms</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -1205,9 +1205,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
       <SectionTitlesExamplesCard />
       {false && (
-      <Card id="section-titles" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="section-titles" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Section titles</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Section titles</CardTitle>
           <CardDescription>Standardized headers (h3, 18px Regular Semibold)</CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
@@ -1250,9 +1250,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
       <ProductExpenseItemsDsExamplesCard />
       {false && (
-      <Card id="product-expense-items-ds" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="product-expense-items-ds" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Product / expense card items</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Product / expense card items</CardTitle>
           <CardDescription>Special variants designed for order and expense management</CardDescription>
         </CardHeader>
         <CardContent>
@@ -1273,15 +1273,15 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               </SettingsItemContent>
               <SettingsItemAction className="flex items-center gap-6">
                 <div className="flex items-center gap-1 bg-layer-1 border border-border rounded-lg p-0.5">
-                  <Button variant="invisible" size="icon-sm" className="h-7 w-7 rounded-md text-stone-900 dark:text-stone-100">
+                  <Button variant="invisible" size="icon-sm" className="h-7 w-7 rounded-md text-foreground">
                     <Minus className="h-[18px] w-[18px]" />
                   </Button>
-                  <span className="font-bold px-2 text-sm text-stone-900 dark:text-stone-100">2</span>
-                  <Button variant="invisible" size="icon-sm" className="h-7 w-7 rounded-md text-stone-900 dark:text-stone-100">
+                  <span className="font-bold px-2 text-sm text-foreground">2</span>
+                  <Button variant="invisible" size="icon-sm" className="h-7 w-7 rounded-md text-foreground">
                     <Plus className="h-[18px] w-[18px]" />
                   </Button>
                 </div>
-                <span className="text-sm font-mono font-bold text-stone-900 dark:text-stone-100">$11.00</span>
+                <span className="text-sm font-mono font-bold text-foreground">$11.00</span>
               </SettingsItemAction>
             </SettingsItem>
 
@@ -1300,10 +1300,10 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                 <SettingsItemTitle>Cappuccino</SettingsItemTitle>
               </SettingsItemContent>
               <SettingsItemAction className="flex items-center gap-6">
-                <Button variant="ghost" size="icon-sm" className="h-8 w-8 text-stone-900 dark:text-stone-100">
+                <Button variant="ghost" size="icon-sm" className="h-8 w-8 text-foreground">
                   <Pencil className="h-[18px] w-[18px]" />
                 </Button>
-                <span className="text-sm font-mono font-bold text-stone-900 dark:text-stone-100">$4.50</span>
+                <span className="text-sm font-mono font-bold text-foreground">$4.50</span>
               </SettingsItemAction>
             </SettingsItem>
           </div>
@@ -1324,9 +1324,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
       <AccordionsExamplesCard />
       {false && (
-      <Card id="accordions" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="accordions" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Complex accordions</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Complex accordions</CardTitle>
           <CardDescription>Expandable lists with rich content (Expenses & Orders)</CardDescription>
         </CardHeader>
         <CardContent>
@@ -1732,12 +1732,12 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
       <OrderExpandableExamplesCard />
       {false && (
-      <Card id="order-expandable" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="order-expandable" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Expandable order summary</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Expandable order summary</CardTitle>
           <CardDescription>Persistent bottom bar that expands into a full order view</CardDescription>
         </CardHeader>
-        <CardContent className="bg-stone-50 dark:bg-stone-900/50 p-12 flex items-center justify-center">
+        <CardContent className="bg-muted p-12 flex items-center justify-center">
           <OrderExpandableDemo />
         </CardContent>
       </Card>
@@ -1746,9 +1746,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
       <OrderTabsExamplesCard />
       {false && (
-      <Card id="order-tabs" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="order-tabs" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Order tabs</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Order tabs</CardTitle>
           <CardDescription>Specialized tab interface for order management</CardDescription>
         </CardHeader>
         <CardContent>
@@ -1759,9 +1759,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
       <MediaUploadExamplesCard />
       {false && (
-      <Card id="media-upload" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="media-upload" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Media upload</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Media upload</CardTitle>
           <CardDescription>Upload component with multiple actions</CardDescription>
         </CardHeader>
         <CardContent>
@@ -1782,9 +1782,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
       <CheckListsExamplesCard />
       {false && (
-      <Card id="check-lists" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="check-lists" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Check lists</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Check lists</CardTitle>
           <CardDescription>Permission lists and status checks</CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
@@ -1813,9 +1813,9 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
       {/* Icons with Background */}
       <EmptyStatesExamplesCard />
       {false && (
-      <Card id="empty-states" className="border-stone-200 dark:border-stone-700 shadow-sm">
+      <Card id="empty-states" className="border shadow-sm">
         <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Empty states</CardTitle>
+          <CardTitle className="text-lg font-semibold text-foreground">Empty states</CardTitle>
           <CardDescription>Placeholders for when no data is available</CardDescription>
         </CardHeader>
         <CardContent>

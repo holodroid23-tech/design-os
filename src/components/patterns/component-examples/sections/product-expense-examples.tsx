@@ -130,7 +130,7 @@ export function ProductExpenseCardsExamplesCard() {
                 </div>
               </div>
 
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-layer-2 border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground">
+              <div className="relative aspect-square rounded-2xl overflow-hidden bg-background border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground">
                 <SettingsItemTitle className="font-sans font-semibold text-base tracking-tight">Custom item</SettingsItemTitle>
                 <p className="text-sm text-muted-foreground">No price</p>
               </div>

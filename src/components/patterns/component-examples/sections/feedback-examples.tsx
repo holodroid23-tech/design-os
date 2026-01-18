@@ -259,7 +259,7 @@ export function CheckListsExamplesCard() {
         <CardDescription>Permission lists and status checks</CardDescription>
       </CardHeader>
       <CardContent className="space-y-8">
-        <div className="bg-layer-2/50 border border-border rounded-2xl p-5 space-y-3">
+        <div className="bg-background border border-border rounded-2xl p-5 space-y-3">
           <PermissionItem allowed>Update inventory levels &amp; stock alerts</PermissionItem>
           <PermissionItem allowed>View operational performance dashboards</PermissionItem>
           <PermissionItem allowed>Full access to back office</PermissionItem>
@@ -269,7 +269,7 @@ export function CheckListsExamplesCard() {
           <PermissionItem allowed={false}>Restricted from payment, user settings, and account deletion</PermissionItem>
         </div>
 
-        <div className="bg-layer-2/50 border border-border rounded-2xl p-5 space-y-3">
+        <div className="bg-background border border-border rounded-2xl p-5 space-y-3">
           <PermissionItem allowed>Refund and edit today's expenses</PermissionItem>
           <PermissionItem allowed={false}>No access to back office</PermissionItem>
           <PermissionItem allowed={false}>Cannot edit or delete yesterday and older expenses</PermissionItem>
