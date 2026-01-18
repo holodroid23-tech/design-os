@@ -9,19 +9,17 @@ import { DataCard } from '@/components/DataCard'
 import { StepIndicator, type StepStatus } from '@/components/StepIndicator'
 import { loadProductData } from '@/lib/product-loader'
 import { loadSectionData } from '@/lib/section-loader'
-import { ChevronRight, Layout, Image, Download, ArrowRight, LayoutList } from 'lucide-react'
+import { ChevronRight, ArrowRight, LayoutList } from 'lucide-react'
 
 /**
  * Determine the status of each step based on what data exists
- * Steps: 1. Section Overview (Spec), 2. Sample Data, 3. Screen Designs, 4. Screenshots
+ * Steps: 1. Section Overview (Spec), 2. Sample Data
  */
 function getStepStatuses(sectionData: ReturnType<typeof loadSectionData> | null): StepStatus[] {
   const hasSpec = !!sectionData?.specParsed
   const hasData = !!sectionData?.data
-  const hasScreenDesigns = !!(sectionData?.screenDesigns && sectionData.screenDesigns.length > 0)
-  const hasScreenshots = !!(sectionData?.screenshots && sectionData.screenshots.length > 0)
 
-  const steps: boolean[] = [hasSpec, hasData, hasScreenDesigns, hasScreenshots]
+  const steps: boolean[] = [hasSpec, hasData]
   const firstIncomplete = steps.findIndex((done) => !done)
 
   return steps.map((done, index) => {
@@ -32,14 +30,12 @@ function getStepStatuses(sectionData: ReturnType<typeof loadSectionData> | null)
 }
 
 /**
- * Check if the required steps for a section are complete (Spec, Data, Screen Designs)
- * Screenshots are optional and don't count toward completion
+ * Check if the required steps for a section are complete (Spec and Data)
  */
 function areRequiredStepsComplete(sectionData: ReturnType<typeof loadSectionData> | null): boolean {
   const hasSpec = !!sectionData?.specParsed
   const hasData = !!sectionData?.data
-  const hasScreenDesigns = !!(sectionData?.screenDesigns && sectionData.screenDesigns.length > 0)
-  return hasSpec && hasData && hasScreenDesigns
+  return hasSpec && hasData
 }
 
 export function SectionPage() {
@@ -52,7 +48,7 @@ export function SectionPage() {
   const section = sections.find((s) => s.id === sectionId)
   const currentIndex = sections.findIndex((s) => s.id === sectionId)
 
-  // Load section-specific data (spec, data.json, screen designs, screenshots)
+  // Load section-specific data (spec and data.json)
   const sectionData = useMemo(
     () => (sectionId ? loadSectionData(sectionId) : null),
     [sectionId]
@@ -104,121 +100,13 @@ export function SectionPage() {
         </StepIndicator>
 
         {/* Step 2: Sample Data */}
-        <StepIndicator step={2} status={stepStatuses[1]}>
+        <StepIndicator step={2} status={stepStatuses[1]} isLast={!requiredStepsComplete}>
           <DataCard data={sectionData?.data || null} />
         </StepIndicator>
 
-        {/* Step 3: Screen Designs */}
-        <StepIndicator step={3} status={stepStatuses[2]}>
-          {!sectionData?.screenDesigns || sectionData.screenDesigns.length === 0 ? (
-            <EmptyState type="screen-designs" />
-          ) : (
-            <Card className="border shadow-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold text-foreground">
-                  Screen Designs
-                  <span className="ml-2 text-sm font-normal text-muted-foreground">
-                    ({sectionData.screenDesigns.length})
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-0">
-                <ul className="divide-y divide-stone-200 dark:divide-stone-700">
-                  {sectionData.screenDesigns.map((screenDesign) => (
-                    <li key={screenDesign.name}>
-                      <Link
-                        to={`/sections/${sectionId}/screen-designs/${screenDesign.name}`}
-                        className="flex items-center justify-between gap-4 px-6 py-4 hover:bg-stone-50 dark:hover:bg-stone-800/50 transition-colors"
-                      >
-                        <div className="flex items-center gap-3 min-w-0">
-                          <div className="w-8 h-8 rounded-md bg-stone-200 dark:bg-stone-700 flex items-center justify-center shrink-0">
-                            <Layout className="w-4 h-4 text-stone-600 dark:text-stone-300" strokeWidth={1.5} />
-                          </div>
-                          <span className="font-medium text-foreground truncate">
-                            {screenDesign.name}
-                          </span>
-                        </div>
-                        <ChevronRight className="w-4 h-4 text-stone-400 dark:text-stone-500 shrink-0" strokeWidth={1.5} />
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-        </StepIndicator>
-
-        {/* Step 4: Screenshots */}
-        <StepIndicator step={4} status={stepStatuses[3]} isLast={!requiredStepsComplete}>
-          {!sectionData?.screenshots || sectionData.screenshots.length === 0 ? (
-            <Card className="border shadow-sm border-dashed">
-              <CardContent className="py-8">
-                <div className="flex flex-col items-center text-center max-w-sm mx-auto">
-                  <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center mb-3">
-                    <Image className="w-5 h-5 text-stone-400 dark:text-stone-500" strokeWidth={1.5} />
-                  </div>
-                  <h3 className="text-base font-medium text-muted-foreground mb-1">
-                    No screenshots captured yet
-                  </h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Capture screenshots of your screen designs for documentation
-                  </p>
-                  <div className="bg-muted rounded-md px-4 py-2.5 w-full">
-                    <p className="text-xs text-muted-foreground mb-0.5">
-                      Run in Claude Code:
-                    </p>
-                    <code className="text-sm font-mono text-stone-700 dark:text-stone-300">
-                      /screenshot-design
-                    </code>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card className="border shadow-sm">
-              <CardHeader className="pb-4">
-                <CardTitle className="text-lg font-semibold text-foreground">
-                  Screenshots
-                  <span className="ml-2 text-sm font-normal text-muted-foreground">
-                    ({sectionData.screenshots.length})
-                  </span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-4">
-                  {sectionData.screenshots.map((screenshot) => (
-                    <div key={screenshot.name} className="group">
-                      <div className="aspect-video rounded-lg overflow-hidden bg-muted border border">
-                        <img
-                          src={screenshot.url}
-                          alt={screenshot.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div className="mt-2 flex items-center justify-between gap-2">
-                        <p className="text-sm text-muted-foreground truncate">
-                          {screenshot.name}
-                        </p>
-                        <a
-                          href={screenshot.url}
-                          download={`${screenshot.name}.png`}
-                          className="shrink-0 p-1.5 rounded-md text-stone-400 hover:text-stone-600 dark:text-stone-500 dark:hover:text-stone-300 hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
-                          title="Download screenshot"
-                        >
-                          <Download className="w-4 h-4" strokeWidth={1.5} />
-                        </a>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-        </StepIndicator>
-
-        {/* Next Step - shown when required steps (Spec, Data, Screen Designs) are complete */}
+        {/* Next Step - shown when required steps (Spec and Data) are complete */}
         {requiredStepsComplete && (
-          <StepIndicator step={5} status="current" isLast>
+          <StepIndicator step={3} status="current" isLast>
             <div className="space-y-3">
               {/* If there's a next section, show two options */}
               {nextSection ? (

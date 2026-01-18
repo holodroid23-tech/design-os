@@ -6,28 +6,18 @@ import { EmptyState } from '@/components/EmptyState'
 import { PhaseWarningBanner } from '@/components/PhaseWarningBanner'
 import { NextPhaseButton } from '@/components/NextPhaseButton'
 import { loadProductData } from '@/lib/product-loader'
-import { getSectionScreenDesigns, getSectionScreenshots, hasSectionSpec, hasSectionData } from '@/lib/section-loader'
-import { ChevronRight, Check, Circle } from 'lucide-react'
+import { hasSectionSpec, hasSectionData } from '@/lib/section-loader'
+import { ChevronRight, Check } from 'lucide-react'
 
 interface SectionProgress {
   hasSpec: boolean
   hasData: boolean
-  hasScreenDesigns: boolean
-  screenDesignCount: number
-  hasScreenshots: boolean
-  screenshotCount: number
 }
 
 function getSectionProgress(sectionId: string): SectionProgress {
-  const screenDesigns = getSectionScreenDesigns(sectionId)
-  const screenshots = getSectionScreenshots(sectionId)
   return {
     hasSpec: hasSectionSpec(sectionId),
     hasData: hasSectionData(sectionId),
-    hasScreenDesigns: screenDesigns.length > 0,
-    screenDesignCount: screenDesigns.length,
-    hasScreenshots: screenshots.length > 0,
-    screenshotCount: screenshots.length,
   }
 }
 
@@ -46,10 +36,10 @@ export function SectionsPage() {
     return map
   }, [sections])
 
-  // Count completed sections (those with spec, data, AND screen designs)
+  // Count completed sections (those with spec and data)
   const completedSections = sections.filter(s => {
     const p = sectionProgressMap[s.id]
-    return p?.hasSpec && p?.hasData && p?.hasScreenDesigns
+    return p?.hasSpec && p?.hasData
   }).length
 
   return (
@@ -61,7 +51,7 @@ export function SectionsPage() {
             Sections
           </h1>
           <p className="text-muted-foreground">
-            Design each section of your product with specifications, sample data, and screen designs.
+            Define specifications and sample data for each section of your product.
           </p>
           {sections.length > 0 && (
             <p className="text-sm text-muted-foreground mt-2">
@@ -87,7 +77,7 @@ export function SectionsPage() {
               <ul className="divide-y divide-stone-200 dark:divide-stone-700">
                 {sections.map((section) => {
                   const progress = sectionProgressMap[section.id]
-                  const isComplete = progress?.hasSpec && progress?.hasData && progress?.hasScreenDesigns
+                  const isComplete = progress?.hasSpec && progress?.hasData
 
                   return (
                     <li key={section.id}>
@@ -123,15 +113,6 @@ export function SectionsPage() {
                             <div className="flex items-center gap-3 mt-2">
                               <ProgressDot label="Spec" done={progress?.hasSpec} />
                               <ProgressDot label="Data" done={progress?.hasData} />
-                              <ProgressDot
-                                label={progress?.screenDesignCount ? `${progress.screenDesignCount} screen design${progress.screenDesignCount !== 1 ? 's' : ''}` : 'Screen Designs'}
-                                done={progress?.hasScreenDesigns}
-                              />
-                              <ProgressDot
-                                label={progress?.screenshotCount ? `${progress.screenshotCount} screenshot${progress.screenshotCount !== 1 ? 's' : ''}` : 'Screenshots'}
-                                done={progress?.hasScreenshots}
-                                optional
-                              />
                             </div>
                           </div>
                         </div>
@@ -158,23 +139,16 @@ export function SectionsPage() {
 interface ProgressDotProps {
   label: string
   done?: boolean
-  optional?: boolean
 }
 
-function ProgressDot({ label, done, optional }: ProgressDotProps) {
+function ProgressDot({ label, done }: ProgressDotProps) {
   return (
     <span className={`flex items-center gap-1 text-xs ${
       done
         ? 'text-stone-700 dark:text-stone-300'
-        : optional
-          ? 'text-stone-300 dark:text-stone-600'
-          : 'text-stone-400 dark:text-stone-500'
+        : 'text-stone-400 dark:text-stone-500'
     }`}>
-      {done ? (
-        <Check className="w-3 h-3 text-lime-600 dark:text-lime-400" strokeWidth={2.5} />
-      ) : (
-        <Circle className={`w-3 h-3 ${optional ? 'opacity-50' : ''}`} strokeWidth={1.5} />
-      )}
+      <Check className={`w-3 h-3 ${done ? 'text-lime-600 dark:text-lime-400' : 'text-stone-400 dark:text-stone-500'}`} strokeWidth={2.5} />
       {label}
     </span>
   )

@@ -9,7 +9,6 @@ Verify the minimum requirements exist:
 **Required:**
 - `/product/product-overview.md` — Product overview
 - `/product/product-roadmap.md` — Sections defined
-- At least one section with screen designs in `src/sections/[section-id]/`
 
 **Recommended (show warning if missing):**
 - `/product/data-model/data-model.md` — Global data model
@@ -22,7 +21,6 @@ If required files are missing:
 "To export your product, you need at minimum:
 - A product overview (`/product-vision`)
 - A roadmap with sections (`/product-roadmap`)
-- At least one section with screen designs
 
 Please complete these first."
 
@@ -48,7 +46,7 @@ Read all relevant files:
 5. `/product/design-system/typography.json` (if exists)
 6. `/product/shell/spec.md` (if exists)
 7. For each section: `spec.md`, `data.json`, `types.ts`
-8. List screen design components in `src/sections/` and `src/shell/`
+8. List shell design components in `src/shell/`
 
 ## Step 3: Create Export Directory Structure
 
@@ -81,25 +79,14 @@ product-plan/
 │   ├── types.ts
 │   └── sample-data.json
 │
-├── shell/                       # Shell components
-│   ├── README.md
-│   ├── components/
-│   │   ├── AppShell.tsx
-│   │   ├── MainNav.tsx
-│   │   ├── UserMenu.tsx
-│   │   └── index.ts
-│   └── screenshot.png (if exists)
-│
-└── sections/                    # Section components
-    └── [section-id]/
-        ├── README.md
-        ├── tests.md               # Test-writing instructions for TDD
-        ├── components/
-        │   ├── [Component].tsx
-        │   └── index.ts
-        ├── types.ts
-        ├── sample-data.json
-        └── screenshot.png (if exists)
+└── shell/                       # Shell components
+    ├── README.md
+    ├── components/
+    │   ├── AppShell.tsx
+    │   ├── MainNav.tsx
+    │   ├── UserMenu.tsx
+    │   └── index.ts
+    └── screenshot.png (if exists)
 ```
 
 ## Step 4: Generate product-overview.md
@@ -283,7 +270,9 @@ Design and implement your own application shell with:
 
 ### [NN]-[section-id].md (for each section)
 
-Place in `product-plan/instructions/incremental/[NN]-[section-id].md` (starting at 02 for the first section):
+Place in `product-plan/instructions/incremental/[NN]-[section-id].md` (starting at 02 for the first section).
+
+Note: Sections only have specs and sample data - no UI components are provided. Implementation is left to the developer.
 
 ```markdown
 # Milestone [N]: [Section Title]
@@ -308,64 +297,28 @@ Implement the [Section Title] feature — [brief description from roadmap].
 
 [List 3-6 key capabilities that the UI components support and need backend wiring]
 
-## Recommended Approach: Test-Driven Development
-
-Before implementing this section, **write tests first** based on the test specifications provided.
-
-See `product-plan/sections/[section-id]/tests.md` for detailed test-writing instructions including:
-- Key user flows to test (success and failure paths)
-- Specific UI elements, button labels, and interactions to verify
-- Expected behaviors and assertions
-
-The test instructions are framework-agnostic — adapt them to your testing setup (Jest, Vitest, Playwright, Cypress, RSpec, Minitest, PHPUnit, etc.).
-
-**TDD Workflow:**
-1. Read `tests.md` and write failing tests for the key user flows
-2. Implement the feature to make tests pass
-3. Refactor while keeping tests green
-
 ## What to Implement
 
-### Components
+### UI Components
 
-Copy the section components from `product-plan/sections/[section-id]/components/`:
-
-[List components]
+Design and implement the UI based on the section specification.
 
 ### Data Layer
 
-The components expect these data shapes:
+Implement the UI using these data shapes:
 
 [Key types from types.ts]
 
 You'll need to:
+- Design and build the UI components
 - Create API endpoints or data fetching logic
-- Connect real data to the components
-
-### Callbacks
-
-Wire up these user actions:
-
-[List callbacks from Props interface with descriptions]
-
-### Empty States
-
-Implement empty state UI for when no records exist yet:
-
-- **No data yet:** Show a helpful message and call-to-action when the primary list/collection is empty
-- **No related records:** Handle cases where associated records don't exist (e.g., a project with no tasks)
-- **First-time user experience:** Guide users to create their first item with clear CTAs
-
-The provided components include empty state designs — make sure to render them when data is empty rather than showing blank screens.
+- Connect real data to your components
 
 ## Files to Reference
 
-- `product-plan/sections/[section-id]/README.md` — Feature overview and design intent
-- `product-plan/sections/[section-id]/tests.md` — Test-writing instructions (use for TDD)
-- `product-plan/sections/[section-id]/components/` — React components
+- `product-plan/sections/[section-id]/spec.md` — Section specification
 - `product-plan/sections/[section-id]/types.ts` — TypeScript interfaces
 - `product-plan/sections/[section-id]/sample-data.json` — Test data
-- `product-plan/sections/[section-id]/screenshot.png` — Visual reference
 
 ## Expected User Flows
 
@@ -395,13 +348,10 @@ When fully implemented, users should be able to complete these flows:
 
 ## Done When
 
-- [ ] Tests written for key user flows (success and failure paths)
-- [ ] All tests pass
+- [ ] UI components implemented based on specification
 - [ ] Components render with real data
-- [ ] Empty states display properly when no records exist
 - [ ] All user actions work
 - [ ] User can complete all expected flows end-to-end
-- [ ] Matches the visual design
 - [ ] Responsive on mobile
 ```
 
@@ -431,31 +381,11 @@ Create `product-plan/instructions/one-shot-instructions.md` by combining all mil
 - Integration of the provided UI components with real data
 
 **Important guidelines:**
-- **DO NOT** redesign or restyle the provided components — use them as-is
+- **DO NOT** redesign or restyle the provided shell — use it as-is
 - **DO** wire up the callback props to your routing and API calls
 - **DO** replace sample data with real data from your backend
-- **DO** implement proper error handling and loading states
-- **DO** implement empty states when no records exist (first-time users, after deletions)
-- **DO** use test-driven development — write tests first using `tests.md` instructions
-- The components are props-based and ready to integrate — focus on the backend and data layer
-
----
-
-## Test-Driven Development
-
-Each section includes a `tests.md` file with detailed test-writing instructions. These are **framework-agnostic** — adapt them to your testing setup (Jest, Vitest, Playwright, Cypress, RSpec, Minitest, PHPUnit, etc.).
-
-**For each section:**
-1. Read `product-plan/sections/[section-id]/tests.md`
-2. Write failing tests for key user flows (success and failure paths)
-3. Implement the feature to make tests pass
-4. Refactor while keeping tests green
-
-The test instructions include:
-- Specific UI elements, button labels, and interactions to verify
-- Expected success and failure behaviors
-- Empty state handling (when no records exist yet)
-- Data assertions and state validations
+- **DO** implement the section UI based on the specifications provided
+- The shell components are props-based and ready to integrate
 
 ---
 
@@ -492,286 +422,16 @@ Copy from `src/shell/components/` to `product-plan/shell/components/`:
 - Remove any Design OS-specific imports
 - Ensure components are self-contained
 
-### Section Components
+### Section Data Files
 
-For each section, copy from `src/sections/[section-id]/components/` to `product-plan/sections/[section-id]/components/`:
+For each section:
+- Copy `product/sections/[section-id]/spec.md` to `product-plan/sections/[section-id]/spec.md`
+- Copy `product/sections/[section-id]/types.ts` to `product-plan/sections/[section-id]/types.ts`
+- Copy `product/sections/[section-id]/data.json` to `product-plan/sections/[section-id]/sample-data.json`
 
-- Transform import paths:
-  - `@/../product/sections/[section-id]/types` → `../types`
-- Remove Design OS-specific imports
-- Keep only the exportable components (not preview wrappers)
+## Step 8: Skip (sections don't need READMEs)
 
-### Types Files
-
-Copy `product/sections/[section-id]/types.ts` to `product-plan/sections/[section-id]/types.ts`
-
-### Sample Data
-
-Copy `product/sections/[section-id]/data.json` to `product-plan/sections/[section-id]/sample-data.json`
-
-## Step 8: Generate Section READMEs
-
-For each section, create `product-plan/sections/[section-id]/README.md`:
-
-```markdown
-# [Section Title]
-
-## Overview
-
-[From spec.md overview]
-
-## User Flows
-
-[From spec.md user flows]
-
-## Design Decisions
-
-[Notable design choices from the screen design]
-
-## Data Used
-
-**Entities:** [List entities from types.ts]
-
-**From global model:** [Which entities from data model are used]
-
-## Visual Reference
-
-See `screenshot.png` for the target UI design.
-
-## Components Provided
-
-- `[Component]` — [Brief description]
-- `[SubComponent]` — [Brief description]
-
-## Callback Props
-
-| Callback | Description |
-|----------|-------------|
-| `onView` | Called when user clicks to view details |
-| `onEdit` | Called when user clicks to edit |
-| `onDelete` | Called when user clicks to delete |
-| `onCreate` | Called when user clicks to create new |
-
-[Adjust based on actual Props interface]
-```
-
-## Step 9: Generate Section Test Instructions
-
-For each section, create `product-plan/sections/[section-id]/tests.md` with detailed test-writing instructions based on the section's spec, user flows, and UI design.
-
-```markdown
-# Test Instructions: [Section Title]
-
-These test-writing instructions are **framework-agnostic**. Adapt them to your testing setup (Jest, Vitest, Playwright, Cypress, React Testing Library, RSpec, Minitest, PHPUnit, etc.).
-
-## Overview
-
-[Brief description of what this section does and the key functionality to test]
-
----
-
-## User Flow Tests
-
-### Flow 1: [Primary User Flow Name]
-
-**Scenario:** [Describe what the user is trying to accomplish]
-
-#### Success Path
-
-**Setup:**
-- [Preconditions - what state the app should be in]
-- [Sample data to use - reference types from types.ts]
-
-**Steps:**
-1. User navigates to [page/route]
-2. User sees [specific UI element - be specific about labels, text]
-3. User clicks [specific button/link with exact label]
-4. User enters [specific data in specific field]
-5. User clicks [submit button with exact label]
-
-**Expected Results:**
-- [ ] [Specific UI change - e.g., "Success toast appears with message 'Item created'"]
-- [ ] [Data assertion - e.g., "New item appears in the list"]
-- [ ] [State change - e.g., "Form is cleared and reset to initial state"]
-- [ ] [Navigation - e.g., "User is redirected to /items/:id"]
-
-#### Failure Path: [Specific Failure Scenario]
-
-**Setup:**
-- [Conditions that will cause failure - e.g., "Server returns 500 error"]
-
-**Steps:**
-1. [Same steps as success path, or modified steps]
-
-**Expected Results:**
-- [ ] [Error handling - e.g., "Error message appears: 'Unable to save. Please try again.'"]
-- [ ] [UI state - e.g., "Form data is preserved, not cleared"]
-- [ ] [User can retry - e.g., "Submit button remains enabled"]
-
-#### Failure Path: [Validation Error]
-
-**Setup:**
-- [Conditions - e.g., "User submits empty required field"]
-
-**Steps:**
-1. User leaves [specific field] empty
-2. User clicks [submit button]
-
-**Expected Results:**
-- [ ] [Validation message - e.g., "Field shows error: 'Name is required'"]
-- [ ] [Form state - e.g., "Form is not submitted"]
-- [ ] [Focus - e.g., "Focus moves to first invalid field"]
-
----
-
-### Flow 2: [Secondary User Flow Name]
-
-[Repeat the same structure for additional flows]
-
----
-
-## Empty State Tests
-
-Empty states are critical for first-time users and when records are deleted. Test these thoroughly:
-
-### Primary Empty State
-
-**Scenario:** User has no [primary records] yet (first-time or all deleted)
-
-**Setup:**
-- [Primary data collection] is empty (`[]`)
-
-**Expected Results:**
-- [ ] [Empty state message is visible - e.g., "Shows heading 'No projects yet'"]
-- [ ] [Helpful description - e.g., "Shows text 'Create your first project to get started'"]
-- [ ] [Primary CTA is visible - e.g., "Shows button 'Create Project'"]
-- [ ] [CTA is functional - e.g., "Clicking 'Create Project' opens the create form/modal"]
-- [ ] [No blank screen - The UI is helpful, not empty or broken]
-
-### Related Records Empty State
-
-**Scenario:** A [parent record] exists but has no [child records] yet
-
-**Setup:**
-- [Parent record] exists with valid data
-- [Child records collection] is empty (`[]`)
-
-**Expected Results:**
-- [ ] [Parent renders correctly with its data]
-- [ ] [Child section shows empty state - e.g., "Shows 'No tasks yet' in the tasks panel"]
-- [ ] [CTA to add child record - e.g., "Shows 'Add Task' button"]
-- [ ] [No broken layouts or missing sections]
-
-### Filtered/Search Empty State
-
-**Scenario:** User applies filters or search that returns no results
-
-**Setup:**
-- Data exists but filter/search matches nothing
-
-**Expected Results:**
-- [ ] [Clear message - e.g., "Shows 'No results found'"]
-- [ ] [Guidance - e.g., "Shows 'Try adjusting your filters' or similar"]
-- [ ] [Reset option - e.g., "Shows 'Clear filters' link"]
-
----
-
-## Component Interaction Tests
-
-### [Component Name]
-
-**Renders correctly:**
-- [ ] [Specific element is visible - e.g., "Displays item title 'Sample Item'"]
-- [ ] [Data display - e.g., "Shows formatted date 'Dec 12, 2025'"]
-
-**User interactions:**
-- [ ] [Click behavior - e.g., "Clicking 'Edit' button calls onEdit with item id"]
-- [ ] [Hover behavior - e.g., "Hovering row shows action buttons"]
-- [ ] [Keyboard - e.g., "Pressing Escape closes the modal"]
-
-**Loading and error states:**
-- [ ] [Loading - e.g., "Shows skeleton loader while data is fetching"]
-- [ ] [Error - e.g., "Shows error message when data fails to load"]
-
----
-
-## Edge Cases
-
-- [ ] [Edge case 1 - e.g., "Handles very long item names with text truncation"]
-- [ ] [Edge case 2 - e.g., "Works correctly with 1 item and 100+ items"]
-- [ ] [Edge case 3 - e.g., "Preserves data when navigating away and back"]
-- [ ] [Transition from empty to populated - e.g., "After creating first item, list renders correctly"]
-- [ ] [Transition from populated to empty - e.g., "After deleting last item, empty state appears"]
-
----
-
-## Accessibility Checks
-
-- [ ] [All interactive elements are keyboard accessible]
-- [ ] [Form fields have associated labels]
-- [ ] [Error messages are announced to screen readers]
-- [ ] [Focus is managed appropriately after actions]
-
----
-
-## Sample Test Data
-
-Use the data from `sample-data.json` or create variations:
-
-[Include 2-3 example data objects based on types.ts that tests can use]
-
-```typescript
-// Example test data - populated state
-const mockItem = {
-  id: "test-1",
-  name: "Test Item",
-  // ... other fields from types.ts
-};
-
-const mockItems = [mockItem, /* ... more items */];
-
-// Example test data - empty states
-const mockEmptyList = [];
-
-const mockItemWithNoChildren = {
-  id: "test-1",
-  name: "Test Item",
-  children: [], // No related records
-};
-
-// Example test data - error states
-const mockErrorResponse = {
-  status: 500,
-  message: "Internal server error"
-};
-```
-
----
-
-## Notes for Test Implementation
-
-- Mock API calls to test both success and failure scenarios
-- Test each callback prop is called with correct arguments
-- Verify UI updates optimistically where appropriate
-- Test that loading states appear during async operations
-- Ensure error boundaries catch and display errors gracefully
-- **Always test empty states** — Pass empty arrays to verify helpful empty state UI appears (not blank screens)
-- Test transitions: empty → first item created, last item deleted → empty state returns
-```
-
-### Guidelines for Writing tests.md
-
-When generating tests.md for each section:
-
-1. **Read the spec.md thoroughly** — Extract all user flows and requirements
-2. **Study the screen design components** — Note exact button labels, field names, UI text
-3. **Review types.ts** — Understand the data shapes for assertions
-4. **Include specific UI text** — Tests should verify exact labels, messages, placeholders
-5. **Cover success and failure paths** — Every action should have both tested
-6. **Always test empty states** — Primary lists with no items, parent records with no children, filtered results with no matches
-7. **Be specific about assertions** — "Shows error" is too vague; "Shows red border and message 'Email is required' below the field" is specific
-8. **Include edge cases** — Boundary conditions, transitions between empty and populated states
-9. **Stay framework-agnostic** — Describe WHAT to test, not HOW to write the test code
+## Step 9: Skip (test instructions removed)
 
 ## Step 10: Generate Design System Files
 
@@ -918,9 +578,7 @@ Please carefully read and analyze the following files:
 2. **@product-plan/instructions/incremental/NN-SECTION_ID.md** — Specific instructions for this section
 
 Also review the section assets:
-- **@product-plan/sections/SECTION_ID/README.md** — Feature overview and design intent
-- **@product-plan/sections/SECTION_ID/tests.md** — Test-writing instructions (use TDD approach)
-- **@product-plan/sections/SECTION_ID/components/** — React components to integrate
+- **@product-plan/sections/SECTION_ID/spec.md** — Section specification
 - **@product-plan/sections/SECTION_ID/types.ts** — TypeScript interfaces
 - **@product-plan/sections/SECTION_ID/sample-data.json** — Test data
 
@@ -947,13 +605,6 @@ Please ask me clarifying questions about:
 5. **Any Other Clarifications**
    - Questions about specific user flows in this section
    - Edge cases that need clarification
-
-## Implementation Approach
-
-Use test-driven development:
-1. Read the `tests.md` file and write failing tests first
-2. Implement the feature to make tests pass
-3. Refactor while keeping tests green
 
 Lastly, be sure to ask me if I have any other notes to add for this implementation.
 
@@ -1013,16 +664,6 @@ Build the entire app in one session:
 5. Answer the agent's clarifying questions
 6. Let the agent plan and implement everything
 
-## Test-Driven Development
-
-Each section includes a `tests.md` file with test-writing instructions. For best results:
-
-1. Read `sections/[section-id]/tests.md` before implementing
-2. Write failing tests based on the instructions
-3. Implement the feature to make tests pass
-4. Refactor while keeping tests green
-
-The test instructions are **framework-agnostic** — they describe WHAT to test, not HOW. Adapt to your testing setup (Jest, Vitest, Playwright, Cypress, RSpec, Minitest, PHPUnit, etc.).
 
 ## Tips
 
@@ -1037,13 +678,12 @@ The test instructions are **framework-agnostic** — they describe WHAT to test,
 *Generated by Design OS*
 ```
 
-## Step 13: Copy Screenshots
+## Step 10: Copy Screenshots
 
 Copy any `.png` files from:
 - `product/shell/` → `product-plan/shell/`
-- `product/sections/[section-id]/` → `product-plan/sections/[section-id]/`
 
-## Step 14: Create Zip File
+## Step 11: Create Zip File
 
 After generating all the export files, create a zip archive of the product-plan folder:
 
@@ -1057,7 +697,7 @@ cd . && zip -r product-plan.zip product-plan/
 
 This creates `product-plan.zip` in the project root, which will be available for download on the Export page.
 
-## Step 15: Confirm Completion
+## Step 12: Confirm Completion
 
 Let the user know:
 
@@ -1078,7 +718,7 @@ Let the user know:
 - `design-system/` — Colors, fonts, tokens
 - `data-model/` — Entity types and sample data
 - `shell/` — Application shell components
-- `sections/` — [N] section component packages with test instructions
+- `sections/` — [N] section specifications with types and sample data
 
 **Download:**
 
@@ -1092,7 +732,7 @@ Restart your dev server and visit the Export page to download `product-plan.zip`
 4. Answer the agent's clarifying questions about auth, data modeling, etc.
 5. Let the agent implement based on the instructions
 
-The components are props-based and portable — they accept data and callbacks, letting your implementation agent handle routing, data fetching, and state management however fits your stack."
+The shell components are props-based and portable — they accept data and callbacks, letting your implementation agent handle routing, data fetching, and state management however fits your stack."
 
 ## Important Notes
 
@@ -1102,4 +742,4 @@ The components are props-based and portable — they accept data and callbacks, 
 - Screenshots provide visual reference for fidelity checking
 - Sample data files are for testing before real APIs are built
 - The export is self-contained — no dependencies on Design OS
-- Components are portable — they work with any React setup
+- Shell components are portable — they work with any React setup

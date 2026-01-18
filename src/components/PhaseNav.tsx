@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useMemo } from 'react'
 import { FileText, Boxes, Layout, LayoutList, Package } from 'lucide-react'
 import { loadProductData, hasExportZip } from '@/lib/product-loader'
-import { getAllSectionIds, getSectionScreenDesigns } from '@/lib/section-loader'
+import { getAllSectionIds, hasSectionSpec, hasSectionData } from '@/lib/section-loader'
 
 export type Phase = 'product' | 'data-model' | 'design' | 'sections' | 'export'
 
@@ -41,10 +41,10 @@ function usePhaseStatuses(): PhaseInfo[] {
   const hasShell = !!productData.shell
 
   const sectionIds = useMemo(() => getAllSectionIds(), [])
-  const sectionsWithScreenDesigns = useMemo(() => {
-    return sectionIds.filter(id => getSectionScreenDesigns(id).length > 0).length
+  const completedSections = useMemo(() => {
+    return sectionIds.filter(id => hasSectionSpec(id) && hasSectionData(id)).length
   }, [sectionIds])
-  const hasSections = sectionsWithScreenDesigns > 0
+  const hasSections = completedSections > 0
 
   // Determine current phase from URL
   const currentPath = location.pathname

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { AppLayout } from '@/components/AppLayout'
 import { loadProductData, hasExportZip, getExportZipUrl } from '@/lib/product-loader'
-import { getAllSectionIds, getSectionScreenDesigns } from '@/lib/section-loader'
+import { getAllSectionIds, hasSectionSpec, hasSectionData } from '@/lib/section-loader'
 
 export function ExportPage() {
   const productData = loadProductData()
@@ -13,11 +13,10 @@ export function ExportPage() {
   const sectionStats = useMemo(() => {
     const allSectionIds = getAllSectionIds()
     const sectionCount = productData.roadmap?.sections.length || 0
-    const sectionsWithScreenDesigns = allSectionIds.filter(id => {
-      const screenDesigns = getSectionScreenDesigns(id)
-      return screenDesigns.length > 0
+    const completedSections = allSectionIds.filter(id => {
+      return hasSectionSpec(id) && hasSectionData(id)
     }).length
-    return { sectionCount, sectionsWithScreenDesigns, allSectionIds }
+    return { sectionCount, completedSections, allSectionIds }
   }, [productData.roadmap])
 
   const hasOverview = !!productData.overview
@@ -25,7 +24,7 @@ export function ExportPage() {
   const hasDataModel = !!productData.dataModel
   const hasDesignSystem = !!productData.designSystem
   const hasShell = !!productData.shell
-  const hasSections = sectionStats.sectionsWithScreenDesigns > 0
+  const hasSections = sectionStats.completedSections > 0
 
   const requiredComplete = hasOverview && hasRoadmap && hasSections
 
@@ -78,7 +77,7 @@ export function ExportPage() {
                 <ChecklistItem label="Design System" isComplete={hasDesignSystem} />
                 <ChecklistItem label="Application Shell" isComplete={hasShell} />
                 <ChecklistItem
-                  label={`Sections with screen designs (${sectionStats.sectionsWithScreenDesigns}/${sectionStats.sectionCount})`}
+                  label={`Sections with specs & data (${sectionStats.completedSections}/${sectionStats.sectionCount})`}
                   isComplete={hasSections}
                 />
               </div>
@@ -172,14 +171,14 @@ export function ExportPage() {
                     items={['TypeScript types', 'Sample data', 'Entity docs']}
                   />
                   <ExportItem
-                    title="Components"
-                    description="React components and visual references for each section."
-                    items={['Shell components', 'Section components', 'Screenshots']}
+                    title="Shell Components"
+                    description="React components for the application shell."
+                    items={['AppShell', 'MainNav', 'UserMenu']}
                   />
                   <ExportItem
-                    title="Test Instructions"
-                    description="Framework-agnostic test specs for TDD implementation."
-                    items={['tests.md per section', 'User flow tests', 'Empty state tests']}
+                    title="Section Specs"
+                    description="Section specifications with types and sample data."
+                    items={['Specifications', 'TypeScript types', 'Sample data']}
                   />
                 </div>
               </div>

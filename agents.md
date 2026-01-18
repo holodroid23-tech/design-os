@@ -1,8 +1,8 @@
 # Agent Directives for Design OS
 
-Design OS is a **product planning and design tool** that helps users define their product vision, structure their data model, design their UI, and prepare export packages for implementation in a separate codebase.
+Design OS is a **product planning and design tool** that helps users define their product vision, structure their data model, design their application shell, and prepare documentation for implementation in a separate codebase.
 
-> **Important**: Design OS is a planning tool, not the end product codebase. The screen designs and components generated here are meant to be exported and integrated into your actual product's codebase.
+> **Important**: Design OS is a planning tool, not the end product codebase.
 
 ---
 
@@ -14,14 +14,14 @@ When working in Design OS, be aware of two distinct contexts:
 The React application that displays and manages planning files. When modifying the Design OS UI itself:
 - Files live in `src/` (components, pages, utilities)
 - Uses the Design OS design system (stone palette, DM Sans, etc.)
-- Provides the interface for viewing specs, screen designs, exports, etc.
+- Provides the interface for viewing specs, data, and exports
 
-### 2. Product Design (Screen Designs & Exports)
-The product you're planning and designing. When creating screen designs and exports:
-- Screen design components live in `src/sections/[section-name]/` and `src/shell/`
+### 2. Product Design (Shell & Exports)
+The product you're planning and designing:
+- Shell design components live in `src/shell/`
 - Product definition files live in `product/`
 - Exports are packaged to `product-plan/` for integration into a separate codebase
-- Follow the design requirements specified in each section's spec
+- Follow the design requirements specified in the shell spec
 
 ---
 
@@ -42,7 +42,7 @@ Define the core entities and relationships in your product. This establishes the
 **Output:** `product/data-model/data-model.md`
 
 ### 4. Design System (`/design-tokens`)
-Choose your color palette (from Tailwind) and typography (from Google Fonts). These tokens are applied to all screen designs.
+Choose your color palette (from Tailwind) and typography (from Google Fonts). These tokens are applied to the shell design.
 **Output:** `product/design-system/colors.json`, `product/design-system/typography.json`
 
 ### 5. Application Shell (`/design-shell`)
@@ -52,8 +52,6 @@ Design the persistent navigation and layout that wraps all sections.
 ### 6. For Each Section:
 - `/shape-section` — Define the specification
 - `/sample-data` — Create sample data and types
-- `/design-screen` — Create screen designs
-- `/screenshot-design` — Capture screenshots
 
 ### 7. Export (`/export-product`)
 Generate the complete export package with all components, types, and handoff documentation.
@@ -81,25 +79,17 @@ product/                           # Product definition (portable)
 └── sections/
     └── [section-name]/
         ├── spec.md                # Section specification
-        ├── data.json              # Sample data for screen designs
-        ├── types.ts               # TypeScript interfaces
-        └── *.png                  # Screenshots
+        ├── data.json              # Sample data
+        └── types.ts               # TypeScript interfaces
 
 src/
-├── shell/                         # Shell design components
-│   ├── components/
-│   │   ├── AppShell.tsx
-│   │   ├── MainNav.tsx
-│   │   ├── UserMenu.tsx
-│   │   └── index.ts
-│   └── ShellPreview.tsx
-│
-└── sections/
-    └── [section-name]/
-        ├── components/            # Exportable components
-        │   ├── [Component].tsx
-        │   └── index.ts
-        └── [ViewName].tsx         # Preview wrapper
+└── shell/                         # Shell design components
+    ├── components/
+    │   ├── AppShell.tsx
+    │   ├── MainNav.tsx
+    │   ├── UserMenu.tsx
+    │   └── index.ts
+    └── ShellPreview.tsx
 
 product-plan/                      # Export package (generated)
 ├── README.md                      # Quick start guide
@@ -115,15 +105,14 @@ product-plan/                      # Export package (generated)
 │       └── [NN]-[section-id].md   # Section-specific instructions
 ├── design-system/                 # Tokens, colors, fonts
 ├── data-model/                    # Types and sample data
-├── shell/                         # Shell components
-└── sections/                      # Section components (with tests.md each)
+└── shell/                         # Shell components
 ```
 
 ---
 
 ## Design Requirements
 
-When creating screen designs, follow these guidelines:
+When creating the shell design, follow these guidelines:
 
 - **Mobile Responsive**: Use Tailwind's responsive prefixes (`sm:`, `md:`, `lg:`, `xl:`) to ensure layouts adapt properly across screen sizes.
 
@@ -131,15 +120,13 @@ When creating screen designs, follow these guidelines:
 
 - **Use Design Tokens**: When design tokens are defined, apply the product's color palette and typography. Otherwise, fall back to `stone` for neutrals and `lime` for accents.
 
-- **Props-Based Components**: All screen design components must accept data and callbacks via props. Never import data directly in exportable components.
-
-- **No Navigation in Section Screen Designs**: Section screen designs should not include navigation chrome. The shell handles all navigation.
+- **Props-Based Components**: All shell components must accept data and callbacks via props. Never import data directly in exportable components.
 
 ---
 
 ## Tailwind CSS Directives
 
-These rules apply to both the Design OS application and all screen designs/components it generates:
+These rules apply to both the Design OS application and the shell components it generates:
 
 - **Tailwind CSS v4**: We always use Tailwind CSS v4 (not v3). Do not reference or create v3 patterns.
 
@@ -175,7 +162,7 @@ Design OS is organized around four main areas:
    - User menu
    - Layout pattern
 
-Plus **Sections** — The individual features, each with spec, data, screen designs.
+Plus **Sections** — The individual features, each with spec and sample data for planning purposes.
 
 ---
 
@@ -184,8 +171,7 @@ Plus **Sections** — The individual features, each with spec, data, screen desi
 Design OS separates concerns between its own UI and the product being designed:
 
 - **Design OS UI**: Always uses the stone/lime palette and DM Sans typography
-- **Product Screen Designs**: Use the design tokens defined for the product (when available)
-- **Shell**: Uses product design tokens to preview the full app experience
+- **Product Shell**: Uses the design tokens defined for the product (when available)
 
 ---
 
@@ -200,10 +186,9 @@ The `/export-product` command generates a complete handoff package:
   - `product-overview.md`: Always provide for context
   - `one-shot-instructions.md`: All milestones combined
   - Incremental instructions in `instructions/incremental/`
-- **Test instructions**: Each section includes `tests.md` with TDD specs
-- **Portable components**: Props-based, ready for any React setup
+- **Portable shell components**: Props-based, ready for any React setup
 
-The prompts guide the implementation agent to ask clarifying questions about authentication, user modeling, and tech stack before building. Test instructions are framework-agnostic and include user flows, empty states, and edge cases.
+The prompts guide the implementation agent to ask clarifying questions about authentication, user modeling, and tech stack before building.
 
 ---
 
