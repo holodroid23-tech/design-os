@@ -1,75 +1,22 @@
 import { useState } from 'react'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from './ui/card'
 import { Button } from './ui/button'
-import { Input } from './ui/input'
 import { Label } from './ui/label'
 import { Badge } from './ui/badge'
 import { Switch } from './ui/switch'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from './ui/tabs'
 
 import { Separator } from './ui/separator'
-import { RadioGroup, RadioGroupItem } from './ui/radio-group'
-import { RadioButtonGroup, RadioButtonGroupItem } from './ui/radio-button-group'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-  DropdownMenuCheckboxItem,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-} from './ui/dropdown-menu'
-import { DatePicker } from './ui/date-picker'
-import { ColorPicker } from './ui/color-picker'
-import { ColorSelector, ColorSelectorItem } from './ui/color-selector'
-import { Numpad } from './ui/numpad'
-import { PinEntry } from './ui/pin-entry'
-import { Stepper } from './ui/stepper'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './ui/dialog'
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from './ui/sheet'
-import {
-  BottomMenu,
-  BottomMenuContent,
-  BottomMenuItem,
-  BottomMenuSeparator,
-  BottomMenuSection,
-  BottomMenuTrigger,
-} from './ui/bottom-menu'
 import {
   User,
   Mail,
   Bell,
   Settings,
   Search,
-  Download,
-  Heart,
-  Share2,
   ChevronDown,
-  MoreVertical,
   CreditCard,
-  Menu,
   LogOut,
-  Edit,
   Trash2,
   Store,
-  BarChart3,
   Check,
   X,
   AlertTriangle,
@@ -96,11 +43,6 @@ import {
   ChevronLeft,
 } from 'lucide-react'
 import { cn } from '../lib/utils'
-import { SlidingSelector } from './ui/sliding-selector'
-import { SearchInputWithSuggestions } from "./ui/search-input-with-suggestions"
-import { toast } from 'sonner'
-import { Checkbox } from './ui/checkbox'
-import { Slider } from './ui/slider'
 import { SettingsGroup } from './settings/settings-group'
 import {
   SettingsItem,
@@ -115,8 +57,64 @@ import { SettingsFooter } from './settings/settings-footer'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
 import { EmptyState } from './ui/empty-state'
-import { EmailTemplatePreview } from '@/components/previews/EmailTemplatePreview'
-import { ReceiptPreview } from '@/components/previews/ReceiptPreview'
+import {
+  ButtonsExamplesCard,
+  SlidersExamplesCard,
+  SteppersExamplesCard,
+} from '@/components/patterns/component-examples/sections/controls-examples'
+import {
+  BottomMenuExamplesCard,
+  SlidingSelectorExamplesCard,
+} from '@/components/patterns/component-examples/sections/menus-examples'
+import {
+  DialogsExamplesCard,
+  CheckListsExamplesCard,
+  EmptyStatesExamplesCard,
+  SheetsExamplesCard,
+  SnackbarsExamplesCard,
+} from '@/components/patterns/component-examples/sections/feedback-examples'
+import {
+  CheckboxesExamplesCard,
+  DropdownMenusExamplesCard,
+  NumpadExamplesCard,
+  RadioGroupsExamplesCard,
+  SecurityExamplesCard,
+} from '@/components/patterns/component-examples/sections/controls-more-examples'
+import {
+  BadgesExamplesCard,
+  CardsExamplesCard,
+  ColorPickerExamplesCard,
+  ColorSelectorExamplesCard,
+  DatePickerExamplesCard,
+  InputsExamplesCard,
+  SwitchesExamplesCard,
+  TabsExamplesCard,
+} from '@/components/patterns/component-examples/sections/forms-examples'
+import {
+  EmailTemplatesExamplesCard,
+  ReceiptExamplesCard,
+} from '@/components/patterns/component-examples/sections/exports-examples'
+import {
+  AccordionsExamplesCard,
+  DividersExamplesCard,
+  ElevationsExamplesCard,
+} from '@/components/patterns/component-examples/sections/layout-examples'
+import { BadgesTokensCard } from '@/components/patterns/component-examples/sections/badges-examples'
+import { MediaUploadExamplesCard } from '@/components/patterns/component-examples/sections/media-examples'
+import { SettingsComponentsExamplesCard } from '@/components/patterns/component-examples/sections/settings-examples'
+import {
+  AtomicItemsExamplesCard,
+  BuildingBlocksExamplesCard,
+  SectionTitlesExamplesCard,
+} from '@/components/patterns/component-examples/sections/building-blocks-examples'
+import {
+  OrderExpandableExamplesCard,
+  OrderTabsExamplesCard,
+} from '@/components/patterns/component-examples/sections/order-examples'
+import {
+  ProductExpenseCardsExamplesCard,
+  ProductExpenseItemsDsExamplesCard,
+} from '@/components/patterns/component-examples/sections/product-expense-examples'
 
 // Helper components for demos
 function OrderTabsDemo() {
@@ -387,52 +385,6 @@ interface ComponentExamplesProps {
 }
 
 export function ComponentExamples({ showHeader = true }: ComponentExamplesProps) {
-  const [inputValue, setInputValue] = useState('')
-  const [selectedRadio, setSelectedRadio] = useState('option1')
-  const [selectedDate, setSelectedDate] = useState<Date>()
-  const [selectedColor, setSelectedColor] = useState('#3b82f6')
-  const [dropdownValue, setDropdownValue] = useState('option1')
-  const [isSelectorOpen, setIsSelectorOpen] = useState(false)
-  const [selectorValue, setSelectorValue] = useState<string | number>('option1')
-  const [isMultiSelectorOpen, setIsMultiSelectorOpen] = useState(false)
-  const [multiSelectorValue, setMultiSelectorValue] = useState<(string | number)[]>(['option1', 'option2'])
-  const [priceValue, setPriceValue] = useState('0')
-  const [sliderValue, setSliderValue] = useState([50])
-
-  interface TaxItem {
-    id: string
-    label: string
-    rate: string
-  }
-
-  const [useTaxes, setUseTaxes] = useState(true)
-  const [taxes, setTaxes] = useState<TaxItem[]>([
-    { id: "1", label: "VAT standard 21%", rate: "21%" },
-    { id: "2", label: "Service charge", rate: "10%" },
-    { id: "3", label: "Luxury tax", rate: "15%" },
-    { id: "4", label: "New tax", rate: "10%" },
-  ])
-  const [selectedTaxId, setSelectedTaxId] = useState<string | null>(taxes.length > 1 ? taxes[0].id : null)
-
-  const handleRemoveTax = (id: string) => {
-    const newTaxes = taxes.filter((tax) => tax.id !== id)
-    setTaxes(newTaxes)
-    if (newTaxes.length <= 1) {
-      setSelectedTaxId(null)
-    } else if (selectedTaxId === id) {
-      setSelectedTaxId(newTaxes[0].id)
-    }
-  }
-
-  const handleAddTax = () => {
-    const newId = Math.random().toString(36).substring(2, 9)
-    const newTaxes = [...taxes, { id: newId, label: "New tax", rate: "10%" }]
-    setTaxes(newTaxes)
-    if (newTaxes.length > 1 && !selectedTaxId) {
-      setSelectedTaxId(newTaxes[0].id)
-    }
-  }
-
   const gradColors = [
     { name: "Blue sky", grad: "from-blue-400 via-blue-500 to-indigo-600", price: "$4.50" },
     { name: "Emerald sea", grad: "from-emerald-400 via-teal-500 to-cyan-600", price: "$3.25" },
@@ -462,170 +414,12 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
         </div>
       )}
 
-      {/* Buttons - Mobile Optimized */}
-      <Card id="buttons" className="shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
-            Buttons
-          </CardTitle>
-          <CardDescription>Various button styles and sizes (min 48px touch target)</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Primary CTA button
-              </Label>
-              <Button
-                className="min-h-[48px] sm:min-h-0 text-white hover:opacity-90"
-              >
-                Primary action
-              </Button>
-            </div>
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Button variants
-              </Label>
-              <div className="flex flex-wrap gap-3">
-                <Button className="min-h-[48px] sm:min-h-0">Default</Button>
-                <Button variant="secondary" className="min-h-[48px] sm:min-h-0">Secondary</Button>
-                <Button variant="destructive" className="min-h-[48px] sm:min-h-0">Destructive</Button>
-                <Button variant="ghost" className="min-h-[48px] sm:min-h-0">Ghost</Button>
-                <Button variant="invisible" className="min-h-[48px] sm:min-h-0">Invisible</Button>
-                <Button variant="link" className="min-h-[48px] sm:min-h-0">Link</Button>
-              </div>
-            </div>
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Button sizes
-              </Label>
-              <div className="flex flex-wrap gap-3">
-                <Button size="sm" className="min-h-[48px] sm:min-h-0">Small</Button>
-                <Button size="default" className="min-h-[48px] sm:min-h-0">Default</Button>
-                <Button size="lg" className="min-h-[48px] sm:min-h-0">Large</Button>
-              </div>
-            </div>
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Buttons with icons
-              </Label>
-              <div className="flex flex-wrap gap-3">
-                <Button className="min-h-[48px] sm:min-h-0">
-                  <Download className="h-4 w-4" />
-                  With icon
-                </Button>
-                <Button variant="secondary" className="min-h-[48px] sm:min-h-0">
-                  <Mail className="h-4 w-4" />
-                  Send email
-                </Button>
-              </div>
-            </div>
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Disabled state
-              </Label>
-              <div className="flex flex-wrap gap-3">
-                <Button disabled className="min-h-[48px] sm:min-h-0">Disabled</Button>
-                <Button disabled variant="secondary" className="min-h-[48px] sm:min-h-0">Disabled secondary</Button>
-              </div>
-            </div>
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Icon-only buttons (all variants)
-              </Label>
-              <div className="flex flex-wrap gap-3">
-                <Button size="icon" className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0">
-                  <Settings className="h-4 w-4" />
-                </Button>
-                <Button variant="secondary" size="icon" className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0">
-                  <Bell className="h-4 w-4" />
-                </Button>
-                <Button variant="destructive" size="icon" className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0">
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-                <Button variant="ghost" size="icon" className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0">
-                  <MoreVertical className="h-4 w-4" />
-                </Button>
-                <Button variant="invisible" size="icon" className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0">
-                  <Search className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <ButtonsExamplesCard />
+      <SteppersExamplesCard />
+      <SlidersExamplesCard />
 
-      {/* Steppers */}
-      <Card id="steppers" className="shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
-            Steppers
-          </CardTitle>
-          <CardDescription>Segmented progress indicators</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">
-              Primary variant
-            </Label>
-            <Stepper value={2} max={4} variant="primary" />
-          </div>
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">
-              Success variant
-            </Label>
-            <Stepper value={4} max={4} variant="success" />
-          </div>
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">
-              Destructive variant
-            </Label>
-            <Stepper value={0} max={4} variant="destructive" />
-          </div>
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">
-              Custom label
-            </Label>
-            <Stepper value={3} max={5} variant="warning" labelSuffix="stages completed" />
-          </div>
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">
-              Continuous mode
-            </Label>
-            <Stepper value={3} max={5} variant="primary" mode="continuous" />
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card id="sliders" className="shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
-            Sliders
-          </CardTitle>
-          <CardDescription>Adjustable values</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          <div className="space-y-3">
-            <div className="flex justify-between items-center">
-              <Label className="text-sm font-medium">
-                Opacity
-              </Label>
-              <span className="text-sm text-muted-foreground font-mono">
-                {sliderValue[0]}%
-              </span>
-            </div>
-            <Slider
-              defaultValue={[50]}
-              max={100}
-              step={1}
-              value={sliderValue}
-              onValueChange={setSliderValue}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Product/Expense Cards */}
+      <ProductExpenseCardsExamplesCard />
+      {false && (
       <Card id="product-expense-cards" className="shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">
@@ -889,1246 +683,28 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
         </CardContent>
       </Card>
+      )}
 
-      {/* Bottom Menu - Mobile Optimized */}
-      <Card id="bottom-menu" className="shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">
-            Bottom sliding menu
-          </CardTitle>
-          <CardDescription>
-            Slide-up menu cards from bottom - perfect alternative to dropdowns on mobile
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Simple bottom menu
-              </Label>
-              <BottomMenu>
-                <BottomMenuTrigger asChild>
-                  <Button variant="ghost" className="min-h-[48px] sm:min-h-0">
-                    <Menu className="h-4 w-4 mr-2" />
-                    Open Bottom Menu
-                  </Button>
-                </BottomMenuTrigger>
-                <BottomMenuContent>
-                  <BottomMenuSection>
-                    <BottomMenuItem>
-                      <User className="h-4 w-4" />
-                      <span>Profile</span>
-                    </BottomMenuItem>
-                    <BottomMenuItem>
-                      <Settings className="h-4 w-4" />
-                      <span>Settings</span>
-                    </BottomMenuItem>
-                    <BottomMenuItem>
-                      <Bell className="h-4 w-4" />
-                      <span>Notifications</span>
-                    </BottomMenuItem>
-                  </BottomMenuSection>
-                  <BottomMenuSeparator />
-                  <BottomMenuSection>
-                    <BottomMenuItem>
-                      <LogOut className="h-4 w-4" />
-                      <span>Sign Out</span>
-                    </BottomMenuItem>
-                  </BottomMenuSection>
-                </BottomMenuContent>
-              </BottomMenu>
-            </div>
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Bottom menu with header
-              </Label>
-              <BottomMenu>
-                <BottomMenuTrigger asChild>
-                  <Button variant="ghost" className="min-h-[48px] sm:min-h-0">
-                    <MoreVertical className="h-4 w-4 mr-2" />
-                    Menu with Header
-                  </Button>
-                </BottomMenuTrigger>
-                <BottomMenuContent showHeader>
-                  <BottomMenuSection title="Account">
-                    <BottomMenuItem>
-                      <User className="h-4 w-4" />
-                      <span>View Profile</span>
-                    </BottomMenuItem>
-                    <BottomMenuItem>
-                      <Edit className="h-4 w-4" />
-                      <span>Edit Profile</span>
-                    </BottomMenuItem>
-                  </BottomMenuSection>
-                  <BottomMenuSeparator />
-                  <BottomMenuSection title="Actions">
-                    <BottomMenuItem>
-                      <Trash2 className="h-4 w-4 text-destructive" />
-                      <span className="text-destructive">Delete Account</span>
-                    </BottomMenuItem>
-                  </BottomMenuSection>
-                </BottomMenuContent>
-              </BottomMenu>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <BottomMenuExamplesCard />
+      <SlidingSelectorExamplesCard />
+      <SnackbarsExamplesCard />
+      <DialogsExamplesCard />
+      <SheetsExamplesCard />
 
-      {/* Sliding Selector */}
-      <Card id="sliding-selector" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Sliding selector
-          </CardTitle>
-          <CardDescription>
-            iOS-style bottom picker for single selection
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Single selection
-              </Label>
-              <Button
-                variant="ghost"
-                className="w-full justify-between min-h-[48px] sm:min-h-0"
-                onClick={() => setIsSelectorOpen(true)}
-              >
-                <span>{selectorValue ? `Selected: ${selectorValue}` : 'Select an option'}</span>
-                <ChevronDown className="h-4 w-4 opacity-50" />
-              </Button>
-              <SlidingSelector
-                open={isSelectorOpen}
-                onOpenChange={setIsSelectorOpen}
-                title="Select option"
-                selectedValue={selectorValue}
-                onSelect={(val) => setSelectorValue(val as string)}
-                options={[
-                  { value: 'option1', label: 'Option 1' },
-                  { value: 'option2', label: 'Option 2' },
-                  { value: 'option3', label: 'Option 3' },
-                  { value: 'option4', label: 'Option 4' },
-                  { value: 'option5', label: 'Option 5' },
-                ]}
-              />
-            </div>
+      <RadioGroupsExamplesCard />
+      <NumpadExamplesCard />
+      <SecurityExamplesCard />
+      <CheckboxesExamplesCard />
+      <DropdownMenusExamplesCard />
 
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Multiple selection
-              </Label>
-              <Button
-                variant="ghost"
-                className="w-full justify-between min-h-[48px] sm:min-h-0"
-                onClick={() => setIsMultiSelectorOpen(true)}
-              >
-                <span className="truncate">
-                  {multiSelectorValue.length > 0
-                    ? `Selected (${multiSelectorValue.length}): ${multiSelectorValue.join(', ')}`
-                    : 'Select options'}
-                </span>
-                <ChevronDown className="h-4 w-4 opacity-50 flex-shrink-0" />
-              </Button>
-              <SlidingSelector
-                open={isMultiSelectorOpen}
-                onOpenChange={setIsMultiSelectorOpen}
-                title="Select multiple"
-                multiple
-                selectedValue={multiSelectorValue}
-                onSelect={(val) => setMultiSelectorValue(val as (string | number)[])}
-                options={[
-                  { value: 'option1', label: 'Marketing' },
-                  { value: 'option2', label: 'Design' },
-                  { value: 'option3', label: 'Engineering' },
-                  { value: 'option4', label: 'Sales' },
-                  { value: 'option5', label: 'Support' },
-                  { value: 'option6', label: 'Product' },
-                  { value: 'option7', label: 'Finance' },
-                ]}
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Snackbars / Toasts */}
-      <Card id="snackbars" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Snackbars
-          </CardTitle>
-          <CardDescription>
-            Brief notifications for feedback and confirmation. Error states require manual dismissal.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-wrap gap-3">
-            <Button
-              variant="ghost"
-              className="min-h-[48px] sm:min-h-0"
-              onClick={() => toast.success("Event created successfully", {
-                description: "This notification will auto-hide in 4 seconds.",
-              })}
-            >
-              Success (Auto-hide)
-            </Button>
-
-            <Button
-              variant="ghost"
-              className="min-h-[48px] sm:min-h-0"
-              onClick={() => toast.success("File uploaded", {
-                description: "You can view it in your dashboard.",
-                action: {
-                  label: "View",
-                  onClick: () => console.log("View"),
-                },
-              })}
-            >
-              Success + Action
-            </Button>
-
-            <Button
-              variant="ghost"
-              className="min-h-[48px] sm:min-h-0"
-              onClick={() => toast.warning("Low disk space", {
-                description: "You are running low on storage space.",
-                action: {
-                  label: "Upgrade",
-                  onClick: () => console.log("Upgrade"),
-                },
-              })}
-            >
-              Warning
-            </Button>
-
-            <Button
-              variant="ghost"
-              className="min-h-[48px] sm:min-h-0"
-              onClick={() => toast.error("Network Error", {
-                description: "Failed to connect. Please try again.",
-                duration: Infinity,
-                closeButton: true,
-                action: {
-                  label: "Retry",
-                  onClick: () => console.log("Retry"),
-                }
-              })}
-            >
-              Error (Manual Close)
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Modals - Centered and Fullscreen */}
-      <Card id="dialogs" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Modals
-          </CardTitle>
-          <CardDescription>
-            Centered small modal and fullscreen modal with close icon
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Centered small modal
-              </Label>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="ghost" className="min-h-[48px] sm:min-h-0">
-                    Open centered modal
-                  </Button>
-                </DialogTrigger>
-                <DialogContent>
-                  <DialogHeader>
-                    <DialogTitle>Centered modal</DialogTitle>
-                    <DialogDescription>
-                      This is a small modal centered on the screen. Perfect for confirmations, forms, or quick actions.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="py-4 space-y-4">
-                    <div className="space-y-2">
-                      <Label>Name</Label>
-                      <Input placeholder="Enter your name" />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>Email</Label>
-                      <Input type="email" placeholder="Enter your email" />
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <Button variant="ghost">
-                      Cancel
-                    </Button>
-                    <Button>
-                      Confirm
-                    </Button>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </div>
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Fullscreen modal
-              </Label>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button variant="ghost" className="min-h-[48px] sm:min-h-0">
-                    Open fullscreen modal
-                  </Button>
-                </DialogTrigger>
-                <DialogContent variant="fullscreen">
-                  <DialogHeader>
-                    <DialogTitle>Fullscreen modal</DialogTitle>
-                    <DialogDescription>
-                      This modal takes up the entire screen. Great for detailed views, forms, or immersive experiences.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="py-4 space-y-6">
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label>Full name</Label>
-                        <Input placeholder="Enter your full name" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Email address</Label>
-                        <Input type="email" placeholder="Enter your email" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Phone number</Label>
-                        <Input type="tel" placeholder="Enter your phone number" />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Message</Label>
-                        <textarea
-                          className="flex min-h-[120px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                          placeholder="Enter your message"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label>Select an option</Label>
-                        <RadioGroup defaultValue="option1">
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="option1" id="option1" />
-                            <Label htmlFor="option1">Option 1</Label>
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="option2" id="option2" />
-                            <Label htmlFor="option2">Option 2</Label>
-                          </div>
-                        </RadioGroup>
-                      </div>
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t border-stone-200 dark:border-stone-700">
-                      <Button variant="ghost" className="flex-1 min-h-[48px] sm:min-h-0">
-                        Cancel
-                      </Button>
-                      <Button variant="ghost" className="flex-1 min-h-[48px] sm:min-h-0">
-                        Save draft
-                      </Button>
-                      <Button className="flex-1 min-h-[48px] sm:min-h-0">
-                        Submit
-                      </Button>
-                    </div>
-                  </div>
-                </DialogContent>
-              </Dialog>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Sheet Examples */}
-      <Card id="sheets" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Sheet (side panels)
-          </CardTitle>
-          <CardDescription>
-            Sliding panels from different sides - enhanced for bottom menu use
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <div>
-              <Label className="text-sm font-medium mb-2 block">
-                Bottom sheet (enhanced)
-              </Label>
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" className="min-h-[48px] sm:min-h-0">
-                    Open bottom sheet
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="bottom">
-                  <SheetHeader>
-                    <SheetTitle>Bottom sheet</SheetTitle>
-                    <SheetDescription>
-                      This bottom sheet has rounded top corners and is optimized for mobile menus.
-                    </SheetDescription>
-                  </SheetHeader>
-                  <div className="px-4 pb-4">
-                    <p className="text-sm text-stone-600 dark:text-stone-400">
-                      Content slides up from the bottom with smooth animation.
-                    </p>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Radio Button Group - Mobile Optimized */}
-      <Card id="radio-groups" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Radio button group
-          </CardTitle>
-          <CardDescription>Single selection from multiple options showing different variants</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Default Vertical */}
-          <div className="space-y-3">
-            <Label className="text-base font-medium">Vertical layout (default)</Label>
-            <RadioGroup value={selectedRadio} onValueChange={setSelectedRadio}>
-              <div className="flex items-center space-x-2 min-h-[48px] sm:min-h-0">
-                <RadioGroupItem value="option1" id="option1" className="h-6 w-6" />
-                <Label htmlFor="option1" className="flex-1 cursor-pointer py-2">
-                  Option 1 - Default
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2 min-h-[48px] sm:min-h-0">
-                <RadioGroupItem value="option2" id="option2" className="h-6 w-6" />
-                <Label htmlFor="option2" className="flex-1 cursor-pointer py-2">
-                  Option 2 - With Description
-                </Label>
-              </div>
-              <div className="flex items-center space-x-2 min-h-[48px] sm:min-h-0">
-                <RadioGroupItem value="option3" id="option3" className="h-6 w-6" />
-                <Label htmlFor="option3" className="flex-1 cursor-pointer py-2">
-                  Option 3
-                </Label>
-              </div>
-            </RadioGroup>
-            <p className="text-sm text-stone-600 dark:text-stone-400 pl-7">
-              Selected: <span className="font-medium">{selectedRadio}</span>
-            </p>
-          </div>
-
-          <Separator />
-
-          {/* Horizontal */}
-          <div className="space-y-3">
-            <Label className="text-base font-medium">Horizontal layout</Label>
-            <RadioGroup defaultValue="h1" className="flex flex-row space-x-6">
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="h1" id="h1" className="h-6 w-6" />
-                <Label htmlFor="h1" className="cursor-pointer">Compact</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="h2" id="h2" className="h-6 w-6" />
-                <Label htmlFor="h2" className="cursor-pointer">Comfortable</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem value="h3" id="h3" className="h-6 w-6" />
-                <Label htmlFor="h3" className="cursor-pointer">Spacious</Label>
-              </div>
-            </RadioGroup>
-          </div>
-
-          <Separator />
-
-          {/* States */}
-          <div className="space-y-3">
-            <Label className="text-base font-medium">States</Label>
-            <div className="flex flex-wrap gap-6">
-              <RadioGroup disabled defaultValue="d1" className="flex gap-4">
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="d1" id="d1" className="h-6 w-6" />
-                  <Label htmlFor="d1" className="cursor-not-allowed text-stone-400 dark:text-stone-500">Disabled Selected</Label>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem value="d2" id="d2" className="h-6 w-6" />
-                  <Label htmlFor="d2" className="cursor-not-allowed text-stone-400 dark:text-stone-500">Disabled Unselected</Label>
-                </div>
-              </RadioGroup>
-            </div>
-          </div>
-
-
-
-          <Separator />
-
-          {/* Button Styled Radio Group */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <Label className="text-base font-semibold">Radio button group variants</Label>
-
-              <div className="space-y-6">
-                {/* Default Variant */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-medium text-muted-foreground">Default variant (with spaces)</Label>
-                  <RadioButtonGroup defaultValue="2m" className="gap-3">
-                    {["1m", "2m", "3m", "5m"].map((time) => (
-                      <RadioButtonGroupItem key={time} value={time} className="flex-1">
-                        {time}
-                      </RadioButtonGroupItem>
-                    ))}
-                  </RadioButtonGroup>
-                </div>
-
-                {/* Surface Variant */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-medium text-muted-foreground">Surface variant (standard sizes)</Label>
-                  <div className="space-y-4">
-                    <div className="space-y-2">
-                      <Label className="text-xs text-muted-foreground">Small (h-8)</Label>
-                      <RadioButtonGroup defaultValue="Small 1" className="gap-2">
-                        {["Small 1", "Small 2", "Small 3"].map((val) => (
-                          <RadioButtonGroupItem key={val} value={val} variant="surface" size="sm">
-                            {val}
-                          </RadioButtonGroupItem>
-                        ))}
-                      </RadioButtonGroup>
-                    </div>
-                    <div className="space-y-2">
-                      <Label className="text-xs text-muted-foreground">Default (h-9)</Label>
-                      <RadioButtonGroup defaultValue="Default 1" className="gap-2">
-                        {["Default 1", "Default 2", "Default 3"].map((val) => (
-                          <RadioButtonGroupItem key={val} value={val} variant="surface" size="default">
-                            {val}
-                          </RadioButtonGroupItem>
-                        ))}
-                      </RadioButtonGroup>
-                    </div>
-                    <div className="space-y-2">
-                      <Label className="text-xs text-muted-foreground">Large (h-10)</Label>
-                      <RadioButtonGroup defaultValue="Large 1" className="gap-2">
-                        {["Large 1", "Large 2", "Large 3"].map((val) => (
-                          <RadioButtonGroupItem key={val} value={val} variant="surface" size="lg">
-                            {val}
-                          </RadioButtonGroupItem>
-                        ))}
-                      </RadioButtonGroup>
-                    </div>
-                  </div>
-
-                </div>
-
-
-              </div>
-            </div>
-          </div>
-
-          <Separator />
-
-          {/* Card Radio Groups */}
-          <div className="space-y-3">
-            <Label className="text-base font-medium">Card radio groups</Label>
-            <p className="text-sm text-stone-500 dark:text-stone-400">Radio buttons with rich content and custom layouts</p>
-
-            <RadioButtonGroup defaultValue="image" className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-              <RadioButtonGroupItem value="none" variant="surface" className="aspect-square flex flex-col items-center justify-center text-center h-auto p-0">
-                <div className="flex flex-col items-center justify-center w-full h-full p-4 gap-2">
-                  <div className="h-12 w-12 rounded border-2 border-dashed border-muted-foreground/30" />
-                  <span className="text-xs text-muted-foreground">None</span>
-                </div>
-              </RadioButtonGroupItem>
-
-              <RadioButtonGroupItem value="common" variant="surface" className="aspect-square flex flex-col items-center justify-center text-center h-auto p-0">
-                <div className="flex flex-col items-center justify-center w-full h-full p-4 gap-2">
-                  <div className="h-12 w-12 rounded border-2 border-solid border-foreground/50 relative flex items-center justify-center">
-                    <div className="absolute inset-2 border border-foreground/20 rounded-sm" />
-                  </div>
-                  <span className="text-xs font-medium">Common</span>
-                </div>
-              </RadioButtonGroupItem>
-
-              <RadioButtonGroupItem value="dashed" variant="surface" className="aspect-square flex flex-col items-center justify-center text-center h-auto p-0">
-                <div className="flex flex-col items-center justify-center w-full h-full p-4 gap-2">
-                  <div className="h-12 w-12 rounded border-2 border-dashed border-foreground/50" />
-                  <span className="text-xs text-muted-foreground">Dashed</span>
-                </div>
-              </RadioButtonGroupItem>
-
-              <RadioButtonGroupItem value="gradient" variant="surface" className="aspect-square flex flex-col items-center justify-center text-center h-auto p-0">
-                <div className="flex flex-col items-center justify-center w-full h-full p-4 gap-2">
-                  <div className="h-12 w-12 rounded bg-gradient-to-br from-green-400 to-blue-500 shadow-sm" />
-                  <span className="text-xs text-muted-foreground">Gradient</span>
-                </div>
-              </RadioButtonGroupItem>
-
-              <RadioButtonGroupItem value="image" variant="surface" className="aspect-square flex flex-col items-center justify-center text-center h-auto p-0">
-                <div className="flex flex-col items-center justify-center w-full h-full p-4 gap-2">
-                  <div className="h-12 w-12 rounded overflow-hidden relative">
-                    <img src="https://github.com/shadcn.png" alt="Preview" className="h-full w-full object-cover" />
-                  </div>
-                  <span className="text-xs text-muted-foreground">Image</span>
-                </div>
-              </RadioButtonGroupItem>
-            </RadioButtonGroup>
-          </div>
-
-          <Separator />
-
-          {/* Tax Selection (Moved and Standardized) */}
-          <div className="space-y-4 max-w-2xl mx-auto">
-            <div className="flex items-center justify-between">
-              <div className="space-y-1">
-                <Label className="text-base font-semibold">Tax radio buttons</Label>
-                <p className="text-sm text-stone-500 dark:text-stone-400">Specialized selection with badges and actions</p>
-              </div>
-            </div>
-
-            <SettingsItem className="border-none bg-transparent px-0 shadow-none h-auto py-2">
-              <SettingsItemContent>
-                <div className="flex items-center gap-4">
-                  <Label htmlFor="use-taxes-section" className="text-base font-medium text-foreground cursor-pointer">
-                    Use taxes
-                  </Label>
-                  <Switch
-                    id="use-taxes-section"
-                    checked={useTaxes}
-                    onCheckedChange={setUseTaxes}
-                  />
-                </div>
-              </SettingsItemContent>
-              <SettingsItemAction>
-                <Button
-                  variant="secondary"
-                  size="icon-lg"
-                  onClick={handleAddTax}
-                >
-                  <Plus className="h-5 w-5 text-white" />
-                </Button>
-              </SettingsItemAction>
-            </SettingsItem>
-
-            {useTaxes && (
-              <RadioButtonGroup
-                value={selectedTaxId || ""}
-                onValueChange={(val) => taxes.length > 1 && setSelectedTaxId(val)}
-                className="flex flex-col gap-3"
-              >
-                {taxes.map((tax) => {
-                  const isSelected = selectedTaxId === tax.id
-                  return (
-                    <RadioButtonGroupItem
-                      key={tax.id}
-                      value={tax.id}
-                      variant="default"
-                      className={`
-                        relative w-full !flex !flex-row items-center justify-between p-4 h-auto min-h-[72px] rounded-xl transition-all border
-                        ${isSelected
-                          ? "bg-secondary text-secondary-foreground border-transparent shadow-sm"
-                          : "border-border bg-layer-2 hover:bg-layer-1"
-                        }
-                      `}
-                    >
-                      <div className="flex-1 flex flex-col items-start gap-1 overflow-hidden">
-                        <div className="flex items-center gap-2 max-w-full">
-                          <span className={`text-base font-semibold truncate ${isSelected ? "text-secondary-foreground" : "text-foreground"}`}>
-                            {tax.label} {tax.rate}
-                          </span>
-                          {isSelected && (
-                            <Badge variant="default" className="bg-green-500 text-white text-[10px] px-2 py-0 h-5 rounded-full uppercase font-bold tracking-wider shrink-0">
-                              (defaultly use)
-                            </Badge>
-                          )}
-                        </div>
-                      </div>
-
-                      <Button
-                        variant="secondary"
-                        size="icon-lg"
-                        className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors shrink-0 ml-4"
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleRemoveTax(tax.id)
-                        }}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
-                    </RadioButtonGroupItem>
-                  )
-                })}
-              </RadioButtonGroup>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Numeric Entry - Numpad */}
-      <Card id="numpad" className="border-stone-200 dark:border-stone-700 shadow-sm overflow-hidden">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Numeric entry
-          </CardTitle>
-          <CardDescription>
-            Premium numeric pad for price entry and PIN codes - optimized for POS touch targets
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col items-center justify-center py-10">
-          <Numpad
-            value={priceValue}
-            onChange={setPriceValue}
-            label="Enter price"
-          />
-        </CardContent>
-      </Card>
-
-      {/* Security Interfaces */}
-      <Card id="security" className="border-stone-200 dark:border-stone-700 shadow-sm overflow-hidden">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Security interfaces
-          </CardTitle>
-          <CardDescription>
-            PIN entry components for authorization
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col md:flex-row gap-8 items-center justify-center py-10 bg-stone-50/50 dark:bg-stone-900/50">
-          <div className="w-full max-w-[360px] bg-white dark:bg-stone-950 rounded-3xl shadow-lg border border-stone-200 dark:border-stone-800 overflow-hidden">
-            <PinEntry
-              onCancel={() => { }}
-              className="scale-90 origin-top"
-            />
-          </div>
-          <div className="w-full max-w-[360px] bg-white dark:bg-stone-950 rounded-3xl shadow-lg border border-stone-200 dark:border-stone-800 overflow-hidden">
-            <PinEntry
-              title="Confirm PIN"
-              description="Please confirm your PIN code."
-              visible={true}
-              onCancel={() => { }}
-              className="scale-90 origin-top"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Checkboxes */}
-      <Card id="checkboxes" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Checkboxes
-          </CardTitle>
-          <CardDescription>Multiple selection options</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center space-x-2">
-            <Checkbox id="terms" />
-            <Label htmlFor="terms" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Accept terms and conditions
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="marketing" defaultChecked />
-            <Label htmlFor="marketing" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Receive marketing emails
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="disabled" disabled />
-            <Label htmlFor="disabled" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Disabled option
-            </Label>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Checkbox id="disabled-checked" disabled defaultChecked />
-            <Label htmlFor="disabled-checked" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-              Disabled checked
-            </Label>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Dropdowns - Mobile Optimized */}
-      <Card id="dropdown-menus" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Dropdowns
-          </CardTitle>
-          <CardDescription>Menu dropdowns with various options</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex flex-col sm:flex-row gap-3">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="select" className="w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-between">
-                  Actions
-                  <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="start">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem className="min-h-[48px] sm:min-h-0">
-                  <User className="mr-2 h-4 w-4" />
-                  <span>Profile</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="min-h-[48px] sm:min-h-0">
-                  <Settings className="mr-2 h-4 w-4" />
-                  <span>Settings</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="min-h-[48px] sm:min-h-0">
-                  <Mail className="mr-2 h-4 w-4" />
-                  <span>Messages</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem variant="destructive" className="min-h-[48px] sm:min-h-0">
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="select" className="w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-between">
-                  With Checkboxes
-                  <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="start">
-                <DropdownMenuLabel>Preferences</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuCheckboxItem checked className="min-h-[48px] sm:min-h-0">
-                  Show notifications
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem className="min-h-[48px] sm:min-h-0">
-                  Enable dark mode
-                </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem checked className="min-h-[48px] sm:min-h-0">
-                  Auto-save
-                </DropdownMenuCheckboxItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="select" className="w-full sm:w-auto min-h-[48px] sm:min-h-0 justify-between">
-                  Radio Group
-                  <ChevronDown className="ml-2 h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="start">
-                <DropdownMenuLabel>View Mode</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuRadioGroup value={dropdownValue} onValueChange={setDropdownValue}>
-                  <DropdownMenuRadioItem value="option1" className="min-h-[48px] sm:min-h-0">
-                    List View
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="option2" className="min-h-[48px] sm:min-h-0">
-                    Grid View
-                  </DropdownMenuRadioItem>
-                  <DropdownMenuRadioItem value="option3" className="min-h-[48px] sm:min-h-0">
-                    Compact View
-                  </DropdownMenuRadioItem>
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Inputs - Mobile Optimized */}
-      <Card id="inputs" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Inputs
-          </CardTitle>
-          <CardDescription>Form input components (min 48px height)</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              className="min-h-[48px] sm:min-h-0"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input id="password" type="password" placeholder="Enter password" className="min-h-[48px] sm:min-h-0" />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="search">Search</Label>
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-stone-400" />
-              <Input
-                id="search"
-                type="search"
-                placeholder="Search..."
-                className="pl-10 min-h-[48px] sm:min-h-0"
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Search with suggestions (whisperer)</Label>
-              <div className="relative z-10 space-y-4">
-                <SearchInputWithSuggestions
-                  placeholder="Search items..."
-                />
-              </div>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="disabled">Disabled input</Label>
-            <Input id="disabled" placeholder="Disabled" disabled className="min-h-[48px] sm:min-h-0" />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Switches - Mobile Optimized */}
-      <Card id="switches" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Switches
-          </CardTitle>
-          <CardDescription>Toggle controls for boolean states - with and without text labels</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Variant 1: Without Text */}
-          <div className="space-y-3">
-            <Label className="text-base font-medium">Without text</Label>
-            <div className="flex items-center gap-4 flex-wrap">
-              <Switch id="switch-no-text-1" />
-              <Switch id="switch-no-text-2" defaultChecked />
-              <Switch id="switch-no-text-3" disabled />
-              <Switch id="switch-no-text-4" disabled defaultChecked />
-            </div>
-          </div>
-
-          <Separator />
-
-          {/* Variant 2: With Text on Left */}
-          <div className="space-y-3">
-            <Label className="text-base font-medium">With text (left side)</Label>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <Label htmlFor="airplane-mode" className="cursor-pointer">
-                  Airplane mode
-                </Label>
-                <Switch id="airplane-mode" />
-              </div>
-              <div className="flex items-center gap-3">
-                <Label htmlFor="notifications" className="cursor-pointer">
-                  Notifications
-                </Label>
-                <Switch id="notifications" defaultChecked />
-              </div>
-              <div className="flex items-center gap-3">
-                <Label htmlFor="disabled-switch" className="cursor-pointer opacity-50">
-                  Disabled
-                </Label>
-                <Switch id="disabled-switch" disabled />
-              </div>
-              <div className="flex items-center gap-3">
-                <Label htmlFor="disabled-checked" className="cursor-pointer opacity-50">
-                  Disabled checked
-                </Label>
-                <Switch id="disabled-checked" disabled defaultChecked />
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Date Picker - Mobile Optimized */}
-      <Card id="date-picker" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Date picker
-          </CardTitle>
-          <CardDescription>Select dates with calendar popup</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>Select date</Label>
-            <DatePicker
-              date={selectedDate}
-              onDateChange={setSelectedDate}
-              placeholder="Pick a date"
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Color Picker - Mobile Optimized */}
-      <Card id="color-picker" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Color picker
-          </CardTitle>
-          <CardDescription>Select colors with presets and custom picker</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>Select color</Label>
-            <ColorPicker color={selectedColor} onColorChange={setSelectedColor} />
-          </div>
-          <div className="pt-2 border-t border-stone-200 dark:border-stone-700">
-            <div className="flex items-center gap-3">
-              <div
-                className="h-12 w-12 rounded border-2 border-stone-300 dark:border-stone-600"
-                style={{ backgroundColor: selectedColor }}
-              />
-              <div>
-                <p className="text-sm font-medium text-stone-900 dark:text-stone-100">Selected color</p>
-                <p className="text-xs text-stone-600 dark:text-stone-400 font-mono">{selectedColor}</p>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Alternative Color Selector (Grid) - Mobile Optimized */}
-      <Card id="color-selector" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Color selector (grid alternative)
-          </CardTitle>
-          <CardDescription>High-premium circular grid for quick color selection</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">Select theme color</Label>
-            <ColorSelector value={selectedColor} onValueChange={setSelectedColor}>
-              {[
-                { hex: "layer-1", grad: "bg-layer-1", label: "Layer 1" },
-                { hex: "#3b82f6", grad: "bg-gradient-to-br from-blue-400 to-blue-600" },
-                { hex: "#10b981", grad: "bg-gradient-to-br from-emerald-400 to-emerald-600" },
-                { hex: "#ef4444", grad: "bg-gradient-to-br from-red-400 to-red-600" },
-                { hex: "#f59e0b", grad: "bg-gradient-to-br from-amber-400 to-amber-600" },
-                { hex: "#a855f7", grad: "bg-gradient-to-br from-purple-400 to-purple-600" },
-                { hex: "#ea580c", grad: "bg-gradient-to-br from-orange-400 to-orange-600" },
-                { hex: "#06b6d4", grad: "bg-gradient-to-br from-cyan-400 to-cyan-600" },
-                { hex: "#ec4899", grad: "bg-gradient-to-br from-pink-400 to-pink-600" },
-                { hex: "#6366f1", grad: "bg-gradient-to-br from-indigo-400 to-indigo-600" },
-                { hex: "#84cc16", grad: "bg-gradient-to-br from-lime-400 to-lime-600" },
-                { hex: "#14b8a6", grad: "bg-gradient-to-br from-teal-400 to-teal-600" },
-                { hex: "#4b5563", grad: "bg-gradient-to-br from-stone-400 to-stone-600" }
-              ].map((item) => (
-                <ColorSelectorItem
-                  key={item.hex}
-                  value={item.hex}
-                  gradient={item.grad}
-                  aria-label={`Select color ${item.hex}`}
-                />
-              ))}
-            </ColorSelector>
-          </div>
-          <div className="pt-2 border-t border-stone-200 dark:border-stone-700">
-            <p className="text-xs text-stone-600 dark:text-stone-400">
-              Selected HEX: <span className="font-mono font-medium text-primary">{selectedColor}</span>
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Badges */}
-      <Card id="badges-examples" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Badges
-          </CardTitle>
-          <CardDescription>Status indicators and labels</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-3">
-            <Badge>Default</Badge>
-            <Badge variant="secondary">Secondary</Badge>
-            <Badge variant="destructive">Destructive</Badge>
-            <Badge variant="ghost">Ghost</Badge>
-          </div>
-        </CardContent>
-      </Card>
-
-
-
-      {/* Tabs - Mobile Optimized */}
-      <Card id="tabs" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Tabs
-          </CardTitle>
-          <CardDescription>Tabbed content navigation</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs defaultValue="overview" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="overview" className="min-h-[48px] sm:min-h-0">Overview</TabsTrigger>
-              <TabsTrigger value="analytics" className="min-h-[48px] sm:min-h-0">Analytics</TabsTrigger>
-              <TabsTrigger value="settings" className="min-h-[48px] sm:min-h-0">Settings</TabsTrigger>
-            </TabsList>
-            <TabsContent value="overview" className="mt-4">
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-                  Overview content
-                </h3>
-                <p className="text-sm text-stone-600 dark:text-stone-400">
-                  This is the overview tab content. You can display summary information here.
-                </p>
-              </div>
-            </TabsContent>
-            <TabsContent value="analytics" className="mt-4">
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-                  Analytics content
-                </h3>
-                <p className="text-sm text-stone-600 dark:text-stone-400">
-                  Analytics data and charts would be displayed here.
-                </p>
-              </div>
-            </TabsContent>
-            <TabsContent value="settings" className="mt-4">
-              <div className="space-y-2">
-                <h3 className="text-sm font-semibold text-stone-900 dark:text-stone-100">
-                  Settings content
-                </h3>
-                <p className="text-sm text-stone-600 dark:text-stone-400">
-                  Application settings and preferences would be shown here.
-                </p>
-              </div>
-            </TabsContent>
-          </Tabs>
-        </CardContent>
-      </Card>
-
-      {/* Cards - Mobile Optimized */}
-      <Card id="cards" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">
-            Cards
-          </CardTitle>
-          <CardDescription>Different card usages and layouts</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-8">
-          {/* Card Selection */}
-          <div className="space-y-3">
-            <Label className="text-base font-medium">Card selection</Label>
-            <RadioGroup defaultValue="card1" className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="relative">
-                <RadioGroupItem value="card1" id="card1" className="peer sr-only" />
-                <Label
-                  htmlFor="card1"
-                  className="flex flex-col gap-2 rounded-lg border border-foreground/20 bg-transparent p-4 hover:bg-foreground/5 peer-data-[state=checked]:border-transparent peer-data-[state=checked]:bg-secondary cursor-pointer transition-all"
-                >
-                  <span className="font-semibold text-base text-stone-900 dark:text-stone-100 peer-data-[state=checked]:opacity-70">Pro plan</span>
-                  <span className="text-sm text-stone-500 dark:text-stone-400 peer-data-[state=checked]:opacity-50">Advanced features for power users</span>
-                  <span className="font-bold mt-2 text-stone-900 dark:text-stone-100 peer-data-[state=checked]:opacity-70">$29/mo</span>
-                </Label>
-              </div>
-              <div className="relative">
-                <RadioGroupItem value="card2" id="card2" className="peer sr-only" />
-                <Label
-                  htmlFor="card2"
-                  className="flex flex-col gap-2 rounded-lg border border-foreground/20 bg-transparent p-4 hover:bg-foreground/5 peer-data-[state=checked]:border-transparent peer-data-[state=checked]:bg-secondary cursor-pointer transition-all"
-                >
-                  <span className="font-semibold text-base text-stone-900 dark:text-stone-100 peer-data-[state=checked]:opacity-70">Team plan</span>
-                  <span className="text-sm text-stone-500 dark:text-stone-400 peer-data-[state=checked]:opacity-50">Collaboration tools for teams</span>
-                  <span className="font-bold mt-2 text-stone-900 dark:text-stone-100 peer-data-[state=checked]:opacity-70">$99/mo</span>
-                </Label>
-              </div>
-            </RadioGroup>
-          </div>
-
-          <Separator />
-
-          <div>
-            <div className="flex flex-col gap-1 mb-3">
-              <Label className="text-base font-medium">Card variations</Label>
-              <p className="text-sm text-stone-500 dark:text-stone-400">Different card layouts and content</p>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <Card className="border-stone-200 dark:border-stone-700">
-                <CardHeader>
-                  <CardTitle className="text-base">Simple card</CardTitle>
-                  <CardDescription>Basic card with title and description</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-stone-600 dark:text-stone-400">
-                    This is a simple card component with minimal content.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Card className="border-stone-200 dark:border-stone-700">
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-base">Card with actions</CardTitle>
-                    <div className="flex gap-2">
-                      <Button variant="invisible" size="icon-sm" className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0">
-                        <Heart className="h-4 w-4" />
-                      </Button>
-                      <Button variant="invisible" size="icon-sm" className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0">
-                        <Share2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-stone-600 dark:text-stone-400">
-                    Card with action buttons in the header.
-                  </p>
-                </CardContent>
-              </Card>
-
-              <Separator className="col-span-1 md:col-span-2 my-2" />
-
-              <div className="col-span-1 md:col-span-2">
-                <div className="flex flex-col gap-1 mb-3">
-                  <Label className="text-base font-medium">Selection cards</Label>
-                  <p className="text-sm text-stone-500 dark:text-stone-400">Selectable cards with active states (min 48px touch target)</p>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {/* Register (POS) Mode - Permanently Selected State */}
-                  <div
-                    className="relative p-4 rounded-xl border transition-all border-primary bg-primary/10 cursor-pointer"
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="h-10 w-10 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
-                        <CheckCircle2 className="h-5 w-5" />
-                      </div>
-                      <Badge>Selected</Badge>
-                    </div>
-                    <div className="text-base font-semibold text-stone-900 dark:text-stone-100 mb-1">Register (POS)</div>
-                    <p className="text-sm text-stone-500 dark:text-stone-400">
-                      Process orders and payments on the go.
-                    </p>
-                  </div>
-
-                  {/* Back Office Mode - Permanently Unselected State */}
-                  <div
-                    className="relative p-4 rounded-xl border transition-all border-stone-200 dark:border-stone-700 cursor-pointer hover:border-stone-300 dark:hover:border-stone-600"
-                  >
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="h-10 w-10 rounded-lg bg-stone-100 dark:bg-stone-800 flex items-center justify-center text-stone-600 dark:text-stone-400">
-                        <BarChart3 className="h-5 w-5" />
-                      </div>
-                      <Button variant="ghost" size="sm" className="h-7 text-xs">
-                        Switch
-                      </Button>
-                    </div>
-                    <div className="text-base font-semibold text-stone-900 dark:text-stone-100 mb-1">Back Office</div>
-                    <p className="text-sm text-stone-500 dark:text-stone-400">
-                      Advanced analytics and inventory management.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      <InputsExamplesCard />
+      <SwitchesExamplesCard />
+      <DatePickerExamplesCard />
+      <ColorPickerExamplesCard />
+      <ColorSelectorExamplesCard />
+      <BadgesExamplesCard />
+      <TabsExamplesCard />
+      <CardsExamplesCard />
 
       {/* Navigation Menu - Mobile Optimized */}
       <Card className="border-stone-200 dark:border-stone-700 shadow-sm">
@@ -2217,7 +793,8 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
       </Card>
 
 
-      {/* Settings Components - Mobile Optimized */}
+      <SettingsComponentsExamplesCard />
+      {false && (
       <Card id="settings-components" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className=" text-lg font-semibold text-stone-900 dark:text-stone-100">
@@ -2308,69 +885,12 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
         </CardContent>
       </Card>
+      )}
 
-      {/* Elevations & Shadows (Soul Design System) */}
-      <Card id="elevations" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Elevations & shadows</CardTitle>
-          <CardDescription>Multi-layered shadow patterns from the Soul Design System</CardDescription>
-          <div className="mt-3 p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-900/30 rounded-lg">
-            <p className="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-1">?? Soul elevation rules</p>
-            <ul className="text-xs text-blue-800 dark:text-blue-300 list-disc pl-4 space-y-1">
-              <li><strong>Shadow 100 (sm):</strong> Default shadow for most containers and cards.</li>
-              <li><strong>Shadow 200 (md):</strong> Interactive elevation for hover states.</li>
-              <li><strong>Shadow 300 (lg):</strong> Elements revealed by action (popovers, select lists).</li>
-              <li><strong>Shadow 400 (xl):</strong> Floating elements and multi-action bars.</li>
-              <li><strong>Tactile Detail:</strong> All shadows use multi-layered values with subtle insets for physical depth.</li>
-            </ul>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div className="flex flex-col gap-2">
-              <div className="h-24 w-full rounded-xl bg-layer-2 border border-border shadow-sm flex items-center justify-center">
-                <span className="text-xs font-medium">Shadow 100</span>
-              </div>
-              <span className="text-[10px] text-muted-foreground text-center">sm: Default Containers</span>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="h-24 w-full rounded-xl bg-layer-2 border border-border shadow-md flex items-center justify-center">
-                <span className="text-xs font-medium">Shadow 200</span>
-              </div>
-              <span className="text-[10px] text-muted-foreground text-center">md: Hover States</span>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="h-24 w-full rounded-xl bg-layer-2 border border-border shadow-lg flex items-center justify-center">
-                <span className="text-xs font-medium">Shadow 300</span>
-              </div>
-              <span className="text-[10px] text-muted-foreground text-center">lg: Popovers & Menus</span>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="h-24 w-full rounded-xl bg-layer-2 border border-border shadow-xl flex items-center justify-center">
-                <span className="text-xs font-medium">Shadow 400</span>
-              </div>
-              <span className="text-[10px] text-muted-foreground text-center">xl: Floating Elements</span>
-            </div>
-          </div>
+      <ElevationsExamplesCard />
 
-          <div className="mt-8 grid grid-cols-2 gap-6 border-t border-border pt-8">
-            <div className="flex flex-col gap-2">
-              <div className="h-20 w-full rounded-xl bg-layer-2 border border-border shadow-inner flex items-center justify-center">
-                <span className="text-xs font-medium italic opacity-50">shadow-inner</span>
-              </div>
-              <span className="text-[10px] text-muted-foreground text-center">Pressed/Inset states</span>
-            </div>
-            <div className="flex flex-col gap-2">
-              <div className="h-20 w-full rounded-xl bg-primary text-primary-foreground border border-[#0d5e24] shadow-btn flex items-center justify-center">
-                <span className="text-xs font-medium">shadow-btn</span>
-              </div>
-              <span className="text-[10px] text-muted-foreground text-center">Tactile primary button</span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Building Blocks */}
+      <BuildingBlocksExamplesCard />
+      {false && (
       <Card id="building-blocks" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Building blocks</CardTitle>
@@ -2562,8 +1082,10 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
         </CardContent>
       </Card>
+      )}
 
-      {/* Atomic Items */}
+      <AtomicItemsExamplesCard />
+      {false && (
       <Card id="atomic-items" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Atomic items</CardTitle>
@@ -2679,8 +1201,10 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </SettingsItem>
         </CardContent>
       </Card>
+      )}
 
-      {/* Section Titles */}
+      <SectionTitlesExamplesCard />
+      {false && (
       <Card id="section-titles" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Section titles</CardTitle>
@@ -2722,8 +1246,10 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
         </CardContent>
       </Card>
+      )}
 
-      {/* Product / Expense Card Items */}
+      <ProductExpenseItemsDsExamplesCard />
+      {false && (
       <Card id="product-expense-items-ds" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Product / expense card items</CardTitle>
@@ -2783,24 +1309,10 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
         </CardContent>
       </Card>
+      )}
 
 
-      {/* Badges Section */}
-      <Card id="badges" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Badges</CardTitle>
-          <CardDescription>Status indicators and labels</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-4">
-            <Badge variant="default">Default</Badge>
-            <Badge variant="secondary">Secondary</Badge>
-            <Badge variant="destructive">Destructive</Badge>
-            <Badge variant="warning">Warning</Badge>
-            <Badge variant="ghost">Ghost</Badge>
-          </div>
-        </CardContent>
-      </Card>
+      <BadgesTokensCard />
 
 
       {/* Avatars Section */}
@@ -2810,7 +1322,8 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
 
 
-      {/* Complex Accordions */}
+      <AccordionsExamplesCard />
+      {false && (
       <Card id="accordions" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Complex accordions</CardTitle>
@@ -3214,9 +1727,11 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
         </CardContent>
       </Card>
+      )}
 
 
-      {/* Expandable Order Summary */}
+      <OrderExpandableExamplesCard />
+      {false && (
       <Card id="order-expandable" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Expandable order summary</CardTitle>
@@ -3226,9 +1741,11 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           <OrderExpandableDemo />
         </CardContent>
       </Card>
+      )}
 
 
-      {/* Order Management Tabs */}
+      <OrderTabsExamplesCard />
+      {false && (
       <Card id="order-tabs" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Order tabs</CardTitle>
@@ -3238,8 +1755,10 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           <OrderTabsDemo />
         </CardContent>
       </Card>
+      )}
 
-      {/* Media Upload */}
+      <MediaUploadExamplesCard />
+      {false && (
       <Card id="media-upload" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Media upload</CardTitle>
@@ -3257,10 +1776,12 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
         </CardContent>
       </Card>
+      )}
 
 
 
-      {/* Check Lists */}
+      <CheckListsExamplesCard />
+      {false && (
       <Card id="check-lists" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Check lists</CardTitle>
@@ -3287,9 +1808,11 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
         </CardContent>
       </Card>
+      )}
 
       {/* Icons with Background */}
-      {/* Empty States */}
+      <EmptyStatesExamplesCard />
+      {false && (
       <Card id="empty-states" className="border-stone-200 dark:border-stone-700 shadow-sm">
         <CardHeader>
           <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Empty states</CardTitle>
@@ -3343,67 +1866,14 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </div>
         </CardContent>
       </Card>
+      )}
 
 
 
-      {/* Dividers */}
-      <Card id="dividers" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Dividers</CardTitle>
-          <CardDescription>Visual separators for organizing content</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-8">
-          <div className="space-y-4">
-            <div className="text-sm font-medium">Horizontal</div>
-            <div className="bg-layer-2 border border-border rounded-xl p-6 space-y-4">
-              <div className="text-sm text-muted-foreground">
-                Content above the separator
-              </div>
-              <Separator />
-              <div className="text-sm text-muted-foreground">
-                Content below the separator
-              </div>
-            </div>
-          </div>
+      <DividersExamplesCard />
 
-          <div className="space-y-4">
-            <div className="text-sm font-medium">Vertical</div>
-            <div className="bg-layer-2 border border-border rounded-xl p-6 flex items-center h-16 space-x-4 text-sm text-muted-foreground">
-              <div>Item One</div>
-              <Separator orientation="vertical" />
-              <div>Item Two</div>
-              <Separator orientation="vertical" />
-              <div>Item Three</div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Email Templates */}
-      <Card id="email-templates" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Email templates</CardTitle>
-          <CardDescription>Transactional email designs</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="bg-layer-2 border border-border rounded-xl p-6 flex justify-center bg-stone-100 dark:bg-stone-900">
-            <div className="w-full max-w-xl">
-              <EmailTemplatePreview />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Receipt */}
-      <Card id="receipt" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Receipt</CardTitle>
-          <CardDescription>Print-ready receipt design with QR code</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ReceiptPreview />
-        </CardContent>
-      </Card>
+      <EmailTemplatesExamplesCard />
+      <ReceiptExamplesCard />
 
 
     </div >
