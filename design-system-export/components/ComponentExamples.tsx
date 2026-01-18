@@ -407,7 +407,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
   const [useTaxes, setUseTaxes] = useState(true)
   const [taxes, setTaxes] = useState<TaxItem[]>([
-    { id: "1", label: "VAT standard 21%", rate: "21%" },
+    { id: "1", label: "VAT standard", rate: "21%" },
     { id: "2", label: "Service charge", rate: "10%" },
     { id: "3", label: "Luxury tax", rate: "15%" },
     { id: "4", label: "New tax", rate: "10%" },
@@ -1485,29 +1485,20 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
               </div>
             </div>
 
-            <SettingsItem className="border-none bg-transparent px-0 shadow-none h-auto py-2">
-              <SettingsItemContent>
-                <div className="flex items-center gap-4">
-                  <Label htmlFor="use-taxes-section" className="text-base font-medium text-foreground cursor-pointer">
-                    Use taxes
-                  </Label>
-                  <Switch
-                    id="use-taxes-section"
-                    checked={useTaxes}
-                    onCheckedChange={setUseTaxes}
-                  />
-                </div>
-              </SettingsItemContent>
-              <SettingsItemAction>
-                <Button
-                  variant="secondary"
-                  size="icon-lg"
-                  onClick={handleAddTax}
+            <div className="flex items-center justify-between py-2">
+              <div className="flex items-center gap-4">
+                <Label
+                  htmlFor="use-taxes-section"
+                  className="text-sm font-medium leading-none text-foreground cursor-pointer"
                 >
-                  <Plus className="h-5 w-5 text-white" />
-                </Button>
-              </SettingsItemAction>
-            </SettingsItem>
+                  Use taxes
+                </Label>
+                <Switch id="use-taxes-section" checked={useTaxes} onCheckedChange={setUseTaxes} />
+              </div>
+              <Button variant="secondary" size="icon" onClick={handleAddTax} aria-label="Add tax">
+                <Plus />
+              </Button>
+            </div>
 
             {useTaxes && (
               <RadioButtonGroup
@@ -1523,7 +1514,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                       value={tax.id}
                       variant="default"
                       className={`
-                        relative w-full !flex !flex-row items-center justify-between p-4 h-auto min-h-[72px] rounded-xl transition-all border
+                        relative w-full !flex !flex-row items-center justify-between p-4 h-auto min-h-[72px] rounded-[12px] transition-all border
                         ${isSelected
                           ? "bg-secondary text-secondary-foreground border-transparent shadow-sm"
                           : "border-border bg-layer-2 hover:bg-layer-1"
@@ -1532,12 +1523,12 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
                     >
                       <div className="flex-1 flex flex-col items-start gap-1 overflow-hidden">
                         <div className="flex items-center gap-2 max-w-full">
-                          <span className={`text-base font-semibold truncate ${isSelected ? "text-secondary-foreground" : "text-foreground"}`}>
+                          <span className={`text-base font-normal truncate ${isSelected ? "text-secondary-foreground" : "text-foreground"}`}>
                             {tax.label} {tax.rate}
                           </span>
                           {isSelected && (
-                            <Badge variant="default" className="bg-green-500 text-white text-[10px] px-2 py-0 h-5 rounded-full uppercase font-bold tracking-wider shrink-0">
-                              (defaultly use)
+                            <Badge variant="default" className="bg-green-500 text-white text-[10px] px-2 py-0 h-5 rounded-full font-bold tracking-wider shrink-0">
+                              Default
                             </Badge>
                           )}
                         </div>
@@ -1545,14 +1536,14 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
 
                       <Button
                         variant="secondary"
-                        size="icon-lg"
+                        size="icon"
                         className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors shrink-0 ml-4"
                         onClick={(e) => {
                           e.stopPropagation()
                           handleRemoveTax(tax.id)
                         }}
                       >
-                        <Trash2 className="h-4 w-4" />
+                        <Trash2 />
                       </Button>
                     </RadioButtonGroupItem>
                   )

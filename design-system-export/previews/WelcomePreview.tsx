@@ -7,6 +7,7 @@ import {
     SettingsItemDescription,
     SettingsItemAction,
 } from '../components/ui/settings-item'
+import { SettingsGroup } from "../components/settings/settings-group"
 import { Button } from '../components/ui/button'
 import { Lock, Package, ChevronRight, ExternalLink } from 'lucide-react'
 
@@ -39,36 +40,40 @@ export default function WelcomePreview() {
                     <h2 className="text-lg font-semibold mb-3">Your Next Steps</h2>
                     <div className="space-y-3">
                         {/* Item 1: Admin PIN */}
-                        <SettingsItem className="bg-layer-2 border-border hover:bg-layer-3 transition-colors cursor-pointer">
-                            <SettingsItemIcon>
-                                <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                                    <Lock className="h-5 w-5 text-blue-500" />
-                                </div>
-                            </SettingsItemIcon>
-                            <SettingsItemContent>
-                                <SettingsItemTitle>Set Admin PIN</SettingsItemTitle>
-                                <SettingsItemDescription>Secure your manager access</SettingsItemDescription>
-                            </SettingsItemContent>
-                            <SettingsItemAction>
-                                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                            </SettingsItemAction>
-                        </SettingsItem>
+                        <SettingsGroup>
+                            <SettingsItem>
+                                <SettingsItemIcon>
+                                    <div className="flex size-9 items-center justify-center rounded-[12px] bg-layer-info">
+                                        <Lock className="size-[18px] text-border-info-emphasis" />
+                                    </div>
+                                </SettingsItemIcon>
+                                <SettingsItemContent>
+                                    <SettingsItemTitle>Set Admin PIN</SettingsItemTitle>
+                                    <SettingsItemDescription>Secure your manager access</SettingsItemDescription>
+                                </SettingsItemContent>
+                                <SettingsItemAction>
+                                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                                </SettingsItemAction>
+                            </SettingsItem>
+                        </SettingsGroup>
 
                         {/* Item 2: Inventory */}
-                        <SettingsItem className="bg-layer-2 border-border hover:bg-layer-3 transition-colors cursor-pointer">
-                            <SettingsItemIcon>
-                                <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
-                                    <Package className="h-5 w-5 text-blue-500" />
-                                </div>
-                            </SettingsItemIcon>
-                            <SettingsItemContent>
-                                <SettingsItemTitle>Add Inventory</SettingsItemTitle>
-                                <SettingsItemDescription>Create your first product</SettingsItemDescription>
-                            </SettingsItemContent>
-                            <SettingsItemAction>
-                                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                            </SettingsItemAction>
-                        </SettingsItem>
+                        <SettingsGroup>
+                            <SettingsItem>
+                                <SettingsItemIcon>
+                                    <div className="flex size-9 items-center justify-center rounded-[12px] bg-layer-success">
+                                        <Package className="size-[18px] text-onLayer-success" />
+                                    </div>
+                                </SettingsItemIcon>
+                                <SettingsItemContent>
+                                    <SettingsItemTitle>Add Inventory</SettingsItemTitle>
+                                    <SettingsItemDescription>Create your first product</SettingsItemDescription>
+                                </SettingsItemContent>
+                                <SettingsItemAction>
+                                    <ChevronRight className="h-5 w-5 text-muted-foreground" />
+                                </SettingsItemAction>
+                            </SettingsItem>
+                        </SettingsGroup>
                     </div>
                 </div>
 

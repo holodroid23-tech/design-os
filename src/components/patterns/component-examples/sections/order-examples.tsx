@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
+import { SystemIcon } from '@/components/atoms/icon'
 import { ChevronDown, Plus } from 'lucide-react'
 
 interface OrderTab {
@@ -39,7 +40,7 @@ function OrderTabsDemo() {
           onClick={handleAddTab}
           className="flex-shrink-0 h-10 w-10 rounded-full bg-layer-3 hover:bg-layer-3/80 border border-border flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
         >
-          <Plus className="h-[18px] w-[18px] text-foreground" />
+          <SystemIcon icon={Plus} size="regular" className="text-foreground" aria-hidden="true" />
         </button>
 
         <div className="flex-1 overflow-x-auto no-scrollbar mask-gradient-right">
@@ -103,7 +104,12 @@ function OrderExpandableDemo() {
             <div className="text-sm font-semibold">Order summary</div>
             <div className="text-xs text-muted-foreground">Tap to {open ? 'collapse' : 'expand'}</div>
           </div>
-          <ChevronDown className={cn('h-[18px] w-[18px] text-muted-foreground transition-transform', open && 'rotate-180')} />
+          <SystemIcon
+            icon={ChevronDown}
+            size="regular"
+            className={cn('text-muted-foreground transition-transform', open && 'rotate-180')}
+            aria-hidden="true"
+          />
         </button>
 
         {open && (

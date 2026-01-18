@@ -1,7 +1,16 @@
-import { FileText, Map, ClipboardList, Database, Package, Boxes, Palette, PanelLeft } from 'lucide-react'
+import { FileText, Map, ClipboardList, Database, Package, Boxes, Palette, PanelLeft, Layout } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
 
-type EmptyStateType = 'overview' | 'roadmap' | 'spec' | 'data' | 'data-model' | 'design-system' | 'shell' | 'export'
+type EmptyStateType =
+  | 'overview'
+  | 'roadmap'
+  | 'spec'
+  | 'data'
+  | 'data-model'
+  | 'design-system'
+  | 'shell'
+  | 'screen-designs'
+  | 'export'
 
 interface EmptyStateProps {
   type: EmptyStateType
@@ -54,6 +63,12 @@ const config: Record<EmptyStateType, {
     title: 'No application shell designed yet',
     command: '/design-shell',
     description: 'Design the navigation and layout',
+  },
+  'screen-designs': {
+    icon: Layout,
+    title: 'No screen designs yet',
+    command: '/design-screen',
+    description: 'Create screen designs for this section',
   },
   export: {
     icon: Package,

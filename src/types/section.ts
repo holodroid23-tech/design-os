@@ -25,3 +25,10 @@ export interface ParsedSpec {
   userFlows: string[]
   uiRequirements: string[]
 }
+
+/**
+ * Minimal info needed to route to a screen design preview.
+ */
+export interface ScreenDesignInfo {
+  name: string
+}

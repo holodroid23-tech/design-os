@@ -3,11 +3,30 @@ import { Search, CupSoda, Utensils, Box, Coffee } from "lucide-react"
 import { cn } from "../../lib/utils"
 import { Input } from "./input"
 
+type IconComponent = React.ComponentType<React.SVGProps<SVGSVGElement>>
+
+function SystemIcon({
+    icon: Icon,
+    className,
+    ...props
+}: Omit<React.SVGProps<SVGSVGElement>, "children"> & { icon: IconComponent }) {
+    return <Icon className={cn("size-[18px]", className)} {...props} />
+}
+
 export interface SearchSuggestion {
     id: string
     label: string
-    icon: React.ReactNode
-    iconBg: string
+    /**
+     * Preferred: pass a DS-sized leading visual (36px), e.g. an IconTile/ImageTile
+     * from your consuming codebase.
+     */
+    leading?: React.ReactNode
+    /**
+     * Legacy (kept for compatibility): render a custom icon node with custom background classes.
+     * Prefer `leading` for design-system consistency.
+     */
+    icon?: React.ReactNode
+    iconBg?: string
     price?: string
 }
 
@@ -30,36 +49,36 @@ export function SearchInputWithSuggestions({
         {
             id: "1",
             label: "Macchiato",
-            icon: <Coffee className="h-[18px] w-[18px]" />,
-            iconBg: "bg-blue-500/10 text-blue-600",
+            icon: <SystemIcon icon={Coffee} aria-hidden="true" />,
+            iconBg: "bg-stone-500/10 text-stone-200",
             price: "$3.75",
         },
         {
             id: "2",
             label: "Cappuccino",
-            icon: <Coffee className="h-[18px] w-[18px]" />,
-            iconBg: "bg-purple-500/10 text-purple-600",
+            icon: <SystemIcon icon={Coffee} aria-hidden="true" />,
+            iconBg: "bg-stone-500/10 text-stone-200",
             price: "$4.50",
         },
         {
             id: "3",
             label: "Iced Matcha",
-            icon: <CupSoda className="h-[18px] w-[18px]" />,
-            iconBg: "bg-emerald-500/10 text-emerald-600",
+            icon: <SystemIcon icon={CupSoda} aria-hidden="true" />,
+            iconBg: "bg-stone-500/10 text-stone-200",
             price: "$11.00",
         },
         {
             id: "4",
             label: "Avocado Toast",
-            icon: <Utensils className="h-[18px] w-[18px]" />,
-            iconBg: "bg-green-500/10 text-green-600",
+            icon: <SystemIcon icon={Utensils} aria-hidden="true" />,
+            iconBg: "bg-stone-500/10 text-stone-200",
             price: "$12.00",
         },
         {
             id: "5",
             label: "Sparkling Water",
-            icon: <Box className="h-[18px] w-[18px]" />,
-            iconBg: "bg-blue-500/10 text-blue-400",
+            icon: <SystemIcon icon={Box} aria-hidden="true" />,
+            iconBg: "bg-stone-500/10 text-stone-200",
             price: "$3.00",
         },
     ]
@@ -73,7 +92,11 @@ export function SearchInputWithSuggestions({
     return (
         <div className="relative w-full">
             <div className="relative group">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-stone-400" />
+                <SystemIcon
+                    icon={Search}
+                    className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-stone-400"
+                    aria-hidden="true"
+                />
                 <Input
                     className={cn(
                         "pl-10 min-h-[48px] sm:min-h-0",
@@ -103,8 +126,19 @@ export function SearchInputWithSuggestions({
                                     setIsOpen(false)
                                 }}
                             >
-                                <div className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-full transition-transform group-hover:scale-110", suggestion.iconBg)}>
-                                    {suggestion.icon}
+                                <div className="shrink-0 transition-transform group-hover:scale-110">
+                                    {suggestion.leading ? (
+                                        suggestion.leading
+                                    ) : suggestion.icon ? (
+                                        <div
+                                            className={cn(
+                                                "flex size-9 items-center justify-center rounded-[12px]",
+                                                suggestion.iconBg ?? "bg-stone-500/10 text-stone-200",
+                                            )}
+                                        >
+                                            {suggestion.icon}
+                                        </div>
+                                    ) : null}
                                 </div>
                                 <div className="flex flex-1 items-center justify-between">
                                     <span className="text-base font-semibold text-foreground">{suggestion.label}</span>

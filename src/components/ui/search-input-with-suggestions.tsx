@@ -2,12 +2,22 @@ import * as React from "react"
 import { Search, CupSoda, Utensils, Box, Coffee } from "lucide-react"
 import { cn } from "../../lib/utils"
 import { Input } from "./input"
+import { IconTile, SystemIcon } from "../atoms/icon"
 
 export interface SearchSuggestion {
     id: string
     label: string
-    icon: React.ReactNode
-    iconBg: string
+    /**
+     * Preferred: pass a DS-sized leading visual, e.g. `<IconTile size="small" ... />`
+     * or `<ImageTile size="small" ... />` (36px).
+     */
+    leading?: React.ReactNode
+    /**
+     * Legacy (kept for compatibility): render a custom icon node with custom background classes.
+     * Prefer `leading` for design-system consistency.
+     */
+    icon?: React.ReactNode
+    iconBg?: string
     price?: string
 }
 
@@ -30,36 +40,31 @@ export function SearchInputWithSuggestions({
         {
             id: "1",
             label: "Macchiato",
-            icon: <Coffee className="h-[18px] w-[18px]" />,
-            iconBg: "bg-blue-500/10 text-blue-600",
+            leading: <IconTile icon={Coffee} size="small" tone="info" />,
             price: "$3.75",
         },
         {
             id: "2",
             label: "Cappuccino",
-            icon: <Coffee className="h-[18px] w-[18px]" />,
-            iconBg: "bg-purple-500/10 text-purple-600",
+            leading: <IconTile icon={Coffee} size="small" tone="recent" />,
             price: "$4.50",
         },
         {
             id: "3",
             label: "Iced Matcha",
-            icon: <CupSoda className="h-[18px] w-[18px]" />,
-            iconBg: "bg-emerald-500/10 text-emerald-600",
+            leading: <IconTile icon={CupSoda} size="small" tone="success" />,
             price: "$11.00",
         },
         {
             id: "4",
             label: "Avocado Toast",
-            icon: <Utensils className="h-[18px] w-[18px]" />,
-            iconBg: "bg-green-500/10 text-green-600",
+            leading: <IconTile icon={Utensils} size="small" tone="success" />,
             price: "$12.00",
         },
         {
             id: "5",
             label: "Sparkling Water",
-            icon: <Box className="h-[18px] w-[18px]" />,
-            iconBg: "bg-blue-500/10 text-blue-400",
+            leading: <IconTile icon={Box} size="small" tone="neutral" />,
             price: "$3.00",
         },
     ]
@@ -73,7 +78,12 @@ export function SearchInputWithSuggestions({
     return (
         <div className="relative w-full">
             <div className="relative group">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <SystemIcon
+                    icon={Search}
+                    size="regular"
+                    className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
+                    aria-hidden="true"
+                />
                 <Input
                     className={cn(
                         "pl-10 min-h-[48px] sm:min-h-0",
@@ -103,8 +113,19 @@ export function SearchInputWithSuggestions({
                                     setIsOpen(false)
                                 }}
                             >
-                                <div className={cn("flex h-12 w-12 shrink-0 items-center justify-center rounded-full transition-transform group-hover:scale-110", suggestion.iconBg)}>
-                                    {suggestion.icon}
+                                <div className="shrink-0 transition-transform group-hover:scale-110">
+                                    {suggestion.leading ? (
+                                        suggestion.leading
+                                    ) : suggestion.icon ? (
+                                        <div
+                                            className={cn(
+                                                "flex size-9 items-center justify-center rounded-[12px]",
+                                                suggestion.iconBg ?? "bg-layer-level-2 text-onLayer-primary",
+                                            )}
+                                        >
+                                            {suggestion.icon}
+                                        </div>
+                                    ) : null}
                                 </div>
                                 <div className="flex flex-1 items-center justify-between">
                                     <span className="text-base font-semibold text-foreground">{suggestion.label}</span>

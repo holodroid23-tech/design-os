@@ -21,7 +21,6 @@ import { RadioButtonGroup, RadioButtonGroupItem } from '@/components/ui/radio-bu
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
-import { SettingsItem, SettingsItemAction, SettingsItemContent } from '@/components/settings/settings-item'
 import { ChevronDown, Mail, Plus, Settings, Trash2, User } from 'lucide-react'
 
 interface TaxItem {
@@ -35,7 +34,7 @@ export function RadioGroupsExamplesCard() {
 
   const [useTaxes, setUseTaxes] = useState(true)
   const [taxes, setTaxes] = useState<TaxItem[]>([
-    { id: '1', label: 'VAT standard 21%', rate: '21%' },
+    { id: '1', label: 'VAT standard', rate: '21%' },
     { id: '2', label: 'Service charge', rate: '10%' },
     { id: '3', label: 'Luxury tax', rate: '15%' },
     { id: '4', label: 'New tax', rate: '10%' },
@@ -291,21 +290,20 @@ export function RadioGroupsExamplesCard() {
             </div>
           </div>
 
-          <SettingsItem className="border-none bg-transparent px-0 shadow-none h-auto py-2">
-            <SettingsItemContent>
-              <div className="flex items-center gap-4">
-                <Label htmlFor="use-taxes-section" className="text-base font-medium text-foreground cursor-pointer">
-                  Use taxes
-                </Label>
-                <Switch id="use-taxes-section" checked={useTaxes} onCheckedChange={setUseTaxes} />
-              </div>
-            </SettingsItemContent>
-            <SettingsItemAction>
-              <Button variant="secondary" size="icon-lg" onClick={handleAddTax}>
-                <Plus className="h-5 w-5" />
-              </Button>
-            </SettingsItemAction>
-          </SettingsItem>
+          <div className="flex items-center justify-between py-2">
+            <div className="flex items-center gap-4">
+              <Label
+                htmlFor="use-taxes-section"
+                className="text-sm font-medium leading-none text-foreground cursor-pointer"
+              >
+                Use taxes
+              </Label>
+              <Switch id="use-taxes-section" checked={useTaxes} onCheckedChange={setUseTaxes} />
+            </div>
+            <Button variant="secondary" size="icon" onClick={handleAddTax} aria-label="Add tax">
+              <Plus />
+            </Button>
+          </div>
 
           {useTaxes && (
             <RadioButtonGroup
@@ -321,7 +319,7 @@ export function RadioGroupsExamplesCard() {
                     value={tax.id}
                     variant="default"
                     className={[
-                      'relative w-full !flex !flex-row items-center justify-between p-4 h-auto min-h-[72px] rounded-[18px] transition-all border',
+                      'relative w-full !flex !flex-row items-center justify-between p-4 h-auto min-h-[72px] rounded-[12px] transition-all border',
                       isSelected
                         ? 'bg-secondary text-secondary-foreground border-transparent shadow-sm'
                         : 'border bg-muted/40 hover:bg-muted/60',
@@ -331,7 +329,7 @@ export function RadioGroupsExamplesCard() {
                       <div className="flex items-center gap-2 max-w-full">
                         <span
                           className={[
-                            'text-base font-semibold truncate',
+                            'text-base font-normal truncate',
                             isSelected ? 'text-secondary-foreground' : 'text-foreground',
                           ].join(' ')}
                         >
@@ -350,14 +348,14 @@ export function RadioGroupsExamplesCard() {
 
                     <Button
                       variant="secondary"
-                      size="icon-lg"
+                      size="icon"
                       className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors shrink-0 ml-4"
                       onClick={(e) => {
                         e.stopPropagation()
                         handleRemoveTax(tax.id)
                       }}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash2 />
                     </Button>
                   </RadioButtonGroupItem>
                 )
