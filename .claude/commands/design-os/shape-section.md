@@ -1,6 +1,6 @@
 # Shape Section
 
-You are helping the user define the specification for a section of their product. This is a conversational process to establish the scope of functionality, user flows, and UI requirements.
+You are helping the user define the specification for a section of their product by analyzing provided wireframes/screenshots and cross-referencing with the PRD specification. This process extracts detailed functionality from visual designs.
 
 ## Step 1: Check Prerequisites
 
@@ -20,35 +20,31 @@ If there's only one section, auto-select it. If there are multiple sections, use
 
 Present the available sections as options.
 
-## Step 3: Gather Initial Input
+## Step 3: Request Screenshots/Wireframes
 
-Once the section is identified, invite the user to share any initial thoughts:
+Once the section is identified, ask the user to provide their wireframes/screenshots:
 
-"Let's define the scope and requirements for **[Section Title]**.
+"I need to analyze your wireframes or screenshots for **[Section Title]** to create a comprehensive specification.
 
-Do you have any notes or ideas about what this section should include? Share any thoughts about the features, user flows, or UI patterns you're envisioning. If you're not sure yet, we can start with questions."
+Please share your design files - you can upload images directly or provide links to Figma/Miro/etc. Make sure to include all screens/views for this section.
 
-Wait for their response. The user may provide raw notes or ask to proceed with questions.
+Once you provide the screenshots, I'll analyze them against the PRD requirements and extract all the functionality, UI details, and interactions."
 
-## Step 4: Ask Clarifying Questions
+## Step 4: Analyze Screenshots and PRD
 
-Use the AskUserQuestion tool to ask 4-6 targeted questions to define:
+Once the user provides screenshots/wireframes:
 
-- **Main user actions/tasks** - What can users do in this section?
-- **Information to display** - What data and content needs to be shown?
-- **Key user flows** - What are the step-by-step interactions?
-- **UI patterns** - Any specific interactions, layouts, or components needed?
-- **Scope boundaries** - What should be explicitly excluded?
+1. Read the PRD specification from `.claude/prd_spec.md` to understand the overall product context and requirements
+2. Analyze each screenshot/wireframe systematically, extracting:
+   - All visible UI components and their states
+   - User interactions and navigation flows
+   - Data display requirements
+   - Form inputs and validation patterns
+   - Error states and edge cases shown
+   - Responsive/adaptive behaviors
+   - Any annotations or notes on the designs
 
-Example questions (adapt based on their input and the section):
-- "What are the main actions a user can take in this section?"
-- "What information needs to be displayed on the primary view?"
-- "Walk me through the main user flow - what happens step by step?"
-- "Are there any specific UI patterns you want to use (e.g., tables, cards, modals)?"
-- "What's intentionally out of scope for this section?"
-- "Are there multiple views needed (e.g., list view and detail view)?"
-
-Ask questions one or two at a time, conversationally. Focus on user experience and interface requirements - no backend or database details.
+3. Cross-reference with PRD to ensure consistency and identify any gaps or conflicts
 
 ## Step 5: Ask About Shell Configuration
 
@@ -66,54 +62,40 @@ If no shell design exists yet, skip this question and default to using the shell
 
 ## Step 6: Present Draft and Refine
 
-Once you have enough information, present a draft specification:
+Based on the screenshot analysis and PRD cross-reference, present a detailed specification in the format shown in the existing `product/sections/register-and-sales/spec.md` example:
 
-"Based on our discussion, here's the specification for **[Section Title]**:
+"Based on my analysis of your wireframes and the PRD requirements, here's the comprehensive specification for **[Section Title]**:
 
-**Overview:**
-[2-3 sentence summary of what this section does]
+## [Feature Area 1]
+- **[UI Element]**: [Detailed description of component, states, interactions]
+- **[UI Element]**: [Detailed description...]
 
-**User Flows:**
-- [Flow 1]
-- [Flow 2]
-- [Flow 3]
+## [Feature Area 2]
+- **[UI Element]**: [Detailed description...]
 
-**UI Requirements:**
-- [Requirement 1]
-- [Requirement 2]
-- [Requirement 3]
+## UI & Interaction Details
+- **[Specific Detail]**: [Description of behavior, styling, or interaction]
+- **[Specific Detail]**: [Description...]
+
+## [Additional sections as needed]
 
 **Display:** [Inside app shell / Standalone]
 
-Does this capture everything? Would you like to adjust anything?"
+Does this specification accurately capture all the functionality shown in your wireframes? Would you like me to adjust any details or add anything that might be missing from the screenshots?"
 
-Iterate until the user is satisfied. Don't add features that weren't discussed. Don't leave out features that were discussed.
+Iterate until the user is satisfied. Only include features that are clearly visible in the wireframes or directly supported by the PRD.
 
 ## Step 7: Create the Spec File
 
-Once the user approves, create the file at `product/sections/[section-id]/spec.md` with this exact format:
+Once the user approves, create the file at `product/sections/[section-id]/spec.md` using the detailed functional breakdown format from the example in `product/sections/register-and-sales/spec.md`. Structure it as numbered feature areas with detailed UI and interaction descriptions.
 
-```markdown
-# [Section Title] Specification
-
-## Overview
-[The finalized 2-3 sentence description]
-
-## User Flows
-- [Flow 1]
-- [Flow 2]
-- [Flow 3]
-[Add all flows discussed]
-
-## UI Requirements
-- [Requirement 1]
-- [Requirement 2]
-- [Requirement 3]
-[Add all requirements discussed]
-
-## Configuration
-- shell: [true/false]
-```
+The file should follow this pattern:
+- **Feature Areas** as numbered sections (## 1. Feature Name)
+- **UI Components** described with their behaviors, states, and interactions
+- **UI & Interaction Details** section for cross-cutting concerns
+- **Metadata & State** section for data handling details
+- **Navigation** section for flow and routing details
+- **Configuration** section at the end with shell setting
 
 **Important:**
 - Set `shell: true` if the section should display inside the app shell (this is the default)
@@ -131,8 +113,10 @@ You can review the spec on the section page. When you're ready, run `/sample-dat
 
 ## Important Notes
 
-- Be conversational and helpful, not robotic
-- Ask follow-up questions when answers are vague
-- Focus on UX and UI - don't discuss backend, database, or API details
-- Keep the spec concise - only include what was discussed, no bloat
-- The format must match exactly for the app to parse it correctly
+- Be methodical in analyzing screenshots - examine each screen/view systematically
+- Cross-reference everything with the PRD specification to ensure consistency
+- Extract detailed UI behaviors, interactions, and states from the visual designs
+- Focus on what the wireframes explicitly show - don't add assumptions or features not visible
+- Use the detailed functional breakdown format like the register-and-sales example
+- Ask clarifying questions if wireframes are unclear or missing key states
+- Only discuss UI/UX details - backend implementation is handled separately
