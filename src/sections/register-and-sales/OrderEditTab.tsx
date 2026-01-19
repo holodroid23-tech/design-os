@@ -13,7 +13,7 @@ import { Separator } from '@/components/ui/separator'
 export const designOS = { presentation: 'modal' as const }
 
 export interface OrderEditTabProps {
-  orderName: string
+  orderName?: string
   onOrderNameChange?: (value: string) => void
   onCancel?: () => void
   onSave?: () => void
@@ -23,26 +23,28 @@ export interface OrderEditTabProps {
 }
 
 export default function OrderEditTab({
-  orderName,
+  orderName = 'Table 4',
   onOrderNameChange,
   onCancel,
   onSave,
   onClearOrder,
   onDeleteOrderTab,
   onClose,
-}: OrderEditTabProps) {
+}: OrderEditTabProps = {}) {
   return (
     <div className="w-full max-w-[420px] bg-layer-2 border border-border rounded-[18px] overflow-hidden">
       <div className="px-5 py-4 bg-layer-1 flex items-center justify-between">
         <div className="text-[20px] font-semibold">Edit order</div>
-        <button
+        <Button
           type="button"
           onClick={onClose}
-          className="h-10 w-10 rounded-[9999px] bg-layer-2 border border-border flex items-center justify-center"
+          variant="secondary"
+          size="icon-lg"
+          className="h-10 w-10 rounded-[9999px] bg-layer-2 border border-border"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
-        </button>
+        </Button>
       </div>
 
       <Separator />
@@ -75,28 +77,30 @@ export default function OrderEditTab({
       <Separator />
 
       <div className="p-2">
-        <button
+        <Button
           type="button"
           onClick={onClearOrder}
-          className="w-full flex items-center gap-3 px-3 py-3 rounded-[12px] hover:bg-layer-1"
+          variant="ghost"
+          className="w-full flex items-center gap-3 px-3 py-3 rounded-[12px] justify-start hover:bg-layer-1"
         >
           <div className="h-10 w-10 rounded-[12px] bg-layer-1 border border-border flex items-center justify-center">
             <RotateCcw className="h-5 w-5 text-muted-foreground" />
           </div>
           <div className="flex-1 text-left text-[16px] font-medium">Clear order</div>
           <ChevronRight className="h-5 w-5 text-muted-foreground" />
-        </button>
+        </Button>
 
-        <button
+        <Button
           type="button"
           onClick={onDeleteOrderTab}
-          className="w-full flex items-center gap-3 px-3 py-3 rounded-[12px] hover:bg-layer-1"
+          variant="ghost"
+          className="w-full flex items-center gap-3 px-3 py-3 rounded-[12px] justify-start hover:bg-layer-1"
         >
           <div className="h-10 w-10 rounded-[12px] bg-destructive/15 border border-border flex items-center justify-center">
             <Trash2 className="h-5 w-5 text-destructive" />
           </div>
           <div className="flex-1 text-left text-[16px] font-medium text-destructive">Delete order tab</div>
-        </button>
+        </Button>
       </div>
     </div>
   )

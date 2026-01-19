@@ -12,12 +12,13 @@ const SettingsFooter = React.forwardRef<HTMLDivElement, SettingsFooterProps>(
             <div
                 ref={ref}
                 className={cn(
-                    "flex w-full justify-center py-6 text-xs uppercase tracking-widest text-[#4A4B50] dark:text-[#4A4B50]",
+                    // Tokenized styling (avoid hex + all-caps). Keep it subtle.
+                    "flex w-full justify-center py-6 text-xs tracking-widest text-muted-foreground",
                     className
                 )}
                 {...props}
             >
-                {version} {build && <span>(BUILD {build})</span>}
+                {version} {build && <span>(build {build})</span>}
             </div>
         )
     }

@@ -1,2 +1,1 @@
-export { default, designOS } from '../../../../src/sections/settings-and-configuration/GeneralSettings'
-
+export { default, designOS } from '@/sections/settings-and-configuration/GeneralSettingsPreview'

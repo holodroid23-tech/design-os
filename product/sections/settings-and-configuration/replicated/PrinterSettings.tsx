@@ -1,2 +1,1 @@
-export { default, designOS } from '../../../../src/sections/settings-and-configuration/PrinterSettings'
-
+export { default, designOS } from '@/sections/settings-and-configuration/PrinterSettingsPreview'

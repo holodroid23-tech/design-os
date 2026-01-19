@@ -9,7 +9,8 @@ const SettingsGroup = React.forwardRef<
         <div
             ref={ref}
             className={cn(
-                "border-border-1 overflow-hidden rounded-xl border",
+                // Token + allowed radius (avoid named `rounded-*` utilities).
+                "overflow-hidden rounded-[18px] border border-border",
                 className
             )}
             {...props}
@@ -24,7 +25,7 @@ const SettingsGroup = React.forwardRef<
                     className: cn(
                         // @ts-ignore
                         child.props.className,
-                        !isLastInfo && "border-b border-border-1"
+                        !isLastInfo && "border-b border-border"
                     ),
                 })
             })}

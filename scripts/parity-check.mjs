@@ -10,16 +10,19 @@ function ok(message) {
   console.log(message)
 }
 
-const target = process.argv[2]
+const args = process.argv.slice(2)
+const strictComponents = args.includes('--strict-components')
+const target = args.find((a) => !a.startsWith('-'))
 
-if (!target || target === '--help' || target === '-h') {
-  console.log('Usage: npm run parity-check <path-to-tsx>')
+if (!target || args.includes('--help') || args.includes('-h')) {
+  console.log('Usage: npm run parity-check -- [--strict-components] <path-to-tsx>')
   console.log('')
   console.log('Checks for:')
   console.log('- inline styles (style={{...}})')
   console.log('- direct hex/rgb/hsl colors')
   console.log('- hardcoded Tailwind palette colors (e.g. bg-blue-500)')
   console.log('- forbidden rounded-* utilities and invalid rounded-[Npx]')
+  console.log('- (optional) strict component usage for replicated screens')
   process.exit(target ? 0 : 2)
 }
 
@@ -62,6 +65,15 @@ const checks = [
       'Found forbidden radius utility (use `rounded-[3px|6px|12px|18px|9999px]` only)',
   },
 ]
+
+if (strictComponents) {
+  checks.push({
+    name: 'Use UI components (no raw button/input/select/textarea)',
+    re: /<\s*(button|input|select|textarea)\b/,
+    message:
+      'Found raw element usage. Use design library primitives from `@/components/ui` (e.g. `<Button>`, `<Input>`, `<Select>`) instead.',
+  })
+}
 
 for (const c of checks) {
   if (c.re.test(content)) {

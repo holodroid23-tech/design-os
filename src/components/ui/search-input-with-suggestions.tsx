@@ -24,16 +24,25 @@ export interface SearchSuggestion {
 interface SearchInputWithSuggestionsProps extends React.ComponentProps<"input"> {
     suggestions?: SearchSuggestion[]
     onSuggestionClick?: (suggestion: SearchSuggestion) => void
+    /**
+     * Optional convenience callback for controlled usage.
+     * When provided, it will be called on typing and when a suggestion is picked.
+     */
+    onValueChange?: (value: string) => void
 }
 
 export function SearchInputWithSuggestions({
     className,
     suggestions = [],
     onSuggestionClick,
+    onValueChange,
     ...props
 }: SearchInputWithSuggestionsProps) {
     const [isOpen, setIsOpen] = React.useState(false)
-    const [query, setQuery] = React.useState("")
+    const [uncontrolledQuery, setUncontrolledQuery] = React.useState("")
+
+    const isControlled = props.value !== undefined
+    const query = (isControlled ? String(props.value ?? "") : uncontrolledQuery)
 
     // Default suggestions from the Design System
     const defaultSuggestions: SearchSuggestion[] = [
@@ -91,7 +100,9 @@ export function SearchInputWithSuggestions({
                     )}
                     value={query}
                     onChange={(e) => {
-                        setQuery(e.target.value)
+                        if (!isControlled) setUncontrolledQuery(e.target.value)
+                        onValueChange?.(e.target.value)
+                        props.onChange?.(e)
                         setIsOpen(true)
                     }}
                     onFocus={() => setIsOpen(true)}
@@ -108,7 +119,8 @@ export function SearchInputWithSuggestions({
                                 key={suggestion.id}
                                 className="flex items-center gap-4 px-5 py-4 text-left hover:bg-accent transition-colors first:pt-5 last:pb-5 group"
                                 onClick={() => {
-                                    setQuery(suggestion.label)
+                                    if (!isControlled) setUncontrolledQuery(suggestion.label)
+                                    onValueChange?.(suggestion.label)
                                     onSuggestionClick?.(suggestion)
                                     setIsOpen(false)
                                 }}

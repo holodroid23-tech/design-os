@@ -11,7 +11,7 @@ import { Separator } from '@/components/ui/separator'
 export const designOS = { presentation: 'modal' as const }
 
 export interface CashPaymentConfirmationProps {
-  amount: number
+  amount?: number
   onCancel?: () => void
   onPay?: () => void
   onClose?: () => void
@@ -21,19 +21,26 @@ function formatMoney(amount: number) {
   return new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(amount)
 }
 
-export default function CashPaymentConfirmation({ amount, onCancel, onPay, onClose }: CashPaymentConfirmationProps) {
+export default function CashPaymentConfirmation({
+  amount = 13.65,
+  onCancel,
+  onPay,
+  onClose,
+}: CashPaymentConfirmationProps = {}) {
   return (
     <div className="w-full max-w-[460px] bg-layer-2 border border-border rounded-[18px] overflow-hidden">
       <div className="px-5 py-4 bg-layer-1 flex items-center justify-between">
         <div className="text-[18px] font-semibold">Confirm cash payment</div>
-        <button
+        <Button
           type="button"
           onClick={onClose}
-          className="h-10 w-10 rounded-[9999px] bg-layer-2 border border-border flex items-center justify-center"
+          variant="secondary"
+          size="icon-lg"
+          className="h-10 w-10 rounded-[9999px] bg-layer-2 border border-border"
           aria-label="Close"
         >
           <X className="h-5 w-5" />
-        </button>
+        </Button>
       </div>
 
       <Separator />

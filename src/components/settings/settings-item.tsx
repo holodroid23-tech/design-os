@@ -63,7 +63,8 @@ const SettingsItemTitle = React.forwardRef<HTMLSpanElement, SettingsItemTitlePro
         ref={ref}
         className={cn(
           "text-regular-semibold",
-          variant === "destructive" ? "text-red-500" : "text-foreground",
+          // Use theme token classes so screens can pass parity-check.
+          variant === "destructive" ? "text-destructive" : "text-foreground",
           className
         )}
         {...props}
@@ -90,9 +91,10 @@ const SettingsItemDescription = React.forwardRef<
       className={cn(
         "text-support-small",
         tone === "default" && "text-secondary",
-        tone === "success" && "text-emerald-600 dark:text-emerald-400",
-        tone === "warning" && "text-amber-600 dark:text-amber-400",
-        tone === "danger" && "text-red-600 dark:text-red-400",
+        // Tokenized semantic tones (defined via @theme variables in `src/index.css`).
+        tone === "success" && "text-on-layer-success",
+        tone === "warning" && "text-on-layer-warning",
+        tone === "danger" && "text-destructive",
         className
       )}
       {...props}

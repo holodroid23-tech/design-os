@@ -1,6 +1,28 @@
 # Design Replication
 
-You are helping the user replicate their mockup designs using only Compost design system tokens and components. This command orchestrates the implementation of replicated designs for section mockups.
+You are helping the user replicate their mockup designs using **only** Compost design system tokens and existing UI components.
+
+## Critical mindset (this fixes the “hallucinated layout” failure mode)
+
+**Treat the mockup as a wireframe, not a pixel-perfect spec.**
+
+- The mockup provides **information architecture** (what blocks exist, rough hierarchy, and interaction intent).
+- The design system provides **actual layout rules** (spacing, radii, typography, component shapes).
+- If the mockup and design system disagree, **the design system wins**.
+
+**Never invent custom layout systems** (absolute positioning, bespoke measurements, one-off subcomponents) to “match the picture”.
+If you can’t express something using existing components + tokenized classes, you must simplify to the closest design-system pattern.
+
+## New recommended workflow (two phases)
+
+This command is split conceptually into two phases to prevent “image fixation”:
+
+1. **Phase A — Blueprint (with image)**: produce a structured blueprint describing the screen in terms of existing components/patterns and tokens. **Do not write UI code yet.**
+2. **Phase B — Implementation (no image)**: implement from the blueprint only (no mockup), then validate with parity-check.
+
+You can run both phases in one session, but **Phase B must not reference the mockup**.
+
+**Optional (recommended): after Phase A, delete or move the mockup image out of `mocks/`** so the implementation phase cannot “peek” and regress into pixel-chasing.
 
 ## Step 1: Check Prerequisites
 
@@ -97,7 +119,7 @@ Read the following files to gather context:
 7. `/product/sections/[section-id]/spec.md` — Section specification (if exists)
 8. `/product/sections/[section-id]/data.json` — Sample data (if exists)
 
-### 5b. Load Mockup Image
+### 5b. Load Mockup Image (Phase A only)
 
 Read the mockup image from `product/sections/[section-id]/mocks/[mockup-name].png`.
 
@@ -107,7 +129,32 @@ Convert the mockup filename to PascalCase:
 - `analytics-cashier-view.png` → `AnalyticsCashierView`
 - `expense-list.png` → `ExpenseList`
 
-### 5d. Implement Component
+### 5d. Phase A — Generate a Blueprint (no code yet)
+
+Create a blueprint that ONLY uses:
+- components from `@/components/ui`
+- settings building blocks from `src/components/settings/*`
+- tokenized classes proven to exist (from `src/index.css`)
+- allowed radii only: `rounded-[3px|6px|12px|18px|9999px]`
+
+**Blueprint format (write this into the response before coding):**
+
+- Screen name + presentation (`page` | `mobile` | `modal`)
+- A hierarchy tree (containers → sections → rows → controls)
+- A component mapping table:
+
+| UI block | Component/pattern | Props/data | Tokens/classes |
+|---|---|---|---|
+
+**Blueprint constraints:**
+- No pixel-precision statements (“8px from the left”, “exactly 13px gap”).
+- No absolute positioning unless the same pattern exists in `ComponentExamples.tsx`.
+- No new components. If something doesn’t map cleanly, replace it with the nearest pattern.
+
+Save the blueprint into the repo at:
+`product/sections/[section-id]/replicated-blueprints/[ComponentName].md`
+
+### 5e. Phase B — Implement from Blueprint (do NOT look at the mockup)
 
 Using **Screen Coding Workflow v4: Design System Reference Mandatory** (below), implement the component.
 
@@ -299,7 +346,7 @@ export default function [ComponentName]({ data, onAction }: [ComponentName]Props
 }
 ```
 
-### 5e. Validate Implementation
+### 5f. Validate Implementation
 
 After generating the component, validate:
 
@@ -312,11 +359,17 @@ After generating the component, validate:
 - ✅ **Preview-safe**: component renders with no props (`<[ComponentName] />`) without runtime errors
 - ✅ Mobile responsive
 - ✅ Light/dark mode support
-- ✅ Parity check passes: `npm run parity-check src/sections/[section-id]/[ComponentName].tsx`
+- ✅ Parity check passes:
+  - Standard: `npm run parity-check -- src/sections/[section-id]/[ComponentName].tsx`
+  - **Strict library assembly (recommended for replication work)**: `npm run parity-check -- --strict-components src/sections/[section-id]/[ComponentName].tsx`
+- ✅ **Replication Name Parity Check**:
+  - The registration file at `product/sections/[section-id]/replicated/[ComponentName].tsx` MUST **exactly match** the PascalCase name of the mockup file (e.g. `settings.png` → `Settings.tsx`).
+  - **DO NOT** append suffixes like `Preview` or `Screen` (e.g., `SettingsPreview.tsx` is WRONG).
+  - If you created the file with a suffix, **rename it now** to match the mockup name exactly so it registers correctly in the app.
 
 If validation fails, fix the issues before continuing.
 
-### 5f. Report Success
+### 5g. Report Success
 
 After successfully creating the component:
 

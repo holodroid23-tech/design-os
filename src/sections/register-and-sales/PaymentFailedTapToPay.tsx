@@ -10,10 +10,10 @@ import { Button } from '@/components/ui/button'
 export const designOS = { presentation: 'mobile' as const }
 
 export interface PaymentFailedTapToPayProps {
-  amount: number
-  transactionId: string
-  orderName: string
-  failureReason: string
+  amount?: number
+  transactionId?: string
+  orderName?: string
+  failureReason?: string
   onClose?: () => void
   onChangePaymentMethod?: () => void
   onRetryPayment?: () => void
@@ -24,24 +24,26 @@ function formatMoney(amount: number) {
 }
 
 export default function PaymentFailedTapToPay({
-  amount,
-  transactionId,
-  orderName,
-  failureReason,
+  amount = 13.65,
+  transactionId = 'txn_402_1a2b',
+  orderName = 'Table 4',
+  failureReason = 'Card declined by bank',
   onClose,
   onChangePaymentMethod,
   onRetryPayment,
-}: PaymentFailedTapToPayProps) {
+}: PaymentFailedTapToPayProps = {}) {
   return (
     <div className="min-h-full bg-layer-level-0 text-foreground relative">
-      <button
+      <Button
         type="button"
         onClick={onClose}
-        className="absolute right-4 top-4 h-10 w-10 rounded-[9999px] bg-layer-2 border border-border flex items-center justify-center"
+        variant="secondary"
+        size="icon-lg"
+        className="absolute right-4 top-4 h-10 w-10 rounded-[9999px] bg-layer-2 border border-border"
         aria-label="Close"
       >
         <X className="h-5 w-5" />
-      </button>
+      </Button>
 
       <div className="px-6 pt-24 flex flex-col items-center text-center">
         <div className="relative mb-10">

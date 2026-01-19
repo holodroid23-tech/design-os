@@ -4,16 +4,24 @@
  * This component replicates the `order-expanded-card.png` mockup using the Compost design system.
  */
 
-import { ChevronDown, Search, Minus, Plus } from 'lucide-react'
+import { ChevronDown, Minus, Plus } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { ImageTile } from '@/components/ui/image-tile'
+import { SearchInputWithSuggestions, type SearchSuggestion } from '@/components/ui/search-input-with-suggestions'
+import {
+  SettingsItem,
+  SettingsItemAction,
+  SettingsItemContent,
+  SettingsItemIcon,
+  SettingsItemTitle,
+} from '@/components/settings/settings-item'
 import type { Order, PaymentMethod } from './types'
 
 export const designOS = { presentation: 'mobile' as const }
 
 export interface OrderExpandedCardProps {
-  order: Order
+  order?: Order
   itemImageByProductId?: Record<string, string>
   quickAddQuery?: string
   onQuickAddQueryChange?: (value: string) => void
@@ -26,15 +34,39 @@ function formatMoney(amount: number) {
   return new Intl.NumberFormat(undefined, { style: 'currency', currency: 'USD' }).format(amount)
 }
 
+const DEMO_ORDER: Order = {
+  id: 'o1',
+  orderNumber: '402',
+  name: 'Table 4',
+  items: [
+    { id: 'oi1', productId: 'p10', name: 'Double Espresso', price: 4.5, quantity: 1 },
+    { id: 'oi2', productId: 'p5', name: 'Flat White', price: 4.5, quantity: 1 },
+    { id: 'oi3', productId: 'p11', name: 'Blueberry Muffin', price: 3.5, quantity: 1 },
+  ],
+  subtotal: 12.5,
+  tax: 1.15,
+  total: 13.65,
+}
+
 export default function OrderExpandedCard({
-  order,
+  order = DEMO_ORDER,
   itemImageByProductId,
   quickAddQuery,
   onQuickAddQueryChange,
   onUpdateQuantity,
   onCheckout,
   onCollapse,
-}: OrderExpandedCardProps) {
+}: OrderExpandedCardProps = {}) {
+  const suggestions: SearchSuggestion[] = order.items.map((item) => {
+    const src = itemImageByProductId?.[item.productId]
+    return {
+      id: item.id,
+      label: item.name,
+      leading: <ImageTile size="small" src={src} alt={item.name} />,
+      price: formatMoney(item.price),
+    }
+  })
+
   return (
     <div className="min-h-full bg-layer-level-0 text-foreground">
       <div className="p-4 pt-6 pb-36">
@@ -42,74 +74,70 @@ export default function OrderExpandedCard({
           <div className="text-[22px] font-semibold tracking-tight">
             {order.orderNumber} - {order.name}
           </div>
-          <button
+          <Button
             type="button"
             onClick={onCollapse}
-            className="h-10 w-10 rounded-[9999px] bg-layer-2 border border-border flex items-center justify-center"
+            variant="ghost"
+            size="icon-lg"
+            className="h-10 w-10 rounded-[9999px] bg-layer-2 border border-border"
             aria-label="Collapse"
           >
             <ChevronDown className="h-5 w-5" />
-          </button>
+          </Button>
         </div>
 
         {/* Search */}
-        <div className="relative mb-4">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-          <Input
+        <div className="mb-4">
+          <SearchInputWithSuggestions
             value={quickAddQuery ?? ''}
-            onChange={(e) => onQuickAddQueryChange?.(e.target.value)}
+            onValueChange={(value) => onQuickAddQueryChange?.(value)}
             placeholder="Search items…"
-            className="h-12 pl-12 rounded-[12px] bg-layer-2 border-border"
+            suggestions={suggestions}
+            className="h-12 rounded-[12px] bg-layer-2 border-border text-foreground placeholder:text-muted-foreground"
           />
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {order.items.map((item) => {
             const image = itemImageByProductId?.[item.productId]
 
             return (
-              <div key={item.id} className="bg-layer-2 border border-border rounded-[18px] p-4">
-                <div className="flex items-start gap-3">
-                  <div
-                    className={cn(
-                      'h-14 w-14 rounded-[12px] overflow-hidden bg-layer-3 border border-border flex items-center justify-center'
-                    )}
-                  >
-                    {image ? (
-                      <img src={image} alt={item.name} className="h-full w-full object-cover" />
-                    ) : (
-                      <div className="h-2 w-2 rounded-[9999px] bg-layer-highlight" />
-                    )}
-                  </div>
+              <SettingsItem key={item.id} className="bg-layer-2 border border-border rounded-[18px] p-3 h-auto min-h-0 items-center">
+                <SettingsItemIcon>
+                  <ImageTile size="medium" src={image} alt={item.name} className={cn(!image ? 'bg-layer-3 border border-border' : '')} />
+                </SettingsItemIcon>
 
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="text-[18px] font-semibold truncate">{item.name}</div>
-                      <div className="text-[18px] font-semibold">{formatMoney(item.price)}</div>
-                    </div>
+                <SettingsItemContent>
+                  <SettingsItemTitle className="text-[18px] font-semibold">{item.name}</SettingsItemTitle>
+                </SettingsItemContent>
 
-                    <div className="mt-3 inline-flex items-center gap-3 bg-layer-3 border border-border rounded-[12px] px-3 h-10">
-                      <button
-                        type="button"
-                        onClick={() => onUpdateQuantity?.(item.id, -1)}
-                        className="h-8 w-8 rounded-[9999px] bg-layer-2 border border-border flex items-center justify-center"
-                        aria-label="Decrease quantity"
-                      >
-                        <Minus className="h-4 w-4" />
-                      </button>
-                      <div className="w-6 text-center text-[15px] font-semibold">{item.quantity}</div>
-                      <button
-                        type="button"
-                        onClick={() => onUpdateQuantity?.(item.id, +1)}
-                        className="h-8 w-8 rounded-[9999px] bg-layer-2 border border-border flex items-center justify-center"
-                        aria-label="Increase quantity"
-                      >
-                        <Plus className="h-4 w-4" />
-                      </button>
-                    </div>
+                <SettingsItemAction className="flex items-center gap-4">
+                  <div className="flex items-center gap-1 bg-layer-3 border border-border rounded-[12px] p-1">
+                    <Button
+                      type="button"
+                      variant="invisible"
+                      size="icon-sm"
+                      className="h-8 w-8 rounded-[9999px] bg-layer-2 border border-border"
+                      onClick={() => onUpdateQuantity?.(item.id, -1)}
+                      aria-label="Decrease quantity"
+                    >
+                      <Minus className="h-4 w-4" />
+                    </Button>
+                    <div className="w-6 text-center text-[15px] font-semibold">{item.quantity}</div>
+                    <Button
+                      type="button"
+                      variant="invisible"
+                      size="icon-sm"
+                      className="h-8 w-8 rounded-[9999px] bg-layer-2 border border-border"
+                      onClick={() => onUpdateQuantity?.(item.id, +1)}
+                      aria-label="Increase quantity"
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
                   </div>
-                </div>
-              </div>
+                  <div className="text-[15px] font-mono font-semibold">{formatMoney(item.price)}</div>
+                </SettingsItemAction>
+              </SettingsItem>
             )
           })}
         </div>
