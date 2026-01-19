@@ -50,7 +50,9 @@ function PreviewSurface({
       className="w-[420px] max-w-[calc(100vw-2rem)] aspect-[9/19.5] rounded-[24px] border border-border bg-background shadow-2xl overflow-hidden relative transform-gpu"
     >
       <PreviewPortalContainerProvider container={portalContainer}>
-        <div className="h-full w-full overflow-y-auto overscroll-contain">{children}</div>
+        <div className="h-full w-full overflow-y-auto overscroll-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {children}
+        </div>
         {/* Portal root for Radix-based overlays inside the preview. */}
         <div ref={setPortalContainer} className="absolute left-0 top-0 h-0 w-0" />
       </PreviewPortalContainerProvider>
