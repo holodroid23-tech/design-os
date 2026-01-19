@@ -79,7 +79,7 @@ export function SettingsComponentsExamplesCard() {
                 <IconTile icon={LogOut} size="small" variant="tile" tone="danger" />
               </SettingsItemIcon>
               <SettingsItemContent>
-                <SettingsItemTitle className="text-onLayer-danger">Log out</SettingsItemTitle>
+                <SettingsItemTitle variant="destructive">Log out</SettingsItemTitle>
               </SettingsItemContent>
             </SettingsItem>
           </SettingsGroup>

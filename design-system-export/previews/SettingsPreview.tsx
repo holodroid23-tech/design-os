@@ -40,7 +40,7 @@ export function SettingsPreview() {
                         email="holodroid23@gmail.com"
                         initials="G"
                         showBadge={true}
-                        badgeText="ADMIN"
+                        badgeText="Admin"
                         status="online"
                     />
                 </SettingsGroup>

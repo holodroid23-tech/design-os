@@ -76,6 +76,7 @@ export default function ExpenseManagementNewItem() {
                   onPressedChange={setFavorite}
                   icon={Star}
                   label={favorite ? "Unfavorite" : "Favorite"}
+                  variant="ghost"
                   fillIconWhenPressed
                   pressedIconClassName="text-amber-400 fill-amber-400"
                 />

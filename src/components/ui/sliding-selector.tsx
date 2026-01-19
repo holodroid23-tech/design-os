@@ -1,14 +1,12 @@
 import * as React from "react"
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "./sheet"
-import { Button } from "./button"
-import { cn } from "../../lib/utils"
+import { XIcon } from "lucide-react"
 
+import { BottomSheetScaffold } from "./bottom-sheet"
+import { Button } from "./button"
 import { Checkbox } from "./checkbox"
+import { SectionTitle } from "./section-title"
+import { Sheet, SheetClose, SheetContent } from "./sheet"
+import { cn } from "@/lib/utils"
 
 interface SlidingSelectorProps {
   open: boolean
@@ -75,76 +73,92 @@ export function SlidingSelector({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="p-0 flex flex-col max-h-[60vh]">
-        <SheetHeader className="px-4 py-3 border-b flex-shrink-0">
-          <SheetTitle className="text-lg font-semibold">
-            {title}
-          </SheetTitle>
-        </SheetHeader>
+      <SheetContent side="bottom" className="p-0 overflow-y-hidden max-h-none" showCloseButton={false}>
+        <BottomSheetScaffold
+          bodyClassName="overflow-hidden"
+          header={
+            <SectionTitle
+              titleAs="h2"
+              trailing={
+                <SheetClose asChild>
+                  <Button variant="invisible" size="icon" aria-label="Close">
+                    <XIcon className="size-4" />
+                  </Button>
+                </SheetClose>
+              }
+            >
+              {title}
+            </SectionTitle>
+          }
+          footer={
+            multiple ? (
+              <Button onClick={() => onOpenChange(false)} className="w-full">
+                Done
+              </Button>
+            ) : undefined
+          }
+        >
+          <div className="flex min-h-0 flex-1 flex-col">
+            <div className="relative min-h-0 flex-1">
+              <div
+                ref={scrollContainerRef}
+                className={cn(
+                  "min-h-0 h-full overflow-y-auto scroll-smooth",
+                  !multiple && "snap-y snap-mandatory"
+                )}
+              >
+                <div className={cn("py-2", !multiple && "py-[calc(30vh/2-22px)]")}>
+                  {options.map((option) => {
+                    const isSelected = multiple
+                      ? (Array.isArray(selectedValue) && selectedValue.includes(option.value))
+                      : option.value === selectedValue
 
-        <div className="relative flex-1 flex flex-col min-h-0">
-          {/* Scrollable options list */}
-          <div
-            ref={scrollContainerRef}
-            className={cn(
-              "flex-1 overflow-y-auto scroll-smooth",
-              !multiple && "snap-y snap-mandatory"
-            )}
-            style={!multiple ? { scrollSnapType: 'y mandatory' } : undefined}
-          >
-            <div className={cn("py-2", !multiple && "py-[calc(30vh/2-22px)]")}>
-              {options.map((option) => {
-                const isSelected = multiple
-                  ? (Array.isArray(selectedValue) && selectedValue.includes(option.value))
-                  : option.value === selectedValue
+                    return (
+                      <button
+                        key={option.value}
+                        ref={!multiple && isSelected ? selectedItemRef : null}
+                        type="button"
+                        onClick={() => handleSelect(option.value)}
+                        className={cn(
+                          "w-full flex items-center transition-colors",
+                          multiple
+                            ? "px-6 py-3 border-b border-border/40 last:border-0 hover:bg-accent/50"
+                            : "h-11 justify-center snap-center hover:bg-accent/50"
+                        )}
+                      >
+                        {multiple && (
+                          <Checkbox
+                            checked={isSelected}
+                            className="mr-3"
+                            onCheckedChange={() => handleSelect(option.value)}
+                          />
+                        )}
+                        <span
+                          className={cn(
+                            "text-base font-normal truncate",
+                            isSelected ? "text-foreground font-medium" : "text-muted-foreground"
+                          )}
+                        >
+                          {option.label}
+                        </span>
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
 
-                return (
-                  <button
-                    key={option.value}
-                    ref={(!multiple && isSelected) ? selectedItemRef : null}
-                    type="button"
-                    onClick={() => handleSelect(option.value)}
-                    className={cn(
-                      "w-full flex items-center transition-colors",
-                      multiple
-                        ? "px-4 py-3 border-b last:border-0 hover:bg-accent"
-                        : "h-11 justify-center snap-center hover:bg-accent"
-                    )}
-                    style={!multiple ? { scrollSnapAlign: 'center' } : undefined}
-                  >
-                    {multiple && (
-                      <Checkbox
-                        checked={isSelected}
-                        className="mr-3"
-                        onCheckedChange={() => handleSelect(option.value)}
-                      />
-                    )}
-                    <span className={cn(
-                      "text-base font-normal truncate",
-                      isSelected
-                        ? "text-foreground font-medium"
-                        : "text-muted-foreground"
-                    )}>
-                      {option.label}
-                    </span>
-                  </button>
-                )
-              })}
+              {/* Edge masks: ensure list items fully tuck away while scrolling */}
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 top-0 h-5 bg-gradient-to-b from-background to-transparent"
+              />
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-x-0 bottom-0 h-5 bg-gradient-to-t from-background to-transparent"
+              />
             </div>
           </div>
-        </div>
-
-        {/* Done button - Only for multiple selection */}
-        {multiple && (
-          <div className="px-4 py-3 border-t bg-muted/50">
-            <Button
-              onClick={() => onOpenChange(false)}
-              className="w-full"
-            >
-              Done
-            </Button>
-          </div>
-        )}
+        </BottomSheetScaffold>
       </SheetContent>
     </Sheet>
   )

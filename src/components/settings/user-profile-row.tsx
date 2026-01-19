@@ -2,6 +2,7 @@ import * as React from "react"
 import { ChevronRight, User } from "lucide-react"
 import { cn } from "../../lib/utils"
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar"
+import { Badge } from "../ui/badge"
 
 interface UserProfileRowProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     name: string
@@ -37,9 +38,7 @@ const UserProfileRow = React.forwardRef<HTMLButtonElement, UserProfileRowProps>(
                         <div className="flex items-center gap-2">
                             <span className="text-regular-semibold text-foreground">{name}</span>
                             {showBadge && (
-                                <span className="bg-primary/20 text-primary px-1.5 py-0.5 rounded text-[10px] font-bold leading-none uppercase">
-                                    {badgeText}
-                                </span>
+                                <Badge variant="ghost">{badgeText}</Badge>
                             )}
                         </div>
                         <span className="text-support-small text-muted-foreground">{email}</span>
