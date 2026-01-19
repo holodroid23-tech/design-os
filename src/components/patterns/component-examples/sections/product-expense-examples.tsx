@@ -61,78 +61,115 @@ export function ProductExpenseCardsExamplesCard() {
 
             <Separator />
 
-            <div className="grid grid-cols-3 gap-3">
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-primary border border-border flex flex-col items-center justify-center p-3 shadow-md text-primary-foreground">
-                <div className="absolute top-1.5 right-1.5 z-20">
-                  <Badge className="h-6 w-6 p-0 flex items-center justify-center rounded-full bg-primary-foreground text-primary font-mono text-[10px] font-bold border-none shadow-sm">
-                    1
-                  </Badge>
-                </div>
-                <div className="h-full flex flex-col items-center justify-center relative z-10 text-center">
-                  <SettingsItemTitle className="font-sans font-semibold text-base text-primary-foreground tracking-tight">
-                    Macchiato
+            {/* Actions Subsection */}
+            <div className="space-y-3">
+              <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Actions</Label>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-layer-2 border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground hover:bg-layer-3 transition-colors cursor-pointer active:scale-95">
+                  <Plus className="h-8 w-8 mb-2 text-primary" />
+                  <SettingsItemTitle className="font-sans font-semibold text-base tracking-tight text-center leading-tight">
+                    Custom expense
                   </SettingsItemTitle>
-                  <p className="font-mono text-sm opacity-80">$3.75</p>
                 </div>
-                <div className="absolute bottom-1.5 left-1.5 z-20">
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-primary-foreground"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </Button>
-                </div>
-                <div className="absolute bottom-1.5 right-1.5 z-20">
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-primary-foreground"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-layer-2 border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground hover:bg-layer-3 transition-colors cursor-pointer active:scale-95">
+                  <Plus className="h-8 w-8 mb-2 text-primary" />
+                  <SettingsItemTitle className="font-sans font-semibold text-base tracking-tight text-center leading-tight">
+                    Custom item
+                  </SettingsItemTitle>
                 </div>
               </div>
+            </div>
 
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-secondary border border-border flex flex-col items-center justify-center p-3 shadow-md text-secondary-foreground">
-                <div className="absolute top-1.5 right-1.5 z-20">
-                  <Badge className="h-6 w-6 p-0 flex items-center justify-center rounded-full bg-secondary-foreground text-secondary font-mono text-[10px] font-bold border-none shadow-sm">
-                    2
-                  </Badge>
-                </div>
-                <div className="h-full flex flex-col items-center justify-center relative z-10 text-center">
-                  <SettingsItemTitle className="font-sans font-semibold text-base text-secondary-foreground tracking-tight">
-                    Cappuccino
+            {/* Folders Subsection */}
+            <div className="space-y-3">
+              <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Folders</Label>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-layer-2 border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground hover:bg-layer-3 transition-colors cursor-pointer active:scale-95">
+                  <Folder className="h-8 w-8 mb-2 text-layer-info" />
+                  <SettingsItemTitle className="font-sans font-semibold text-base tracking-tight text-center leading-tight">
+                    Drinks
                   </SettingsItemTitle>
-                  <p className="font-mono text-sm opacity-80">$4.50</p>
                 </div>
-                <div className="absolute bottom-1.5 left-1.5 z-20">
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-secondary-foreground"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Minus className="h-4 w-4" />
-                  </Button>
-                </div>
-                <div className="absolute bottom-1.5 right-1.5 z-20">
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-secondary-foreground"
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-layer-2 border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground hover:bg-layer-3 transition-colors cursor-pointer active:scale-95">
+                  <Folder className="h-8 w-8 mb-2 text-layer-info" />
+                  <SettingsItemTitle className="font-sans font-semibold text-base tracking-tight text-center leading-tight">
+                    Food
+                  </SettingsItemTitle>
                 </div>
               </div>
+            </div>
 
-              <div className="relative aspect-square rounded-2xl overflow-hidden bg-background border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground">
-                <SettingsItemTitle className="font-sans font-semibold text-base tracking-tight">Custom item</SettingsItemTitle>
-                <p className="text-sm text-muted-foreground">No price</p>
+            {/* Products Subsection */}
+            <div className="space-y-3">
+              <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Products</Label>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-primary border border-border flex flex-col items-center justify-center p-3 shadow-md text-primary-foreground">
+                  <div className="absolute top-1.5 right-1.5 z-20">
+                    <Badge className="h-6 w-6 p-0 flex items-center justify-center rounded-full bg-primary-foreground text-primary font-mono text-[10px] font-bold border-none shadow-sm">
+                      1
+                    </Badge>
+                  </div>
+                  <div className="h-full flex flex-col items-center justify-center relative z-10 text-center">
+                    <SettingsItemTitle className="font-sans font-semibold text-base text-primary-foreground tracking-tight">
+                      Macchiato
+                    </SettingsItemTitle>
+                    <p className="font-mono text-sm opacity-80">$3.75</p>
+                  </div>
+                  <div className="absolute bottom-1.5 left-1.5 z-20">
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-primary-foreground"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="absolute bottom-1.5 right-1.5 z-20">
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-primary-foreground"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                <div className="relative aspect-square rounded-2xl overflow-hidden bg-secondary border border-border flex flex-col items-center justify-center p-3 shadow-md text-secondary-foreground">
+                  <div className="absolute top-1.5 right-1.5 z-20">
+                    <Badge className="h-6 w-6 p-0 flex items-center justify-center rounded-full bg-secondary-foreground text-secondary font-mono text-[10px] font-bold border-none shadow-sm">
+                      2
+                    </Badge>
+                  </div>
+                  <div className="h-full flex flex-col items-center justify-center relative z-10 text-center">
+                    <SettingsItemTitle className="font-sans font-semibold text-base text-secondary-foreground tracking-tight">
+                      Cappuccino
+                    </SettingsItemTitle>
+                    <p className="font-mono text-sm opacity-80">$4.50</p>
+                  </div>
+                  <div className="absolute bottom-1.5 left-1.5 z-20">
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-secondary-foreground"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Minus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="absolute bottom-1.5 right-1.5 z-20">
+                    <Button
+                      variant="ghost"
+                      size="icon-sm"
+                      className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-secondary-foreground"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      <Plus className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
