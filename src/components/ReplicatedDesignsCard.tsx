@@ -5,6 +5,7 @@ import { Check, Circle } from 'lucide-react'
 import type { MockupInfo } from '@/types/section'
 import { loadProductData } from '@/lib/product-loader'
 import { applyDesignSystemToElement } from '@/lib/apply-design-system'
+import { PreviewPortalContainerProvider } from '@/components/previews/PreviewPortalContext'
 
 interface ReplicatedDesignsCardProps {
   mocks: MockupInfo[]
@@ -23,46 +24,36 @@ function inferPresentationFromMock(mock: MockupInfo): PreviewPresentation {
 }
 
 function PreviewSurface({
-  presentation,
+  presentation: _presentation,
   children,
+  onFrameRectRef,
 }: {
   presentation: PreviewPresentation
   children: React.ReactNode
+  onFrameRectRef?: (el: HTMLDivElement | null) => void
 }) {
+  void _presentation
   const designSystem = useMemo(() => loadProductData().designSystem, [])
   const scopeRef = useRef<HTMLDivElement | null>(null)
+  const [portalContainer, setPortalContainer] = useState<HTMLElement | null>(null)
 
   useEffect(() => {
     applyDesignSystemToElement(scopeRef.current, designSystem)
   }, [designSystem])
 
-  if (presentation === 'mobile') {
-    return (
-      <div className="p-4">
-        <div
-          ref={scopeRef}
-          className="mx-auto w-full max-w-[420px] aspect-[9/19.5] rounded-[24px] border border-border bg-background shadow-2xl overflow-hidden"
-        >
-          <div className="h-full w-full overflow-y-auto overscroll-contain">{children}</div>
-        </div>
-      </div>
-    )
-  }
-
-  if (presentation === 'modal') {
-    return (
-      <div ref={scopeRef} className="w-full max-w-lg mx-auto">
-        {children}
-      </div>
-    )
-  }
-
   return (
     <div
-      ref={scopeRef}
-      className="w-[min(1100px,calc(100vw-2rem))] max-h-[85vh] overflow-y-auto mx-auto"
+      ref={(el) => {
+        scopeRef.current = el
+        onFrameRectRef?.(el)
+      }}
+      className="w-[420px] max-w-[calc(100vw-2rem)] aspect-[9/19.5] rounded-[24px] border border-border bg-background shadow-2xl overflow-hidden relative transform-gpu"
     >
-      {children}
+      <PreviewPortalContainerProvider container={portalContainer}>
+        <div className="h-full w-full overflow-y-auto overscroll-contain">{children}</div>
+        {/* Portal root for Radix-based overlays inside the preview. */}
+        <div ref={setPortalContainer} className="absolute left-0 top-0 h-0 w-0" />
+      </PreviewPortalContainerProvider>
     </div>
   )
 }
@@ -87,6 +78,7 @@ function ReplicatedDesignModal({
   const [presentation, setPresentation] = useState<PreviewPresentation>(
     inferPresentationFromMock(mock),
   )
+  const frameElRef = useRef<HTMLDivElement | null>(null)
 
   const inferredPresentation = useMemo(() => inferPresentationFromMock(mock), [mock])
 
@@ -100,12 +92,20 @@ function ReplicatedDesignModal({
 
       // Dynamically import the component
       import(`../../product/sections/${sectionId}/replicated/${mock.componentName}.tsx`)
-        .then((module) => {
-          setComponent(() => module.default)
-          const modulePresentation = (module as any)?.designOS?.presentation as
-            | PreviewPresentation
-            | undefined
-          if (modulePresentation === 'page' || modulePresentation === 'mobile' || modulePresentation === 'modal') {
+        .then((module: unknown) => {
+          const typedModule = module as {
+            default: React.ComponentType
+            designOS?: { presentation?: PreviewPresentation }
+          }
+
+          setComponent(() => typedModule.default)
+
+          const modulePresentation = typedModule.designOS?.presentation
+          if (
+            modulePresentation === 'page' ||
+            modulePresentation === 'mobile' ||
+            modulePresentation === 'modal'
+          ) {
             setPresentation(modulePresentation)
           }
           setLoading(false)
@@ -117,6 +117,31 @@ function ReplicatedDesignModal({
         })
   }, [inferredPresentation, isOpen, mock.componentName, mock.isReplicated, sectionId])
 
+  // Preview-only: reliably close when clicking outside the phone frame,
+  // even if the replicated component renders its own full-viewport overlays.
+  useEffect(() => {
+    if (!isOpen) return
+
+    const handlePointerDownCapture = (event: PointerEvent) => {
+      const frameEl = frameElRef.current
+      if (!frameEl) return
+
+      // If click is inside the visible phone frame bounds, don't close.
+      const rect = frameEl.getBoundingClientRect()
+      const x = event.clientX
+      const y = event.clientY
+      const isInside =
+        x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom
+
+      if (!isInside) onClose()
+    }
+
+    document.addEventListener('pointerdown', handlePointerDownCapture, true)
+    return () => {
+      document.removeEventListener('pointerdown', handlePointerDownCapture, true)
+    }
+  }, [isOpen, onClose])
+
   return (
     <Dialog
       open={isOpen}
@@ -126,7 +151,8 @@ function ReplicatedDesignModal({
     >
       <DialogContent
         showCloseButton={false}
-        className="max-w-none w-auto border-0 bg-transparent p-0 shadow-none"
+        showOverlay
+        className="w-fit max-w-none sm:max-w-none border-0 bg-transparent p-0 shadow-none"
       >
         {loading && (
           <div className="flex items-center justify-center py-12 px-6">
@@ -144,7 +170,12 @@ function ReplicatedDesignModal({
         )}
 
         {!loading && !error && Component && (
-          <PreviewSurface presentation={presentation}>
+          <PreviewSurface
+            presentation={presentation}
+            onFrameRectRef={(el) => {
+              frameElRef.current = el
+            }}
+          >
             <Suspense fallback={<div className="p-6">Loading...</div>}>
               <Component />
             </Suspense>

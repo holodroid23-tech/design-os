@@ -23,8 +23,14 @@
     - Use semantic colors like `bg-muted`, `bg-card`, `bg-secondary`.
 4.  **THE DEFAULT RULE**: If the Blueprint says "Extra Large", but the component only has `size="lg"`, you **must** use `size="lg"`. You are not allowed to "compensate" by adding font-size or padding to the component.
 5.  **MANDATORY PATTERNS**:
-    - **Toggles**: Always align layout as `flex gap-4 items-center` (Switch next to Label). Do NEVER use `justify-between` (Switch on far right) unless explicitly demanded.
+    - **Toggles (atomic items vs inline)**:
+        - **Atomic item row toggle (default in settings)**: Put the `Switch` in `SettingsItemAction` (trailing). Do **not** use `justify-between` on the row; rely on `SettingsItemContent` + `SettingsItemAction`.
+        - **Inline/grouped toggle**: Only place `Label` + `Switch` together (e.g. `flex gap-4 items-center`) if the Blueprint explicitly calls for a grouped alignment.
     - **Headers**: Use `<SectionTitle leading={<ChevronLeft .../>} interactive ...>` for back navigation. Do NOT build manual flex rows with separate Buttons.
+    - **Settings rows (choose intent first)**:
+        - **Navigation rows (destinations)**: Use `SettingsGroup` + `SettingsItem` composition (leading media/icon + title/description + trailing chevron/value). This is for “sections in settings” that route to another screen.
+        - **Atomic items (controls)**: Use the **same** `SettingsGroup` + `SettingsItem` family, but with a trailing **control** (`Switch`, action `Button`, stacked actions). This is for settings that are changed in-place inside a section.
+        - **Rule of thumb**: If the row contains a `Switch`, it is almost always an **Atomic item**, not a navigation row.
     - **Radio Groups**: Use `variant="default"`. Avoid manual class overrides on items.
     - **Text Sizing**: Trust the component default sizes (e.g. 18px for SectionTitle). Do not add `text-[size]` classes manually.
     - **Modals**: 
@@ -32,6 +38,12 @@
         - **Complex**: Standard left-aligned Header and right-aligned Footer (default behavior).
         - **Fullscreen**: Use `className="inset-0 top-0 left-0 max-w-none h-[100dvh] w-[100dvw] rounded-none"` on Content.
 6.  **EXPORT DEFAULT**: You **MUST** use `export default function [ComponentName]() {...}`. Named exports will fail to load in the previewer.
+
+### Practical “When to Choose What” Examples
+- **Settings sections (navigation)**: “Inventory”, “Expenses”, “Users”, “General” on a settings root screen → `SettingsGroup` / `SettingsItem` + trailing chevron/value.
+  - Reference: `src/components/patterns/component-examples/sections/settings-examples.tsx` (`SettingsComponentsExamplesCard`)
+- **Atomic items (controls)**: “Toggle option”, “Receipt printer (offline) + Reconnect”, “Kitchen printer + Test” inside a settings section → `SettingsGroup` / `SettingsItem` + trailing `Switch`/`Button`.
+  - Reference: `src/components/patterns/component-examples/sections/building-blocks-examples.tsx` (`AtomicItemsExamplesCard`)
 
 ---
 
