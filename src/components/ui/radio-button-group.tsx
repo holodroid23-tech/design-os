@@ -29,7 +29,7 @@ const radioButtonGroupItemVariants = cva(
         variants: {
             variant: {
                 default: "rounded-md border border-input bg-transparent data-[state=checked]:bg-secondary data-[state=checked]:text-secondary-foreground data-[state=checked]:border-transparent",
-                surface: "rounded-md bg-muted/50 text-muted-foreground hover:bg-muted data-[state=checked]:bg-background data-[state=checked]:text-foreground data-[state=checked]:shadow-sm",
+                surface: "rounded-md border border-input bg-transparent data-[state=checked]:bg-secondary data-[state=checked]:text-secondary-foreground data-[state=checked]:border-transparent",
                 card: "rounded-[18px] border border-foreground/10 bg-transparent hover:bg-accent/40 data-[state=checked]:bg-secondary/50 data-[state=checked]:text-foreground data-[state=checked]:border-transparent whitespace-normal",
             },
             size: {

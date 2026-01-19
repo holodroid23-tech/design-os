@@ -44,7 +44,7 @@
 | Close action | `@/components/ui/dialog` | `DialogClose` (or `DialogContent` default close button via `showCloseButton`) |
 | Section title | `@/components/ui/section-title` | `SectionTitle` (`titleAs="h1"` recommended; `leading` unused; close can be `trailing` if not using built-in close) |
 | Field label | `@/components/ui/label` | `Label` |
-| Name input | `@/components/ui/input` | `Input` (`fieldSize="lg"`; `placeholder="e.g. Hot Coffees"`) |
+| Name input | `@/components/ui/input` | `Input` (`placeholder="e.g. Hot Coffees"`) |
 | Default tax selection group (container) | `@/components/ui/radio-button-group` | `RadioButtonGroup` |
 | Default tax option buttons | `@/components/ui/radio-button-group` | `RadioButtonGroupItem` (`variant="surface"`, `size="lg"`) |
 | Appearance tabs | `@/components/ui/tabs` | `Tabs` + `TabsList` + `TabsTrigger` + `TabsContent` |

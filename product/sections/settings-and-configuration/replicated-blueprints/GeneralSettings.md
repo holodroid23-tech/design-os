@@ -91,7 +91,7 @@
 | Time format selector | @/components/ui/radio-button-group + @/components/ui/radio-button-group-item | variant="fused", size="fused" |
 | Tax item container | @/components/settings/settings-group | (default) |
 | Tax item row | @/components/settings/settings-item | (default) |
-| Add tax button | @/components/ui/button | variant="ghost", size="icon", shape="circle" |
+| Add tax button | @/components/ui/button | variant="ghost", size="icon" |
 | Pin timer selector | @/components/ui/radio-button-group + @/components/ui/radio-button-group-item | variant="surface" |
 | Delete account button | @/components/settings/settings-item | (default) |
 | Icon (edit) | lucide-react#Pencil | (default) |

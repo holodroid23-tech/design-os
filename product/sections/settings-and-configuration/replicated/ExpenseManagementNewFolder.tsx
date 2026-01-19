@@ -62,7 +62,7 @@ export default function ExpenseManagementNewFolder() {
             <div className="px-6 pb-5">
               <div className="flex flex-col gap-2">
                 <Label>Name</Label>
-                <Input fieldSize="lg" placeholder="e.g. Hot Coffees" />
+                <Input placeholder="e.g. Hot Coffees" />
               </div>
             </div>
 

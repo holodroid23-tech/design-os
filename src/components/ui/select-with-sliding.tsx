@@ -1,6 +1,7 @@
 import * as React from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./select"
 import { SlidingSelector } from "./sliding-selector"
+import { Button } from "./button"
 import { ChevronDown } from "lucide-react"
 
 interface SelectOption {
@@ -44,14 +45,16 @@ export function SelectWithSliding({
     if (variant === "sliding") {
         return (
             <>
-                <button
-                    onClick={() => !disabled && setOpen(true)}
+                <Button
+                    type="button"
+                    variant="select"
                     disabled={disabled}
-                    className="flex w-full items-center justify-between gap-2 rounded-md border border-input bg-transparent dark:bg-input/30 px-3 py-2 text-sm whitespace-nowrap shadow-xs h-9 outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full justify-between"
+                    onClick={() => !disabled && setOpen(true)}
                 >
-                    <span>{selectedLabel}</span>
+                    <span className="truncate">{selectedLabel}</span>
                     <ChevronDown className="size-4 opacity-50" />
-                </button>
+                </Button>
 
                 <SlidingSelector
                     open={open}

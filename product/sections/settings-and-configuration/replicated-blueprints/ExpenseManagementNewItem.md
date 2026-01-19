@@ -35,9 +35,9 @@
 |---|---|---|
 | Fullscreen modal container | `@/components/ui/sheet` | `Sheet open` + `SheetContent side="bottom"` (sliding modal). For Design OS preview: export `designOS.presentation = "modal"` so the preview hides its own overlay, and use `DialogClose` on the header close button to dismiss the preview. |
 | Header title row | `@/components/ui/section-title` | `size="page"` with `trailing` for the close action |
-| Close action | `@/components/ui/dialog` + `@/components/ui/button` | `DialogClose asChild` wrapping `Button variant="secondary" size="icon" shape="circle"` |
+| Close action | `@/components/ui/dialog` + `@/components/ui/button` | `DialogClose asChild` wrapping `Button variant="secondary" size="icon"` |
 | Field label ("Name", "Category", "Appearance", "Stroke style") | `@/components/ui/label` | `Label` (no variants) |
-| Name text input | `@/components/ui/input` | `variant="default"` (optional `fieldSize="default"`) |
+| Name text input | `@/components/ui/input` | `variant="default"` |
 | Favorite toggle action | `@/components/ui/button` | `variant="secondary" size="icon"` (toggles state) |
 | Category dropdown | `@/components/ui/select-with-sliding` | `variant="sliding"` with `options`, `value`, `onValueChange` |
 | Appearance tabs | `@/components/ui/tabs` | `Tabs` + `TabsList` + `TabsTrigger` + `TabsContent` |

@@ -50,7 +50,7 @@ export default function ExpenseManagementFolderDetail() {
       </div>
 
       {/* Block 2: Toggle List */}
-      <div className="px-6 py-4">
+      <div className="flex-1 overflow-auto px-6 py-4">
         <div className="space-y-3">
           {items.map((item) => (
             <SettingsGroup key={item.id}>
@@ -82,8 +82,8 @@ export default function ExpenseManagementFolderDetail() {
       </div>
 
       {/* Block 3: Primary Action */}
-      <div className="px-6 py-8 pb-12 mt-auto">
-        <Button variant="outline" size="lg" className="w-full">
+      <div className="sticky bottom-0 z-10 border-t bg-background p-6">
+        <Button size="lg" className="w-full">
           Add expense
         </Button>
       </div>

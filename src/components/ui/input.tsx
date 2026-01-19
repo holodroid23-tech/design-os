@@ -9,15 +9,9 @@ const inputVariants = cva(
       variant: {
         default: "border-input bg-background dark:bg-input/30 border",
       },
-      fieldSize: {
-        default: "h-9",
-        lg: "h-11",
-        sm: "h-8",
-      }
     },
     defaultVariants: {
       variant: "default",
-      fieldSize: "default"
     },
   }
 )
@@ -26,12 +20,12 @@ export interface InputProps
   extends React.ComponentProps<"input">,
   VariantProps<typeof inputVariants> { }
 
-function Input({ className, variant, fieldSize, type, ...props }: InputProps) {
+function Input({ className, variant, type, ...props }: InputProps) {
   return (
     <input
       type={type}
       data-slot="input"
-      className={cn(inputVariants({ variant, fieldSize, className }))}
+      className={cn(inputVariants({ variant, className }))}
       {...props}
     />
   )

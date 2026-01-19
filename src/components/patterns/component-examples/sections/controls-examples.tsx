@@ -1,12 +1,18 @@
 import { useState } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { IconToggleButton } from '@/components/ui/icon-toggle-button'
 import { Label } from '@/components/ui/label'
 import { Slider } from '@/components/ui/slider'
 import { Stepper } from '@/components/ui/stepper'
-import { Bell, Download, Mail, MoreVertical, Search, Settings, Trash2 } from 'lucide-react'
+import { Bell, Download, Mail, MoreVertical, Search, Settings, Star, Trash2 } from 'lucide-react'
 
 export function ButtonsExamplesCard() {
+  const [settingsPinned, setSettingsPinned] = useState(false)
+  const [isFavorite, setIsFavorite] = useState(false)
+  const [settingsPinnedGhost, setSettingsPinnedGhost] = useState(false)
+  const [isFavoriteGhost, setIsFavoriteGhost] = useState(false)
+
   return (
     <Card id="buttons" className="shadow-sm">
       <CardHeader>
@@ -113,6 +119,66 @@ export function ButtonsExamplesCard() {
               >
                 <Search className="h-4 w-4" />
               </Button>
+            </div>
+          </div>
+
+          <div>
+            <Label className="text-sm font-medium mb-2 block">Icon button pressed state (active)</Label>
+            <p className="text-sm text-muted-foreground mb-2">
+              Systemized pressed state for icon buttons (favorite is the only filled icon exception)
+            </p>
+            <div className="flex flex-wrap items-center gap-4">
+              <div className="flex items-center gap-2">
+                <IconToggleButton
+                  pressed={settingsPinned}
+                  onPressedChange={setSettingsPinned}
+                  icon={Settings}
+                  label={settingsPinned ? 'Unpin settings' : 'Pin settings'}
+                  className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0"
+                />
+                <span className="text-sm text-muted-foreground">Active background</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <IconToggleButton
+                  pressed={isFavorite}
+                  onPressedChange={setIsFavorite}
+                  icon={Star}
+                  label={isFavorite ? 'Unfavorite' : 'Favorite'}
+                  fillIconWhenPressed
+                  pressedIconClassName="text-amber-400 fill-amber-400"
+                  className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0"
+                />
+                <span className="text-sm text-muted-foreground">Favorite: filled star</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <IconToggleButton
+                  variant="ghost"
+                  pressed={settingsPinnedGhost}
+                  onPressedChange={setSettingsPinnedGhost}
+                  icon={Settings}
+                  label={settingsPinnedGhost ? 'Unpin settings (ghost)' : 'Pin settings (ghost)'}
+                  className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0"
+                  unpressedIconClassName="text-foreground"
+                />
+                <span className="text-sm text-muted-foreground">Ghost variant</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <IconToggleButton
+                  variant="ghost"
+                  pressed={isFavoriteGhost}
+                  onPressedChange={setIsFavoriteGhost}
+                  icon={Star}
+                  label={isFavoriteGhost ? 'Unfavorite (ghost)' : 'Favorite (ghost)'}
+                  fillIconWhenPressed
+                  pressedIconClassName="text-amber-400 fill-amber-400"
+                  className="min-h-[48px] min-w-[48px] sm:min-h-0 sm:min-w-0"
+                  unpressedIconClassName="text-foreground"
+                />
+                <span className="text-sm text-muted-foreground">Ghost favorite</span>
+              </div>
             </div>
           </div>
         </div>
