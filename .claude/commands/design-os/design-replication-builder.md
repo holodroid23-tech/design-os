@@ -27,6 +27,11 @@
     - **Headers**: Use `<SectionTitle leading={<ChevronLeft .../>} interactive ...>` for back navigation. Do NOT build manual flex rows with separate Buttons.
     - **Radio Groups**: Use `variant="default"`. Avoid manual class overrides on items.
     - **Text Sizing**: Trust the component default sizes (e.g. 18px for SectionTitle). Do not add `text-[size]` classes manually.
+    - **Modals**: 
+        - **Simple**: Use `className="items-center sm:text-center"` on Header and `className="sm:justify-center"` on Footer. **Default for warnings.**
+        - **Complex**: Standard left-aligned Header and right-aligned Footer (default behavior).
+        - **Fullscreen**: Use `className="inset-0 top-0 left-0 max-w-none h-[100dvh] w-[100dvw] rounded-none"` on Content.
+6.  **EXPORT DEFAULT**: You **MUST** use `export default function [ComponentName]() {...}`. Named exports will fail to load in the previewer.
 
 ---
 
@@ -35,7 +40,7 @@
 ### Phase C — Incremental Assembly (The Block-by-Block Pass)
 - **RESPECT THE ROADMAP**: Use the `Implementation Blocks` defined in the Blueprint.
 - **BUILD IN BLOCKS**: You must implement the component section by section.
-- **WRITE CODE**: For each block, update the `.tsx` file in `src/sections/[section-id]/[ComponentName].tsx`.
+- **WRITE CODE**: For each block, update the `.tsx` file in `product/sections/[section-id]/replicated/[ComponentName].tsx`.
 - **USE COMPONENTS AS-IS**: Follow the Component Mapping table. Use only the variants and props verified by the Analyst.
 - **STOP & VALIDATE**: After finishing **EACH** block, you MUST STOP and wait for user feedback.
   - **PROMPT**: "Block [X/Y]: [Block Name] is implemented. Does this look correct to you? (Reply 'ok' to proceed to the next block)."
@@ -45,7 +50,7 @@
 ---
 
 ## 4. Output
-Write the component block-by-block to `src/sections/[section-id]/[ComponentName].tsx`.
+Write the component block-by-block to `product/sections/[section-id]/replicated/[ComponentName].tsx`.
 
 ---
 
