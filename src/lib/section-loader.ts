@@ -133,13 +133,16 @@ function fileNameToDisplayName(fileName: string): string {
 
 /**
  * Load all mockups for a specific section
+ * Also includes replicated components without mockups (Builder workflow)
  */
 export function loadSectionMocks(sectionId: string): MockupInfo[] {
   const mockupsPrefix = `/product/sections/${sectionId}/mocks/`
   const replicatedPrefix = `/product/sections/${sectionId}/replicated/`
-  
+
   const mocks: MockupInfo[] = []
-  
+  const processedComponents = new Set<string>()
+
+  // First, process mockups that have PNG files
   for (const path of Object.keys(mockFiles)) {
     if (path.startsWith(mockupsPrefix)) {
       const fileName = path.replace(mockupsPrefix, '')
@@ -147,7 +150,7 @@ export function loadSectionMocks(sectionId: string): MockupInfo[] {
       const displayName = fileNameToDisplayName(fileName)
       const componentPath = `${replicatedPrefix}${componentName}.tsx`
       const isReplicated = componentPath in replicatedComponents
-      
+
       mocks.push({
         fileName,
         displayName,
@@ -156,9 +159,34 @@ export function loadSectionMocks(sectionId: string): MockupInfo[] {
         isReplicated,
         componentPath: isReplicated ? componentPath : undefined,
       })
+
+      processedComponents.add(componentName)
     }
   }
-  
+
+  // Second, process replicated components without mockups (Blueprint-built screens)
+  for (const path of Object.keys(replicatedComponents)) {
+    if (path.startsWith(replicatedPrefix)) {
+      const fileName = path.replace(replicatedPrefix, '').replace('.tsx', '')
+      // Convert PascalCase back to kebab-case for component name detection
+      const kebabName = fileName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+      const componentName = fileName
+      const displayName = fileNameToDisplayName(kebabName)
+
+      // Only add if not already processed from mockup
+      if (!processedComponents.has(componentName)) {
+        mocks.push({
+          fileName: `${kebabName}.png`, // Virtual filename for consistency
+          displayName,
+          componentName,
+          imagePath: '', // No mockup image
+          isReplicated: true,
+          componentPath: path,
+        })
+      }
+    }
+  }
+
   return mocks.sort((a, b) => a.displayName.localeCompare(b.displayName))
 }
 
@@ -188,11 +216,11 @@ export async function loadReplicatedComponent(
 ): Promise<React.ComponentType | null> {
   const componentName = fileNameToComponentName(mockName)
   const componentPath = `/product/sections/${sectionId}/replicated/${componentName}.tsx`
-  
+
   if (!(componentPath in replicatedComponents)) {
     return null
   }
-  
+
   try {
     const module = await replicatedComponents[componentPath]()
     return module.default
