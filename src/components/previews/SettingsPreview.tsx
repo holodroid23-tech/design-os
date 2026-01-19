@@ -21,7 +21,6 @@ import {
     SettingsItemAction,
 } from "../settings/settings-item"
 import { UserProfileRow } from "@/components/settings/user-profile-row"
-import { SettingsFooter } from "@/components/settings/settings-footer"
 import { Badge } from "../ui/badge"
 
 export function SettingsPreview() {
@@ -374,8 +373,6 @@ export function SettingsPreview() {
                 </SettingsGroup>
             </div>
 
-            {/* 3. Footer Area */}
-            <SettingsFooter version="2.4.1" build="89" className="mt-8" />
         </div>
     )
 }

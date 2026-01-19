@@ -9,7 +9,6 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from '@/components/settings/settings-item'
-import { SettingsFooter } from '@/components/settings/settings-footer'
 import { UserProfileRow } from '@/components/settings/user-profile-row'
 import { Button } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
@@ -88,8 +87,6 @@ export function ItemRowsExamplesCard() {
               </SettingsItemContent>
             </SettingsItem>
           </SettingsGroup>
-
-          <SettingsFooter version="VERSION 2.4.1" build="89" />
         </div>
 
         {/* Examples */}

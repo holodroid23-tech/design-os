@@ -9,7 +9,6 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from '@/components/settings/settings-item'
-import { SettingsFooter } from '@/components/settings/settings-footer'
 import { UserProfileRow } from '@/components/settings/user-profile-row'
 import { ChevronDown, CreditCard, LogOut, Settings, Store, User } from 'lucide-react'
 
@@ -18,7 +17,7 @@ export function SettingsComponentsExamplesCard() {
     <Card id="settings-components" className="border shadow-sm">
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Settings components</CardTitle>
-        <CardDescription>SettingsGroup, SettingsItem, UserProfileRow, SettingsFooter</CardDescription>
+        <CardDescription>SettingsGroup, SettingsItem, UserProfileRow</CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-4">
@@ -85,7 +84,6 @@ export function SettingsComponentsExamplesCard() {
             </SettingsItem>
           </SettingsGroup>
 
-          <SettingsFooter version="VERSION 2.4.1" build="89" />
         </div>
       </CardContent>
     </Card>
