@@ -12,6 +12,7 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from '@/components/settings/settings-item'
+import { GridActionTile } from '@/components/patterns/grid-action-tile'
 import { CreditCard, Folder, Minus, Pencil, Plus, Trash2 } from 'lucide-react'
 
 const productSwatches = [
@@ -65,18 +66,16 @@ export function ProductExpenseCardsExamplesCard() {
             <div className="space-y-3">
               <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Actions</Label>
               <div className="grid grid-cols-3 gap-3">
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-layer-2 border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground hover:bg-layer-3 transition-colors cursor-pointer active:scale-95">
-                  <Plus className="h-8 w-8 mb-2 text-primary" />
-                  <SettingsItemTitle className="font-sans font-semibold text-base tracking-tight text-center leading-tight">
-                    Custom expense
-                  </SettingsItemTitle>
-                </div>
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-layer-2 border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground hover:bg-layer-3 transition-colors cursor-pointer active:scale-95">
-                  <Plus className="h-8 w-8 mb-2 text-primary" />
-                  <SettingsItemTitle className="font-sans font-semibold text-base tracking-tight text-center leading-tight">
-                    Custom item
-                  </SettingsItemTitle>
-                </div>
+                <GridActionTile
+                  icon={Plus}
+                  label="Custom expense"
+                  iconClassName="text-primary"
+                />
+                <GridActionTile
+                  icon={Plus}
+                  label="Custom item"
+                  iconClassName="text-primary"
+                />
               </div>
             </div>
 
@@ -84,18 +83,16 @@ export function ProductExpenseCardsExamplesCard() {
             <div className="space-y-3">
               <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Folders</Label>
               <div className="grid grid-cols-3 gap-3">
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-layer-2 border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground hover:bg-layer-3 transition-colors cursor-pointer active:scale-95">
-                  <Folder className="h-8 w-8 mb-2 text-layer-info" />
-                  <SettingsItemTitle className="font-sans font-semibold text-base tracking-tight text-center leading-tight">
-                    Drinks
-                  </SettingsItemTitle>
-                </div>
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-layer-2 border border-border flex flex-col items-center justify-center p-3 shadow-sm text-foreground hover:bg-layer-3 transition-colors cursor-pointer active:scale-95">
-                  <Folder className="h-8 w-8 mb-2 text-layer-info" />
-                  <SettingsItemTitle className="font-sans font-semibold text-base tracking-tight text-center leading-tight">
-                    Food
-                  </SettingsItemTitle>
-                </div>
+                <GridActionTile
+                  icon={Folder}
+                  label="Drinks"
+                  iconClassName="text-layer-info"
+                />
+                <GridActionTile
+                  icon={Folder}
+                  label="Food"
+                  iconClassName="text-layer-info"
+                />
               </div>
             </div>
 
