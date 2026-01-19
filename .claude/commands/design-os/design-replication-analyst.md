@@ -33,6 +33,10 @@ Map logical elements to atomic components from the Design System.
     - **Radio Lists** → MUST map to `@/components/ui/radio-button-group` (Prop: `variant="default"`).
     - **Section Headers** → MUST map to `@/components/ui/section-title`. (Check for Back Navigation pattern: requires `leading` prop).
     - **Toggles** → Note alignment: "Grouped with Title" (Switch next to Label) vs "Split" (Switch far right). Default to Grouped.
+    - **Modals** → Identify the type: 
+        1. **Simple** (Centered, small, limited actions like Confirm/Cancel) -> *Default for warnings/messages*.
+        2. **Complex** (Standard dialog with form fields/content).
+        3. **Fullscreen** (Covers entire screen, often for detailed flows).
 
 ---
 
