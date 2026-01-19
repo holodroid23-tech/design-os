@@ -43,7 +43,10 @@ import {
   ElevationsExamplesCard,
 } from '@/components/patterns/component-examples/sections/layout-examples'
 import { BadgesTokensCard } from '@/components/patterns/component-examples/sections/badges-examples'
-import { MediaUploadExamplesCard } from '@/components/patterns/component-examples/sections/media-examples'
+import {
+  MediaUploadExamplesCard,
+  StrokeStyleSelectorExamplesCard,
+} from '@/components/patterns/component-examples/sections/media-examples'
 import {
   BuildingBlocksExamplesCard,
   SectionTitlesExamplesCard,
@@ -58,9 +61,25 @@ import {
 } from '@/components/patterns/component-examples/sections/product-expense-examples'
 import {
   NavigationMenuExamplesCard,
+  NavigationMenuMessagesItemExamplesCard,
+  NavigationMenuNotificationsItemExamplesCard,
+  NavigationMenuProfileItemExamplesCard,
+  NavigationMenuSettingsItemExamplesCard,
   StatsCardsExamplesCard,
 } from '@/components/patterns/component-examples/sections/patterns-examples'
-import { ItemRowsExamplesCard } from '@/components/patterns/component-examples/sections/item-rows-examples'
+import {
+  ItemRowAvatarBadgeChevronExamplesCard,
+  ItemRowBadgeChevronExamplesCard,
+  ItemRowDestructiveActionExamplesCard,
+  ItemRowImageChevronExamplesCard,
+  ItemRowInlineButtonExamplesCard,
+  ItemRowInlineButtonsExamplesCard,
+  ItemRowSimpleTextExamplesCard,
+  ItemRowToggleExamplesCard,
+  ItemRowUserProfileExamplesCard,
+  ItemRowValueChevronExamplesCard,
+  ItemRowsExamplesCard,
+} from '@/components/patterns/component-examples/sections/item-rows-examples'
 
 /**
  * Registry mapping inventory string pointers to the actual component.
@@ -74,6 +93,10 @@ export const componentExamplesRegistry: Record<string, ComponentType> = {
   '@/components/patterns/component-examples/sections/controls-examples#SlidersExamplesCard': SlidersExamplesCard,
 
   '@/components/patterns/component-examples/sections/patterns-examples#NavigationMenuExamplesCard': NavigationMenuExamplesCard,
+  '@/components/patterns/component-examples/sections/patterns-examples#NavigationMenuProfileItemExamplesCard': NavigationMenuProfileItemExamplesCard,
+  '@/components/patterns/component-examples/sections/patterns-examples#NavigationMenuMessagesItemExamplesCard': NavigationMenuMessagesItemExamplesCard,
+  '@/components/patterns/component-examples/sections/patterns-examples#NavigationMenuNotificationsItemExamplesCard': NavigationMenuNotificationsItemExamplesCard,
+  '@/components/patterns/component-examples/sections/patterns-examples#NavigationMenuSettingsItemExamplesCard': NavigationMenuSettingsItemExamplesCard,
   '@/components/patterns/component-examples/sections/patterns-examples#StatsCardsExamplesCard': StatsCardsExamplesCard,
 
   '@/components/patterns/component-examples/sections/menus-examples#BottomMenuExamplesCard': BottomMenuExamplesCard,
@@ -101,6 +124,16 @@ export const componentExamplesRegistry: Record<string, ComponentType> = {
   '@/components/patterns/component-examples/sections/forms-examples#CardsExamplesCard': CardsExamplesCard,
 
   '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowsExamplesCard': ItemRowsExamplesCard,
+  '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowSimpleTextExamplesCard': ItemRowSimpleTextExamplesCard,
+  '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowToggleExamplesCard': ItemRowToggleExamplesCard,
+  '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowUserProfileExamplesCard': ItemRowUserProfileExamplesCard,
+  '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowImageChevronExamplesCard': ItemRowImageChevronExamplesCard,
+  '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowBadgeChevronExamplesCard': ItemRowBadgeChevronExamplesCard,
+  '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowAvatarBadgeChevronExamplesCard': ItemRowAvatarBadgeChevronExamplesCard,
+  '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowValueChevronExamplesCard': ItemRowValueChevronExamplesCard,
+  '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowInlineButtonExamplesCard': ItemRowInlineButtonExamplesCard,
+  '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowInlineButtonsExamplesCard': ItemRowInlineButtonsExamplesCard,
+  '@/components/patterns/component-examples/sections/item-rows-examples#ItemRowDestructiveActionExamplesCard': ItemRowDestructiveActionExamplesCard,
 
   '@/components/patterns/component-examples/sections/layout-examples#ElevationsExamplesCard': ElevationsExamplesCard,
   '@/components/patterns/component-examples/sections/layout-examples#DividersExamplesCard': DividersExamplesCard,
@@ -118,6 +151,8 @@ export const componentExamplesRegistry: Record<string, ComponentType> = {
   '@/components/patterns/component-examples/sections/order-examples#OrderTabsExamplesCard': OrderTabsExamplesCard,
 
   '@/components/patterns/component-examples/sections/media-examples#MediaUploadExamplesCard': MediaUploadExamplesCard,
+  '@/components/patterns/component-examples/sections/media-examples#StrokeStyleSelectorExamplesCard':
+    StrokeStyleSelectorExamplesCard,
 
   '@/components/patterns/component-examples/sections/exports-examples#EmailTemplatesExamplesCard': EmailTemplatesExamplesCard,
   '@/components/patterns/component-examples/sections/exports-examples#ReceiptExamplesCard': ReceiptExamplesCard,

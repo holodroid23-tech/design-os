@@ -1,6 +1,7 @@
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Camera } from 'lucide-react'
+import { MediaUpload } from '@/components/ui/media-upload'
+import { StrokeStyleSelector } from '@/components/ui/stroke-style-selector'
+import { useState } from 'react'
 
 export function MediaUploadExamplesCard() {
   return (
@@ -10,14 +11,25 @@ export function MediaUploadExamplesCard() {
         <CardDescription>Upload component with multiple actions</CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="aspect-square w-full max-w-[320px] rounded-[32px] border-2 border-dashed border-border p-8 flex flex-col items-center justify-center gap-8 bg-layer-2/50 hover:bg-layer-2 transition-all duration-300 group mx-auto text-center">
-          <div className="h-20 w-20 rounded-[24px] bg-layer-info text-on-layer-info flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-            <Camera className="h-10 w-10" />
-          </div>
-          <div className="flex flex-col gap-3 items-center">
-            <Button variant="ghost">Choose from files</Button>
-            <Button variant="ghost">Take photo</Button>
-          </div>
+        <MediaUpload />
+      </CardContent>
+    </Card>
+  )
+}
+
+export function StrokeStyleSelectorExamplesCard() {
+  const [value, setValue] = useState<'none' | 'common' | 'dashed'>('common')
+
+  return (
+    <Card id="stroke-style-selector" className="border shadow-sm">
+      <CardHeader>
+        <CardTitle className="text-lg font-semibold">Stroke style selector</CardTitle>
+        <CardDescription>Card-style single selection control</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="max-w-[420px] mx-auto space-y-3">
+          <StrokeStyleSelector value={value} onValueChange={setValue} />
+          <div className="text-sm text-muted-foreground">Selected: {value}</div>
         </div>
       </CardContent>
     </Card>

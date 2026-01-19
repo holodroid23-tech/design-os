@@ -10,7 +10,10 @@ const ColorSelector = React.forwardRef<
 >(({ className, ...props }, ref) => {
     return (
         <RadioGroupPrimitive.Root
-            className={cn("grid grid-cols-6 gap-3 w-fit", className)}
+            className={cn(
+                "grid w-full gap-3 justify-items-center grid-cols-[repeat(auto-fit,minmax(2rem,1fr))]",
+                className
+            )}
             {...props}
             ref={ref}
         />

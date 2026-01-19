@@ -3,6 +3,82 @@ import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 import { Bell, Mail, Settings, User } from 'lucide-react'
 
+function NavigationMenuItemCard({
+  id,
+  title,
+  description,
+  icon: Icon,
+}: {
+  id: string
+  title: string
+  description: string
+  icon: typeof User
+}) {
+  return (
+    <Card id={id} className="border shadow-sm">
+      <CardHeader>
+        <CardTitle className="text-lg font-semibold text-foreground">{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <nav>
+          <Button
+            variant="invisible"
+            className="w-full justify-start min-h-[48px] sm:min-h-0"
+          >
+            <Icon className="h-4 w-4" />
+            {title}
+          </Button>
+        </nav>
+      </CardContent>
+    </Card>
+  )
+}
+
+export function NavigationMenuProfileItemExamplesCard() {
+  return (
+    <NavigationMenuItemCard
+      id="navigation-menu-profile"
+      title="Profile"
+      description="Navigation menu item (min 48px touch target)"
+      icon={User}
+    />
+  )
+}
+
+export function NavigationMenuMessagesItemExamplesCard() {
+  return (
+    <NavigationMenuItemCard
+      id="navigation-menu-messages"
+      title="Messages"
+      description="Navigation menu item (min 48px touch target)"
+      icon={Mail}
+    />
+  )
+}
+
+export function NavigationMenuNotificationsItemExamplesCard() {
+  return (
+    <NavigationMenuItemCard
+      id="navigation-menu-notifications"
+      title="Notifications"
+      description="Navigation menu item (min 48px touch target)"
+      icon={Bell}
+    />
+  )
+}
+
+export function NavigationMenuSettingsItemExamplesCard() {
+  return (
+    <NavigationMenuItemCard
+      id="navigation-menu-settings"
+      title="Settings"
+      description="Navigation menu item (min 48px touch target)"
+      icon={Settings}
+    />
+  )
+}
+
 export function NavigationMenuExamplesCard() {
   return (
     <Card id="navigation-menu" className="border shadow-sm">

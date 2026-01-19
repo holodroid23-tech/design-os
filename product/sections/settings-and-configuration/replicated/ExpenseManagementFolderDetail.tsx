@@ -51,32 +51,34 @@ export default function ExpenseManagementFolderDetail() {
 
       {/* Block 2: Toggle List */}
       <div className="px-6 py-4">
-        <SettingsGroup>
+        <div className="space-y-3">
           {items.map((item) => (
-            <SettingsItem key={item.id} type="button">
-              <SettingsItemIcon>
-                <ImageTile size="small" alt="" />
-              </SettingsItemIcon>
+            <SettingsGroup key={item.id}>
+              <SettingsItem type="button">
+                <SettingsItemIcon>
+                  <ImageTile size="small" alt="" />
+                </SettingsItemIcon>
 
-              <SettingsItemContent>
-                <SettingsItemTitle>{item.label}</SettingsItemTitle>
-              </SettingsItemContent>
+                <SettingsItemContent>
+                  <SettingsItemTitle>{item.label}</SettingsItemTitle>
+                </SettingsItemContent>
 
-              <SettingsItemAction>
-                <Switch
-                  checked={enabledById[item.id]}
-                  onCheckedChange={(checked) =>
-                    setEnabledById((prev) => ({
-                      ...prev,
-                      [item.id]: Boolean(checked),
-                    }))
-                  }
-                  aria-label={`Toggle ${item.label}`}
-                />
-              </SettingsItemAction>
-            </SettingsItem>
+                <SettingsItemAction>
+                  <Switch
+                    checked={enabledById[item.id]}
+                    onCheckedChange={(checked) =>
+                      setEnabledById((prev) => ({
+                        ...prev,
+                        [item.id]: Boolean(checked),
+                      }))
+                    }
+                    aria-label={`Toggle ${item.label}`}
+                  />
+                </SettingsItemAction>
+              </SettingsItem>
+            </SettingsGroup>
           ))}
-        </SettingsGroup>
+        </div>
       </div>
 
       {/* Block 3: Primary Action */}

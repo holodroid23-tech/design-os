@@ -20,6 +20,7 @@ import { PinEntry } from '@/components/ui/pin-entry'
 import { RadioButtonGroup, RadioButtonGroupItem } from '@/components/ui/radio-button-group'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
+import { StrokeStyleSelector, type StrokeStyleOption } from '@/components/ui/stroke-style-selector'
 import { Switch } from '@/components/ui/switch'
 import { ChevronDown, Mail, Plus, Settings, Trash2, User } from 'lucide-react'
 
@@ -31,6 +32,7 @@ interface TaxItem {
 
 export function RadioGroupsExamplesCard() {
   const [selectedRadio, setSelectedRadio] = useState('option1')
+  const [strokeStyle, setStrokeStyle] = useState<StrokeStyleOption>('common')
 
   const [useTaxes, setUseTaxes] = useState(true)
   const [taxes, setTaxes] = useState<TaxItem[]>([
@@ -277,6 +279,13 @@ export function RadioGroupsExamplesCard() {
               </div>
             </RadioButtonGroupItem>
           </RadioButtonGroup>
+
+          <div className="pt-4">
+            <Label className="text-sm font-medium">Stroke style selector (DS)</Label>
+            <div className="pt-2 max-w-sm">
+              <StrokeStyleSelector value={strokeStyle} onValueChange={setStrokeStyle} />
+            </div>
+          </div>
         </div>
 
         <Separator />
