@@ -13,6 +13,37 @@
 
 ## 2. Process
 
+### Phase 0: Pattern Classification (Choose the Right Family)
+Before writing the Blueprint or mapping components, classify each list/row you see into one of these intent patterns. This prevents accidentally building “navigation rows” when the UI is actually “atomic controls”, and vice-versa.
+
+#### A) Settings Section Navigation (Destinations)
+- **Intent**: Row takes the user to another screen/section (a destination).
+- **Signals**:
+  - Row has a trailing navigation indicator (e.g., chevron), count badge, language value, etc.
+  - Row does **not** contain a direct control like a toggle/stepper/input.
+- **Preferred composition**:
+  - Container: `@/components/settings/settings-group`
+  - Row: `@/components/settings/settings-item`
+  - Leading: `IconTile` (from `@/components/atoms/icon`) or `ImageTile` (from `@/components/ui/image-tile`) or `Avatar`
+  - Content: `SettingsItemTitle` + optional `SettingsItemDescription`
+  - Trailing: chevron/value/badge in `SettingsItemAction`
+- **Reference examples**:
+  - `src/components/patterns/component-examples/sections/settings-examples.tsx` (`SettingsComponentsExamplesCard`)
+  - `src/components/patterns/component-examples/sections/building-blocks-examples.tsx` (navigation-style atomic items: Coffee shop, Invoices, General)
+
+#### B) Atomic Items (Controls inside a Section)
+- **Intent**: Row is a **setting/control** the user changes in-place (toggle, action button, status).
+- **Signals**:
+  - Row contains a direct control: `Switch`, action `Button`, stacked actions, status subtext tones, etc.
+  - There is no “go to another screen” expectation for tapping the row (unless explicitly stated).
+- **Preferred composition**:
+  - Container: `@/components/settings/settings-group`
+  - Row: `@/components/settings/settings-item`
+  - Content: `SettingsItemTitle` + optional `SettingsItemDescription`
+  - Trailing control: `SettingsItemAction` containing `Switch` / `Button` / icons
+- **Reference example**:
+  - `src/components/patterns/component-examples/sections/building-blocks-examples.tsx` (`AtomicItemsExamplesCard`, especially “Toggle option”)
+
 ### Phase A: Structural Blueprint (The Eye)
 Convert the visual mockup into a logic-only tree.
 **STRICT RULES**:
@@ -32,11 +63,16 @@ Map logical elements to atomic components from the Design System.
     - **Dropdowns** → MUST map to `@/components/ui/select-with-sliding` (Prop: `variant="sliding"`).
     - **Radio Lists** → MUST map to `@/components/ui/radio-button-group` (Prop: `variant="default"`).
     - **Section Headers** → MUST map to `@/components/ui/section-title`. (Check for Back Navigation pattern: requires `leading` prop).
-    - **Toggles** → Note alignment: "Grouped with Title" (Switch next to Label) vs "Split" (Switch far right). Default to Grouped.
+    - **Toggles** → Classify the row intent first (Phase 0):
+        - **Atomic item rows** (common in settings): default to a trailing `Switch` inside `SettingsItemAction` (Split).
+        - **Inline/grouped toggles** (less common): `Label` + `Switch` together in the same inline cluster (Grouped) **only if explicitly indicated** by the blueprint.
     - **Modals** → Identify the type: 
         1. **Simple** (Centered, small, limited actions like Confirm/Cancel) -> *Default for warnings/messages*.
         2. **Complex** (Standard dialog with form fields/content).
         3. **Fullscreen** (Covers entire screen, often for detailed flows).
+    - **Settings Rows** → Decide first: Navigation vs Atomic Item (see Phase 0). Both commonly use `SettingsGroup` + `SettingsItem`, but the trailing element determines intent:
+        - Navigation rows: trailing chevron/value/badge.
+        - Atomic rows: trailing control like `Switch` / action `Button`.
 
 ---
 
