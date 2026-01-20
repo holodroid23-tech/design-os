@@ -5,7 +5,7 @@
 ### 1. Register & Sales
 Fast checkout flow with multi-order tabs, item search, cart management, and payment processing (cash, card, Tap to Pay).
 
-### 2. Daily Expenses
+### 2. Edit Expense
 Quick daily logging for store costs like supplies, milk, and maintenance with immediate analytics impact.
 
 ### 3. Activity & Reports

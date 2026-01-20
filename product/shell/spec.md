@@ -5,7 +5,7 @@ ComPOSt uses a mobile-first bottom navigation shell designed for speed and clari
 
 ## Navigation Structure
 - **Orders** → Register & Sales (Core POS interface - create, manage, and complete orders)
-- **Expenses** → Daily Expenses (Fast Lane: Quick logging of daily costs, Today only)
+- **Expenses** → Edit Expense (Fast Lane: Quick logging of daily costs, Today only)
 - **Activity** → Activity & Reports (PIN-gated Hub: Analytics, Orders History, and Master Expense Log)
 - **Settings** → Settings & Configuration (Core settings and inventory)
 - **User Avatar** (rightmost in bottom nav) → Opens a profile modal with user information, today's statistics, and actions like changing PIN or locking the screen

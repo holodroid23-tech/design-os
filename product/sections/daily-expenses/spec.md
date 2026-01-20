@@ -1,4 +1,4 @@
-# Daily Expenses
+# Edit Expense
 
 ## 1. Quick Logging Grid
 - **Favorites Section**: A 3-column grid of frequently used expense items. Each item is visually represented by its configured thumbnail (image, color, or stroke). Tapping adds it to today's list.
