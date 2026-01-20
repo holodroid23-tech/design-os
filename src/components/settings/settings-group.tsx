@@ -1,10 +1,16 @@
 import * as React from "react"
 import { cn } from "../../lib/utils"
 
-const SettingsGroup = React.forwardRef<
-    HTMLDivElement,
-    React.HTMLAttributes<HTMLDivElement>
->(({ className, children, ...props }, ref) => {
+export interface SettingsGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Optional override for the separator border color between items.
+   * Useful when rendering the group on an "inverse" surface (e.g., email dark surface).
+   */
+  separatorClassName?: string
+}
+
+const SettingsGroup = React.forwardRef<HTMLDivElement, SettingsGroupProps>(
+  ({ className, separatorClassName, children, ...props }, ref) => {
     return (
         <div
             ref={ref}
@@ -25,13 +31,15 @@ const SettingsGroup = React.forwardRef<
                     className: cn(
                         // @ts-ignore
                         child.props.className,
-                        !isLastInfo && "border-b border-border"
+                        !isLastInfo && "border-b border-border",
+                        !isLastInfo && separatorClassName
                     ),
                 })
             })}
         </div>
     )
-})
+  }
+)
 SettingsGroup.displayName = "SettingsGroup"
 
 export { SettingsGroup }

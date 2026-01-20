@@ -16,13 +16,13 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Label } from '@/components/ui/label'
 import { Numpad } from '@/components/ui/numpad'
-import { PinEntry } from '@/components/ui/pin-entry'
+import { PinEntryScreen } from '@/components/ui/pin-entry-screen'
 import { RadioButtonGroup, RadioButtonGroupItem } from '@/components/ui/radio-button-group'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 import { Separator } from '@/components/ui/separator'
 import { StrokeStyleSelector, type StrokeStyleOption } from '@/components/ui/stroke-style-selector'
 import { Switch } from '@/components/ui/switch'
-import { ChevronDown, Mail, Plus, Settings, Trash2, User } from 'lucide-react'
+import { ChevronDown, Lock, Mail, Plus, Settings, Trash2, User } from 'lucide-react'
 
 interface TaxItem {
   id: string
@@ -394,6 +394,9 @@ export function NumpadExamplesCard() {
 }
 
 export function SecurityExamplesCard() {
+  const [createPin, setCreatePin] = useState('')
+  const [confirmPin, setConfirmPin] = useState('')
+
   return (
     <Card id="security" className="border shadow-sm overflow-hidden">
       <CardHeader>
@@ -402,14 +405,28 @@ export function SecurityExamplesCard() {
       </CardHeader>
       <CardContent className="flex flex-col md:flex-row gap-8 items-center justify-center py-10 bg-muted/40">
         <div className="w-full max-w-[360px] bg-card rounded-[18px] shadow-lg border overflow-hidden">
-          <PinEntry onCancel={() => {}} className="scale-90 origin-top" />
+          <PinEntryScreen
+            layout="embedded"
+            icon={Lock}
+            title="Create your PIN"
+            description="Enter a 4-digit code to secure your account profile."
+            value={createPin}
+            onChange={setCreatePin}
+            onClose={() => {}}
+            onPrimary={() => {}}
+            className="scale-90 origin-top"
+          />
         </div>
         <div className="w-full max-w-[360px] bg-card rounded-[18px] shadow-lg border overflow-hidden">
-          <PinEntry
+          <PinEntryScreen
+            layout="embedded"
+            icon={Lock}
             title="Confirm PIN"
             description="Please confirm your PIN code."
-            visible
-            onCancel={() => {}}
+            value={confirmPin}
+            onChange={setConfirmPin}
+            onClose={() => {}}
+            onPrimary={() => {}}
             className="scale-90 origin-top"
           />
         </div>

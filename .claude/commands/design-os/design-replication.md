@@ -56,6 +56,12 @@ Read:
 
 To eliminate visual hallucinations, hacking, and blue-focus artifacts, the replication process is physically split into two distinct workflows.
 
+## Session naming (Required)
+To avoid losing replication chats in the Agents list, you **MUST** name each session using the section folder name.
+
+- **Stage 1 session name**: `[section-id] — [ComponentName] (Analyst)`
+- **Stage 2 session name**: `[section-id] — [ComponentName] (Builder)`
+
 ### **Stage 1: The Analyst (Vision)**
 **File**: `.claude/commands/design-os/design-replication-analyst.md`
 - **Agent Requirement**: This agent is allowed to see the mockup.

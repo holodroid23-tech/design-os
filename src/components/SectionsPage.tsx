@@ -6,18 +6,26 @@ import { EmptyState } from '@/components/EmptyState'
 import { PhaseWarningBanner } from '@/components/PhaseWarningBanner'
 import { NextPhaseButton } from '@/components/NextPhaseButton'
 import { loadProductData } from '@/lib/product-loader'
-import { hasSectionSpec, hasSectionData } from '@/lib/section-loader'
+import { hasSectionSpec, hasSectionData, loadSectionMocks } from '@/lib/section-loader'
 import { ChevronRight, Check } from 'lucide-react'
 
 interface SectionProgress {
   hasSpec: boolean
   hasData: boolean
+  designsDone: number
+  designsTotal: number
 }
 
 function getSectionProgress(sectionId: string): SectionProgress {
+  const mocks = loadSectionMocks(sectionId)
+  const designsTotal = mocks.length
+  const designsDone = mocks.filter((m) => m.isReplicated).length
+
   return {
     hasSpec: hasSectionSpec(sectionId),
     hasData: hasSectionData(sectionId),
+    designsDone,
+    designsTotal,
   }
 }
 
@@ -113,6 +121,13 @@ export function SectionsPage() {
                             <div className="flex items-center gap-3 mt-2">
                               <ProgressDot label="Spec" done={progress?.hasSpec} />
                               <ProgressDot label="Data" done={progress?.hasData} />
+                              <ProgressDot
+                                label={`Designs (${progress?.designsDone ?? 0}/${progress?.designsTotal ?? 0})`}
+                                done={
+                                  (progress?.designsTotal ?? 0) > 0 &&
+                                  (progress?.designsDone ?? 0) === (progress?.designsTotal ?? 0)
+                                }
+                              />
                             </div>
                           </div>
                         </div>

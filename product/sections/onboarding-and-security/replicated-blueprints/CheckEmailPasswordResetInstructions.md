@@ -23,7 +23,7 @@
 ## Component Mapping (The Map)
 | Blueprint Element | Component Path | Variant/Prop Target |
 |---|---|---|
-| Close action (top-right) | `@/components/ui/button` | `variant="invisible"`, `size="icon"`, `shape="circle"` (child icon: `X` from `lucide-react`) |
-| Status icon (lock) | `@/components/ui/icon` | `IconTile` with `icon={Lock}` (from `lucide-react`), `size="large"` |
+| Close action (top-right) | `@/components/ui/button` | `variant="invisible"`, `size="icon"` (child icon: `X` from `lucide-react`) |
+| Status icon (email) | `@/components/ui/icon` | `IconTile` with `icon={Mail}` (from `lucide-react`), `size="large"` |
 | Primary action ("Open email app") | `@/components/ui/button` | `variant="default"`, `size="lg"` |
 | Secondary actions ("Resend", "Change email") | `@/components/ui/button` | Two inline `Button` actions using `variant="link"` (size as-needed) |

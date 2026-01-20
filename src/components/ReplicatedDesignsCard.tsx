@@ -47,7 +47,7 @@ function PreviewSurface({
         scopeRef.current = el
         onFrameRectRef?.(el)
       }}
-      className="w-[420px] max-w-[calc(100vw-2rem)] aspect-[9/19.5] rounded-[24px] border border-border bg-background shadow-2xl overflow-hidden relative transform-gpu"
+      className="w-[420px] max-w-[calc(100vw-2rem)] aspect-[9/19.5] rounded-[24px] border border-border bg-black shadow-2xl overflow-hidden relative transform-gpu"
     >
       <PreviewPortalContainerProvider container={portalContainer}>
         <div className="h-full w-full overflow-y-auto overscroll-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">

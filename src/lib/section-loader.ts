@@ -19,6 +19,10 @@ const replicatedDisplayNameOverrides: Record<string, Record<string, string>> = {
     // Folder creation screen is shared by both Expense + Inventory management.
     ExpenseManagementNewFolder: 'New Folder (Expenses/Inventory Management)',
   },
+  'activity-and-reports': {
+    ActivityAndReportsManagerAdminView: 'Activity & Reports (Admin/Manager)',
+    ActivityCashierView: 'Activity (cashier)',
+  },
 }
 
 /**
@@ -41,9 +45,11 @@ const mockComponentAliases: Record<
       componentName: 'AuthRegisterLogin',
       displayName: 'Register (Auth)',
     },
-    'login.png': {
-      componentName: 'AuthRegisterLogin',
-      displayName: 'Login (Auth)',
+    // "Pin Entry" mock is intentionally implemented by the shared Change PIN flow.
+    // This keeps the section list consistent while avoiding duplicate components.
+    'pin-entry.png': {
+      componentName: 'PinChange',
+      displayName: 'Pin Entry',
     },
     'pin-change-step-1.png': {
       componentName: 'PinChange',
@@ -200,10 +206,23 @@ export function loadSectionMocks(sectionId: string): MockupInfo[] {
   const mocks: MockupInfo[] = []
   const processedComponents = new Set<string>()
 
+  // Some legacy / transitional mocks should not appear in the UI.
+  // (Example: auth login mock is superseded by a combined auth screen.)
+  const hiddenMockFileNames = new Set<string>(
+    sectionId === 'onboarding-and-security'
+      ? [
+          'login.png',
+          // Pin change is implemented as a single two-step component; keep one list entry.
+          'enter-new-pin-step-2.png',
+        ]
+      : [],
+  )
+
   // First, process mockups that have PNG files
   for (const path of Object.keys(mockFiles)) {
     if (path.startsWith(mockupsPrefix)) {
       const fileName = path.replace(mockupsPrefix, '')
+      if (hiddenMockFileNames.has(fileName)) continue
       const componentName = resolveComponentNameForMock(sectionId, fileName)
       const displayName = resolveDisplayNameForMock(sectionId, fileName)
       const componentPath = `${replicatedPrefix}${componentName}.tsx`

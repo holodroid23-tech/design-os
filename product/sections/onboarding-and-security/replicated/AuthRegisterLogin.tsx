@@ -86,7 +86,11 @@ export default function AuthRegisterLogin({
 
               <div className="flex flex-col gap-2">
                 <Label htmlFor="auth-register-store-name">Store name</Label>
-                <Input id="auth-register-store-name" placeholder="My coffee shop" autoComplete="organization" />
+                <Input
+                  id="auth-register-store-name"
+                  placeholder="My coffee shop"
+                  autoComplete="organization"
+                />
               </div>
 
               <div className="flex flex-col gap-2">

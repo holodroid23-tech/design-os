@@ -46,7 +46,7 @@ export function DatePicker({
             className
           )}
         >
-          {date ? format(date, "PPP") : <span>{placeholder}</span>}
+          {date ? format(date, "MMM d, yyyy") : <span>{placeholder}</span>}
           <CalendarIcon className="h-[18px] w-[18px]" />
         </button>
       </BottomSlidingModalTrigger>

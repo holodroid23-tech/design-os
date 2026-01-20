@@ -1,11 +1,24 @@
 import { BottomSlidingModal, BottomSlidingModalContent } from "@/components/ui/bottom-sliding-modal"
-import { PinEntry } from "@/components/ui/pin-entry"
+import * as React from "react"
+import { Lock } from "lucide-react"
+
+import { PinEntryScreen } from "@/components/ui/pin-entry-screen"
 
 export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function ManagerUsersSecurityRestriction() {
+export interface ManagerUsersSecurityRestrictionProps {
+  onClose?: () => void
+  onConfirmPin?: (pin: string) => void
+}
+
+export default function ManagerUsersSecurityRestriction({
+  onClose,
+  onConfirmPin,
+}: ManagerUsersSecurityRestrictionProps) {
+  const [pin, setPin] = React.useState("")
+
   return (
     <div className="relative h-full min-h-full bg-background">
       {/* Background is intentionally abstracted; the modal/overlay is the focus of this mock. */}
@@ -19,11 +32,17 @@ export default function ManagerUsersSecurityRestriction() {
             bodyClassName: "flex justify-center py-2",
           }}
         >
-          <PinEntry
-            title="Authorization Required"
+          <PinEntryScreen
+            layout="embedded"
+            icon={Lock}
+            title="Authorization required"
             description="Admin authorization is required to manage users. Please enter your 4-digit PIN."
             length={4}
-            onCancel={() => {}}
+            value={pin}
+            onChange={setPin}
+            onClose={onClose}
+            primaryLabel="Confirm PIN"
+            onPrimary={(value) => onConfirmPin?.(value)}
           />
         </BottomSlidingModalContent>
       </BottomSlidingModal>

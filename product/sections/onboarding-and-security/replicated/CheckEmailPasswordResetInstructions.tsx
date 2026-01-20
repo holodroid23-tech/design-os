@@ -1,4 +1,4 @@
-import { Lock } from "lucide-react"
+import { Mail, MailOpen } from "lucide-react"
 import { X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -10,10 +10,12 @@ export const designOS = {
 
 export interface CheckEmailPasswordResetInstructionsProps {
   onClose?: () => void
+  onOpenEmailApp?: () => void
 }
 
 export default function CheckEmailPasswordResetInstructions({
   onClose,
+  onOpenEmailApp,
 }: CheckEmailPasswordResetInstructionsProps) {
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
@@ -22,7 +24,6 @@ export default function CheckEmailPasswordResetInstructions({
         <Button
           variant="invisible"
           size="icon"
-          shape="circle"
           type="button"
           onClick={onClose}
           aria-label="Close"
@@ -34,7 +35,7 @@ export default function CheckEmailPasswordResetInstructions({
       {/* Block 2: Primary message */}
       <div className="flex min-h-0 flex-1 flex-col items-center justify-center px-6">
         <div className="flex w-full max-w-sm flex-col items-center gap-4 text-center">
-          <IconTile icon={Lock} size="large" />
+          <IconTile icon={Mail} size="large" />
 
           <div className="flex flex-col gap-2">
             <h1>Check your email</h1>
@@ -44,6 +45,19 @@ export default function CheckEmailPasswordResetInstructions({
       </div>
 
       {/* Block 3: Primary action */}
+      <div className="px-6 pb-6">
+        <Button
+          variant="default"
+          size="lg"
+          type="button"
+          className="w-full"
+          onClick={onOpenEmailApp}
+        >
+          <MailOpen aria-hidden="true" />
+          Open email app
+        </Button>
+      </div>
+
       {/* Block 4: Secondary assistance */}
     </div>
   )

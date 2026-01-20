@@ -4,6 +4,17 @@
 
 ---
 
+## 0. Session naming (Required — do this before anything else)
+The user will have many replication chats/agents. For discoverability, you **MUST** name this chat/session/agent using the **exact `section-id` folder name** from `product/sections/`, plus the component name and stage.
+
+- **Derive `section-id`**: the folder name under `product/sections/` (example: `onboarding-and-security`)
+- **Derive `ComponentName`**: PascalCase of the mock filename (example: `reset-password.png` → `ResetPassword`)
+- **Set the session name to**: `[section-id] — [ComponentName] (Analyst)`
+
+Examples:
+- `onboarding-and-security — ResetPassword (Analyst)`
+- `activity-and-reports — ActivityAndReportsManagerAdminView (Analyst)`
+
 ## 1. Input Context
 - Mockup PNG: `product/sections/[section-id]/mocks/[mock-name].png`
 - Design Library: `src/components/patterns/component-examples/inventory.ts`
@@ -15,6 +26,13 @@
 
 ### Phase 0: Pattern Classification (Choose the Right Family)
 Before writing the Blueprint or mapping components, classify each list/row you see into one of these intent patterns. This prevents accidentally building “navigation rows” when the UI is actually “atomic controls”, and vice-versa.
+
+#### Card-looking rows (Important rule)
+- **Problem**: Many mobile designs draw destination rows as “cards” (rounded container, inset spacing), even though functionally they are just **atomic rows**.
+- **Rule**: If it’s a **single tap target** row (role choice, profile choice, “continue as…”, etc.), treat it as an **item row** and build it with atomic items:
+  - Use `@/components/settings/settings-group` + `@/components/settings/settings-item`
+  - Use `SettingsItemAction` for chevrons/values/badges
+  - Do **not** rebuild these as generic `Card` layouts unless the blueprint intent is truly “card content” (multi-line, multi-control, non-row layout)
 
 #### A) Settings Section Navigation (Destinations)
 - **Intent**: Row takes the user to another screen/section (a destination).

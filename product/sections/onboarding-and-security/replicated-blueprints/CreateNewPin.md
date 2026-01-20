@@ -13,7 +13,7 @@
     - [Numeric keypad] Digits 0–9
     - [Edit control] Delete last digit
   - [Primary action]
-    - [Button] Confirm PIN (enabled when 4 digits entered)
+    - [Button] Confirm PIN (always available; shows error until 4 digits entered)
 
 ## Implementation Blocks (The Roadmap)
 - [Block 1: Top actions]: Single exit action for leaving the PIN creation flow.
@@ -24,12 +24,9 @@
 ## Component Mapping (The Map)
 | Blueprint Element | Component Path | Variant/Prop Target |
 |---|---|---|
-| Exit action (icon button) | `@/components/ui/button` | `variant="invisible"` `size="icon"` |
-| Lock status icon | `@/components/atoms/icon` | `SystemIcon` with `icon={Lock}` (lucide) |
-| PIN / Authorization keypad | `@/components/ui/pin-entry` | `title="Create your PIN"` `description="Enter a 4-digit code to secure your account profile."` `length={4}` `visible` `onCancel` `onComplete` `value?` `onChange?` |
-| Confirm PIN | `@/components/ui/button` | `variant="default"` `size="lg"` |
+| PIN creation screen scaffold (canonical) | `@/components/ui/pin-entry-screen` | `icon={Lock}` `title="Create your PIN"` `description="Enter a 4-digit code to secure your account profile."` `length={4}` `visible` `onClose` `primaryLabel="Confirm PIN"` `onPrimary` `value` `onChange` |
 
 ### Notes / Constraints (verified against source props)
-- `PinEntry` supports `title`, `description`, `length`, `visible`, `onComplete`, `onCancel`, `value`, and `onChange` as implemented in `src/components/ui/pin-entry.tsx`.
-- `PinEntry` currently renders a built-in "Cancel" action inside the keypad. If the intended cancel/exit affordance must be icon-only and positioned elsewhere, `PinEntry` would need an API extension (e.g., `cancelLabel`, `hideCancel`) or a small internal layout change.
+- Canonical composition is centralized in `PinEntryScreen` (`src/components/ui/pin-entry-screen.tsx`) to ensure a single shared layout for all PIN flows.
+- `PinEntryScreen` composes `PinEntry` with `showHandle={false}`, `showTitle={false}`, `showDescription={false}`, `showCancelKey={false}`, `pinDisplayVariant="circles"`, to keep the header + actions consistent across screens.
 

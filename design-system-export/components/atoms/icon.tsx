@@ -51,8 +51,8 @@ const iconTileContainer = cva("inline-flex items-center justify-center shrink-0"
 
 const iconToneToStyles: Record<IconTone, { bg: string; icon: string }> = {
   neutral: {
-    bg: "bg-layer-level-2",
-    icon: "text-onLayer-primary",
+    bg: "bg-muted",
+    icon: "text-foreground",
   },
   info: {
     bg: "bg-layer-info",

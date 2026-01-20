@@ -66,7 +66,12 @@ export function OrderExpandableCard({
 }: OrderExpandableCardProps) {
   return (
     <Collapsible
-      className={cn("rounded-[18px] border border-border overflow-hidden bg-layer-2", containerClassName, className)}
+      className={cn(
+        // Intentionally background-agnostic: let the parent surface show through.
+        "rounded-[18px] border border-border overflow-hidden",
+        containerClassName,
+        className
+      )}
       {...props}
     >
       <CollapsibleTrigger asChild>
@@ -74,7 +79,8 @@ export function OrderExpandableCard({
           type="button"
           className={cn(
             "group w-full flex items-center justify-between p-5 text-left transition-colors",
-            "hover:bg-layer-2/60 active:bg-layer-2/80",
+            // Background-agnostic interaction: avoid enforcing a surface color.
+            "hover:opacity-95 active:opacity-90",
             triggerClassName
           )}
         >

@@ -23,13 +23,12 @@
 ## Component Mapping (The Map)
 | Blueprint Element | Component Path | Variant/Prop Target |
 |---|---|---|
-| Close icon button | `@/components/ui/button` | `variant="invisible" size="icon-lg" shape="circle"` |
+| Close icon button | `@/components/ui/button` | `variant="invisible" size="icon"` |
 | Informational icon | `@/components/atoms/icon` (`IconTile`) | `tone="info" size="large" variant="tile"` |
 | Title text | (primitive) | `h1` (or `div`), sentence case text |
 | Supporting text | (primitive) | `p` |
 | Administrator list container | `@/components/settings/settings-group` (`SettingsGroup`) | (default) |
 | Administrator row (clickable) | `@/components/settings/settings-item` (`SettingsItem`) | Use default `element="button"` and wire `onClick` OR use `element="div" interactive onPress` |
 | Row leading icon container | `@/components/settings/settings-item` (`SettingsItemIcon`) | (default) |
-| Row leading avatar | `@/components/ui/avatar` (`Avatar`) | `size="medium"` |
-| Row leading avatar fallback icon | `@/components/ui/avatar` (`AvatarFallback`) | Provide a user glyph as children |
+| Row leading icon tile | `@/components/atoms/icon` (`IconTile`) | `tone="neutral" size="small" variant="tile"` with a user glyph |
 | Row title | `@/components/settings/settings-item` (`SettingsItemTitle`) | (default) |
