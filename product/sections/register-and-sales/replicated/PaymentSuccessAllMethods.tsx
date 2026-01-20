@@ -41,11 +41,10 @@ export default function PaymentSuccessAllMethods({
               type="button"
               variant="invisible"
               size="icon-lg"
-              shape="circle"
               aria-label="Close"
               onClick={onClose}
             >
-              <SystemIcon icon={X} />
+              <SystemIcon icon={X} aria-hidden="true" />
             </Button>
           </div>
         </div>

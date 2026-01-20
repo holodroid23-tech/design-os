@@ -25,6 +25,10 @@ interface SearchInputWithSuggestionsProps extends React.ComponentProps<"input"> 
     suggestions?: SearchSuggestion[]
     onSuggestionClick?: (suggestion: SearchSuggestion) => void
     /**
+     * Visual tone for embedding in dark "onLayer" surfaces (e.g. bottom sheets).
+     */
+    tone?: "default" | "onLayer"
+    /**
      * Optional convenience callback for controlled usage.
      * When provided, it will be called on typing and when a suggestion is picked.
      */
@@ -35,6 +39,7 @@ export function SearchInputWithSuggestions({
     className,
     suggestions = [],
     onSuggestionClick,
+    tone = "default",
     onValueChange,
     ...props
 }: SearchInputWithSuggestionsProps) {
@@ -90,12 +95,16 @@ export function SearchInputWithSuggestions({
                 <SystemIcon
                     icon={Search}
                     size="regular"
-                    className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
+                    className={cn(
+                        "absolute left-3 top-1/2 -translate-y-1/2 size-4",
+                        tone === "onLayer" ? "text-onLayer-secondary" : "text-muted-foreground"
+                    )}
                     aria-hidden="true"
                 />
                 <Input
                     className={cn(
-                        "pl-10 min-h-[48px] sm:min-h-0",
+                        // Default DS input sizing (avoid forcing oversized height).
+                        "pl-10",
                         className
                     )}
                     value={query}
@@ -112,12 +121,22 @@ export function SearchInputWithSuggestions({
             </div>
 
             {isOpen && filteredSuggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 z-50 overflow-hidden rounded-md border border-input bg-popover text-popover-foreground shadow-xs animate-in fade-in zoom-in-95 duration-200">
+                <div
+                    className={cn(
+                        "absolute top-full left-0 right-0 mt-2 z-50 overflow-hidden rounded-md border shadow-xs animate-in fade-in zoom-in-95 duration-200",
+                        tone === "onLayer"
+                            ? "border-border-inverse bg-layer-1 text-onLayer-primary"
+                            : "border-input bg-popover text-popover-foreground"
+                    )}
+                >
                     <div className="flex flex-col">
                         {filteredSuggestions.map((suggestion) => (
                             <button
                                 key={suggestion.id}
-                                className="flex items-center gap-4 px-5 py-4 text-left hover:bg-accent transition-colors first:pt-5 last:pb-5 group"
+                                className={cn(
+                                    "flex items-center gap-4 px-5 py-4 text-left transition-colors first:pt-5 last:pb-5 group",
+                                    tone === "onLayer" ? "hover:bg-layer-2" : "hover:bg-accent"
+                                )}
                                 onClick={() => {
                                     if (!isControlled) setUncontrolledQuery(suggestion.label)
                                     onValueChange?.(suggestion.label)
@@ -140,9 +159,23 @@ export function SearchInputWithSuggestions({
                                     ) : null}
                                 </div>
                                 <div className="flex flex-1 items-center justify-between">
-                                    <span className="text-base font-semibold text-foreground">{suggestion.label}</span>
+                                    <span
+                                        className={cn(
+                                            "text-base font-semibold",
+                                            tone === "onLayer" ? "text-onLayer-primary" : "text-foreground"
+                                        )}
+                                    >
+                                        {suggestion.label}
+                                    </span>
                                     {suggestion.price && (
-                                        <span className="font-mono text-sm text-muted-foreground">{suggestion.price}</span>
+                                        <span
+                                            className={cn(
+                                                "font-mono text-sm",
+                                                tone === "onLayer" ? "text-onLayer-secondary" : "text-muted-foreground"
+                                            )}
+                                        >
+                                            {suggestion.price}
+                                        </span>
                                     )}
                                 </div>
                             </button>

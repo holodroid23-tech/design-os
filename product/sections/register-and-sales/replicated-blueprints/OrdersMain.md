@@ -46,9 +46,7 @@
 | Order switcher (add + order tabs row) | `@/components/ui/order-tabs` (`OrderTabs`) | `tabs=[{ id, label, count? }]` + `value="<orderId>"` + `onValueChange` + `onAddTab` |
 | Section header ("Favorites", "Inventory") | `@/components/ui/section-title` (`SectionTitle`) | `titleAs="h2"` |
 | Inventory tile ("Custom item", "Iced drinks", "Pastries") | `@/components/patterns/grid-action-tile` (`GridActionTile`) | `label="…"`; `icon={Plus | Folder}`; `intent="default"` |
-| Menu item tile (no image) | `@/components/ui/product-tile` (`ProductTile`) | `name` + `price` + `tone="surface"` |
-| Menu item tile (with image) | `@/components/ui/product-tile` (`ProductTile`) | `name` + `price` + `imageSrc` + `imageAlt?` + `tone="surface"` |
-| Bottom order summary (collapsed) | `@/components/ui/bottom-sliding-modal` (`BottomSlidingModalTrigger`) | Trigger should be the full-width bottom bar button |
-| Bottom sliding modal (expanded order) | `@/components/ui/bottom-sliding-modal` (`BottomSlidingModal`, `BottomSlidingModalContent`) | Use `header`/`footer` slots as needed; body hosts the order details UI |
-| Expand order icon | `@/components/atoms/icon` (`SystemIcon`) | `icon={ChevronUp | ChevronDown}` + `size="huge"` (direction reflects expanded state) |
+| Menu item tile (no image) | `@/components/ui/order-product-tile` (`OrderProductTile`) | `name` + `price` + `tone="surface"`; if `count` is present, show `leftAction`/`rightAction` |
+| Menu item tile (with image) | `@/components/ui/order-product-tile` (`OrderProductTile`) | `name` + `price` + `imageSrc` + `imageAlt?` + `tone="surface"`; if `count` is present, show `leftAction`/`rightAction` |
+| Order summary + expansion | `@/components/ui/order-expandable-summary` (`OrderExpandableSummary`) | `items=[{ id, name, qty, unitPrice, imageSrc? }]` + `orderTitle="…"` + `tax?` + callbacks (`onIncreaseItem`, `onDecreaseItem`, `onPayCash`, `onPayCard`) |
 

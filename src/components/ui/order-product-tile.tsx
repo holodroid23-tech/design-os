@@ -1,4 +1,3 @@
-import * as React from "react"
 import type { LucideIcon } from "lucide-react"
 
 import { ProductTile, type ProductTileProps } from "@/components/ui/product-tile"

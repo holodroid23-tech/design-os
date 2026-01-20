@@ -1,4 +1,3 @@
-import * as React from "react"
 import { CreditCard, RotateCw, X, XCircle } from "lucide-react"
 
 import { IconTile, SystemIcon } from "@/components/atoms/icon"
@@ -34,7 +33,7 @@ export default function PaymentFailedTapToPay({
   onRetryPayment,
 }: PaymentFailedTapToPayProps) {
   return (
-    <div className="h-full min-h-full w-full bg-background text-foreground">
+    <div className="h-full min-h-full w-full bg-background">
       <div className="flex h-full min-h-full flex-col">
         {/* Block 1: Header controls */}
         <div className="px-6 pt-6">
@@ -43,7 +42,6 @@ export default function PaymentFailedTapToPay({
               type="button"
               variant="invisible"
               size="icon-lg"
-              shape="circle"
               aria-label="Close"
               onClick={onClose}
             >
