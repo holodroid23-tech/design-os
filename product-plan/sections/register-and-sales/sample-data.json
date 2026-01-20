@@ -1,0 +1,73 @@
+{
+  "_meta": {
+    "models": {
+      "products": "Sellable items with pricing and tax behavior.",
+      "productFolders": "Grouping containers for organizing products.",
+      "activeOrder": "The current in-progress tab on the register.",
+      "orders": "List of all active tabs/orders currently open.",
+      "payments": "Records of completed transactions."
+    },
+    "relationships": [
+      "Orders contain multiple OrderLineItems which reference Products.",
+      "Products can optionally belong to a ProductFolder.",
+      "Sales are generated when an Order is paid via a Payment."
+    ]
+  },
+  "products": [
+    { "id": "p1", "name": "Latte", "price": 4.75, "category": "Hot Coffees", "isFavorite": true, "taxRate": 0.10 },
+    { "id": "p2", "name": "Espresso", "price": 3.00, "category": "Hot Coffees", "isFavorite": true, "taxRate": 0.10 },
+    { "id": "p3", "name": "Mocha", "price": 5.00, "category": "Hot Coffees", "isFavorite": true, "taxRate": 0.10 },
+    { "id": "p4", "name": "Cappuccino", "price": 4.50, "category": "Hot Coffees", "isFavorite": true, "taxRate": 0.10 },
+    { "id": "p5", "name": "Flat White", "price": 4.50, "category": "Hot Coffees", "isFavorite": true, "taxRate": 0.10 },
+    { "id": "p6", "name": "Taro Latte", "price": 5.50, "category": "Hot Coffees", "isFavorite": true, "taxRate": 0.10 },
+    { "id": "p7", "name": "Americano", "price": 3.50, "category": "Hot Coffees", "isFavorite": true, "taxRate": 0.10 },
+    { "id": "p8", "name": "Matcha", "price": 5.25, "category": "Hot Coffees", "isFavorite": true, "taxRate": 0.10 },
+    { "id": "p9", "name": "Cold Brew", "price": 4.50, "category": "Hot Coffees", "isFavorite": true, "taxRate": 0.10 },
+    { "id": "p10", "name": "Double Espresso", "price": 4.50, "category": "Hot Coffees", "taxRate": 0.10 },
+    { "id": "p11", "name": "Blueberry Muffin", "price": 3.50, "category": "Pastries", "taxRate": 0.05 },
+    { "id": "p12", "name": "Sparkling Water", "price": 2.50, "category": "Drinks", "taxRate": 0.21 },
+    { "id": "p13", "name": "Iced Matcha", "price": 5.50, "category": "Iced Drinks", "taxRate": 0.10 }
+  ],
+  "productFolders": [
+    { "id": "f1", "name": "Hot Coffees", "icon": "coffee" },
+    { "id": "f2", "name": "Iced Drinks", "icon": "ice-cream" },
+    { "id": "f3", "name": "Pastries", "icon": "croissant" },
+    { "id": "f4", "name": "Drinks", "icon": "cup-soda" }
+  ],
+  "orders": [
+    {
+      "id": "o1",
+      "orderNumber": "#402",
+      "name": "Table 4",
+      "items": [
+        { "id": "oi1", "productId": "p10", "name": "Double Espresso", "price": 4.50, "quantity": 1 },
+        { "id": "oi2", "productId": "p5", "name": "Flat White", "price": 4.50, "quantity": 1 },
+        { "id": "oi3", "productId": "p11", "name": "Blueberry Muffin", "price": 3.50, "quantity": 1 }
+      ],
+      "subtotal": 12.50,
+      "tax": 1.15,
+      "total": 13.65
+    },
+    {
+      "id": "o2",
+      "orderNumber": "#403",
+      "name": "Window Bar",
+      "items": [
+        { "id": "oi4", "productId": "p1", "name": "Latte", "price": 4.75, "quantity": 2 }
+      ],
+      "subtotal": 9.50,
+      "tax": 0.95,
+      "total": 10.45
+    },
+    {
+      "id": "o3",
+      "orderNumber": "#404",
+      "name": "Takeaway",
+      "items": [],
+      "subtotal": 0.00,
+      "tax": 0.00,
+      "total": 0.00
+    }
+  ],
+  "activeOrderId": "o1"
+}

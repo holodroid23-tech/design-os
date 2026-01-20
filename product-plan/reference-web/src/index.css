@@ -1,0 +1,95 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-display: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  --font-body: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  --font-sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  --font-mono: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace";
+
+  /* Semantic Colors from product/design-system/colors.json */
+  --color-layer-level-0: #111114;
+  --color-layer-level-1: #24242b;
+  --color-layer-level-2: #37373e;
+  --color-layer-level-3: #505057;
+  --color-layer-hover: rgba(0,0,0,0.05);
+  --color-layer-active: rgba(0,0,0,0.1);
+  --color-layer-info: #d5efff;
+  --color-layer-warning: #fcf6c5;
+  --color-layer-danger: #fee2e2;
+  --color-layer-success: #dcfce4;
+  --color-layer-recent: #f0e7ff;
+  --color-layer-main-navigation: #111114;
+  --color-layer-highlight: #f6d84e;
+  --color-layer-transparent: rgba(255,255,255,0.01);
+
+  --color-onLayer-primary: #f9f9fa;
+  --color-onLayer-secondary: #b5b5b7;
+  --color-onLayer-tertiary: #6d6d71;
+  --color-onLayer-inverse: #f9f9fa;
+  --color-onLayer-interactive: #148134;
+  --color-onLayer-warning: #e1ab11;
+  --color-onLayer-danger: #da2828;
+  --color-onLayer-success: #15a43e;
+  --color-onLayer-recent: #691cd4;
+
+  --color-border-primary: rgba(0,0,0,0.2);
+  --color-border-secondary: rgba(0,0,0,0.1);
+  --color-border-inverse: rgba(255,255,255,0.2);
+  --color-border-info: #56a0ff;
+  --color-border-info-emphasis: #003beb;
+  --color-border-warning: #f6d84e;
+  --color-border-warning-emphasis: #f1c21b;
+  --color-border-danger: #f67373;
+  --color-border-danger-emphasis: #da2828;
+  --color-border-success: #85f0a3;
+  --color-border-success-emphasis: #20c54f;
+  --color-border-recent: #b180ff;
+  --color-border-recent-emphasis: #7c2df0;
+  --color-border-focus-button: #24242b;
+  --color-border-focus-ring: #9d9da0;
+  --color-border-focus-ring-inner: rgba(255,255,255,0.95);
+  --color-border-focus-ring-inverse: #85c7ff;
+  --color-border-focus-ring-inner-inverse: rgba(0,0,0,0.7);
+  --color-border-focus-form: #9d9da0;
+
+  --color-overlay-default: rgba(0,0,0,0.7);
+  --color-overlay-inverse: rgba(255,255,255,0.8);
+
+  --color-link-primary: #15a43e;
+  --color-link-secondary: #85c7ff;
+  --color-link-tertiary: #b5b5b7;
+  --color-link-inverse: #f9f9fa;
+  --color-link-visited: #691cd4;
+
+  --color-button-primary: #15a43e;
+  --color-button-light: rgba(255,255,255,0.7);
+  --color-button-ghost: rgba(255,255,255,0);
+  --color-button-invisible: rgba(255,255,255,0);
+  --color-button-inverse: rgba(255,255,255,0);
+  --color-button-request: #15a43e;
+  --color-button-danger: #da2828;
+  --color-button-purchase: #f6d84e;
+  --color-button-ghost-hover: rgba(0,0,0,0.05);
+  --color-button-invisible-hover: rgba(0,0,0,0.05);
+  --color-button-inverse-hover: rgba(255,255,255,0.05);
+  --color-button-ghost-active: rgba(0,0,0,0.1);
+  --color-button-invisible-active: rgba(0,0,0,0.1);
+  --color-button-inverse-active: rgba(255,255,255,0.1);
+  --color-button-invisible-applied: rgba(208,226,255,0.5);
+
+  /* Back-compat aliases used in some screens (bg-layer-1, etc.) */
+  --color-layer-0: var(--color-layer-level-0);
+  --color-layer-1: var(--color-layer-level-1);
+  --color-layer-2: var(--color-layer-level-2);
+  --color-layer-3: var(--color-layer-level-3);
+}
+
+/* Minimal base styles (reference bundle only) */
+@layer base {
+  body {
+    font-family: var(--font-body);
+  }
+}

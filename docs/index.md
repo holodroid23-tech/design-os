@@ -36,8 +36,8 @@ You interact with Design OS through slash commands. Each command walks you throu
 - `/sample-data` — Generate realistic data for screen designs
 - `/design-screen` — Create production-ready React components
 - `/design-replication` — Replicate mockup designs using design system tokens
-- `/screenahot-design` — Snap a screenshot of a finished design screen for quick reference
-- `/export-product` — Generate the complete handoff package
+- `/screenshot-design` — Snap a screenshot of a finished design screen for quick reference
+- `/export-product` — Export the complete handoff package (or run `npm run export-product-plan`)
 
 See [Usage](usage.md) for the full workflow.
 

@@ -55,8 +55,8 @@ Design the persistent navigation and layout that wraps all sections.
 - `/design-replication` — Replicate existing mockups using design system (optional)
 
 ### 7. Export (`/export-product`)
-Generate the complete export package with all components, types, and handoff documentation.
-**Output:** `product-plan/`
+Generate the complete export package with specs, tokens, prompts/instructions, and optional web reference bundle.
+**Output:** `product-plan/` and `product-plan.zip` (via `npm run export-product-plan`)
 
 ---
 

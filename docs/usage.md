@@ -54,7 +54,7 @@ See [Export](export.md) for details on what's included and how to use it.
 | `/design-screen` | Create screen design components |
 | `/design-replication` | Replicate mockup designs using design system |
 | `/screenshot-design` | Capture screenshots |
-| `/export-product` | Generate the complete handoff package |
+| `/export-product` | Export handoff package (or run `npm run export-product-plan`) |
 
 ## Tips
 

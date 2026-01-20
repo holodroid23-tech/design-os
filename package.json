@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "export-product-plan": "node scripts/export-product-plan.mjs",
     "lint": "eslint .",
     "parity-check": "node scripts/parity-check.mjs",
     "preview": "vite preview"
