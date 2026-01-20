@@ -76,7 +76,12 @@ export default function UsersList({
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
       <div className="sticky top-0 z-10 bg-background px-6 py-4">
-        <button type="button" className="group w-full text-left" onClick={onBack}>
+        <Button
+          type="button"
+          variant="invisible"
+          className="group w-full h-auto p-0 justify-start text-left"
+          onClick={onBack}
+        >
           <SectionTitle
             interactive
             titleAs="h2"
@@ -86,7 +91,7 @@ export default function UsersList({
           >
             {title}
           </SectionTitle>
-        </button>
+        </Button>
       </div>
 
       {/* Scroll area (Blocks 3-4 live here) */}

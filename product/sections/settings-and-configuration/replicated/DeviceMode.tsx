@@ -12,7 +12,7 @@ export default function DeviceMode() {
         <div className="flex h-full min-h-full flex-col bg-background">
             {/* Block 1: Header Section */}
             <div className="px-6 py-4 sticky top-0 bg-background z-10 border-b">
-                <button type="button" className="w-full text-left group">
+                <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
                     <SectionTitle
                         interactive
                         leading={
@@ -21,7 +21,7 @@ export default function DeviceMode() {
                     >
                         Device mode
                     </SectionTitle>
-                </button>
+                </Button>
             </div>
 
             {/* Block 2: Mode Selection */}

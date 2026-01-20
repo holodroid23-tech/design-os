@@ -58,7 +58,7 @@ export default function ReceiptConfiguration() {
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
       <div className="sticky top-0 z-10 bg-background px-6 py-4">
-        <button type="button" className="w-full text-left group">
+        <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
           <SectionTitle
             interactive
             leading={
@@ -67,7 +67,7 @@ export default function ReceiptConfiguration() {
           >
             Receipt
           </SectionTitle>
-        </button>
+        </Button>
       </div>
 
       {/* Block 2: View mode */}

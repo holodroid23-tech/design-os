@@ -113,10 +113,11 @@ function TodaysExpensesBottomSummary({
     <div className="w-full">
       <BottomSlidingModal>
         <BottomSlidingModalTrigger asChild>
-          <button
+          <Button
             type="button"
+            variant="invisible"
             className={cn(
-              "w-full cursor-pointer active:scale-[0.99] transition-all relative group h-[96px] flex flex-col justify-center text-left",
+              "w-full h-[96px] p-0 cursor-pointer active:scale-[0.99] transition-all relative group flex flex-col items-stretch justify-center text-left",
               "overflow-hidden rounded-[18px] border shadow-lg",
               "bg-layer-1 border-border-inverse text-onLayer-primary",
               "supports-[backdrop-filter]:backdrop-blur-md supports-[backdrop-filter]:bg-layer-1/90"
@@ -140,7 +141,7 @@ function TodaysExpensesBottomSummary({
                 <SystemIcon icon={ChevronDown} size="huge" className="rotate-180" aria-hidden="true" />
               </span>
             </div>
-          </button>
+          </Button>
         </BottomSlidingModalTrigger>
 
         <BottomSlidingModalContent

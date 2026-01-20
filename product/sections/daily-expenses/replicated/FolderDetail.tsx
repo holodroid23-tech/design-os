@@ -126,9 +126,10 @@ export default function FolderDetail({
       <div className="min-h-0 flex-1 overflow-y-auto">
         {/* Header: back + title */}
         <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
-          <button
+          <Button
             type="button"
-            className="group w-full text-left"
+            variant="invisible"
+            className="group w-full h-auto p-0 justify-start text-left"
             aria-label="Back"
             onClick={onBack}
           >
@@ -140,7 +141,7 @@ export default function FolderDetail({
             >
               {title}
             </SectionTitle>
-          </button>
+          </Button>
         </div>
 
         {/* Items grid (tiles without prices and without counters) */}
@@ -169,10 +170,11 @@ export default function FolderDetail({
         <div className="w-full">
           <BottomSlidingModal open={open} onOpenChange={setOpen}>
             <BottomSlidingModalTrigger asChild>
-              <button
+              <Button
                 type="button"
+                variant="invisible"
                 className={cn(
-                  "w-full cursor-pointer active:scale-[0.99] transition-all relative group h-[96px] flex flex-col justify-center text-left",
+                  "w-full h-[96px] p-0 cursor-pointer active:scale-[0.99] transition-all relative group flex flex-col items-stretch justify-center text-left",
                   "overflow-hidden rounded-[18px] border shadow-lg",
                   "bg-layer-1 border-border-inverse text-onLayer-primary",
                   "supports-[backdrop-filter]:backdrop-blur-md supports-[backdrop-filter]:bg-layer-1/90"
@@ -200,7 +202,7 @@ export default function FolderDetail({
                     </span>
                   </Button>
                 </div>
-              </button>
+              </Button>
             </BottomSlidingModalTrigger>
 
             <BottomSlidingModalContent

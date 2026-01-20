@@ -46,7 +46,9 @@ export default function ResetForgottenPinCashierFinal({
         <div className="flex w-full max-w-sm flex-col gap-10">
           {/* Block 2: Message block */}
           <div className="flex flex-col items-center text-center">
-            <IconTile icon={Info} tone="info" size="large" variant="tile" />
+            <div className="inline-flex size-[60px] shrink-0 items-center justify-center rounded-[12px] bg-stone-700 text-white dark:bg-stone-600">
+              <SystemIcon icon={Info} size="huge" className="text-white" aria-hidden="true" />
+            </div>
 
             <div className="mt-6 flex flex-col gap-2">
               <h1>Contact your admin</h1>

@@ -4,6 +4,7 @@ import { OrderExpandableSummary, type OrderExpandableSummaryItem } from "@/compo
 import { FloatingBottomBar, FloatingBottomBarSpacer } from "@/components/ui/floating-bottom-bar"
 import { SectionTitle } from "@/components/ui/section-title"
 import { OrderProductTile } from "@/components/ui/order-product-tile"
+import { Button } from "@/components/ui/button"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -152,10 +153,11 @@ export default function OrderFolderDetail({
     <div className="flex h-full min-h-full w-full flex-col bg-background">
       <div className="min-h-0 flex-1 overflow-y-auto">
         {/* Header: back + title (replaces order tabs) */}
-        <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
-          <button
+        <div className="sticky top-0 z-40 border-b bg-background px-6 py-4">
+          <Button
             type="button"
-            className="group w-full text-left"
+            variant="invisible"
+            className="group w-full h-auto p-0 justify-start text-left"
             aria-label="Back"
             onClick={onBack}
           >
@@ -167,7 +169,7 @@ export default function OrderFolderDetail({
             >
               {title}
             </SectionTitle>
-          </button>
+          </Button>
         </div>
 
         {/* Items grid (no favorites, no inventory title, no custom item/folders tiles) */}

@@ -10,6 +10,7 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from "@/components/settings/settings-item"
+import { Button } from "@/components/ui/button"
 import { SectionTitle } from "@/components/ui/section-title"
 import { ChevronLeft, ChevronRight, KeyRound, LockKeyhole } from "lucide-react"
 
@@ -38,7 +39,12 @@ export default function UserProfile({
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header bar */}
       <div className="sticky top-0 z-10 bg-background px-6 py-4">
-        <button type="button" className="group w-full text-left" onClick={onBack}>
+        <Button
+          type="button"
+          variant="invisible"
+          className="group w-full h-auto p-0 justify-start text-left"
+          onClick={onBack}
+        >
           <SectionTitle
             interactive
             titleAs="h2"
@@ -51,7 +57,7 @@ export default function UserProfile({
           >
             {title}
           </SectionTitle>
-        </button>
+        </Button>
       </div>
 
       {/* Block 2: Identity section */}

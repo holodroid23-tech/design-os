@@ -2,7 +2,7 @@ import { Lock, XIcon } from "lucide-react"
 import * as React from "react"
 
 import { Button } from "@/components/ui/button"
-import { IconTile, SystemIcon } from "@/components/ui/icon"
+import { SystemIcon } from "@/components/ui/icon"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
@@ -64,7 +64,9 @@ export default function ResetPinEnterEmailManagerAdmin({
         <div className="w-full max-w-sm">
           {/* Block 2: Primary message */}
           <div className="flex flex-col items-center text-center">
-            <IconTile icon={Lock} size="large" variant="tile" tone="info" />
+            <div className="inline-flex size-[60px] shrink-0 items-center justify-center rounded-[12px] bg-stone-700 text-white dark:bg-stone-600">
+              <SystemIcon icon={Lock} size="huge" className="text-white" aria-hidden="true" />
+            </div>
 
             <div className="mt-6 flex flex-col gap-2">
               <h1>Reset your PIN</h1>

@@ -23,7 +23,7 @@ export default function PrinterSettings() {
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
       <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
-        <button type="button" className="group w-full text-left">
+        <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
           <SectionTitle
             interactive
             titleAs="h2"
@@ -33,7 +33,7 @@ export default function PrinterSettings() {
           >
             Printer
           </SectionTitle>
-        </button>
+        </Button>
       </div>
 
       {/* Block 2: Printer status */}

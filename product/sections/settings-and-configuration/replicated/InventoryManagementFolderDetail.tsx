@@ -42,7 +42,7 @@ export default function InventoryManagementFolderDetail() {
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
       <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
-        <button type="button" className="group w-full text-left">
+        <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
           <SectionTitle
             interactive
             leading={
@@ -51,7 +51,7 @@ export default function InventoryManagementFolderDetail() {
           >
             Monthly utilities
           </SectionTitle>
-        </button>
+        </Button>
       </div>
 
       {/* Block 2: Toggle List */}
@@ -62,7 +62,7 @@ export default function InventoryManagementFolderDetail() {
               <SettingsItem asChild>
                 <div>
                   <SettingsItemIcon>
-                    <ImageTile size="small" alt="" className="rounded-full" />
+                    <ImageTile size="small" alt="" className="rounded-[12px]" />
                   </SettingsItemIcon>
 
                   <SettingsItemContent>

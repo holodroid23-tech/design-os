@@ -2,6 +2,7 @@ import * as React from "react"
 import { Hand, Plus } from "lucide-react"
 
 import { SystemIcon } from "@/components/atoms/icon"
+import { Button } from "@/components/ui/button"
 import { OrderTabs, type OrderTabsTab } from "@/components/ui/order-tabs"
 import { GridActionTile } from "@/components/patterns/grid-action-tile"
 import { ProductTile, type ProductTileProps } from "@/components/ui/product-tile"
@@ -161,13 +162,14 @@ export default function FirstLaunchOnboardingOrders({
 
           <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
             {descriptionPrefix}
-            <button
+            <Button
               type="button"
+              variant="link"
+              className="h-auto p-0 text-primary"
               onClick={() => onPressManageInventory?.()}
-              className="text-primary hover:underline underline-offset-4"
             >
               {descriptionLinkText}
-            </button>
+            </Button>
             {descriptionSuffix}
           </p>
         </div>

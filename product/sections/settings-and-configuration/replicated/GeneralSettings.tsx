@@ -31,7 +31,7 @@ export default function GeneralSettings() {
         <div className="flex h-full min-h-full flex-col bg-background">
             {/* Block 1: Header */}
             <div className="px-6 py-4 sticky top-0 bg-background z-10 border-b">
-                <button type="button" className="w-full text-left group">
+                <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
                     <SectionTitle
                         interactive
                         leading={
@@ -40,7 +40,7 @@ export default function GeneralSettings() {
                     >
                         General
                     </SectionTitle>
-                </button>
+                </Button>
             </div>
 
             {/* Block 2: Store Fields */}
