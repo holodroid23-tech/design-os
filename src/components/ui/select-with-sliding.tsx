@@ -17,6 +17,17 @@ interface SelectWithSlidingProps {
     options: SelectOption[]
     placeholder?: string
     disabled?: boolean
+    /**
+     * Only applies when `variant="sliding"`.
+     * - "picker": iOS-style centered picker (taller)
+     * - "list": compact list (hugs content for short lists)
+     */
+    slidingPresentation?: "picker" | "list"
+    /**
+     * Only applies when `variant="sliding"`.
+     * When false, removes the modal header (title/close).
+     */
+    slidingShowHeader?: boolean
 }
 
 export function SelectWithSliding({
@@ -27,6 +38,8 @@ export function SelectWithSliding({
     options,
     placeholder,
     disabled,
+    slidingPresentation,
+    slidingShowHeader,
 }: SelectWithSlidingProps) {
     const [open, setOpen] = React.useState(false)
     const [internalValue, setInternalValue] = React.useState<string | number | undefined>(
@@ -63,6 +76,8 @@ export function SelectWithSliding({
                     options={options}
                     selectedValue={value ?? internalValue ?? ""}
                     onSelect={handleValueChange}
+                    presentation={slidingPresentation}
+                    showHeader={slidingShowHeader}
                 />
             </>
         )

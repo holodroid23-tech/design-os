@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react"
 import { Folder, Minus, Plus, Trash2 } from "lucide-react"
 
 import { OrderExpandableSummary, type OrderExpandableSummaryItem } from "@/components/ui/order-expandable-summary"
+import { FloatingBottomBar, FloatingBottomBarSpacer } from "@/components/ui/floating-bottom-bar"
 import { SectionTitle } from "@/components/ui/section-title"
 import { OrderTabs } from "@/components/ui/order-tabs"
 import { OrderProductTile } from "@/components/ui/order-product-tile"
@@ -277,7 +278,7 @@ export default function OrdersMain({
 
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
-      <div className="min-h-0 flex-1 overflow-y-auto pb-32">
+      <div className="min-h-0 flex-1 overflow-y-auto">
         {/* Block 1: Order switcher */}
         <div className="sticky top-0 z-50 isolate bg-background border-b border-border px-4 pt-4 pb-4">
           <OrderTabs
@@ -407,22 +408,23 @@ export default function OrdersMain({
             })}
           </div>
         </div>
+
+        {/* Reserve space for the floating order summary bar */}
+        <FloatingBottomBarSpacer />
       </div>
 
       {/* Floating order summary bar (overlays content) */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-50 px-4 pb-4">
-        <div className="pointer-events-auto">
-          <OrderExpandableSummary
-            items={orderItems}
-            orderTitle={orderTitle}
-            tax={orderTax}
-            onIncreaseItem={onIncreaseOrderItem}
-            onDecreaseItem={onDecreaseOrderItem}
-            onPayCash={onPayCash}
-            onPayCard={onPayCard}
-          />
-        </div>
-      </div>
+      <FloatingBottomBar>
+        <OrderExpandableSummary
+          items={orderItems}
+          orderTitle={orderTitle}
+          tax={orderTax}
+          onIncreaseItem={onIncreaseOrderItem}
+          onDecreaseItem={onDecreaseOrderItem}
+          onPayCash={onPayCash}
+          onPayCard={onPayCard}
+        />
+      </FloatingBottomBar>
     </div>
   )
 }

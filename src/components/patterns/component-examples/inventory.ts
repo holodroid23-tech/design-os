@@ -127,6 +127,7 @@ export const componentExamplesInventoryGroups: ComponentExampleInventoryGroup[] 
     id: 'domain',
     title: 'Domain',
     items: [
+      { id: 'analytics-widgets', title: 'Analytics widgets', component: '@/components/patterns/component-examples/sections/analytics-examples#AnalyticsWidgetsExamplesCard' },
       { id: 'product-expense-cards', title: 'Product/expense cards', component: '@/components/patterns/component-examples/sections/product-expense-examples#ProductExpenseCardsExamplesCard' },
       { id: 'product-expense-items-ds', title: 'Product/expense items (DS)', component: '@/components/patterns/component-examples/sections/product-expense-examples#ProductExpenseItemsDsExamplesCard' },
       { id: 'order-expandable', title: 'Order expandable', component: '@/components/patterns/component-examples/sections/order-examples#OrderExpandableExamplesCard' },

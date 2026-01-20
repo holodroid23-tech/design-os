@@ -1,12 +1,8 @@
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
+import { ExpenseExpandableGroup, ExpenseExpandableRow } from '@/components/ui/expense-expandable-accordion'
+import { OrderExpandableCard } from '@/components/ui/order-expandable-card'
 import { Separator } from '@/components/ui/separator'
-import { IconTile, SystemIcon } from '@/components/atoms/icon'
-import { SettingsItem, SettingsItemAction, SettingsItemContent, SettingsItemTitle } from '@/components/settings/settings-item'
-import { ImageTile } from '@/components/ui/image-tile'
-import { ChevronDown, Coffee, CupSoda, Home, Pencil, Utensils } from 'lucide-react'
+import { Home } from 'lucide-react'
 
 export function ElevationsExamplesCard() {
   return (
@@ -73,342 +69,119 @@ export function AccordionsExamplesCard() {
         <div className="grid md:grid-cols-2 gap-8 items-start">
           <div className="space-y-4">
             <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Expenses</h3>
-            <Collapsible defaultOpen className="rounded-[18px] border border-border overflow-hidden">
-              <CollapsibleTrigger asChild>
-                <button
-                  type="button"
-                  className="group w-full flex items-center justify-between p-5 text-left transition-colors"
-                >
-                  <div className="flex flex-col">
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg font-semibold tracking-tight">Yesterday</span>
-                      <SystemIcon
-                        icon={ChevronDown}
-                        size="small"
-                        className="text-muted-foreground group-data-[state=open]:rotate-180 transition-transform"
-                        aria-hidden="true"
-                      />
-                    </div>
-                    <span className="text-xs text-muted-foreground">3 expenses</span>
-                  </div>
-                  <div className="text-right flex flex-col items-end gap-2">
-                    <div className="font-mono font-medium text-sm">$1,304.50</div>
-                    <Badge variant="destructive">4 Edits</Badge>
-                  </div>
-                </button>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <div className="border-t border-border/60">
-                  <div className="divide-y divide-border/50">
-                    {/* Whole Milk (collapsed) */}
-                    <Collapsible>
-                      <CollapsibleTrigger asChild>
-                        <SettingsItem className="group rounded-none h-auto min-h-0 py-4 pl-6 pr-5">
-                          <SettingsItemContent className="flex-row items-center gap-4">
-                            <ImageTile
-                              size="small"
-                              src="https://images.unsplash.com/photo-1550583724-b2692b85b150?q=80&w=200&auto=format&fit=crop"
-                              alt="Whole Milk"
-                            />
-                            <div className="flex flex-col items-start text-left">
-                              <div className="flex items-center gap-2">
-                                <SettingsItemTitle className="text-sm font-semibold tracking-tight">Whole Milk</SettingsItemTitle>
-                                <SystemIcon
-                                  icon={ChevronDown}
-                                  size="small"
-                                  className="text-muted-foreground group-data-[state=open]:rotate-180 transition-transform"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                            </div>
-                          </SettingsItemContent>
-                          <SettingsItemAction className="text-foreground">
-                            <span className="font-mono text-sm">$4.50</span>
-                          </SettingsItemAction>
-                        </SettingsItem>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <div className="px-5 pb-5 pt-4 space-y-3 text-xs border-t border-border/50">
-                          <div className="space-y-1">
-                            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                              <span className="text-muted-foreground">Created by:</span>
-                              <span className="text-foreground font-medium">Sarah Jackson</span>
-                            </div>
-                            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                              <span className="text-muted-foreground">Time:</span>
-                              <span className="text-foreground font-medium">Yesterday at 10:42 AM</span>
-                            </div>
-                            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                              <span className="text-muted-foreground">Note:</span>
-                              <span className="text-foreground font-medium">—</span>
-                            </div>
-                          </div>
-                          <div className="flex justify-end pt-2">
-                            <Button variant="secondary" size="icon" className="rounded-[12px]">
-                              <SystemIcon icon={Pencil} size="regular" aria-hidden="true" />
-                            </Button>
-                          </div>
-                        </div>
-                      </CollapsibleContent>
-                    </Collapsible>
+            <ExpenseExpandableGroup
+              defaultOpen
+              title="Yesterday"
+              subtitle="3 expenses"
+              amount="$1,304.50"
+              badge={{ label: "4 Edits", variant: "destructive" }}
+            >
+              <ExpenseExpandableRow
+                title="Whole Milk"
+                amount="$4.50"
+                leading={{
+                  type: "image",
+                  src: "https://images.unsplash.com/photo-1550583724-b2692b85b150?q=80&w=200&auto=format&fit=crop",
+                  alt: "Whole Milk",
+                }}
+                details={{
+                  createdBy: "Sarah Jackson",
+                  time: "Yesterday at 10:42 AM",
+                  note: "—",
+                }}
+                onEdit={() => {}}
+              />
 
-                    {/* Rent (expanded + change marker) */}
-                    <Collapsible defaultOpen className="relative">
-                      <div className="pointer-events-none absolute left-0 top-3 bottom-3 w-[3px] rounded-full bg-destructive" />
-                      <CollapsibleTrigger asChild>
-                        <SettingsItem className="group rounded-none h-auto min-h-0 py-4 pl-6 pr-5">
-                          <SettingsItemContent className="flex-row items-center gap-4">
-                            <IconTile icon={Home} size="small" variant="tile" tone="neutral" />
-                            <div className="flex flex-col items-start text-left">
-                              <div className="flex items-center gap-2">
-                                <SettingsItemTitle className="text-sm font-semibold tracking-tight">Rent</SettingsItemTitle>
-                                <SystemIcon
-                                  icon={ChevronDown}
-                                  size="small"
-                                  className="text-muted-foreground group-data-[state=open]:rotate-180 transition-transform"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                            </div>
-                          </SettingsItemContent>
-                          <SettingsItemAction className="text-foreground">
-                            <span className="font-mono text-sm">$1,250.00</span>
-                          </SettingsItemAction>
-                        </SettingsItem>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <div className="px-5 pb-5 pt-4 space-y-4 text-xs border-t border-border/50">
-                          <div className="space-y-1">
-                            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                              <span className="text-muted-foreground">Created by:</span>
-                              <span className="text-foreground font-medium">Freddy Gasper</span>
-                            </div>
-                            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                              <span className="text-muted-foreground">Time:</span>
-                              <span className="text-foreground font-medium">Yesterday at 10:50 AM</span>
-                            </div>
-                            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                              <span className="text-muted-foreground">Note:</span>
-                              <span className="text-foreground font-medium">Monthly Office Rent</span>
-                            </div>
-                          </div>
+              <ExpenseExpandableRow
+                defaultOpen
+                showChangeMarker
+                title="Rent"
+                amount="$1,250.00"
+                leading={{ type: "icon", icon: Home, tone: "neutral" }}
+                details={{
+                  createdBy: "Freddy Gasper",
+                  time: "Yesterday at 10:50 AM",
+                  note: "Monthly Office Rent",
+                }}
+                changes={[
+                  { text: 'Freddy Gasper changed name from "Banana" to "Rent" on Yesterday at 10:50 AM' },
+                ]}
+                onEdit={() => {}}
+              />
 
-                          <div className="pt-2">
-                            <div className="flex gap-2 text-[11px] text-muted-foreground items-start">
-                              <div className="w-1.5 h-1.5 rounded-full bg-destructive mt-1 shrink-0" />
-                              <p>Freddy Gasper changed name from "Banana" to "Rent" on Yesterday at 10:50 AM</p>
-                            </div>
-                          </div>
-
-                          <div className="flex justify-end pt-1">
-                            <Button variant="secondary" size="icon" className="rounded-[12px]">
-                              <SystemIcon icon={Pencil} size="regular" aria-hidden="true" />
-                            </Button>
-                          </div>
-                        </div>
-                      </CollapsibleContent>
-                    </Collapsible>
-
-                    {/* Coffee Beans (expanded + deleted) */}
-                    <Collapsible defaultOpen className="relative">
-                      <div className="pointer-events-none absolute left-0 top-3 bottom-3 w-[3px] rounded-full bg-destructive" />
-                      <CollapsibleTrigger asChild>
-                        <SettingsItem className="group rounded-none h-auto min-h-0 py-4 pl-6 pr-5">
-                          <SettingsItemContent className="flex-row items-center gap-4">
-                            <ImageTile
-                              size="small"
-                              src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=200&auto=format&fit=crop"
-                              alt="Coffee Beans"
-                            />
-                            <div className="flex flex-col items-start text-left">
-                              <div className="flex items-center gap-2">
-                                <SettingsItemTitle className="text-sm font-semibold tracking-tight line-through decoration-muted-foreground/60">
-                                  Coffee Beans
-                                </SettingsItemTitle>
-                                <SystemIcon
-                                  icon={ChevronDown}
-                                  size="small"
-                                  className="text-muted-foreground group-data-[state=open]:rotate-180 transition-transform"
-                                  aria-hidden="true"
-                                />
-                              </div>
-                            </div>
-                          </SettingsItemContent>
-                          <SettingsItemAction className="text-foreground">
-                            <span className="font-mono text-sm line-through decoration-muted-foreground/60">$50.00</span>
-                          </SettingsItemAction>
-                        </SettingsItem>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <div className="px-5 pb-5 pt-4 space-y-4 text-xs border-t border-border/50">
-                          <div className="space-y-1">
-                            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                              <span className="text-muted-foreground">Created by:</span>
-                              <span className="text-foreground font-medium">Sarah Jackson</span>
-                            </div>
-                            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                              <span className="text-muted-foreground">Time:</span>
-                              <span className="text-foreground font-medium">Yesterday at 09:15 AM</span>
-                            </div>
-                            <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                              <span className="text-muted-foreground">Note:</span>
-                              <span className="text-foreground font-medium">Dark Roast</span>
-                            </div>
-                          </div>
-
-                          <div className="space-y-2 pt-2">
-                            <div className="flex gap-2 text-[11px] text-muted-foreground items-start">
-                              <div className="w-1.5 h-1.5 rounded-full bg-destructive mt-1 shrink-0" />
-                              <p>
-                                Sarah Jackson changed price from <span className="line-through decoration-muted-foreground/60">$45.00</span> to $50.00 at
-                                {' '}Yesterday at 09:20 AM
-                              </p>
-                            </div>
-                            <div className="flex gap-2 text-[11px] text-muted-foreground items-start">
-                              <div className="w-1.5 h-1.5 rounded-full bg-destructive mt-1 shrink-0" />
-                              <p>Sarah Jackson changed note from "Light Roast" to "Dark Roast" at Yesterday at 09:20 AM</p>
-                            </div>
-                            <div className="flex gap-2 text-[11px] text-muted-foreground items-start">
-                              <div className="w-1.5 h-1.5 rounded-full bg-destructive mt-1 shrink-0" />
-                              <p>Sarah Jackson deleted expense at Yesterday at 09:25 AM</p>
-                            </div>
-                          </div>
-                        </div>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  </div>
-                </div>
-              </CollapsibleContent>
-            </Collapsible>
+              <ExpenseExpandableRow
+                defaultOpen
+                showChangeMarker
+                deleted
+                title="Coffee Beans"
+                amount="$50.00"
+                leading={{
+                  type: "image",
+                  src: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=200&auto=format&fit=crop",
+                  alt: "Coffee Beans",
+                }}
+                details={{
+                  createdBy: "Sarah Jackson",
+                  time: "Yesterday at 09:15 AM",
+                  note: "Dark Roast",
+                }}
+                changes={[
+                  { text: 'Sarah Jackson changed price from "$45.00" to "$50.00" at Yesterday at 09:20 AM' },
+                  { text: 'Sarah Jackson changed note from "Light Roast" to "Dark Roast" at Yesterday at 09:20 AM' },
+                  { text: "Sarah Jackson deleted expense at Yesterday at 09:25 AM" },
+                ]}
+              />
+            </ExpenseExpandableGroup>
           </div>
 
           <div className="space-y-4">
             <h3 className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Orders</h3>
             <div className="space-y-4">
-              {/* Order #402 (expanded) */}
-              <Collapsible defaultOpen className="rounded-[18px] border border-border overflow-hidden">
-                <CollapsibleTrigger asChild>
-                  <button
-                    type="button"
-                    className="group w-full flex items-center justify-between p-5 text-left transition-colors"
-                  >
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg font-semibold tracking-tight">Order #402</span>
-                        <SystemIcon
-                          icon={ChevronDown}
-                          size="small"
-                          className="text-muted-foreground group-data-[state=open]:rotate-180 transition-transform"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <span className="text-xs text-muted-foreground">10:42 AM</span>
-                    </div>
-                    <div className="text-right flex flex-col items-end gap-2">
-                      <div className="font-mono font-medium text-sm">$29.90</div>
-                      <Badge variant="destructive">Refunded</Badge>
-                    </div>
-                  </button>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <div className="border-t border-border/60 px-5 pb-5 pt-4 space-y-4">
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between py-2">
-                        <div className="flex items-center gap-4">
-                          <IconTile icon={Coffee} size="small" variant="tile" tone="warning" />
-                          <div className="flex flex-col">
-                            <div className="text-sm font-semibold tracking-tight">Cappuccino</div>
-                            <div className="text-xs text-muted-foreground">Qty: 1</div>
-                          </div>
-                        </div>
-                        <div className="font-mono text-sm">$4.50</div>
-                      </div>
-                      <div className="h-px bg-border/50" />
-
-                      <div className="flex items-center justify-between py-2">
-                        <div className="flex items-center gap-4">
-                          <IconTile icon={Utensils} size="small" variant="tile" tone="success" />
-                          <div className="flex flex-col">
-                            <div className="text-sm font-semibold tracking-tight">Avocado Toast</div>
-                            <div className="text-xs text-muted-foreground">Qty: 1</div>
-                          </div>
-                        </div>
-                        <div className="font-mono text-sm">$12.00</div>
-                      </div>
-                      <div className="h-px bg-border/50" />
-
-                      <div className="flex items-center justify-between py-2">
-                        <div className="flex items-center gap-4">
-                          <IconTile icon={CupSoda} size="small" variant="tile" tone="info" />
-                          <div className="flex flex-col">
-                            <div className="text-sm font-semibold tracking-tight">Iced Matcha</div>
-                            <div className="text-xs text-muted-foreground">Qty: 1</div>
-                          </div>
-                        </div>
-                        <div className="font-mono text-sm">$11.00</div>
-                      </div>
-                    </div>
-
-                    <div className="h-px bg-border/50" />
-
-                    <div className="space-y-1 text-xs">
-                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                        <span className="text-muted-foreground">Created by:</span>
-                        <span className="text-foreground font-medium">Sarah Jackson</span>
-                      </div>
-                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                        <span className="text-muted-foreground">Custom name:</span>
-                        <span className="text-foreground font-medium">Table 1</span>
-                      </div>
-                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                        <span className="text-muted-foreground">Payment method:</span>
-                        <span className="text-foreground font-medium">Visa •••• 4242</span>
-                      </div>
-                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                        <span className="text-muted-foreground">Processed by:</span>
-                        <span className="text-foreground font-medium">karel martinek</span>
-                      </div>
-                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                        <span className="text-muted-foreground">Refunded by:</span>
-                        <span className="text-foreground font-medium">Mike Ross</span>
-                      </div>
-                      <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-                        <span className="text-muted-foreground">Reason:</span>
-                        <span className="text-foreground font-medium">Damaged item</span>
-                      </div>
-                    </div>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
+              <OrderExpandableCard
+                defaultOpen
+                title="Order #402"
+                time="10:42 AM"
+                amount="$29.90"
+                statusBadge={{ label: "Refunded", variant: "destructive" }}
+                items={[
+                  {
+                    id: "cappuccino",
+                    name: "Cappuccino",
+                    qty: 1,
+                    price: "$4.50",
+                    imageSrc: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=256&auto=format&fit=crop",
+                  },
+                  {
+                    id: "avocado-toast",
+                    name: "Avocado Toast",
+                    qty: 1,
+                    price: "$12.00",
+                    imageSrc: "https://images.unsplash.com/photo-1525351484163-7529414344d8?q=80&w=256&auto=format&fit=crop",
+                  },
+                  {
+                    id: "iced-matcha",
+                    name: "Iced Matcha",
+                    qty: 1,
+                    price: "$11.00",
+                    imageSrc: "https://images.unsplash.com/photo-1523365280197-f1783db9fe62?q=80&w=256&auto=format&fit=crop",
+                  },
+                ]}
+                details={[
+                  { label: "Created by", value: "Sarah Jackson" },
+                  { label: "Custom name", value: "Table 1" },
+                  { label: "Payment method", value: "Visa •••• 4242" },
+                  { label: "Processed by", value: "karel martinek" },
+                  { label: "Refunded by", value: "Mike Ross" },
+                  { label: "Reason", value: "Damaged item" },
+                ]}
+              />
 
               {/* Order #402 (collapsed) */}
-              <Collapsible className="rounded-[18px] border border-border overflow-hidden">
-                <CollapsibleTrigger asChild>
-                  <button
-                    type="button"
-                    className="group w-full flex items-center justify-between p-5 text-left transition-colors"
-                  >
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-2">
-                        <span className="text-lg font-semibold tracking-tight">Order #402</span>
-                        <SystemIcon
-                          icon={ChevronDown}
-                          size="small"
-                          className="text-muted-foreground group-data-[state=open]:rotate-180 transition-transform"
-                          aria-hidden="true"
-                        />
-                      </div>
-                      <span className="text-xs text-muted-foreground">10:42 AM</span>
-                    </div>
-                    <div className="font-mono font-medium text-sm">$29.90</div>
-                  </button>
-                </CollapsibleTrigger>
-                <CollapsibleContent>
-                  <div className="border-t border-border/60 p-5 text-xs text-muted-foreground">
-                    (Collapsed example) Expand to see items & details.
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
+              <OrderExpandableCard
+                title="Order #403"
+                time="10:45 AM"
+                amount="$14.50"
+              />
             </div>
           </div>
         </div>

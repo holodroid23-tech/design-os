@@ -44,6 +44,23 @@ Before writing the Blueprint or mapping components, classify each list/row you s
 - **Reference example**:
   - `src/components/patterns/component-examples/sections/building-blocks-examples.tsx` (`AtomicItemsExamplesCard`, especially “Toggle option”)
 
+### Phase 0.5: Multi-mockup Consolidation (Combine Steps into One Stateful Screen)
+Sometimes a “flow” is exported as multiple mockups that are clearly the **same screen** with only **state** differences (e.g., tab toggles like “Old/New”, step 1/step 2, error/success states).
+
+When the user provides **multiple mockups for the same flow**, you must:
+- **Merge them into one Blueprint** and one eventual component.
+- Define an explicit **state model** (e.g., `step: "old" | "new"`).
+- Document **what changes per state** (title text, helper text, primary action button, enabled/disabled conditions, auto-advance rules).
+- Keep the UI **single-screen**: the toggle/step control changes content *in place*.
+
+In the Blueprint:
+- Add a **States** section right after the Logic Tree:
+  - List each state and its trigger (toggle press, completion of PIN entry, etc.)
+  - List state-specific UI differences (copy, actions, validation)
+- In **Component Mapping**, map the state switcher to a real DS component when possible:
+  - Prefer `@/components/ui/tabs` (`Tabs`, `TabsList`, `TabsTrigger`) for a two-state toggle.
+  - If a suitable DS control does not exist, document the gap instead of inventing a new “segmented control” component.
+
 ### Phase A: Structural Blueprint (The Eye)
 Convert the visual mockup into a logic-only tree.
 **STRICT RULES**:
@@ -64,6 +81,8 @@ Map logical elements to atomic components from the Design System.
     - **Dropdowns** → MUST map to `@/components/ui/select-with-sliding` (Prop: `variant="sliding"`).
     - **Radio Lists** → MUST map to `@/components/ui/radio-button-group` (Prop: `variant="default"`).
     - **Section Headers** → MUST map to `@/components/ui/section-title`. (Check for Back Navigation pattern: requires `leading` prop).
+    - **Complex accordions (Orders list)** → MUST map each expandable order row to `@/components/ui/order-expandable-card` (`OrderExpandableCard`). Do **not** rebuild “Order #___ expands to line items + details” with raw `Collapsible`/`Accordion` composition in replicated components.
+    - **Complex accordions (Expenses list)** → MUST map day groups to `@/components/ui/expense-expandable-accordion` (`ExpenseExpandableGroup`) and each expandable expense row to `ExpenseExpandableRow`. Do **not** rebuild nested expense accordions from raw primitives in replicated components.
     - **Toggles** → Classify the row intent first (Phase 0):
         - **Atomic item rows** (common in settings): default to a trailing `Switch` inside `SettingsItemAction` (Split).
         - **Inline/grouped toggles** (less common): `Label` + `Switch` together in the same inline cluster (Grouped) **only if explicitly indicated** by the blueprint.
@@ -88,6 +107,11 @@ Save the result to `product/sections/[section-id]/replicated-blueprints/[Compone
 ## Logic Tree
 - [Header] ...
 - [Section] ...
+
+## States (If multi-mockup)
+- **State model**: `stateName: "stateA" | "stateB" | ...`
+- **State A**: trigger, copy, actions, validation
+- **State B**: trigger, copy, actions, validation
 
 ## Implementation Blocks (The Roadmap)
 - [Block 1 Name]: [Brief description of what's inside]

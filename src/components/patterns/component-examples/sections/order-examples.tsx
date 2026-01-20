@@ -75,6 +75,13 @@ export function OrderExpandableExamplesCard() {
         unitPrice: 4.75,
         imageSrc: 'https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=256&auto=format&fit=crop',
       },
+      { id: 'latte', name: 'Latte', qty: 1, unitPrice: 4.75, imageSrc: 'https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=256&auto=format&fit=crop' },
+      { id: 'flat-white', name: 'Flat White', qty: 2, unitPrice: 4.5, imageSrc: 'https://images.unsplash.com/photo-1512568400610-62da28bc8a13?q=80&w=256&auto=format&fit=crop' },
+      { id: 'espresso', name: 'Espresso', qty: 3, unitPrice: 3.0 },
+      { id: 'cold-brew', name: 'Cold Brew', qty: 1, unitPrice: 4.5, imageSrc: 'https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=256&auto=format&fit=crop' },
+      { id: 'matcha', name: 'Matcha', qty: 2, unitPrice: 5.25 },
+      { id: 'cortado', name: 'Cortado', qty: 1, unitPrice: 4.0, imageSrc: 'https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=256&auto=format&fit=crop' },
+      { id: 'drip', name: 'Drip', qty: 2, unitPrice: 3.0 },
     ],
     []
   )

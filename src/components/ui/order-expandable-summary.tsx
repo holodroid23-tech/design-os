@@ -177,8 +177,9 @@ export function OrderExpandableSummary({
                 asChild
                 variant="invisible"
                 size="icon"
-                shape="circle"
-                className="text-onLayer-secondary group-hover:text-onLayer-primary group-hover:bg-layer-2"
+                // Match the standard invisible icon-button pattern, but remove the circular hover “blob”
+                // since this control sits on a floating bar already.
+                className="text-onLayer-secondary hover:text-onLayer-primary hover:bg-transparent dark:hover:bg-transparent"
               >
                 <span aria-hidden="true">
                   <SystemIcon icon={ChevronDown} size="huge" className="rotate-180" aria-hidden="true" />

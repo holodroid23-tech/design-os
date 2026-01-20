@@ -23,6 +23,8 @@
     - Use semantic colors like `bg-muted`, `bg-card`, `bg-secondary`.
 4.  **THE DEFAULT RULE**: If the Blueprint says "Extra Large", but the component only has `size="lg"`, you **must** use `size="lg"`. You are not allowed to "compensate" by adding font-size or padding to the component.
 5.  **MANDATORY PATTERNS**:
+    - **Complex accordions (Orders list)**: Use `@/components/ui/order-expandable-card` (`OrderExpandableCard`) for each expandable order row. Do **not** rebuild the pattern from raw `Collapsible`/`Accordion` primitives in replicated components.
+    - **Complex accordions (Expenses list)**: Use `@/components/ui/expense-expandable-accordion` (`ExpenseExpandableGroup` + `ExpenseExpandableRow`). Do **not** rebuild nested day/row accordions from raw primitives in replicated components.
     - **Toggles (atomic items vs inline)**:
         - **Atomic item row toggle (default in settings)**: Put the `Switch` in `SettingsItemAction` (trailing). Do **not** use `justify-between` on the row; rely on `SettingsItemContent` + `SettingsItemAction`.
         - **Inline/grouped toggle**: Only place `Label` + `Switch` together (e.g. `flex gap-4 items-center`) if the Blueprint explicitly calls for a grouped alignment.

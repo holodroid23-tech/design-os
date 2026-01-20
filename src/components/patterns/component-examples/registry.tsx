@@ -79,6 +79,7 @@ import {
   ItemRowValueChevronExamplesCard,
   ItemRowsExamplesCard,
 } from '@/components/patterns/component-examples/sections/item-rows-examples'
+import { AnalyticsWidgetsExamplesCard } from '@/components/patterns/component-examples/sections/analytics-examples'
 
 /**
  * Registry mapping inventory string pointers to the actual component.
@@ -143,6 +144,7 @@ export const componentExamplesRegistry: Record<string, ComponentType> = {
 
   '@/components/patterns/component-examples/sections/product-expense-examples#ProductExpenseCardsExamplesCard': ProductExpenseCardsExamplesCard,
   '@/components/patterns/component-examples/sections/product-expense-examples#ProductExpenseItemsDsExamplesCard': ProductExpenseItemsDsExamplesCard,
+  '@/components/patterns/component-examples/sections/analytics-examples#AnalyticsWidgetsExamplesCard': AnalyticsWidgetsExamplesCard,
 
   '@/components/patterns/component-examples/sections/badges-examples#BadgesTokensCard': BadgesTokensCard,
 

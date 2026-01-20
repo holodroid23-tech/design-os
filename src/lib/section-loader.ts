@@ -36,6 +36,24 @@ const mockComponentAliases: Record<
       displayName: 'New Folder (Expenses/Inventory Management)',
     },
   },
+  'onboarding-and-security': {
+    'registration.png': {
+      componentName: 'AuthRegisterLogin',
+      displayName: 'Register (Auth)',
+    },
+    'login.png': {
+      componentName: 'AuthRegisterLogin',
+      displayName: 'Login (Auth)',
+    },
+    'pin-change-step-1.png': {
+      componentName: 'PinChange',
+      displayName: 'Change PIN',
+    },
+    'enter-new-pin-step-2.png': {
+      componentName: 'PinChange',
+      displayName: 'Change PIN',
+    },
+  },
 }
 
 // Load spec.md files from product/sections at build time
