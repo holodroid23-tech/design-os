@@ -1,0 +1,73 @@
+{
+  "_meta": {
+    "models": {
+      "storeInfo": "Basic identity and localization settings for the business location.",
+      "staff": "Users who can access the system, with specific roles and PINs.",
+      "inventory": "Full list of products and folders available for sale.",
+      "expenseTemplates": "Templates used for quick daily logging of costs.",
+      "taxes": "Tax rules and rates applied to sales and expenses.",
+      "printers": "Connected hardware for printing receipts.",
+      "receiptConfig": "Visual and content settings for printed receipts."
+    },
+    "relationships": [
+      "Staff members belong to a Store and have exactly one Role.",
+      "Inventory items and ExpenseTemplates can be organized into Folders.",
+      "Taxes are associated with Products and ExpenseTemplates."
+    ]
+  },
+  "storeInfo": {
+    "name": "The Daily Grind",
+    "address": "123 Espresso Lane, Coffee City",
+    "email": "hello@dailygrind.com",
+    "website": "www.dailygrind.com",
+    "currency": "USD",
+    "timeFormat": "24h",
+    "pinLockTimer": "5m",
+    "version": "2.4.1 (BUILD 89)"
+  },
+  "currentUser": {
+    "name": "Maria K.",
+    "email": "maria@dailygrind.com",
+    "role": "ADMIN",
+    "initials": "MK"
+  },
+  "staff": [
+    { "id": "u1", "name": "Maria K.", "email": "maria@dailygrind.com", "role": "ADMIN" },
+    { "id": "u2", "name": "John D.", "email": "john@dailygrind.com", "role": "MANAGER" },
+    { "id": "u3", "name": "Alex S.", "role": "CASHIER", "pin": "1234" },
+    { "id": "u4", "name": "Sarah L.", "role": "CASHIER", "pin": "5678" }
+  ],
+  "taxes": [
+    { "id": "t1", "label": "VAT Standard", "rate": 0.21, "isDefault": true },
+    { "id": "t2", "label": "VAT Reduced", "rate": 0.10 },
+    { "id": "t3", "label": "Tax Exempt", "rate": 0.00 }
+  ],
+  "printers": [
+    { "id": "pr1", "name": "Star TSP100 (Kitchen)", "status": "CONNECTED", "paperSize": "80mm" },
+    { "id": "pr2", "name": "Epson TM-m30 (Counter)", "status": "DISCONNECTED", "paperSize": "58mm" }
+  ],
+  "receiptConfig": {
+    "showDate": true,
+    "showTime": true,
+    "showOrderId": true,
+    "showCashier": true,
+    "fontFamily": "Monospace",
+    "fontSize": "M",
+    "separatorStyle": "Dashed",
+    "footerMessage": "Thank you for the chaos!",
+    "showQrCode": true
+  },
+  "paymentSetup": {
+    "cashEnabled": true,
+    "externalCardEnabled": true,
+    "tapToPay": {
+      "status": "IN_PROGRESS",
+      "steps": [
+        { "id": "s1", "label": "GPS (System)", "completed": true },
+        { "id": "s2", "label": "GPS (App Access)", "completed": true },
+        { "id": "s3", "label": "Device Verification", "completed": false },
+        { "id": "s4", "label": "Account Link", "completed": false }
+      ]
+    }
+  }
+}

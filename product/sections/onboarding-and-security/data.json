@@ -1,0 +1,23 @@
+{
+  "_meta": {
+    "models": {
+      "checklistItems": "Mandatory setup tasks presented to the user after registration.",
+      "admins": "List of store administrators who can assist with PIN resets for cashiers."
+    },
+    "relationships": [
+      "ChecklistItems track progress towards a fully configured store.",
+      "Admins are presented as contacts for security recovery flows."
+    ]
+  },
+  "checklist": [
+    { "id": "c1", "label": "Set your security PIN", "completed": false, "priority": "HIGH" },
+    { "id": "c2", "label": "Add your first products", "completed": false, "priority": "MEDIUM" },
+    { "id": "c3", "label": "Configure taxes", "completed": true, "priority": "MEDIUM" },
+    { "id": "c4", "label": "Pair a printer", "completed": false, "priority": "LOW" }
+  ],
+  "admins": [
+    { "id": "u1", "name": "Maria K.", "email": "maria@dailygrind.com" },
+    { "id": "u2", "name": "Boss Pig", "email": "owner@compost.app" }
+  ],
+  "currentMode": "BACK_OFFICE"
+}
