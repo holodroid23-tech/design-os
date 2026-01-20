@@ -35,7 +35,6 @@ import {
 } from '@/components/patterns/component-examples/sections/forms-examples'
 import {
   EmailTemplatesExamplesCard,
-  ReceiptExamplesCard,
 } from '@/components/patterns/component-examples/sections/exports-examples'
 import {
   AccordionsExamplesCard,
@@ -155,6 +154,5 @@ export const componentExamplesRegistry: Record<string, ComponentType> = {
     StrokeStyleSelectorExamplesCard,
 
   '@/components/patterns/component-examples/sections/exports-examples#EmailTemplatesExamplesCard': EmailTemplatesExamplesCard,
-  '@/components/patterns/component-examples/sections/exports-examples#ReceiptExamplesCard': ReceiptExamplesCard,
 }
 

@@ -79,7 +79,7 @@ function Calendar({
           type="button"
           onClick={() => setMonthSelectorOpen(true)}
           className={cn(
-            buttonVariants({ variant: "outline" }),
+            buttonVariants({ variant: "ghost" }),
             "h-8 px-3 text-sm font-medium hover:bg-accent flex items-center gap-2"
           )}
         >
@@ -100,7 +100,7 @@ function Calendar({
           type="button"
           onClick={() => setYearSelectorOpen(true)}
           className={cn(
-            buttonVariants({ variant: "outline" }),
+            buttonVariants({ variant: "ghost" }),
             "h-8 px-3 text-sm font-medium hover:bg-accent flex items-center gap-2"
           )}
         >

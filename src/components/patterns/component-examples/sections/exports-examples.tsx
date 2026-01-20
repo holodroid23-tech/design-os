@@ -1,6 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { EmailTemplatePreview } from '@/components/previews/EmailTemplatePreview'
-import { ReceiptPreview } from '@/components/previews/ReceiptPreview'
 
 export function EmailTemplatesExamplesCard() {
   return (
@@ -21,15 +20,5 @@ export function EmailTemplatesExamplesCard() {
 }
 
 export function ReceiptExamplesCard() {
-  return (
-    <Card id="receipt" className="border shadow-sm">
-      <CardHeader>
-        <CardTitle className="text-lg font-semibold">Receipt</CardTitle>
-        <CardDescription>Print-ready receipt design with QR code</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ReceiptPreview />
-      </CardContent>
-    </Card>
-  )
+  return null
 }

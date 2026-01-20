@@ -1,13 +1,16 @@
 import * as React from "react"
+import { Slot } from "@radix-ui/react-slot"
 import { cn } from "../../lib/utils"
 
 // Root settings item wrapper
 const SettingsItem = React.forwardRef<
   HTMLButtonElement,
-  React.ButtonHTMLAttributes<HTMLButtonElement>
->(({ className, children, ...props }, ref) => {
+  React.ButtonHTMLAttributes<HTMLButtonElement> & { asChild?: boolean }
+>(({ className, children, asChild = false, ...props }, ref) => {
+  const Comp = asChild ? Slot : "button"
+
   return (
-    <button
+    <Comp
       ref={ref}
       className={cn(
         "text-foreground flex w-full items-center justify-start gap-4 px-5 py-4 transition-colors duration-75 active:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
@@ -16,7 +19,7 @@ const SettingsItem = React.forwardRef<
       {...props}
     >
       {children}
-    </button>
+    </Comp>
   )
 })
 SettingsItem.displayName = "SettingsItem"
@@ -108,17 +111,19 @@ SettingsItemDescription.displayName = "SettingsItemDescription"
 // Action/Right side element
 interface SettingsItemActionProps extends React.HTMLAttributes<HTMLDivElement> {
   layout?: "row" | "stack"
+  tone?: "default" | "muted"
 }
 
 const SettingsItemAction = React.forwardRef<
   HTMLDivElement,
   SettingsItemActionProps
->(({ className, layout = "row", children, ...props }, ref) => {
+>(({ className, layout = "row", tone = "muted", children, ...props }, ref) => {
   return (
     <div
       ref={ref}
       className={cn(
-        "text-tertiary shrink-0",
+        "shrink-0",
+        tone === "muted" ? "text-tertiary" : "text-foreground",
         layout === "stack" ? "flex flex-col items-end gap-2" : "flex items-center gap-2",
         className
       )}

@@ -77,7 +77,7 @@
 | Toggle switch | @/components/ui/switch | (default) |
 | Step progress | @/components/ui/stepper | value={0}, max={4}, variant="destructive", mode="segmented", showLabel |
 | Requirement row container | @/components/ui/card | (default) |
-| Requirement action | @/components/ui/button | variant="outline", size="sm" |
+| Requirement action | @/components/ui/button | variant="ghost", size="sm" |
 | Icon (back) | lucide-react#ChevronLeft | (default) |
 | Icon (cash/money) | lucide-react#Banknote | (default) |
 | Icon (external terminal) | lucide-react#Receipt | (default) |

@@ -116,7 +116,6 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from './ui/collapsible'
 import { EmptyState } from './ui/empty-state'
 import { EmailTemplatePreview } from '@/components/previews/EmailTemplatePreview'
-import { ReceiptPreview } from '@/components/previews/ReceiptPreview'
 
 // Helper components for demos
 function OrderTabsDemo() {
@@ -3387,15 +3386,7 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
       </Card>
 
       {/* Receipt */}
-      <Card id="receipt" className="border-stone-200 dark:border-stone-700 shadow-sm">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-stone-900 dark:text-stone-100">Receipt</CardTitle>
-          <CardDescription>Print-ready receipt design with QR code</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ReceiptPreview />
-        </CardContent>
-      </Card>
+      {/* Receipt example removed (now previewed in ReceiptConfiguration) */}
 
 
     </div >

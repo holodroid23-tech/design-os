@@ -15,12 +15,13 @@ import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-bu
 import { SectionTitle } from "@/components/ui/section-title"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, ChevronLeft, Clock, Hash, User } from "lucide-react"
+import { Calendar, ChevronLeft, Clock, Hash, QrCode, User } from "lucide-react"
 
 export default function ReceiptConfiguration() {
   const [showTopControls, setShowTopControls] = React.useState(true)
   const lastScrollTopRef = React.useRef(0)
   const [tab, setTab] = React.useState<"design" | "preview">("design")
+  const [hasLogo, setHasLogo] = React.useState(false)
 
   const [includedDetails, setIncludedDetails] = React.useState({
     date: true,
@@ -39,6 +40,19 @@ export default function ReceiptConfiguration() {
   const [footerMessage, setFooterMessage] = React.useState("Thank you for visiting!")
   const [websiteUrl, setWebsiteUrl] = React.useState("www.yourstore.com")
   const [showQrCode, setShowQrCode] = React.useState(false)
+
+  const hasIncludedDetails =
+    includedDetails.date || includedDetails.time || includedDetails.orderId || includedDetails.cashierName
+
+  const receiptWidthClass = paperSize === "58mm" ? "max-w-[260px]" : "max-w-[340px]"
+  const receiptFontClass = typographyFamily === "monospace" ? "font-mono" : "font-sans"
+  const receiptTextSizeClass = fontSize === "small" ? "text-xs" : fontSize === "large" ? "text-sm" : "text-sm"
+  const separatorBorderClass =
+    separatorStyle === "dashed"
+      ? "border-dashed"
+      : separatorStyle === "dotted"
+        ? "border-dotted"
+        : "border-solid"
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
@@ -93,7 +107,7 @@ export default function ReceiptConfiguration() {
 
           <TabsContent value="design" className="mt-6">
             <div className="flex flex-col gap-8">
-              <Button className="w-full" type="button">
+              <Button className="w-full" type="button" onClick={() => setHasLogo(true)}>
                 Upload logo
               </Button>
 
@@ -287,7 +301,7 @@ export default function ReceiptConfiguration() {
                   />
                 </div>
 
-                <div className="flex items-center gap-3 pb-6">
+                <div className="flex items-center gap-3">
                   <Label htmlFor="show-qr-code">Show QR code</Label>
                   <Switch
                     id="show-qr-code"
@@ -296,12 +310,128 @@ export default function ReceiptConfiguration() {
                     aria-label="Show QR code"
                   />
                 </div>
+
+                {showQrCode ? (
+                  <div className="pb-6">
+                    <Button className="w-full" variant="secondary" type="button">
+                      Upload QR code
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="pb-6" />
+                )}
               </div>
             </div>
           </TabsContent>
 
           <TabsContent value="preview" className="mt-6">
-            <div />
+            <div className="flex flex-col gap-6">
+              <Button className="w-full" type="button">
+                Test print
+              </Button>
+
+              <div className="flex justify-center">
+                <div
+                  className={[
+                    "w-full rounded-[12px] border border-black/10 bg-white p-6 text-black",
+                    receiptWidthClass,
+                    receiptFontClass,
+                    receiptTextSizeClass,
+                  ].join(" ")}
+                >
+                  <div className="text-center">
+                    {hasLogo ? (
+                      <div className="text-lg font-semibold leading-tight">Compost</div>
+                    ) : null}
+                    <div className="mt-2 space-y-0.5 text-xs text-black/60">
+                      <div>123 Espresso Lane</div>
+                      <div>Seattle, WA 98101</div>
+                      <div>Tel: (206) 555-0123</div>
+                    </div>
+                  </div>
+
+                  {hasIncludedDetails ? (
+                    <div className="mt-4 space-y-3">
+                      <div className={["border-t border-black/20", separatorBorderClass].join(" ")} />
+
+                      <div className="space-y-1 text-black/70">
+                        {includedDetails.orderId ? (
+                          <div className="flex items-center justify-between gap-4">
+                            <span>Receipt #</span>
+                            <span className="text-black">ORD-2023-892</span>
+                          </div>
+                        ) : null}
+                        {includedDetails.date || includedDetails.time ? (
+                          <div className="flex items-center justify-between gap-4">
+                            <span>Date</span>
+                            <span className="text-black">
+                              {includedDetails.date ? "Oct 24, 2023" : null}
+                              {includedDetails.date && includedDetails.time ? " · " : null}
+                              {includedDetails.time ? "09:41 AM" : null}
+                            </span>
+                          </div>
+                        ) : null}
+                        {includedDetails.cashierName ? (
+                          <div className="flex items-center justify-between gap-4">
+                            <span>Cashier</span>
+                            <span className="text-black">Sarah J.</span>
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  ) : null}
+
+                  <div className={["my-4 border-t border-black/20", separatorBorderClass].join(" ")} />
+
+                  <div className="space-y-2">
+                    <div className="flex items-baseline justify-between gap-4">
+                      <span className="text-black">Latte (Large)</span>
+                      <span className="text-black">$6.50</span>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-4">
+                      <span className="text-black">Croissant</span>
+                      <span className="text-black">$4.00</span>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-4">
+                      <span className="text-black">Avocado toast</span>
+                      <span className="text-black">$12.00</span>
+                    </div>
+                  </div>
+
+                  <div className={["my-4 border-t border-black/20", separatorBorderClass].join(" ")} />
+
+                  <div className="space-y-1 text-black/70">
+                    <div className="flex items-baseline justify-between gap-4">
+                      <span>Subtotal</span>
+                      <span className="text-black">$22.50</span>
+                    </div>
+                    <div className="flex items-baseline justify-between gap-4">
+                      <span>Tax (8.0%)</span>
+                      <span className="text-black">$1.80</span>
+                    </div>
+                    <div className="mt-3 flex items-baseline justify-between gap-4">
+                      <span className="text-black font-semibold">Total</span>
+                      <span className="text-black font-semibold">$24.30</span>
+                    </div>
+                  </div>
+
+                  <div className={["my-4 border-t border-black/20", separatorBorderClass].join(" ")} />
+
+                  <div className="space-y-2 text-center">
+                    <div className="text-black">{footerMessage || " "}</div>
+                    <div className="text-xs text-black/60">{websiteUrl || " "}</div>
+                  </div>
+
+                  {showQrCode ? (
+                    <div className="mt-5 flex flex-col items-center gap-2">
+                      <div className="grid size-28 place-items-center rounded-[12px] border border-black/20 bg-white">
+                        <QrCode className="size-12 text-black/60" aria-hidden="true" />
+                      </div>
+                    </div>
+                  ) : null}
+                </div>
+              </div>
+            </div>
           </TabsContent>
         </Tabs>
       </div>

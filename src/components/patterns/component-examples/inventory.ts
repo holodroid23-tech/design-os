@@ -147,7 +147,6 @@ export const componentExamplesInventoryGroups: ComponentExampleInventoryGroup[] 
     title: 'Exports',
     items: [
       { id: 'email-templates', title: 'Email templates', component: '@/components/patterns/component-examples/sections/exports-examples#EmailTemplatesExamplesCard' },
-      { id: 'receipt', title: 'Receipt', component: '@/components/patterns/component-examples/sections/exports-examples#ReceiptExamplesCard' },
     ],
   },
 ]

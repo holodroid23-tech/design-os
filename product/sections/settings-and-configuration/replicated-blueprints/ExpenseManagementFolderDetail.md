@@ -51,5 +51,5 @@
 | Row label | @/components/settings/settings-item#SettingsItemTitle | variant="default" |
 | Row trailing toggle | @/components/ui/switch | (default) |
 | Trailing action wrapper | @/components/settings/settings-item#SettingsItemAction | layout="row" |
-| Primary action trigger | @/components/ui/button | variant="outline", size="lg" |
+| Primary action trigger | @/components/ui/button | variant="secondary", size="lg" |
 
