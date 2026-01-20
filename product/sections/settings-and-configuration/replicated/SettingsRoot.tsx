@@ -108,7 +108,7 @@ export default function SettingsRoot({
       <div className="px-4 pt-4">
         <div className="flex flex-col gap-4">
           <SettingsGroup>
-            <SettingsItem type="button" onClick={() => onPressDestination?.("inventory")}>
+            <SettingsItem onPress={() => onPressDestination?.("inventory")}>
               <SettingsItemIcon>
                 <IconTile icon={Package} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -120,7 +120,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem type="button" onClick={() => onPressDestination?.("expenses")}>
+            <SettingsItem onPress={() => onPressDestination?.("expenses")}>
               <SettingsItemIcon>
                 <IconTile icon={Wallet} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -134,7 +134,7 @@ export default function SettingsRoot({
           </SettingsGroup>
 
           <SettingsGroup>
-            <SettingsItem type="button" onClick={() => onPressDestination?.("general")}>
+            <SettingsItem onPress={() => onPressDestination?.("general")}>
               <SettingsItemIcon>
                 <IconTile icon={Settings} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -146,7 +146,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem type="button" onClick={() => onPressDestination?.("users")}>
+            <SettingsItem onPress={() => onPressDestination?.("users")}>
               <SettingsItemIcon>
                 <IconTile icon={Users} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -158,7 +158,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem type="button" onClick={() => onPressDestination?.("payment")}>
+            <SettingsItem onPress={() => onPressDestination?.("payment")}>
               <SettingsItemIcon>
                 <IconTile icon={Banknote} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -170,7 +170,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem type="button" onClick={() => onPressDestination?.("printer")}>
+            <SettingsItem onPress={() => onPressDestination?.("printer")}>
               <SettingsItemIcon>
                 <IconTile icon={Printer} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -182,7 +182,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem type="button" onClick={() => onPressDestination?.("receipt")}>
+            <SettingsItem onPress={() => onPressDestination?.("receipt")}>
               <SettingsItemIcon>
                 <IconTile icon={Receipt} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -194,7 +194,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem type="button" onClick={() => onPressDestination?.("device-mode")}>
+            <SettingsItem onPress={() => onPressDestination?.("device-mode")}>
               <SettingsItemIcon>
                 <IconTile icon={Smartphone} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -208,7 +208,7 @@ export default function SettingsRoot({
           </SettingsGroup>
 
           <SettingsGroup>
-            <SettingsItem type="button" onClick={() => onPressDestination?.("suggest-feature")}>
+            <SettingsItem onPress={() => onPressDestination?.("suggest-feature")}>
               <SettingsItemIcon>
                 <IconTile icon={Lightbulb} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -220,7 +220,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem type="button" onClick={() => onPressDestination?.("report-bug")}>
+            <SettingsItem onPress={() => onPressDestination?.("report-bug")}>
               <SettingsItemIcon>
                 <IconTile icon={Bug} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -238,7 +238,7 @@ export default function SettingsRoot({
       {/* Block 4: Session action */}
       <div className="px-4 pt-4">
         <SettingsGroup>
-          <SettingsItem type="button" onClick={onPressLogout}>
+          <SettingsItem onPress={onPressLogout}>
             <SettingsItemIcon>
               <IconTile icon={LogOut} size="small" variant="tile" tone="danger" />
             </SettingsItemIcon>

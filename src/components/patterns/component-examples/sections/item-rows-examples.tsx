@@ -305,6 +305,41 @@ export function ItemRowInlineButtonsExamplesCard() {
   )
 }
 
+export function ItemRowClickableRowExamplesCard() {
+  return (
+    <ItemRowCard
+      id="item-row-clickable-row"
+      title="Clickable row (optional)"
+      description="Make the whole row clickable using SettingsItem without screen-level role/tabIndex hacks"
+    >
+      <SettingsGroup>
+        <SettingsItem
+          element="div"
+          interactive
+          onPress={() => {
+            // Demo only: wire this to navigation or state changes in real screens.
+          }}
+          className="group"
+        >
+          <SettingsItemIcon>
+            <IconTile icon={Store} size="small" variant="tile" tone="info" />
+          </SettingsItemIcon>
+          <SettingsItemContent>
+            <SettingsItemTitle>Open store</SettingsItemTitle>
+            <SettingsItemDescription>Tap anywhere on this row</SettingsItemDescription>
+          </SettingsItemContent>
+          <SettingsItemAction>
+            <ChevronRight
+              aria-hidden="true"
+              className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors"
+            />
+          </SettingsItemAction>
+        </SettingsItem>
+      </SettingsGroup>
+    </ItemRowCard>
+  )
+}
+
 export function ItemRowDestructiveActionExamplesCard() {
   return (
     <ItemRowCard

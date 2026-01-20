@@ -22,9 +22,45 @@ export const designOS = {
 }
 
 export default function PaymentSettings() {
+  /**
+   * NOTE (design intent / export guidance)
+   *
+   * This screen has TWO visual states based on the mockups:
+   * - State A: incomplete setup (`payment-settings.png`) -> 0/4 steps completed (red), actionable requirement buttons
+   * - State B: completed setup (`payment-settings-2.png`) -> 4/4 steps completed (green), completed requirement cards
+   *
+   * Product idea: keep ONE screen and switch the requirement "card" states after tap (for demo/preview).
+   * For real implementation later (export target), model this as props/state (permissions, device checks, account link),
+   * not hardcoded click logic.
+   *
+   * Quick way to preview State B here:
+   * - change Stepper value={0} -> value={4} and variant="destructive" -> variant="success"
+   * - swap requirement icon tones from "danger" -> "success"
+   * - adjust row actions (e.g. Account link shows Disconnect + Configure)
+   */
   const [cashEnabled, setCashEnabled] = React.useState(true)
   const [externalTerminalEnabled, setExternalTerminalEnabled] = React.useState(false)
   const [tapToPayEnabled, setTapToPayEnabled] = React.useState(true)
+
+  type RequirementId = "gps-system" | "gps-app-access" | "device-verification" | "account-link"
+
+  const [requirementsComplete, setRequirementsComplete] = React.useState<Record<RequirementId, boolean>>({
+    "gps-system": false,
+    "gps-app-access": false,
+    "device-verification": false,
+    "account-link": false,
+  })
+
+  const stepsCompleted = Object.values(requirementsComplete).filter(Boolean).length
+  const allStepsComplete = stepsCompleted === 4
+
+  const setRequirementComplete = (id: RequirementId, value: boolean) => {
+    setRequirementsComplete((prev) => ({ ...prev, [id]: value }))
+  }
+
+  const toggleRequirement = (id: RequirementId) => {
+    setRequirementsComplete((prev) => ({ ...prev, [id]: !prev[id] }))
+  }
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
@@ -102,83 +138,204 @@ export default function PaymentSettings() {
       <div className="px-6 py-4">
         <div className="flex flex-col gap-3">
           <Label>Terminal configuration</Label>
-          <SettingsItemDescription className="text-onLayer-primary">
+          <SettingsItemDescription>
             All following settings must be enabled to use Tap to Pay.
           </SettingsItemDescription>
-          <Stepper value={0} max={4} variant="destructive" mode="segmented" />
+          <Stepper value={stepsCompleted} max={4} variant={allStepsComplete ? "success" : "destructive"} mode="segmented" />
         </div>
       </div>
 
       {/* Block 4: Terminal configuration (requirements) */}
       <div className="px-6 py-4">
         <SettingsGroup>
-          <SettingsItem asChild>
-            <div>
-              <SettingsItemIcon>
-                <IconTile icon={MapPin} size="small" variant="plain" tone="danger" />
-              </SettingsItemIcon>
-              <SettingsItemContent>
-                <SettingsItemTitle>GPS (System)</SettingsItemTitle>
-              </SettingsItemContent>
+          <SettingsItem
+            element="div"
+            interactive
+            onPress={() => toggleRequirement("gps-system")}
+          >
+            <SettingsItemIcon>
+              <IconTile
+                icon={MapPin}
+                size="small"
+                variant="plain"
+                tone={requirementsComplete["gps-system"] ? "success" : "danger"}
+              />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>GPS (System)</SettingsItemTitle>
+            </SettingsItemContent>
+            {!requirementsComplete["gps-system"] ? (
               <SettingsItemAction tone="default">
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setRequirementComplete("gps-system", true)
+                  }}
+                >
                   Turn on GPS
                 </Button>
               </SettingsItemAction>
-            </div>
+            ) : (
+              <SettingsItemAction />
+            )}
           </SettingsItem>
 
-          <SettingsItem asChild>
-            <div>
-              <SettingsItemIcon>
-                <IconTile icon={Lock} size="small" variant="plain" tone="danger" />
-              </SettingsItemIcon>
-              <SettingsItemContent>
+          <SettingsItem
+            element="div"
+            interactive
+            onPress={() => toggleRequirement("gps-app-access")}
+            className={requirementsComplete["gps-app-access"] ? "items-start" : undefined}
+          >
+            <SettingsItemIcon className={requirementsComplete["gps-app-access"] ? "pt-0.5" : undefined}>
+              <IconTile
+                icon={Lock}
+                size="small"
+                variant="plain"
+                tone={requirementsComplete["gps-app-access"] ? "success" : "danger"}
+              />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <div className="flex flex-col gap-1">
                 <SettingsItemTitle>GPS (App access)</SettingsItemTitle>
-              </SettingsItemContent>
+                {requirementsComplete["gps-app-access"] ? (
+                  <div className="pt-2">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                      }}
+                    >
+                      Configure
+                    </Button>
+                  </div>
+                ) : null}
+              </div>
+            </SettingsItemContent>
+            {!requirementsComplete["gps-app-access"] ? (
               <SettingsItemAction tone="default">
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setRequirementComplete("gps-app-access", true)
+                  }}
+                >
                   Grant permission
                 </Button>
               </SettingsItemAction>
-            </div>
+            ) : (
+              <SettingsItemAction />
+            )}
           </SettingsItem>
 
-          <SettingsItem asChild>
-            <div>
-              <SettingsItemIcon>
-                <IconTile icon={Shield} size="small" variant="plain" tone="danger" />
-              </SettingsItemIcon>
-              <SettingsItemContent>
-                <div className="flex flex-col gap-1">
-                  <SettingsItemTitle>Device verification</SettingsItemTitle>
-                  <SettingsItemDescription size="tiny" tone="danger" className="text-onLayer-danger">
+          <SettingsItem
+            element="div"
+            interactive
+            onPress={() => toggleRequirement("device-verification")}
+          >
+            <SettingsItemIcon>
+              <IconTile
+                icon={Shield}
+                size="small"
+                variant="plain"
+                tone={requirementsComplete["device-verification"] ? "success" : "danger"}
+              />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <div className="flex flex-col gap-1">
+                <SettingsItemTitle>Device verification</SettingsItemTitle>
+                {!requirementsComplete["device-verification"] ? (
+                  <SettingsItemDescription size="tiny" tone="danger" className="leading-snug">
                     Device integrity failed: rooted device detected
                   </SettingsItemDescription>
-                </div>
-              </SettingsItemContent>
+                ) : null}
+              </div>
+            </SettingsItemContent>
+            {!requirementsComplete["device-verification"] ? (
               <SettingsItemAction tone="default">
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setRequirementComplete("device-verification", true)
+                  }}
+                >
                   Verify
                 </Button>
               </SettingsItemAction>
-            </div>
+            ) : (
+              <SettingsItemAction />
+            )}
           </SettingsItem>
 
-          <SettingsItem asChild>
-            <div>
-              <SettingsItemIcon>
-                <IconTile icon={Link} size="small" variant="plain" tone="danger" />
-              </SettingsItemIcon>
-              <SettingsItemContent>
+          <SettingsItem
+            element="div"
+            interactive
+            onPress={() => toggleRequirement("account-link")}
+            className={requirementsComplete["account-link"] ? "items-start" : undefined}
+          >
+            <SettingsItemIcon className={requirementsComplete["account-link"] ? "pt-0.5" : undefined}>
+              <IconTile
+                icon={Link}
+                size="small"
+                variant="plain"
+                tone={requirementsComplete["account-link"] ? "success" : "danger"}
+              />
+            </SettingsItemIcon>
+            <SettingsItemContent className="min-w-0">
+              <div className="flex flex-col gap-1">
                 <SettingsItemTitle>Account link</SettingsItemTitle>
-              </SettingsItemContent>
+                {requirementsComplete["account-link"] ? (
+                  <SettingsItemDescription size="tiny" tone="default" className="max-w-full truncate">
+                    comPOSt Coffee LLC • acct_1G6x…
+                  </SettingsItemDescription>
+                ) : null}
+                {requirementsComplete["account-link"] ? (
+                  <div className="flex flex-wrap items-center gap-2 pt-2">
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setRequirementComplete("account-link", false)
+                      }}
+                    >
+                      Disconnect
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation()
+                      }}
+                    >
+                      Configure
+                    </Button>
+                  </div>
+                ) : null}
+              </div>
+            </SettingsItemContent>
+            {!requirementsComplete["account-link"] ? (
               <SettingsItemAction tone="default">
-                <Button variant="ghost" size="sm">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    setRequirementComplete("account-link", true)
+                  }}
+                >
                   Configure
                 </Button>
               </SettingsItemAction>
-            </div>
+            ) : (
+              <SettingsItemAction />
+            )}
           </SettingsItem>
         </SettingsGroup>
       </div>
