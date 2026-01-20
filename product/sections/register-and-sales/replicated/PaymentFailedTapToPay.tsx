@@ -1,8 +1,9 @@
 import * as React from "react"
-import { CreditCard, RotateCw, XCircle, XIcon } from "lucide-react"
+import { CreditCard, RotateCw, X, XCircle } from "lucide-react"
 
+import { IconTile, SystemIcon } from "@/components/atoms/icon"
 import { Button } from "@/components/ui/button"
-import { IconTile, SystemIcon } from "@/components/ui/icon"
+import { SectionTitle } from "@/components/ui/section-title"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -33,34 +34,42 @@ export default function PaymentFailedTapToPay({
   onRetryPayment,
 }: PaymentFailedTapToPayProps) {
   return (
-    <div className="min-h-dvh w-full bg-background text-foreground">
-      <div className="flex min-h-dvh flex-col">
+    <div className="h-full min-h-full w-full bg-background text-foreground">
+      <div className="flex h-full min-h-full flex-col">
         {/* Block 1: Header controls */}
-        <div className="px-6 pt-6 flex justify-end">
-          <Button
-            type="button"
-            variant="invisible"
-            size="icon-lg"
-            shape="circle"
-            aria-label="Close"
-            onClick={onClose}
-          >
-            <SystemIcon icon={XIcon} size="big" aria-hidden="true" />
-          </Button>
+        <div className="px-6 pt-6">
+          <div className="flex justify-end">
+            <Button
+              type="button"
+              variant="invisible"
+              size="icon-lg"
+              shape="circle"
+              aria-label="Close"
+              onClick={onClose}
+            >
+              <SystemIcon icon={X} aria-hidden="true" />
+            </Button>
+          </div>
         </div>
 
         {/* Block 2: Status summary */}
-        <div className="flex-1 px-6 flex items-center justify-center">
-          <div className="w-full flex flex-col items-center justify-center text-center gap-5">
+        <div className="flex flex-1 items-center justify-center px-6">
+          <div className="flex flex-col items-center justify-center gap-5 text-center">
             <IconTile icon={XCircle} size="large" tone="danger" />
 
             <div className="flex flex-col items-center gap-2">
-              <h1>{title}</h1>
+              <div className="flex justify-center">
+                <SectionTitle titleAs="h1">{title}</SectionTitle>
+              </div>
               <p>{contextLine}</p>
               <p>{reason}</p>
             </div>
 
-            <output>{amount}</output>
+            <div className="flex justify-center">
+              <SectionTitle titleAs="div" size="page">
+                {amount}
+              </SectionTitle>
+            </div>
           </div>
         </div>
 
@@ -74,7 +83,7 @@ export default function PaymentFailedTapToPay({
               className="w-full"
               onClick={onChangePaymentMethod}
             >
-              <SystemIcon icon={CreditCard} size="regular" aria-hidden="true" />
+              <SystemIcon icon={CreditCard} aria-hidden="true" />
               {changePaymentMethodLabel}
             </Button>
 
@@ -85,7 +94,7 @@ export default function PaymentFailedTapToPay({
               className="w-full"
               onClick={onRetryPayment}
             >
-              <SystemIcon icon={RotateCw} size="regular" aria-hidden="true" />
+              <SystemIcon icon={RotateCw} aria-hidden="true" />
               {retryPaymentLabel}
             </Button>
           </div>

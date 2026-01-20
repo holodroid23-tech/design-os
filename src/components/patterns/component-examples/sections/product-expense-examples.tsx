@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { OrderProductTile } from '@/components/ui/order-product-tile'
 import { ProductTile } from '@/components/ui/product-tile'
 import { IconTile } from '@/components/atoms/icon'
 import { ImageTile } from '@/components/ui/image-tile'
@@ -92,72 +93,22 @@ export function ProductExpenseCardsExamplesCard() {
             <div className="space-y-3">
               <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Products</Label>
               <div className="grid grid-cols-3 gap-3">
-                <ProductTile
-                  element="div"
+                <OrderProductTile
                   name="Macchiato"
                   price="$3.75"
                   tone="primary"
-                  topRight={
-                    <Badge className="h-6 w-6 p-0 flex items-center justify-center rounded-full bg-primary-foreground text-primary font-mono text-[10px] font-bold border-none shadow-sm">
-                      1
-                    </Badge>
-                  }
-                  bottomLeft={
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      className="h-8 w-8 rounded-lg bg-overlay-default/20 hover:bg-overlay-default/30 text-primary-foreground"
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label="Remove"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </Button>
-                  }
-                  bottomRight={
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      className="h-8 w-8 rounded-lg bg-overlay-default/20 hover:bg-overlay-default/30 text-primary-foreground"
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label="Add"
-                    >
-                      <Plus className="h-4 w-4" />
-                    </Button>
-                  }
+                  count={1}
+                  leftAction={{ icon: Trash2, label: "Remove" }}
+                  rightAction={{ icon: Plus, label: "Add" }}
                 />
 
-                <ProductTile
-                  element="div"
+                <OrderProductTile
                   name="Cappuccino"
                   price="$4.50"
                   tone="secondary"
-                  topRight={
-                    <Badge className="h-6 w-6 p-0 flex items-center justify-center rounded-full bg-secondary-foreground text-secondary font-mono text-[10px] font-bold border-none shadow-sm">
-                      2
-                    </Badge>
-                  }
-                  bottomLeft={
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      className="h-8 w-8 rounded-lg bg-overlay-default/20 hover:bg-overlay-default/30 text-secondary-foreground"
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label="Decrease"
-                    >
-                      <Minus className="h-4 w-4" />
-                    </Button>
-                  }
-                  bottomRight={
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      className="h-8 w-8 rounded-lg bg-overlay-default/20 hover:bg-overlay-default/30 text-secondary-foreground"
-                      onClick={(e) => e.stopPropagation()}
-                      aria-label="Increase"
-                    >
-                      <Plus className="h-4 w-4" />
-                    </Button>
-                  }
+                  count={2}
+                  leftAction={{ icon: Minus, label: "Decrease" }}
+                  rightAction={{ icon: Plus, label: "Increase" }}
                 />
               </div>
             </div>

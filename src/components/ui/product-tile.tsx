@@ -128,14 +128,19 @@ export function ProductTile({
       ) : null}
 
       {imageSrc && showImageScrim ? (
-        <div className="absolute inset-0 bg-overlay-default/35" aria-hidden="true" />
+        <div className="absolute inset-0 bg-overlay-default" aria-hidden="true" />
       ) : null}
 
       {topRight ? <div className="absolute top-1.5 right-1.5 z-20">{topRight}</div> : null}
       {bottomLeft ? <div className="absolute bottom-1.5 left-1.5 z-20">{bottomLeft}</div> : null}
       {bottomRight ? <div className="absolute bottom-1.5 right-1.5 z-20">{bottomRight}</div> : null}
 
-      <div className="absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-3">
+      <div
+        className={cn(
+          "absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-3",
+          imageSrc ? "text-primary-foreground" : undefined
+        )}
+      >
         <div className="font-sans text-base font-semibold tracking-tight leading-tight">{name}</div>
         {price ? <div className="font-mono text-sm font-medium opacity-90">{price}</div> : null}
       </div>
