@@ -16,6 +16,7 @@ export interface SystemEmailsData {
     passwordReset: EmailTemplateData;
     pinReset: EmailTemplateData;
     promotion: EmailTemplateData;
+    emailUpdated: EmailTemplateData;
   };
 }
 

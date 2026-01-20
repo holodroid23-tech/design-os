@@ -21,14 +21,19 @@
       "showDisclaimer": true
     },
     "pinReset": {
-      "title": "Secure Your Access",
+      "title": "Reset Your PIN",
       "body": "A PIN reset was requested for your account. To regain access to your POS terminal and secure your administrative settings, please follow the link below.",
       "ctaLabel": "Reset My PIN"
     },
     "promotion": {
-      "title": "You've Been Promoted",
+      "title": "Promoted to Manager",
       "body": "You have been promoted to Manager. You can now access the Back Office dashboard remotely. Please set a password to enable this feature.",
       "ctaLabel": "Set Password"
+    },
+    "emailUpdated": {
+      "title": "Email Updated",
+      "body": "Your login email for comPOSt has been updated to this address. Your password remains the same.",
+      "ctaLabel": "Launch App"
     }
   }
 }

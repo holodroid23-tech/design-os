@@ -17,8 +17,6 @@ export default function WelcomePreview() {
   return (
     <div className="w-full h-full bg-background p-6">
       <EmailTemplate
-        heroSrc="/mockups/WelcomePreview.png"
-        heroAlt="Welcome hero"
         title="Welcome to comPOSt"
         body="Thanks for choosing our POS system. We're excited to help you manage your business more efficiently."
         cta={{
@@ -37,7 +35,7 @@ export default function WelcomePreview() {
                 </SettingsItemIcon>
                 <SettingsItemContent>
                   <SettingsItemTitle>Set Admin PIN</SettingsItemTitle>
-                  <SettingsItemDescription>Secure your manager access</SettingsItemDescription>
+                  <SettingsItemDescription>Secure your access</SettingsItemDescription>
                 </SettingsItemContent>
                 <SettingsItemAction tone="muted">
                   <ChevronRight className="size-5" aria-hidden="true" />

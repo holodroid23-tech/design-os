@@ -1,8 +1,6 @@
 # Welcome Blueprint
 
 ## Logic Tree
-- [Hero]
-  - Image: Pig with tablet
 - [Header]
   - Title: Welcome to comPOSt
   - Body copy: Thanks for choosing our POS system to power your daily grind. We're excited to help you serve the best coffee in town. Here is everything you need to get your shop running efficiently.
@@ -10,7 +8,7 @@
   - Section heading: Your next steps
   - Step list (Destination rows)
     - Step: Set Admin PIN
-      - Supporting text: Secure your manager access
+      - Supporting text: Secure your access
       - Action: Navigate to PIN setup
     - Step: Add Inventory
       - Supporting text: Create your first product
@@ -22,7 +20,6 @@
   - Disclaimer: You received this email because you signed up for comPOSt POS.
 
 ## Implementation Blocks (The Roadmap)
-- Hero: Top image area that introduces the brand.
 - Welcome copy: Title + supporting body copy.
 - Next steps: Section heading + two destination rows (PIN setup, inventory setup).
 - Primary action: Single primary CTA button that deep-links into the app.
@@ -32,7 +29,6 @@
 | Blueprint Element | Component Path | Variant/Prop Target |
 |---|---|---|
 | Email template shell | `@/components/ui/email-template` | `dark` surface wrapper + slots via props/children |
-| Hero image | Native `img` | `src`, `alt` |
 | Title: “Welcome to comPOSt” | `@/components/ui/section-title` | `size="page"`, `titleAs="h1"` |
 | Body copy paragraph | Native `p` | (token classes applied by builder) |
 | Section heading: “Your next steps” | `@/components/ui/section-title` | `size="section"`, `titleAs="h2"` |

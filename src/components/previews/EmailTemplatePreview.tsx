@@ -16,8 +16,6 @@ export function EmailTemplatePreview() {
   return (
     <div className="w-full rounded-xl bg-background p-4 sm:p-6">
       <EmailTemplate
-        heroSrc="/mockups/WelcomePreview.png"
-        heroAlt="Pig with tablet"
         title="Welcome to comPOSt"
         body={
           "Thanks for choosing our POS system to power your daily grind. We're excited to help you serve the best coffee in town. Here is everything you need to get your shop running efficiently."
@@ -38,7 +36,7 @@ export function EmailTemplatePreview() {
                 </SettingsItemIcon>
                 <SettingsItemContent>
                   <SettingsItemTitle>Set Admin PIN</SettingsItemTitle>
-                  <SettingsItemDescription>Secure your manager access</SettingsItemDescription>
+                  <SettingsItemDescription>Secure your access</SettingsItemDescription>
                 </SettingsItemContent>
                 <SettingsItemAction tone="muted">
                   <ChevronRight className="size-5" aria-hidden="true" />

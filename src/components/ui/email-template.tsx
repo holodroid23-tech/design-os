@@ -11,6 +11,10 @@ export interface EmailTemplateCta {
 }
 
 export interface EmailTemplateProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Optional hero slot. Prefer this for brand illustrations (SVG) to avoid screenshot heroes.
+   */
+  hero?: React.ReactNode
   heroSrc?: string
   heroAlt?: string
 
@@ -24,17 +28,25 @@ export interface EmailTemplateProps extends React.HTMLAttributes<HTMLDivElement>
   children?: React.ReactNode
 
   cta?: EmailTemplateCta
+
+  /**
+   * Optional note shown directly below the CTA button (e.g., "If you didn't request this...").
+   */
+  belowCta?: React.ReactNode
+
   footer?: React.ReactNode
 }
 
 export function EmailTemplate({
   className,
+  hero,
   heroSrc,
   heroAlt = "",
   title,
   body,
   children,
   cta,
+  belowCta,
   footer,
   ...props
 }: EmailTemplateProps) {
@@ -49,10 +61,24 @@ export function EmailTemplate({
       {...props}
     >
       {/* Hero */}
-      {heroSrc ? (
+      {hero ? (
         <div className="relative w-full overflow-hidden rounded-t-[18px]">
           <div className="relative w-full aspect-[4/3]">
-            <img src={heroSrc} alt={heroAlt} className="h-full w-full object-cover" />
+            <div className="absolute inset-0">{hero}</div>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-layer-level-0 via-transparent to-transparent"
+            />
+          </div>
+        </div>
+      ) : heroSrc ? (
+        <div className="relative w-full overflow-hidden rounded-t-[18px]">
+          <div className="relative w-full h-80 sm:h-96">
+            <img
+              src={heroSrc}
+              alt={heroAlt}
+              className="h-full w-full object-cover object-bottom"
+            />
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 bg-gradient-to-t from-layer-level-0 via-transparent to-transparent"
@@ -86,6 +112,10 @@ export function EmailTemplate({
                 {cta.trailing}
               </Button>
             </div>
+          ) : null}
+
+          {belowCta ? (
+            <div className="mt-4 text-center text-muted-foreground">{belowCta}</div>
           ) : null}
 
           {footer ? (
