@@ -16,7 +16,7 @@ export interface BottomSheetScaffoldProps extends React.HTMLAttributes<HTMLDivEl
  * Canonical bottom-sheet layout scaffold:
  * - Hugs content until it reaches max height, then scrolls the body
  * - Supports pinned footer
- * - Pure layout (pair with `Sheet`/`Dialog` as needed)
+ * - Pure layout (pair with `BottomSlidingModal` for the canonical bottom sliding modal)
  */
 export function BottomSheetScaffold({
   header,
@@ -31,7 +31,8 @@ export function BottomSheetScaffold({
   return (
     <div
       className={cn(
-        "bg-background border border-border rounded-t-[18px] w-full max-h-[85%] min-h-0 flex flex-col overflow-hidden",
+        // Height capping lives on `BottomSlidingModalContent` so it can respect preview containers.
+        "bg-background border border-border rounded-t-[18px] w-full min-h-0 flex flex-col overflow-hidden",
         className,
       )}
       {...props}

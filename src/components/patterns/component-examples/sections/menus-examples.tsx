@@ -33,7 +33,7 @@ export function BottomMenuExamplesCard() {
                   Open Bottom Menu
                 </Button>
               </BottomMenuTrigger>
-              <BottomMenuContent>
+              <BottomMenuContent showHeader>
                 <BottomMenuSection>
                   <BottomMenuItem>
                     <User className="h-4 w-4" />

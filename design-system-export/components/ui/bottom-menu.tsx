@@ -1,63 +1,66 @@
 import * as React from "react"
-import * as SheetPrimitive from "@radix-ui/react-dialog"
 import { XIcon } from "lucide-react"
 
 import { cn } from "../../lib/utils"
-import { Sheet, SheetContent, SheetTitle } from "./sheet"
+import {
+  BottomSlidingModal,
+  BottomSlidingModalClose,
+  BottomSlidingModalContent,
+  BottomSlidingModalTrigger,
+} from "./bottom-sliding-modal"
+import { Button } from "./button"
 
-function BottomMenu({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return <Sheet {...props} />
+function BottomMenu({ ...props }: React.ComponentProps<typeof BottomSlidingModal>) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <BottomSlidingModal {...(props as any)} />
 }
 
 function BottomMenuTrigger({
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
-  return <SheetPrimitive.Trigger data-slot="bottom-menu-trigger" {...props} />
+}: React.ComponentProps<typeof BottomSlidingModalTrigger>) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <BottomSlidingModalTrigger data-slot="bottom-menu-trigger" {...(props as any)} />
 }
 
 function BottomMenuClose({
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Close>) {
-  return <SheetPrimitive.Close data-slot="bottom-menu-close" {...props} />
+}: React.ComponentProps<typeof BottomSlidingModalClose>) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <BottomSlidingModalClose data-slot="bottom-menu-close" {...(props as any)} />
 }
 
 function BottomMenuContent({
   className,
   children,
   showCloseButton = true,
-  showHeader = false,
+  showHeader = true,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Content> & {
+}: React.ComponentProps<typeof BottomSlidingModalContent> & {
   showCloseButton?: boolean
   showHeader?: boolean
 }) {
-  // If header is shown, hide the default close button and show it in header instead
-  const shouldShowDefaultClose = showCloseButton && !showHeader
-  
   return (
-    <SheetContent
-      side="bottom"
-      showCloseButton={shouldShowDefaultClose}
-      className={cn(
-        "max-h-[85vh] overflow-y-auto p-0",
-        showHeader && "pt-0",
-        className
-      )}
-      {...props}
+    <BottomSlidingModalContent
+      className={cn("p-0", className)}
+      header={
+        showHeader ? (
+          <div className="flex items-center justify-between gap-3">
+            <div className="text-foreground font-semibold leading-tight text-lg">Menu</div>
+            {showCloseButton ? (
+              <BottomMenuClose asChild>
+                <Button variant="invisible" size="icon" aria-label="Close">
+                  <XIcon className="size-4" />
+                </Button>
+              </BottomMenuClose>
+            ) : null}
+          </div>
+        ) : null
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      {...(props as any)}
     >
-      {showHeader && (
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-background px-4 py-3">
-          <SheetTitle className="text-base font-semibold">Menu</SheetTitle>
-          {showCloseButton && (
-            <BottomMenuClose className="rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-              <XIcon className="size-4" />
-              <span className="sr-only">Close</span>
-            </BottomMenuClose>
-          )}
-        </div>
-      )}
       <div className="p-4">{children}</div>
-    </SheetContent>
+    </BottomSlidingModalContent>
   )
 }
 

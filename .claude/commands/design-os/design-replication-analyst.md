@@ -60,6 +60,7 @@ Map logical elements to atomic components from the Design System.
 - **THE DEFAULT RULE**: If the Blueprint refers to a prop or variant that doesn't exist in the source code (e.g., `variant="ghost"`), you must FAIL and report the mismatch. Do not attempt to "fake" it with `className` hacks or arbitrary styles.
 - **No Manual Component Resizing**: You are forbidden from mapping a Component with a hardcoded padding or font-size override. If a component needs to look "Large", check if `size="lg"` exists. If not, report the limitation.
 - **MANDATORY MAPPINGS**:
+    - **PIN / Authorization keypad** → MUST map to `@/components/ui/pin-entry` (`PinEntry`). Do **not** rebuild dot indicators or a numeric keypad with primitive buttons.
     - **Dropdowns** → MUST map to `@/components/ui/select-with-sliding` (Prop: `variant="sliding"`).
     - **Radio Lists** → MUST map to `@/components/ui/radio-button-group` (Prop: `variant="default"`).
     - **Section Headers** → MUST map to `@/components/ui/section-title`. (Check for Back Navigation pattern: requires `leading` prop).
@@ -70,6 +71,7 @@ Map logical elements to atomic components from the Design System.
         1. **Simple** (Centered, small, limited actions like Confirm/Cancel) -> *Default for warnings/messages*.
         2. **Complex** (Standard dialog with form fields/content).
         3. **Fullscreen** (Covers entire screen, often for detailed flows).
+        4. **Bottom sliding modal** (Slides up from bottom, mobile-first) → MUST map to `@/components/ui/bottom-sliding-modal` (`BottomSlidingModal` + `BottomSlidingModalContent`). Do **not** map bottom sliding modals to `SheetContent side="bottom"`.
     - **Settings Rows** → Decide first: Navigation vs Atomic Item (see Phase 0). Both commonly use `SettingsGroup` + `SettingsItem`, but the trailing element determines intent:
         - Navigation rows: trailing chevron/value/badge.
         - Atomic rows: trailing control like `Switch` / action `Button`.

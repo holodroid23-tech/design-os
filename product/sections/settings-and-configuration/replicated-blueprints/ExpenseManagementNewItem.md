@@ -1,7 +1,7 @@
 # ExpenseManagementNewItem Blueprint
 
 ## Logic Tree
-- [Fullscreen modal] Create expense
+- [Bottom sliding modal] Create expense
   - [Header]
     - [Title] "New expense"
     - [Dismiss action] Close
@@ -33,9 +33,9 @@
 ## Component Mapping (The Map)
 | Blueprint Element | Component Path | Variant/Prop Target |
 |---|---|---|
-| Fullscreen modal container | `@/components/ui/sheet` | `Sheet open` + `SheetContent side="bottom"` (sliding modal). For Design OS preview: export `designOS.presentation = "modal"` so the preview hides its own overlay, and use `DialogClose` on the header close button to dismiss the preview. |
-| Header title row | `@/components/ui/section-title` | `size="page"` with `trailing` for the close action |
-| Close action | `@/components/ui/dialog` + `@/components/ui/button` | `DialogClose asChild` wrapping `Button variant="secondary" size="icon"` |
+| Bottom sliding modal container | `@/components/ui/bottom-sliding-modal` | `BottomSlidingModal defaultOpen` + `BottomSlidingModalContent` |
+| Header title row | `@/components/ui/section-title` | `titleAs="h1"` with `trailing` for the close action |
+| Close action | `@/components/ui/bottom-sliding-modal` + `@/components/ui/button` + `@/components/ui/icon` | `BottomSlidingModalClose asChild` wrapping `Button variant="invisible" size="icon"` with `SystemIcon icon={XIcon}` |
 | Field label ("Name", "Category", "Appearance", "Stroke style") | `@/components/ui/label` | `Label` (no variants) |
 | Name text input | `@/components/ui/input` | `variant="default"` |
 | Favorite toggle action | `@/components/ui/button` | `variant="secondary" size="icon"` (toggles state) |

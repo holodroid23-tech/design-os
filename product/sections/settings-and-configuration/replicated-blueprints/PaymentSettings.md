@@ -2,7 +2,7 @@
 
 ## States (for export + implementation)
 
-This screen is intended to be **one screen with multiple UI states** (see mocks):
+This screen is intended to be **one screen with multiple UI states** (driven by data/props):
 
 - **State A — Incomplete setup** (`payment-settings.png`)
   - Stepper label: **"0/4 steps completed"** (red)
@@ -11,13 +11,6 @@ This screen is intended to be **one screen with multiple UI states** (see mocks)
     - GPS (App access) → "Grant permission"
     - Device verification → shows failure message + "Verify"
     - Account link → "Configure"
-
-- **State B — Completed setup** (`payment-settings-2.png`)
-  - Stepper label: **"4/4 steps completed"** (green)
-  - Requirement rows show **complete** status.
-  - Some rows still expose configuration actions:
-    - GPS (App access) can show **"Configure"**
-    - Account link shows account summary + **"Disconnect"** + **"Configure"**
 
 ### Interaction idea (your plan)
 
@@ -50,26 +43,26 @@ This screen is intended to be **one screen with multiple UI states** (see mocks)
   - Section header: "Terminal configuration"
   - Helper text: "All following settings must be enabled to use Tap to Pay."
   - Progress indicator:
-    - Label: "0/4 steps completed" (State A) / "4/4 steps completed" (State B)
+    - Label: "0/4 steps completed" (incomplete) / "4/4 steps completed" (complete)
     - Segmented progress showing 4 steps
   - Requirements list:
     - Requirement row:
       - Status icon (context: incomplete OR complete requirement depending on state)
       - Label: "GPS (System)"
-      - Action button: "Turn on GPS" (State A) / none (State B)
+      - Action button: "Turn on GPS" (incomplete) / none (complete)
     - Requirement row:
       - Status icon (context: incomplete OR complete requirement depending on state)
       - Label: "GPS (App access)"
-      - Action button: "Grant permission" (State A) / "Configure" (State B)
+      - Action button: "Grant permission" (incomplete) / "Configure" (complete)
     - Requirement row:
       - Status icon (context: incomplete OR complete requirement depending on state)
       - Label: "Device verification"
-      - Status message: "Device integrity failed: rooted device detected" (State A only)
-      - Action button: "Verify" (State A) / none (State B)
+      - Status message: "Device integrity failed: rooted device detected" (incomplete only)
+      - Action button: "Verify" (incomplete) / none (complete)
     - Requirement row:
       - Status icon (context: incomplete OR complete requirement depending on state)
       - Label: "Account link"
-      - Action button: "Configure" (State A) / "Disconnect" + "Configure" (State B)
+      - Action button: "Configure" (incomplete) / "Disconnect" + "Configure" (complete)
 
 ## Implementation Blocks (The Roadmap)
 

@@ -1,7 +1,7 @@
 # ExpenseManagementNewFolder Blueprint
 
 ## Logic Tree
-- [Modal: Bottom sheet]
+- [Bottom sliding modal] New folder
   - [Header row]
     - [Section title] "New folder"
     - [Close action] Close
@@ -30,7 +30,7 @@
     - [Primary action button] "Save folder"
 
 ## Implementation Blocks (The Roadmap)
-- Header: Title + close action for a bottom sheet.
+- Header: Title + close action for a bottom sliding modal.
 - Name: Labeled text input for folder name.
 - Default tax: Single selection group for preset tax percentages.
 - Appearance: Tabs switching between "Color" and "Image"; Color tab contains a 12-option single selection grid.
@@ -40,9 +40,9 @@
 ## Component Mapping (The Map)
 | Blueprint Element | Component Path | Variant/Prop Target |
 |---|---|---|
-| Fullscreen modal container | `@/components/ui/dialog` | `Dialog` + `DialogContent` (fullscreen modal pattern via `className`, as used in `DialogsExamplesCard`) |
-| Close action | `@/components/ui/dialog` | `DialogClose` (or `DialogContent` default close button via `showCloseButton`) |
-| Section title | `@/components/ui/section-title` | `SectionTitle` (`titleAs="h1"` recommended; `leading` unused; close can be `trailing` if not using built-in close) |
+| Bottom sliding modal container | `@/components/ui/bottom-sliding-modal` | `BottomSlidingModal defaultOpen` + `BottomSlidingModalContent` |
+| Close action | `@/components/ui/bottom-sliding-modal` + `@/components/ui/button` + `@/components/ui/icon` | `BottomSlidingModalClose asChild` wrapping `Button variant="invisible" size="icon"` with `SystemIcon icon={XIcon}` |
+| Section title | `@/components/ui/section-title` | `SectionTitle` (`titleAs="h1"`; close in `trailing`) |
 | Field label | `@/components/ui/label` | `Label` |
 | Name input | `@/components/ui/input` | `Input` (`placeholder="e.g. Hot Coffees"`) |
 | Default tax selection group (container) | `@/components/ui/radio-button-group` | `RadioButtonGroup` |

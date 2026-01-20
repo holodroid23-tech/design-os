@@ -1,11 +1,15 @@
 import * as React from "react"
 import { XIcon } from "lucide-react"
 
-import { BottomSheetScaffold } from "./bottom-sheet"
+import {
+  BottomSlidingModal,
+  BottomSlidingModalClose,
+  BottomSlidingModalContent,
+} from "./bottom-sliding-modal"
 import { Button } from "./button"
 import { Checkbox } from "./checkbox"
+import { SystemIcon } from "./icon"
 import { SectionTitle } from "./section-title"
-import { Sheet, SheetClose, SheetContent } from "./sheet"
 import { cn } from "@/lib/utils"
 
 interface SlidingSelectorProps {
@@ -72,94 +76,92 @@ export function SlidingSelector({
   }
 
   return (
-    <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="bottom" className="p-0 overflow-y-hidden max-h-none" showCloseButton={false}>
-        <BottomSheetScaffold
-          bodyClassName="overflow-hidden"
-          header={
-            <SectionTitle
-              titleAs="h2"
-              trailing={
-                <SheetClose asChild>
-                  <Button variant="invisible" size="icon" aria-label="Close">
-                    <XIcon className="size-4" />
-                  </Button>
-                </SheetClose>
-              }
+    <BottomSlidingModal open={open} onOpenChange={onOpenChange}>
+      <BottomSlidingModalContent
+        scaffoldProps={{ bodyClassName: "overflow-hidden" }}
+        header={
+          <SectionTitle
+            titleAs="h2"
+            trailing={
+              <BottomSlidingModalClose asChild>
+                <Button variant="invisible" size="icon" aria-label="Close">
+                  <SystemIcon icon={XIcon} />
+                </Button>
+              </BottomSlidingModalClose>
+            }
+          >
+            {title}
+          </SectionTitle>
+        }
+        footer={
+          multiple ? (
+            <Button onClick={() => onOpenChange(false)} className="w-full">
+              Done
+            </Button>
+          ) : undefined
+        }
+      >
+        <div className="flex min-h-0 flex-1 flex-col">
+          <div className="relative min-h-0 flex-1">
+            <div
+              ref={scrollContainerRef}
+              className={cn(
+                "min-h-0 h-full overflow-y-auto scroll-smooth",
+                !multiple && "snap-y snap-mandatory"
+              )}
             >
-              {title}
-            </SectionTitle>
-          }
-          footer={
-            multiple ? (
-              <Button onClick={() => onOpenChange(false)} className="w-full">
-                Done
-              </Button>
-            ) : undefined
-          }
-        >
-          <div className="flex min-h-0 flex-1 flex-col">
-            <div className="relative min-h-0 flex-1">
-              <div
-                ref={scrollContainerRef}
-                className={cn(
-                  "min-h-0 h-full overflow-y-auto scroll-smooth",
-                  !multiple && "snap-y snap-mandatory"
-                )}
-              >
-                <div className={cn("py-2", !multiple && "py-[calc(30vh/2-22px)]")}>
-                  {options.map((option) => {
-                    const isSelected = multiple
-                      ? (Array.isArray(selectedValue) && selectedValue.includes(option.value))
-                      : option.value === selectedValue
+              <div className={cn("py-2", !multiple && "py-[calc(30vh/2-22px)]")}>
+                {options.map((option) => {
+                  const isSelected = multiple
+                    ? (Array.isArray(selectedValue) && selectedValue.includes(option.value))
+                    : option.value === selectedValue
 
-                    return (
-                      <button
-                        key={option.value}
-                        ref={!multiple && isSelected ? selectedItemRef : null}
-                        type="button"
-                        onClick={() => handleSelect(option.value)}
+                  return (
+                    <button
+                      key={option.value}
+                      ref={!multiple && isSelected ? selectedItemRef : null}
+                      type="button"
+                      onClick={() => handleSelect(option.value)}
+                      className={cn(
+                        "w-full flex items-center transition-colors",
+                        multiple
+                          ? "px-6 py-3 border-b border-border/40 last:border-0 hover:bg-accent/50"
+                          : "h-11 justify-center snap-center hover:bg-accent/50"
+                      )}
+                    >
+                      {multiple && (
+                        <Checkbox
+                          checked={isSelected}
+                          className="mr-3"
+                          onCheckedChange={() => handleSelect(option.value)}
+                        />
+                      )}
+                      <span
                         className={cn(
-                          "w-full flex items-center transition-colors",
-                          multiple
-                            ? "px-6 py-3 border-b border-border/40 last:border-0 hover:bg-accent/50"
-                            : "h-11 justify-center snap-center hover:bg-accent/50"
+                          "text-base font-normal truncate",
+                          isSelected ? "text-foreground font-medium" : "text-muted-foreground"
                         )}
                       >
-                        {multiple && (
-                          <Checkbox
-                            checked={isSelected}
-                            className="mr-3"
-                            onCheckedChange={() => handleSelect(option.value)}
-                          />
-                        )}
-                        <span
-                          className={cn(
-                            "text-base font-normal truncate",
-                            isSelected ? "text-foreground font-medium" : "text-muted-foreground"
-                          )}
-                        >
-                          {option.label}
-                        </span>
-                      </button>
-                    )
-                  })}
-                </div>
+                        {option.label}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
-
-              {/* Edge masks: ensure list items fully tuck away while scrolling */}
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 top-0 h-5 bg-gradient-to-b from-background to-transparent"
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-x-0 bottom-0 h-5 bg-gradient-to-t from-background to-transparent"
-              />
             </div>
+
+            {/* Edge masks: ensure list items fully tuck away while scrolling */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 top-0 h-5 bg-gradient-to-b from-background to-transparent"
+            />
+            <div
+              aria-hidden
+              className="pointer-events-none absolute inset-x-0 bottom-0 h-5 bg-gradient-to-t from-background to-transparent"
+            />
           </div>
-        </BottomSheetScaffold>
-      </SheetContent>
-    </Sheet>
+        </div>
+      </BottomSlidingModalContent>
+    </BottomSlidingModal>
   )
 }

@@ -37,6 +37,7 @@
         - **Simple**: Use `className="items-center sm:text-center"` on Header and `className="sm:justify-center"` on Footer. **Default for warnings.**
         - **Complex**: Standard left-aligned Header and right-aligned Footer (default behavior).
         - **Fullscreen**: Use `className="inset-0 top-0 left-0 max-w-none h-[100dvh] w-[100dvw] rounded-none"` on Content.
+        - **Bottom sliding modal**: MUST use `@/components/ui/bottom-sliding-modal` (`BottomSlidingModal` + `BottomSlidingModalContent`). Do **not** use `SheetContent side="bottom"` anywhere.
 6.  **EXPORT DEFAULT**: You **MUST** use `export default function [ComponentName]() {...}`. Named exports will fail to load in the previewer.
 
 ### Practical “When to Choose What” Examples

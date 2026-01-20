@@ -1,63 +1,71 @@
 import * as React from "react"
-import * as SheetPrimitive from "@radix-ui/react-dialog"
+import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { XIcon } from "lucide-react"
 
 import { cn } from "../../lib/utils"
-import { Sheet, SheetContent, SheetTitle } from "./sheet"
+import {
+  BottomSlidingModal,
+  BottomSlidingModalClose,
+  BottomSlidingModalContent,
+  BottomSlidingModalTrigger,
+} from "./bottom-sliding-modal"
+import { Button } from "./button"
+import { SystemIcon } from "./icon"
+import { SectionTitle } from "./section-title"
 
-function BottomMenu({ ...props }: React.ComponentProps<typeof SheetPrimitive.Root>) {
-  return <Sheet {...props} />
+function BottomMenu({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
+  return <BottomSlidingModal {...props} />
 }
 
 function BottomMenuTrigger({
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Trigger>) {
-  return <SheetPrimitive.Trigger data-slot="bottom-menu-trigger" {...props} />
+}: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
+  return <BottomSlidingModalTrigger data-slot="bottom-menu-trigger" {...props} />
 }
 
 function BottomMenuClose({
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Close>) {
-  return <SheetPrimitive.Close data-slot="bottom-menu-close" {...props} />
+}: React.ComponentProps<typeof DialogPrimitive.Close>) {
+  return <BottomSlidingModalClose data-slot="bottom-menu-close" {...props} />
 }
 
 function BottomMenuContent({
   className,
   children,
   showCloseButton = true,
-  showHeader = false,
+  showHeader = true,
   ...props
-}: React.ComponentProps<typeof SheetPrimitive.Content> & {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
   showHeader?: boolean
 }) {
-  // If header is shown, hide the default close button and show it in header instead
-  const shouldShowDefaultClose = showCloseButton && !showHeader
-  
+  // Standardize: Bottom menus always use the canonical bottom sliding modal + scaffold header.
   return (
-    <SheetContent
-      side="bottom"
-      showCloseButton={shouldShowDefaultClose}
-      className={cn(
-        "max-h-[85vh] overflow-y-auto p-0",
-        showHeader && "pt-0",
-        className
-      )}
+    <BottomSlidingModalContent
+      scaffoldProps={{ headerClassName: "px-4 py-3 border-b", bodyClassName: "overflow-y-auto" }}
+      className={cn("p-0", className)}
+      header={
+        showHeader ? (
+          <SectionTitle
+            titleAs="h2"
+            trailing={
+              showCloseButton ? (
+                <BottomMenuClose asChild>
+                  <Button variant="invisible" size="icon" aria-label="Close">
+                    <SystemIcon icon={XIcon} />
+                  </Button>
+                </BottomMenuClose>
+              ) : null
+            }
+          >
+            Menu
+          </SectionTitle>
+        ) : null
+      }
       {...props}
     >
-      {showHeader && (
-        <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-background px-4 py-3">
-          <SheetTitle className="text-base font-semibold">Menu</SheetTitle>
-          {showCloseButton && (
-            <BottomMenuClose className="rounded-xs opacity-70 transition-opacity hover:opacity-100 focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none">
-              <XIcon className="size-4" />
-              <span className="sr-only">Close</span>
-            </BottomMenuClose>
-          )}
-        </div>
-      )}
       <div className="p-4">{children}</div>
-    </SheetContent>
+    </BottomSlidingModalContent>
   )
 }
 

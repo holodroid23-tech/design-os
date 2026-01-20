@@ -25,18 +25,12 @@ export default function PaymentSettings() {
   /**
    * NOTE (design intent / export guidance)
    *
-   * This screen has TWO visual states based on the mockups:
-   * - State A: incomplete setup (`payment-settings.png`) -> 0/4 steps completed (red), actionable requirement buttons
-   * - State B: completed setup (`payment-settings-2.png`) -> 4/4 steps completed (green), completed requirement cards
+   * This screen is based on the mockup:
+   * - Incomplete setup (`payment-settings.png`) -> 0/4 steps completed (red), actionable requirement buttons
    *
    * Product idea: keep ONE screen and switch the requirement "card" states after tap (for demo/preview).
    * For real implementation later (export target), model this as props/state (permissions, device checks, account link),
    * not hardcoded click logic.
-   *
-   * Quick way to preview State B here:
-   * - change Stepper value={0} -> value={4} and variant="destructive" -> variant="success"
-   * - swap requirement icon tones from "danger" -> "success"
-   * - adjust row actions (e.g. Account link shows Disconnect + Configure)
    */
   const [cashEnabled, setCashEnabled] = React.useState(true)
   const [externalTerminalEnabled, setExternalTerminalEnabled] = React.useState(false)

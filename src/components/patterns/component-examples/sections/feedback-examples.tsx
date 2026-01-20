@@ -1,13 +1,11 @@
 import type { ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { BottomSheetScaffold } from '@/components/ui/bottom-sheet'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 import { EmptyState } from '@/components/ui/empty-state'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { CheckCircle2, Search, ShoppingCart, XCircle } from 'lucide-react'
 import { toast } from 'sonner'
 
@@ -207,50 +205,12 @@ export function SheetsExamplesCard() {
       <CardHeader>
         <CardTitle className="text-lg font-semibold">Sheet (side panels)</CardTitle>
         <CardDescription>
-          Sliding panels from different sides. Bottom sheets hug content until they hit a max height, then scroll.
+          Sliding panels from different sides.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-3">
-          <div>
-            <Label className="text-sm font-medium mb-2 block">Bottom sheet (enhanced)</Label>
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="ghost" className="min-h-[48px] sm:min-h-0">
-                  Open bottom sheet
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="bottom" className="p-0 overflow-y-hidden max-h-none">
-                <BottomSheetScaffold
-                  header={
-                    <SheetHeader>
-                      <SheetTitle>Bottom sheet</SheetTitle>
-                      <SheetDescription>
-                        Canonical pattern: hug until 85% height, then scroll (footer stays pinned).
-                      </SheetDescription>
-                    </SheetHeader>
-                  }
-                  footer={<Button className="w-full">Primary action</Button>}
-                >
-                  <div className="px-6 pb-5 space-y-2">
-                    <p className="text-sm text-muted-foreground">
-                      Content slides up from the bottom with smooth animation.
-                    </p>
-                    <div className="pt-2 space-y-2">
-                      {Array.from({ length: 18 }).map((_, idx) => (
-                        <div
-                          key={idx}
-                          className="rounded-[12px] border border-border bg-muted/20 px-3 py-2 text-sm"
-                        >
-                          Example row {idx + 1}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </BottomSheetScaffold>
-              </SheetContent>
-            </Sheet>
-          </div>
+        <div className="text-sm text-muted-foreground">
+          Bottom sliding modals use the canonical <code>BottomSlidingModal</code> component (see Sliding selector / Bottom menu examples).
         </div>
       </CardContent>
     </Card>

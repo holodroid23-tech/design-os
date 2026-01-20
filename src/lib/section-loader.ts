@@ -114,8 +114,11 @@ export function parseSpec(md: string): ParsedSpec | null {
 function fileNameToComponentName(fileName: string): string {
   const nameWithoutExt = fileName.replace(/\.(png|jpg|jpeg)$/i, '')
   return nameWithoutExt
-    .split(/[-_]/)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    // Support common separators including spaces and punctuation.
+    // This keeps component names stable even if a mock filename isn't kebab-case.
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join('')
 }
 
@@ -126,8 +129,9 @@ function fileNameToComponentName(fileName: string): string {
 function fileNameToDisplayName(fileName: string): string {
   const nameWithoutExt = fileName.replace(/\.(png|jpg|jpeg)$/i, '')
   return nameWithoutExt
-    .split(/[-_]/)
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .split(/[^a-zA-Z0-9]+/)
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ')
 }
 

@@ -1,37 +1,31 @@
 import * as React from "react"
-import { Star, XIcon } from "lucide-react"
+import { XIcon } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import {
   BottomSlidingModal,
   BottomSlidingModalClose,
   BottomSlidingModalContent,
 } from "@/components/ui/bottom-sliding-modal"
 import { SectionTitle } from "@/components/ui/section-title"
+import { Button } from "@/components/ui/button"
 import { SystemIcon } from "@/components/ui/icon"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
-import { SelectWithSliding } from "@/components/ui/select-with-sliding"
 import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-button-group"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ColorSelector, ColorSelectorItem } from "@/components/ui/color-selector"
 import { MediaUpload } from "@/components/ui/media-upload"
-import { IconToggleButton } from "@/components/ui/icon-toggle-button"
+import { StrokeStyleSelector } from "@/components/ui/stroke-style-selector"
 
 export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function ExpenseManagementNewItem() {
-  const [name, setName] = React.useState("")
-  const [favorite, setFavorite] = React.useState(false)
-  const [category, setCategory] = React.useState<string | number>("operations")
-  const [tax, setTax] = React.useState("21%")
-  const [appearanceTab, setAppearanceTab] = React.useState<"color" | "image">("image")
-  const [expenseColor, setExpenseColor] = React.useState("blue")
-  const [strokeStyle, setStrokeStyle] = React.useState<
-    "none" | "common" | "dashed" | "gradient" | "holo" | "glow"
-  >("common")
+export default function InventoryManagementNewFolder() {
+  const [defaultTax, setDefaultTax] = React.useState("0%")
+  const [appearanceTab, setAppearanceTab] = React.useState<"color" | "image">("color")
+  const [folderColor, setFolderColor] = React.useState("blue")
+  const [strokeStyle, setStrokeStyle] = React.useState<"none" | "common" | "dashed">("common")
 
   return (
     <BottomSlidingModal defaultOpen>
@@ -47,63 +41,28 @@ export default function ExpenseManagementNewItem() {
               </BottomSlidingModalClose>
             }
           >
-            New expense
+            New folder
           </SectionTitle>
         }
         footer={
           <Button size="lg" className="w-full">
-            Save expense
+            Save folder
           </Button>
         }
       >
         {/* Block 2: Name */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="new-expense-name">Name</Label>
-            <div className="flex items-center gap-3">
-              <Input
-                id="new-expense-name"
-                placeholder="e.g. Monthly Rent"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-              <IconToggleButton
-                pressed={favorite}
-                onPressedChange={setFavorite}
-                icon={Star}
-                label={favorite ? "Unfavorite" : "Favorite"}
-                variant="ghost"
-                fillIconWhenPressed
-                pressedIconClassName="text-amber-400 fill-amber-400"
-              />
-            </div>
+            <Label>Name</Label>
+            <Input placeholder="e.g. Hot Coffees" />
           </div>
         </div>
 
-        {/* Block 3: Category */}
+        {/* Block 3: Default tax */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-2">
-            <Label>Category</Label>
-            <SelectWithSliding
-              variant="sliding"
-              placeholder="Select a category"
-              value={category}
-              onValueChange={setCategory}
-              options={[
-                { value: "operations", label: "Operations" },
-                { value: "rent", label: "Rent" },
-                { value: "utilities", label: "Utilities" },
-                { value: "suppliers", label: "Suppliers" },
-              ]}
-            />
-          </div>
-        </div>
-
-        {/* Block 4: Tax */}
-        <div className="px-6 pb-5">
-          <div className="flex flex-col gap-2">
-            <Label>Tax</Label>
-            <RadioButtonGroup value={tax} onValueChange={setTax}>
+            <Label>Default tax</Label>
+            <RadioButtonGroup value={defaultTax} onValueChange={setDefaultTax}>
               <RadioButtonGroupItem value="0%" variant="default" size="lg">
                 0%
               </RadioButtonGroupItem>
@@ -117,7 +76,7 @@ export default function ExpenseManagementNewItem() {
           </div>
         </div>
 
-        {/* Block 5: Appearance */}
+        {/* Block 4: Appearance */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-3">
             <Label>Appearance</Label>
@@ -132,7 +91,7 @@ export default function ExpenseManagementNewItem() {
               </TabsList>
 
               <TabsContent value="color" className="pt-3">
-                <ColorSelector value={expenseColor} onValueChange={setExpenseColor} aria-label="Expense color">
+                <ColorSelector value={folderColor} onValueChange={setFolderColor} aria-label="Folder color">
                   <ColorSelectorItem value="blue" color="#3b82f6" aria-label="Blue" />
                   <ColorSelectorItem value="green" color="#22c55e" aria-label="Green" />
                   <ColorSelectorItem value="red" color="#ef4444" aria-label="Red" />
@@ -150,44 +109,17 @@ export default function ExpenseManagementNewItem() {
               </TabsContent>
 
               <TabsContent value="image" className="pt-3">
-                <MediaUpload chooseFromFilesLabel="Choose from library" />
+                <MediaUpload />
               </TabsContent>
             </Tabs>
           </div>
         </div>
 
-        {/* Block 6: Stroke style */}
-        <div className="px-6 pb-6">
+        {/* Block 5: Stroke style */}
+        <div className="px-6 pb-5">
           <div className="flex flex-col gap-3">
             <Label>Stroke style</Label>
-            <RadioButtonGroup
-              value={strokeStyle}
-              onValueChange={(v) => setStrokeStyle(v as any)}
-              className="grid grid-cols-3 gap-3"
-            >
-              {(
-                [
-                  { value: "none", label: "None" },
-                  { value: "common", label: "Common" },
-                  { value: "dashed", label: "Dashed" },
-                  { value: "gradient", label: "Gradient" },
-                  { value: "holo", label: "Holo" },
-                  { value: "glow", label: "Glow" },
-                ] as const
-              ).map((opt) => (
-                <RadioButtonGroupItem
-                  key={opt.value}
-                  value={opt.value}
-                  variant="surface"
-                  className="aspect-square flex flex-col items-center justify-center text-center h-auto p-0"
-                >
-                  <div className="flex flex-col items-center justify-center w-full h-full p-4 gap-2">
-                    <div className="h-12 w-12 rounded-[12px] bg-muted/50 border border-border/40" />
-                    <span className="text-xs text-muted-foreground">{opt.label}</span>
-                  </div>
-                </RadioButtonGroupItem>
-              ))}
-            </RadioButtonGroup>
+            <StrokeStyleSelector value={strokeStyle} onValueChange={setStrokeStyle} />
           </div>
         </div>
       </BottomSlidingModalContent>

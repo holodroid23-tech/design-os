@@ -1,13 +1,14 @@
 import * as React from "react"
 import { format } from "date-fns"
-import { Calendar as CalendarIcon, X } from "lucide-react"
+import { Calendar as CalendarIcon, XIcon } from "lucide-react"
 import { Button } from "./button"
 import { Calendar } from "./calendar"
 import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "./sheet"
+  BottomSlidingModal,
+  BottomSlidingModalClose,
+  BottomSlidingModalContent,
+  BottomSlidingModalTrigger,
+} from "./bottom-sliding-modal"
 import { cn } from "../../lib/utils"
 
 interface DatePickerProps {
@@ -31,8 +32,8 @@ export function DatePicker({
   }
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger asChild>
+    <BottomSlidingModal open={open} onOpenChange={setOpen}>
+      <BottomSlidingModalTrigger asChild>
         <Button
           variant={"ghost"}
           className={cn(
@@ -44,29 +45,24 @@ export function DatePicker({
           {date ? format(date, "PPP") : <span>{placeholder}</span>}
           <CalendarIcon className="h-[18px] w-[18px]" />
         </Button>
-      </SheetTrigger>
-      <SheetContent side="bottom" className="p-0 flex flex-col max-h-[80vh]" showCloseButton={false}>
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-stone-200 dark:border-stone-700">
-          <h2 className="text-lg font-semibold text-stone-900 dark:text-stone-100">Select Date</h2>
-          <button
-            onClick={() => setOpen(false)}
-            className="p-1 hover:bg-stone-100 dark:hover:bg-stone-800 rounded-sm transition-colors"
-          >
-            <X className="h-[18px] w-[18px] text-stone-600 dark:text-stone-400" />
-          </button>
-        </div>
+      </BottomSlidingModalTrigger>
 
-        {/* Calendar */}
+      <BottomSlidingModalContent
+        header={
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="text-foreground font-semibold leading-tight text-lg">Select date</h2>
+            <BottomSlidingModalClose asChild>
+              <Button variant="invisible" size="icon" aria-label="Close">
+                <XIcon className="size-4" />
+              </Button>
+            </BottomSlidingModalClose>
+          </div>
+        }
+      >
         <div className="flex items-center justify-center py-4">
-          <Calendar
-            mode="single"
-            selected={date}
-            onSelect={handleDateSelect}
-            initialFocus
-          />
+          <Calendar mode="single" selected={date} onSelect={handleDateSelect} initialFocus />
         </div>
-      </SheetContent>
-    </Sheet>
+      </BottomSlidingModalContent>
+    </BottomSlidingModal>
   )
 }

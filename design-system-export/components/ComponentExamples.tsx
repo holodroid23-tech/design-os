@@ -1252,32 +1252,8 @@ export function ComponentExamples({ showHeader = true }: ComponentExamplesProps)
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <div>
-              <Label className="text-sm font-medium text-stone-700 dark:text-stone-300 mb-2 block">
-                Bottom sheet (enhanced)
-              </Label>
-              <Sheet>
-                <SheetTrigger asChild>
-                  <Button variant="ghost" className="min-h-[48px] sm:min-h-0">
-                    Open bottom sheet
-                  </Button>
-                </SheetTrigger>
-                <SheetContent side="bottom">
-                  <SheetHeader>
-                    <SheetTitle>Bottom sheet</SheetTitle>
-                    <SheetDescription>
-                      This bottom sheet has rounded top corners and is optimized for mobile menus.
-                    </SheetDescription>
-                  </SheetHeader>
-                  <div className="px-4 pb-4">
-                    <p className="text-sm text-stone-600 dark:text-stone-400">
-                      Content slides up from the bottom with smooth animation.
-                    </p>
-                  </div>
-                </SheetContent>
-              </Sheet>
-            </div>
+          <div className="text-sm text-stone-600 dark:text-stone-400">
+            Bottom sliding modals use the canonical <code>BottomSlidingModal</code> component. Sheets are for left/right/top panels only.
           </div>
         </CardContent>
       </Card>

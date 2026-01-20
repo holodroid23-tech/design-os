@@ -58,7 +58,10 @@ function SheetContent({
   showCloseButton = true,
   ...props
 }: React.ComponentProps<typeof SheetPrimitive.Content> & {
-  side?: "top" | "right" | "bottom" | "left"
+  /**
+   * Side sheets are for panels/drawers. Bottom sliding modals MUST use `BottomSlidingModal`.
+   */
+  side?: "top" | "right" | "left"
   showCloseButton?: boolean
 }) {
   return (
@@ -74,8 +77,6 @@ function SheetContent({
             "data-[state=closed]:slide-out-to-left data-[state=open]:slide-in-from-left inset-y-0 left-0 h-full w-3/4 border-r sm:max-w-sm",
           side === "top" &&
             "data-[state=closed]:slide-out-to-top data-[state=open]:slide-in-from-top inset-x-0 top-0 h-auto border-b",
-          side === "bottom" &&
-            "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom inset-x-0 bottom-0 h-auto border-t rounded-t-[18px] max-h-[85%] overflow-y-auto",
           className
         )}
         {...props}
