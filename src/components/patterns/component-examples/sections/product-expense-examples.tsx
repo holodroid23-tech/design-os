@@ -1,6 +1,7 @@
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { ProductTile } from '@/components/ui/product-tile'
 import { IconTile } from '@/components/atoms/icon'
 import { ImageTile } from '@/components/ui/image-tile'
 import { Label } from '@/components/ui/label'
@@ -16,15 +17,15 @@ import { GridActionTile } from '@/components/patterns/grid-action-tile'
 import { CreditCard, Folder, Minus, Pencil, Plus, Trash2 } from 'lucide-react'
 
 const productSwatches = [
-  { name: 'Primary', className: 'bg-gradient-to-br from-primary/70 to-primary' },
-  { name: 'Secondary', className: 'bg-gradient-to-br from-secondary/70 to-secondary' },
-  { name: 'Info', className: 'bg-gradient-to-br from-layer-info/70 to-layer-info' },
-  { name: 'Success', className: 'bg-gradient-to-br from-layer-success/70 to-layer-success' },
-  { name: 'Warning', className: 'bg-gradient-to-br from-layer-warning/70 to-layer-warning' },
-  { name: 'Danger', className: 'bg-gradient-to-br from-layer-danger/70 to-layer-danger' },
-  { name: 'Muted', className: 'bg-gradient-to-br from-muted/70 to-muted' },
-  { name: 'Accent', className: 'bg-gradient-to-br from-accent/70 to-accent' },
-  { name: 'Card', className: 'bg-gradient-to-br from-card/70 to-card' },
+  { name: 'Primary', tone: 'primary' as const },
+  { name: 'Secondary', tone: 'secondary' as const },
+  { name: 'Info', tone: 'info' as const },
+  { name: 'Success', tone: 'success' as const },
+  { name: 'Warning', tone: 'warning' as const },
+  { name: 'Danger', tone: 'danger' as const },
+  { name: 'Muted', tone: 'muted' as const },
+  { name: 'Accent', tone: 'accent' as const },
+  { name: 'Card', tone: 'card' as const },
 ]
 
 export function ProductExpenseCardsExamplesCard() {
@@ -47,16 +48,7 @@ export function ProductExpenseCardsExamplesCard() {
             </Label>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {productSwatches.map((item) => (
-                <button
-                  key={item.name}
-                  className={[
-                    'relative aspect-square rounded-2xl overflow-hidden flex flex-col items-center justify-center text-primary-foreground p-3 shadow-sm border border-border active:scale-95 transition-all hover:shadow-md hover:-translate-y-0.5',
-                    item.className,
-                  ].join(' ')}
-                >
-                  <h3 className="font-sans text-base font-semibold mb-0.5 tracking-tight">{item.name}</h3>
-                  <p className="font-mono text-sm font-medium opacity-90">$4.50</p>
-                </button>
+                <ProductTile key={item.name} name={item.name} price="$4.50" tone={item.tone} />
               ))}
             </div>
 
@@ -100,73 +92,73 @@ export function ProductExpenseCardsExamplesCard() {
             <div className="space-y-3">
               <Label className="text-[11px] font-bold tracking-tight text-muted-foreground">Products</Label>
               <div className="grid grid-cols-3 gap-3">
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-primary border border-border flex flex-col items-center justify-center p-3 shadow-md text-primary-foreground">
-                  <div className="absolute top-1.5 right-1.5 z-20">
+                <ProductTile
+                  element="div"
+                  name="Macchiato"
+                  price="$3.75"
+                  tone="primary"
+                  topRight={
                     <Badge className="h-6 w-6 p-0 flex items-center justify-center rounded-full bg-primary-foreground text-primary font-mono text-[10px] font-bold border-none shadow-sm">
                       1
                     </Badge>
-                  </div>
-                  <div className="h-full flex flex-col items-center justify-center relative z-10 text-center">
-                    <SettingsItemTitle className="font-sans font-semibold text-base text-primary-foreground tracking-tight">
-                      Macchiato
-                    </SettingsItemTitle>
-                    <p className="font-mono text-sm opacity-80">$3.75</p>
-                  </div>
-                  <div className="absolute bottom-1.5 left-1.5 z-20">
+                  }
+                  bottomLeft={
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-primary-foreground"
+                      className="h-8 w-8 rounded-lg bg-overlay-default/20 hover:bg-overlay-default/30 text-primary-foreground"
                       onClick={(e) => e.stopPropagation()}
+                      aria-label="Remove"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
-                  </div>
-                  <div className="absolute bottom-1.5 right-1.5 z-20">
+                  }
+                  bottomRight={
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-primary-foreground"
+                      className="h-8 w-8 rounded-lg bg-overlay-default/20 hover:bg-overlay-default/30 text-primary-foreground"
                       onClick={(e) => e.stopPropagation()}
+                      aria-label="Add"
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
-                  </div>
-                </div>
+                  }
+                />
 
-                <div className="relative aspect-square rounded-2xl overflow-hidden bg-secondary border border-border flex flex-col items-center justify-center p-3 shadow-md text-secondary-foreground">
-                  <div className="absolute top-1.5 right-1.5 z-20">
+                <ProductTile
+                  element="div"
+                  name="Cappuccino"
+                  price="$4.50"
+                  tone="secondary"
+                  topRight={
                     <Badge className="h-6 w-6 p-0 flex items-center justify-center rounded-full bg-secondary-foreground text-secondary font-mono text-[10px] font-bold border-none shadow-sm">
                       2
                     </Badge>
-                  </div>
-                  <div className="h-full flex flex-col items-center justify-center relative z-10 text-center">
-                    <SettingsItemTitle className="font-sans font-semibold text-base text-secondary-foreground tracking-tight">
-                      Cappuccino
-                    </SettingsItemTitle>
-                    <p className="font-mono text-sm opacity-80">$4.50</p>
-                  </div>
-                  <div className="absolute bottom-1.5 left-1.5 z-20">
+                  }
+                  bottomLeft={
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-secondary-foreground"
+                      className="h-8 w-8 rounded-lg bg-overlay-default/20 hover:bg-overlay-default/30 text-secondary-foreground"
                       onClick={(e) => e.stopPropagation()}
+                      aria-label="Decrease"
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
-                  </div>
-                  <div className="absolute bottom-1.5 right-1.5 z-20">
+                  }
+                  bottomRight={
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      className="h-8 w-8 rounded-lg bg-black/20 hover:bg-black/40 text-secondary-foreground"
+                      className="h-8 w-8 rounded-lg bg-overlay-default/20 hover:bg-overlay-default/30 text-secondary-foreground"
                       onClick={(e) => e.stopPropagation()}
+                      aria-label="Increase"
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
-                  </div>
-                </div>
+                  }
+                />
               </div>
             </div>
           </div>
@@ -180,15 +172,7 @@ export function ProductExpenseCardsExamplesCard() {
 
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {productSwatches.slice(0, 6).map((item) => (
-              <button
-                key={`${item.name}-expense`}
-                className={[
-                  'relative aspect-square rounded-2xl overflow-hidden flex flex-col items-center justify-center text-primary-foreground p-3 shadow-sm border border-border active:scale-95 transition-all hover:shadow-md hover:-translate-y-0.5',
-                  item.className,
-                ].join(' ')}
-              >
-                <h3 className="font-sans text-base font-semibold text-center leading-tight px-1 tracking-tight">{item.name}</h3>
-              </button>
+              <ProductTile key={`${item.name}-expense`} name={item.name} tone={item.tone} />
             ))}
           </div>
         </div>

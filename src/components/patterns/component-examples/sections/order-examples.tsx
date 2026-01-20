@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { OrderTabs } from '@/components/ui/order-tabs'
 import { cn } from '@/lib/utils'
 import { SystemIcon } from '@/components/atoms/icon'
 import { ImageTile } from '@/components/ui/image-tile'
@@ -43,48 +44,12 @@ function OrderTabsDemo() {
 
   return (
     <div className="w-full max-w-3xl bg-background border border-border rounded-xl p-4 overflow-hidden">
-      <div className="flex items-center gap-3">
-        <button
-          onClick={handleAddTab}
-          className="flex-shrink-0 h-10 w-10 rounded-full bg-layer-3 hover:bg-layer-3/80 border border-border flex items-center justify-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-        >
-          <SystemIcon icon={Plus} size="regular" className="text-foreground" aria-hidden="true" />
-        </button>
-
-        <div className="flex-1 overflow-x-auto no-scrollbar mask-gradient-right">
-          <div className="flex items-center gap-2">
-            {tabs.map((tab) => {
-              const isSelected = selectedId === tab.id
-              const hasItems = tab.count > 0
-
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setSelectedId(tab.id)}
-                  className={cn(
-                    'relative group flex items-center gap-2 px-4 h-10 rounded-full text-sm font-medium transition-all whitespace-nowrap select-none shrink-0',
-                    isSelected
-                      ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20'
-                      : 'bg-layer-1 hover:bg-layer-1/80 text-muted-foreground hover:text-foreground border border-transparent hover:border-border'
-                  )}
-                >
-                  <span>{tab.label}</span>
-                  {hasItems && (
-                    <span
-                      className={cn(
-                        'flex items-center justify-center h-5 min-w-[20px] px-1 rounded text-[10px] font-bold leading-none',
-                        isSelected ? 'bg-primary-foreground/20 text-primary-foreground' : 'bg-muted text-muted-foreground'
-                      )}
-                    >
-                      {tab.count}
-                    </span>
-                  )}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-      </div>
+      <OrderTabs
+        tabs={tabs.map((t) => ({ id: t.id, label: t.label, count: t.count }))}
+        value={selectedId}
+        onValueChange={setSelectedId}
+        onAddTab={handleAddTab}
+      />
 
       {selected && (
         <div className="mt-4 pt-4 border-t border-border">

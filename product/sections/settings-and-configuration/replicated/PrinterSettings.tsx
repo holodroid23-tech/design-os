@@ -1,4 +1,3 @@
-import * as React from "react"
 import { ChevronLeft, Printer, Search } from "lucide-react"
 
 import { SettingsGroup } from "@/components/settings/settings-group"
@@ -12,7 +11,7 @@ import {
 } from "@/components/settings/settings-item"
 import { Button } from "@/components/ui/button"
 import { IconTile, SystemIcon } from "@/components/ui/icon"
-import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-button-group"
+import { Label } from "@/components/ui/label"
 import { SectionTitle } from "@/components/ui/section-title"
 
 export const designOS = {
@@ -20,8 +19,6 @@ export const designOS = {
 }
 
 export default function PrinterSettings() {
-  const [paperSize, setPaperSize] = React.useState<"58mm" | "80mm">("58mm")
-
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
@@ -42,7 +39,7 @@ export default function PrinterSettings() {
       {/* Block 2: Printer status */}
       <div className="px-6 py-4">
         <div className="flex flex-col gap-4">
-          <SectionTitle titleAs="h2">Printer status</SectionTitle>
+          <Label>Printer status</Label>
 
           <SettingsGroup>
             <SettingsItem element="div">
@@ -79,22 +76,10 @@ export default function PrinterSettings() {
         </div>
       </div>
 
-      {/* Block 3: Paper size */}
-      <div className="px-6 py-4">
-        <div className="flex flex-col gap-4">
-          <SectionTitle titleAs="h2">Paper size</SectionTitle>
-
-          <RadioButtonGroup value={paperSize} onValueChange={(v) => setPaperSize(v as "58mm" | "80mm")}>
-            <RadioButtonGroupItem value="58mm">58mm</RadioButtonGroupItem>
-            <RadioButtonGroupItem value="80mm">80mm</RadioButtonGroupItem>
-          </RadioButtonGroup>
-        </div>
-      </div>
-
       {/* Block 4: Hardware discovery */}
       <div className="px-6 py-4">
         <div className="flex flex-col gap-4">
-          <SectionTitle titleAs="h2">Hardware discovery</SectionTitle>
+          <Label>Hardware discovery</Label>
 
           <Button type="button" variant="ghost" size="lg" className="w-full justify-center">
             <SystemIcon icon={Search} />

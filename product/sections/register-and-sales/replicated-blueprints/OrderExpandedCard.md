@@ -54,8 +54,7 @@
 | Header title | `@/components/ui/section-title` (`SectionTitle`) | `size="section"` (default), `titleAs="h2"`, `trailing={...}` |
 | Header collapse/expand action | `@/components/ui/button` (`Button`) | `variant="invisible"`, `size="icon"`, `aria-label="Collapse order"` |
 | Header collapse/expand icon | `@/components/ui/icon` (`SystemIcon`) | `size="regular"` |
-| Search input | `@/components/ui/input` (`Input`) | `placeholder="Search items..."` |
-| Search leading icon | `@/components/ui/icon` (`SystemIcon`) | `size="regular"`, `aria-hidden="true"` |
+| Search input with suggestions (whisperer) | `@/components/ui/search-input-with-suggestions` (`SearchInputWithSuggestions`) | `placeholder="Search items..."` |
 | Order items list container | Layout primitives | `role="list"` (optional), scroll handled by `BottomSheetScaffold` body |
 | Line item image | `@/components/ui/image-tile` (`ImageTile`) | `size="large"`, `src`, `alt` |
 | Quantity decrease button | `@/components/ui/button` (`Button`) | `variant="ghost"`, `size="icon-sm"`, `aria-label="Decrease quantity"` |

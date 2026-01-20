@@ -16,12 +16,6 @@
       - "Test print"
       - "Disconnect"
 
-- **Paper size**
-  - Section header: "Paper size"
-  - Single selection group:
-    - Option: "58mm" (selected)
-    - Option: "80mm"
-
 - **Hardware discovery**
   - Section header: "Hardware discovery"
   - Primary action: "Search for printers"
@@ -39,8 +33,7 @@
 
 - **Block 1: Header** - Back navigation and page title
 - **Block 2: Printer status** - Connected device panel with status + two actions
-- **Block 3: Paper size** - Two-option single selection group
-- **Block 4: Hardware discovery** - Search action + list of discovered devices with per-row "Pair" actions
+- **Block 3: Hardware discovery** - Search action + list of discovered devices with per-row "Pair" actions
 
 ## Layout Patterns (The Vibe)
 
@@ -55,7 +48,7 @@
 |---|---|---|
 | Back navigation trigger | @/components/ui/section-title | interactive, leading={lucide-react#ChevronLeft} |
 | Page title | @/components/ui/section-title | titleAs="h2" |
-| Section headers | @/components/ui/section-title | titleAs="h2" |
+| Section headers (form-style) | @/components/ui/label | (default) |
 | Connected device panel container | @/components/settings/settings-group | (default) |
 | Leading device icon (panel) | @/components/ui/icon | Component: IconTile, variant="tile", size="medium", tone="success" |
 | Connected device row | @/components/settings/settings-item | element="div" |
@@ -63,8 +56,6 @@
 | Connection state text | @/components/settings/settings-item | Component: SettingsItemDescription, tone="success", size="tiny" |
 | "Test print" action | @/components/ui/button | variant="ghost", size="lg" |
 | "Disconnect" action | @/components/ui/button | variant="destructive", size="lg" (Note: DS has no destructive-outline variant) |
-| Paper size selection group | @/components/ui/radio-button-group | Component: RadioButtonGroup |
-| Paper size option button | @/components/ui/radio-button-group | Component: RadioButtonGroupItem, variant="card", size="lg" |
 | Devices list container | @/components/settings/settings-group | (default) |
 | Device row | @/components/settings/settings-item | element="div" (allows nested trailing action) |
 | Row leading icon | @/components/ui/icon | Component: SystemIcon |

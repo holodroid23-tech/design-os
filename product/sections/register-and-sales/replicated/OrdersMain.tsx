@@ -1,10 +1,8 @@
 import * as React from "react"
-import { Plus } from "lucide-react"
 
-import { SystemIcon } from "@/components/atoms/icon"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { SectionTitle } from "@/components/ui/section-title"
+import { OrderTabs } from "@/components/ui/order-tabs"
+import { ProductTile } from "@/components/ui/product-tile"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -21,6 +19,15 @@ export interface OrdersMainProps {
   selectedTabId?: string
   onSelectTab?: (tabId: string) => void
   onAddOrder?: () => void
+
+  favoritesItems?: {
+    id: string
+    name: string
+    price: string
+    imageSrc?: string
+    imageAlt?: string
+  }[]
+  onPressFavoriteItem?: (itemId: string) => void
 }
 
 function useControllableState(value: string | undefined, defaultValue: string) {
@@ -47,6 +54,48 @@ export default function OrdersMain({
   selectedTabId,
   onSelectTab,
   onAddOrder,
+  favoritesItems = [
+    {
+      id: "latte",
+      name: "Latte",
+      price: "$4.75",
+      imageSrc: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=640&auto=format&fit=crop",
+      imageAlt: "Latte",
+    },
+    { id: "espresso", name: "Espresso", price: "$3.00" },
+    {
+      id: "mocha",
+      name: "Mocha",
+      price: "$5.00",
+      imageSrc: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=640&auto=format&fit=crop",
+      imageAlt: "Mocha",
+    },
+    { id: "cappuccino", name: "Cappuccino", price: "$4.50" },
+    {
+      id: "flat-white",
+      name: "Flat White",
+      price: "$4.50",
+      imageSrc: "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?q=80&w=640&auto=format&fit=crop",
+      imageAlt: "Flat White",
+    },
+    { id: "taro-latte", name: "Taro Latte", price: "$5.50" },
+    {
+      id: "americano",
+      name: "Americano",
+      price: "$3.50",
+      imageSrc: "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=640&auto=format&fit=crop",
+      imageAlt: "Americano",
+    },
+    { id: "matcha", name: "Matcha", price: "$5.25" },
+    {
+      id: "cold-brew",
+      name: "Cold Brew",
+      price: "$4.50",
+      imageSrc: "https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=640&auto=format&fit=crop",
+      imageAlt: "Cold brew",
+    },
+  ],
+  onPressFavoriteItem,
 }: OrdersMainProps) {
   const fallbackSelected = tabs[0]?.id ?? "default"
   const [selected, setSelected] = useControllableState(selectedTabId, fallbackSelected)
@@ -61,36 +110,34 @@ export default function OrdersMain({
     <div className="min-h-full w-full bg-background">
       {/* Block 1: Order switcher */}
       <div className="px-4 pt-4">
-        <div className="flex items-center gap-3">
-          <Button
-            type="button"
-            size="icon"
-            shape="circle"
-            variant="secondary"
-            onClick={onAddOrder}
-            aria-label="Add order"
-          >
-            <SystemIcon icon={Plus} size="regular" aria-hidden="true" />
-          </Button>
+        <OrderTabs
+          tabs={tabs}
+          value={selected}
+          onValueChange={(next) => {
+            setSelected(next)
+            onSelectTab?.(next)
+          }}
+          onAddTab={onAddOrder}
+          addTabAriaLabel="Add order"
+        />
+      </div>
 
-          <div className="flex-1 overflow-x-auto">
-            <Tabs
-              value={selected}
-              onValueChange={(next) => {
-                setSelected(next)
-                onSelectTab?.(next)
-              }}
-            >
-              <TabsList>
-                {tabs.map((tab) => (
-                  <TabsTrigger key={tab.id} value={tab.id}>
-                    <span className="truncate">{tab.label}</span>
-                    {tab.count ? <Badge variant="secondary">{tab.count}</Badge> : null}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
-            </Tabs>
-          </div>
+      {/* Block 2: Favorites grid */}
+      <div className="px-4 pt-6">
+        <SectionTitle titleAs="h2">Favorites</SectionTitle>
+
+        <div className="mt-3 grid grid-cols-3 gap-3">
+          {favoritesItems.map((item) => (
+            <ProductTile
+              key={item.id}
+              name={item.name}
+              price={item.price}
+              imageSrc={item.imageSrc}
+              imageAlt={item.imageAlt}
+              onPress={() => onPressFavoriteItem?.(item.id)}
+              tone="surface"
+            />
+          ))}
         </div>
       </div>
     </div>

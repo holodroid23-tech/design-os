@@ -43,15 +43,11 @@
 ## Component Mapping (The Map)
 | Blueprint Element | Component Path | Variant/Prop Target |
 |---|---|---|
-| Add order action button | `@/components/ui/button` | `size="icon"` + `shape="circle"` + `variant="secondary"` |
-| Add order icon | `@/components/atoms/icon` (`SystemIcon`) | `icon={Plus}` + `size="regular"` |
-| Orders selection container | `@/components/ui/tabs` (`Tabs`, `TabsList`) | Use `Tabs` for selection state; `TabsList` for the tab row container |
-| Order tab | `@/components/ui/tabs` (`TabsTrigger`) | `value="<orderId>"` |
-| Order tab count | `@/components/ui/badge` (`Badge`) | Use as trailing count inside the trigger (e.g., `variant="secondary"` for neutral count) |
-| Section header ("Favorites", "Inventory") | n/a (plain heading) | Use semantic heading (`h2`) and DS text utilities (no new component required by spec) |
+| Order switcher (add + order tabs row) | `@/components/ui/order-tabs` (`OrderTabs`) | `tabs=[{ id, label, count? }]` + `value="<orderId>"` + `onValueChange` + `onAddTab` |
+| Section header ("Favorites", "Inventory") | `@/components/ui/section-title` (`SectionTitle`) | `titleAs="h2"` |
 | Inventory tile ("Custom item", "Iced drinks", "Pastries") | `@/components/patterns/grid-action-tile` (`GridActionTile`) | `label="…"`; `icon={Plus | Folder}`; `intent="default"` |
-| Menu item tile (no image) | n/a (custom composition) | Compose as a `button` using DS typography + spacing; see `src/components/patterns/component-examples/sections/product-expense-examples.tsx` for the established pattern |
-| Menu item tile (with image) | n/a (custom composition) | Compose as a `button` with an `img` child and overlay text; no existing DS component supports image + overlay text + price as a single atom |
+| Menu item tile (no image) | `@/components/ui/product-tile` (`ProductTile`) | `name` + `price` + `tone="surface"` |
+| Menu item tile (with image) | `@/components/ui/product-tile` (`ProductTile`) | `name` + `price` + `imageSrc` + `imageAlt?` + `tone="surface"` |
 | Bottom order summary (collapsed) | `@/components/ui/bottom-sliding-modal` (`BottomSlidingModalTrigger`) | Trigger should be the full-width bottom bar button |
 | Bottom sliding modal (expanded order) | `@/components/ui/bottom-sliding-modal` (`BottomSlidingModal`, `BottomSlidingModalContent`) | Use `header`/`footer` slots as needed; body hosts the order details UI |
 | Expand order icon | `@/components/atoms/icon` (`SystemIcon`) | `icon={ChevronUp | ChevronDown}` + `size="huge"` (direction reflects expanded state) |
