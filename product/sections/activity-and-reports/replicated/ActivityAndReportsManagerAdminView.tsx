@@ -1,13 +1,7 @@
 import * as React from "react"
-import { Download, Home, XIcon } from "lucide-react"
+import { Home } from "lucide-react"
 
 import { AnalyticsLineChart, type AnalyticsLineChartDatum } from "@/components/ui/analytics-line-chart"
-import {
-  BottomSlidingModal,
-  BottomSlidingModalClose,
-  BottomSlidingModalContent,
-  BottomSlidingModalTrigger,
-} from "@/components/ui/bottom-sliding-modal"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -21,9 +15,7 @@ import { DatePicker } from "@/components/ui/date-picker"
 import { Label } from "@/components/ui/label"
 import { MeterBar } from "@/components/ui/meter-bar"
 import { OrderExpandableCard, type OrderExpandableCardDetail, type OrderExpandableCardLineItem } from "@/components/ui/order-expandable-card"
-import { SectionTitle } from "@/components/ui/section-title"
 import { SelectWithSliding } from "@/components/ui/select-with-sliding"
-import { SystemIcon } from "@/components/ui/icon"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 export const designOS = {
@@ -100,12 +92,6 @@ export interface ActivityAndReportsManagerAdminViewProps {
   onCustomRangeFromChange?: (date: Date | undefined) => void
   onCustomRangeToChange?: (date: Date | undefined) => void
 
-  exportLabel?: string
-
-  onExportCsv?: () => void
-  onExportPdf?: () => void
-  onExportShare?: () => void
-
   // Analytics content
   totalIncomeLabel?: string
   totalIncomeValue?: string
@@ -151,86 +137,6 @@ function toneTextClass(tone: ActivityAndReportsMetricCard["tone"]) {
   if (tone === "positive") return "text-onLayer-interactive"
   if (tone === "negative") return "text-onLayer-danger"
   return "text-foreground"
-}
-
-function ExportSheet({
-  label,
-  onExportCsv,
-  onExportPdf,
-  onExportShare,
-}: {
-  label: string
-  onExportCsv?: () => void
-  onExportPdf?: () => void
-  onExportShare?: () => void
-}) {
-  const [open, setOpen] = React.useState(false)
-
-  return (
-    <BottomSlidingModal open={open} onOpenChange={setOpen}>
-      <BottomSlidingModalTrigger asChild>
-        <Button type="button" variant="ghost">
-          {label}
-        </Button>
-      </BottomSlidingModalTrigger>
-
-      <BottomSlidingModalContent
-        header={
-          <SectionTitle
-            titleAs="h2"
-            trailing={
-              <BottomSlidingModalClose asChild>
-                <Button variant="invisible" size="icon" aria-label="Close">
-                  <SystemIcon icon={XIcon} />
-                </Button>
-              </BottomSlidingModalClose>
-            }
-          >
-            Export
-          </SectionTitle>
-        }
-      >
-        <div className="px-4 py-4 space-y-2">
-          <Button
-            type="button"
-            variant="secondary"
-            className="w-full justify-between"
-            onClick={() => {
-              onExportCsv?.()
-              setOpen(false)
-            }}
-          >
-            Export as CSV
-            <Download className="h-4 w-4" />
-          </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            className="w-full justify-between"
-            onClick={() => {
-              onExportPdf?.()
-              setOpen(false)
-            }}
-          >
-            Export as PDF
-            <Download className="h-4 w-4" />
-          </Button>
-          <Button
-            type="button"
-            variant="secondary"
-            className="w-full justify-between"
-            onClick={() => {
-              onExportShare?.()
-              setOpen(false)
-            }}
-          >
-            Share…
-            <Download className="h-4 w-4" />
-          </Button>
-        </div>
-      </BottomSlidingModalContent>
-    </BottomSlidingModal>
-  )
 }
 
 const defaultOrders: ActivityAndReportsOrderRow[] = [
@@ -374,11 +280,6 @@ export default function ActivityAndReportsManagerAdminView({
   onCustomRangeFromChange,
   onCustomRangeToChange,
 
-  exportLabel = "Export",
-  onExportCsv,
-  onExportPdf,
-  onExportShare,
-
   totalIncomeLabel = "Total income",
   totalIncomeValue = "$1,248.50",
   totalIncomeTrend = "+15% vs yst",
@@ -469,31 +370,20 @@ export default function ActivityAndReportsManagerAdminView({
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {/* Toolbar: Date range + Export */}
+        {/* Toolbar: Date range */}
         <div className="px-4 pt-4">
-          <div className="flex items-center gap-3">
-            <div className="min-w-0 flex-1">
-              <SelectWithSliding
-                variant="sliding"
-                value={resolvedDateRange}
-                onValueChange={(v) => {
-                  setResolvedDateRange(v)
-                  onDateRangeChange?.(v)
-                }}
-                options={dateRangeOptions}
-                placeholder={dateRangePlaceholder}
-                slidingPresentation="list"
-                slidingShowHeader={false}
-              />
-            </div>
-
-            <ExportSheet
-              label={exportLabel}
-              onExportCsv={onExportCsv}
-              onExportPdf={onExportPdf}
-              onExportShare={onExportShare}
-            />
-          </div>
+          <SelectWithSliding
+            variant="sliding"
+            value={resolvedDateRange}
+            onValueChange={(v) => {
+              setResolvedDateRange(v)
+              onDateRangeChange?.(v)
+            }}
+            options={dateRangeOptions}
+            placeholder={dateRangePlaceholder}
+            slidingPresentation="list"
+            slidingShowHeader={false}
+          />
 
           {showCustomRange ? (
             <div className="mt-3 grid grid-cols-2 gap-3">

@@ -3,59 +3,70 @@
 This section covers the entry points of the application, including store registration, user login, PIN setup, and multi-path reset flows for passwords and PINs.
 
 ## 1. Authentication (Login & Registration)
-- **Tab Switcher**: A segmented control to toggle between "REGISTER" and "LOGIN" views.
-- **Login View**: 
-    - **Email/Password Fields**: Standard text inputs for user credentials.
-    - **Log In Button**: Primary action to authenticate existing users.
-    - **Forgot Password Link**: Navigates to the password reset flow.
-- **Register View**:
-    - **User/Store Fields**: Full Name, Email, Store Name, and Password inputs.
-    - **Create Store Button**: Primary action to create a new organization, store, and admin user.
+- **What this is for**: Letting someone either create a new store account or sign in to an existing one.
+- **Inputs**:
+  - Email + password (Admin/Manager accounts)
+  - Store creation details (store name and the first Admin identity)
+- **Rules**:
+  - Existing users can sign in with email/password.
+  - Password reset is available for email/password accounts.
+  - Registration creates a new store (organization) and the first Admin user.
+  - Login and reset flows should avoid leaking whether an email exists beyond what’s necessary (prefer generic responses where appropriate).
 
 ## 2. Post-Registration Welcome
-- **Welcome Header**: Branding with the "comPOST" logo and a friendly welcome message.
-- **Next Steps Checklist**: A visual list of essential setup tasks. 
-    - **Set PIN Item**: High-priority task to secure the account (applicable for Admin or Manager roles).
-- **Launch App Button**: Final confirmation to proceed to the mode selection or main interface.
+- **What this is for**: Making sure people know they’re in the right store, with the right role, and finishing first-run setup.
+- **Rules**:
+  - After registration or invite acceptance, show the store context and the user’s role.
+  - If PIN setup is required for the role/device context, guide them through it.
+  - Once onboarding is complete, move them into normal operation.
 
 ## 3. PIN Security & Setup
-- **Create PIN Screen**:
-    - **Numeric Entry**: 4-digit input using a custom numeric keypad.
-    - **Visibility**: Digits are shown as entered (not masked) to ensure accuracy during setup.
-    - **Confirm Action**: Saves the PIN and proceeds.
-- **Enter PIN (Lock Screen)**:
-    - **Security Mask**: Digits are replaced by dots for privacy during entry.
-    - **4-Digit Input**: Visual dots to show entry progress.
-    - **Footer Actions**: "Log out", "Change my PIN", and "Forgot PIN?" links at the bottom.
-- **Change PIN Flow**:
-    - **Step Indicator**: Clear "OLD" and "NEW" labels.
-    - **Step 1**: Enter current PIN for verification.
-    - **Step 2**: Enter and confirm a new 4-digit PIN.
+- **What this is for**: A quick, in-store access credential that protects sensitive areas on a shared device.
+- **Core concept**:
+  - **PIN**: A 4-digit device access secret tied to a user + store.
+- **Rules**:
+  - PIN creation requires confirmation before it becomes active.
+  - Protected areas require PIN verification.
+  - Changing a PIN requires proving you know the current PIN first.
+  - Failed PIN attempts should be rate-limited and may temporarily lock access after repeated failures (exact thresholds can be implementation-defined).
+  - PINs must be stored/handled securely.
 
 ## 4. Device Mode Selection
-- **Mode Selector**: A dedicated choice screen between **Register (POS)** and **Back Office**.
-- **Mode Descriptions**: Clear labels explaining that "Register" is for sales on the go, while "Back Office" is for analytics and inventory.
+- **What this is for**: Choosing how this device is being used right now.
+- **Modes**:
+  - **Register (POS)**: Sales and order processing.
+  - **Back Office**: Analytics, inventory, expenses, and configuration.
+- **Rule**:
+  - Remember the chosen mode for the current session and route the user into the matching capabilities.
 
 ## 5. Password Reset Flow
-- **Request Link**: Email entry field to receive a reset link.
-- **Check Email**: A confirmation screen with an "Open Email App" deep-link button and a "Resend / Change Email" option.
-- **Set New Password**: A secure entry field with a visibility toggle icon and an "Update Password" button.
+- **What this is for**: Helping Admin/Manager users get back into their email/password accounts.
+- **Rules**:
+  - A reset request sends a reset link to the account email.
+  - The user can resend the link (and change the email they typed before sending, if needed).
+  - Using the link lets them set a new password, and the link becomes invalid after success.
+  - Reset links expire after a configured time window.
+  - Passwords must meet a minimum policy (to be defined).
 
 ## 6. PIN Reset Flow (Role-Based)
-- **Role Selection**: "What is your role?" screen with options for "I am a Cashier" and "I am an Admin / Manager".
-- **Admin/Manager Path**: Initiates an email-based reset flow similar to the password reset.
-- **Cashier Path**: Displays a **"Contact Your Admin"** screen with a list of available **Admins** who can assist with the reset. Managers do not have permission to reset PINs.
-- **Set New PIN**: The final step for both paths to establish a new 4-digit access code.
+- **What this is for**: Recovering access when someone forgets a PIN, without breaking role safety.
+- **Admin/Manager recovery**:
+  - PIN reset can be initiated via an email-based recovery mechanism.
+  - Successful recovery ends with setting a new 4-digit PIN.
+- **Cashier recovery**:
+  - Cashiers cannot self-reset via email/password (unless the product explicitly provisions such accounts).
+  - Cashier PIN resets/regeneration are Admin-controlled.
+  - Managers cannot reset other people’s PINs.
 
 ## Metadata & State
-- **Persistence**: Store identity and user role are persisted locally after the first login.
-- **Lock State**: App enters the Lock Screen (PIN entry) after inactivity or manual lock.
-- **Role Permissions**: "Admin" role is required to reset others' PINs or change store-wide security settings.
+- **Persistence**: Store identity and user role are kept locally after first login.
+- **Lock State**: After inactivity (or a manual lock), PIN re-verification is required.
+- **Role Permissions**: Only Admins can reset other people’s PINs or change store-wide security settings.
 
 ## Navigation
-- **Entry Flow**: Splash -> Login/Register -> Welcome -> PIN Setup -> Mode Selection.
-- **Recovery Flow**: Forgot Password/PIN -> Verification -> Reset -> Login.
-- **Access Control**: PIN entry is a prerequisite for accessing "Activity" and "Settings" from the main shell.
+- **Entry sequence**: Authentication/registration → required security setup (PIN when applicable) → mode selection → operational access.
+- **Recovery sequence**: Choose the right recovery path based on what’s being recovered (password vs PIN) and the user’s role.
+- **Access control**: On shared devices, PIN verification is required before entering protected areas (e.g., Activity and Settings).
 
 ## Configuration
 - **shell**: false

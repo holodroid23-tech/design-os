@@ -1,47 +1,54 @@
 # Daily Expenses
 
-## 1. Quick Logging Grid
-- **Favorites Section**: A 3-column grid of frequently used expense items. Each item is visually represented by its configured thumbnail (image, color, or stroke). Tapping adds it to today's list.
-- **Expenses Browser**: 
-    - **Folder Navigation**: Displays expense categories (folders) like "Produce" or "Packaging". Tapping a folder opens a detail view with its contents.
-    - **Item Selection**: Tapping an item opens the **Expense Entry Modal** with the item's name pre-filled and recent prices shown (as per PRD).
-- **Custom Expense Action**: A persistent `+ Custom Expense` button at the start of the list that opens the **Expense Entry Modal** with a blank name field.
+## 1. Fast expense capture (today)
+- **What this is for**: Quickly logging expenses against **today**, without having to “set up” a full record first.
+- **What can be logged**:
+  - An expense based on a saved template (optionally organized into folders/categories)
+  - A one-off expense with a custom name
+- **How it should behave**:
+  - There is a notion of “favorites” so the most common expense templates are easy to use for day-to-day logging.
+  - Templates can be browsed by folder/category.
+  - If a template is used, the expense name and default tax behavior come from the template; the amount is captured at logging time.
+  - If no templates exist (or none are favorited), staff can still log a custom expense.
 
-## 2. Minimized Summary (Bottom Bar)
-- **Status Overlay**: A Spotify-style floating bar at the bottom of the screen.
-- **Total Display**: Shows the cumulative total for today (e.g., "$18.50").
-- **Item Preview**: Displays a truncated list of the names of items logged so far.
-- **Expansion Trigger**: Tapping the bar or the chevron icon slides up the full detailed list.
+## 2. Current-day totals summary
+- **What this is for**: A quick “where are we at today?” snapshot while expenses are being logged.
+- **What it provides**:
+  - Running totals for today
+  - A compact preview of what’s been logged so far (e.g., recent item names)
+- **Rules**:
+  - Totals update immediately when an expense is added or edited.
 
-## 3. Expense Detail View (Expanded)
-- **Search Header**: Includes a search input ("Search items...") to quickly filter or find specific logged expenses.
-- **Logged Items List**: 
-    - Displays each expense with its visual thumbnail (image/color/stroke), name, and recorded cost.
-    - **Edit Action**: A pencil icon on each row opens the **Expense Entry Modal** to modify the price, tax, or notes for that specific entry.
-- **Financial Summary**: 
-    - Displays Subtotal and Tax breakdown.
-    - **Grand Total**: Large, prominent display of the final total for today's expenses.
+## 3. Review and edit current-day expenses
+- **What this is for**: Reviewing what was logged today and fixing mistakes.
+- **What staff can do**:
+  - Find entries by name (and/or template)
+  - See details per entry: name, amount, applied tax selection, notes, and the originating template (when applicable)
+  - Edit an entry’s amount, applied tax selection, and notes
+- **Rules**:
+  - This section only covers **today’s** expenses (see Temporal Logic below).
+- **Totals**:
+  - Provide today’s subtotal (pre-tax), tax total, and grand total based on recorded entries.
 
-## 4. Expense Entry & Editing (Sliding Modals)
-- **Interface**: A sliding bottom sheet (modal) for "Create Expense" or "Edit Expense".
-- **Name Field**: Text input for the name of the expense.
-- **Price Entry (Numpad)**: 
-    - Prominent price display (e.g., "$ 4.50").
-    - Custom 3x4 Numpad (numbers 0-9, decimal point, and backspace) for rapid monetary input.
-- **Tax Selector**: Horizontal radio-style selection for tax rates (e.g., 0% Exempt, 10% Reduced, 21% Standard).
-- **Note Field**: A text area for "Additional details..." to provide context for the expense.
-- **Save Action**: A primary full-width button ("Save Expense" or "Save Changes") to commit the entry and close the modal.
-- **Dismiss**: An 'X' close button in the top right or a downward swipe to cancel.
-
-## UI & Interaction Details
-- **Visual Styles**: Expense tiles support custom background colors and stroke patterns.
-- **Automatic Date**: The date is strictly set to "Today" and is not visible or editable in the entry modals, ensuring "fast lane" daily logging.
-- **Navigation**: The main screen includes a back button when browsing inside folders to return to the root categories.
-- **Empty State**: Shows a clear prompt to "Start logging today's expenses" when no items have been added.
+## 4. Create and edit expense entries
+- **What gets captured**:
+  - Name (from a template or custom)
+  - Amount (valid currency)
+  - Applied tax selection (options come from configuration)
+  - Optional note
+- **Rules**:
+  - New entries are always recorded for **today** in this section.
+  - Editing updates the already-recorded entry (amount/tax/note).
+  - If templates carry appearance metadata (thumbnail/color/stroke), entries keep that linkage for consistency and later review.
+- **Empty case**:
+  - If nothing has been logged today yet, totals should be zero and there should be no entries, but logging must still work normally.
 
 ## Metadata & State
-- **Temporal Logic**: All entries are pinned to the current date and clear from this view automatically the next day (they are then available in activity section).
-- **Analytics Sync**: Every addition or edit triggers an immediate update to the store's net profit calculations in the Activity dashboard.
+- **Temporal Logic**: Everything logged here is “today-only”. The next day, these entries stop appearing in Daily Expenses, but remain available in Activity.
+- **Shared expense records (two-way)**: Daily Expenses and Activity reference the same underlying expense records.
+  - If you add/edit/delete an expense in Daily Expenses, it should show up immediately in Activity’s expenses history for the same date.
+  - If you add/edit/delete an expense in Activity for **today**, it should show up immediately in Daily Expenses.
+- **Analytics Sync**: Adding or editing an expense updates profit calculations used in Activity.
 
 ## Configuration
 shell: true

@@ -1,38 +1,62 @@
-## 1. Multi-Order Management (Tabs)
-- **Tab Bar**: Top-mounted navigation for switching between orders.
-- **Dynamic Tabs**: `+` button to create new tabs. Tabs show truncated order name and item count.
-- **Tab Actions**: Long-press or menu button to rename (e.g., Table 4), clear, or delete a tab.
+## 1. Multi-order management
+- **What this is for**: Handling multiple in-progress orders at once (busy counter / tables / split attention).
+- **Key concepts**:
+  - **Order ID**: Auto-generated and unique (e.g., `#402`).
+  - **Order name**: Optional human label (e.g., “Table 4”) to help staff recognize the right order quickly.
+- **Rules**:
+  - Staff can start new in-progress orders while keeping other orders open.
+  - Switching between orders must keep each order’s cart, totals, and payment status separate.
+  - Renaming an order changes the label only, not the underlying order ID.
+  - Clearing/deleting an in-progress order removes its draft contents and any uncommitted payment attempts.
+  - Clearing/deleting must never affect already-completed orders (historical records).
 
 ## 2. Inventory Browsing
-- **Left Sidebar**: Quick access to "Favorites" and "Inventory" (Category folders).
-- **Favorites Grid**: 3x3 grid of pinned items for rapid entry.
-- **Category Folders**: Grid/List view of items within folders.
-- **Custom Item**: Ad-hoc item entry via modal (price, name, tax).
+- **What this is for**: Choosing items to sell and adding them to the current order.
+- **What staff can do**:
+  - Browse inventory (optionally organized into folders/categories)
+  - Use a favorites subset for speed
+  - Add an item to the active order (adding the same item again increases quantity)
+  - Create a one-off “custom item” at the moment of sale (name, price, tax) and add it to the order
+- **Rules**:
+  - Each line item must store the tax selection that was applied (it can default from configuration, but must be saved on the line item for audit).
 
 ## 3. Cart Management
-- **Minimized Cart**: Sticky bottom bar showing Total, Item Count, and preview of items.
-- **Expanded Cart**:
-    - Full-screen or side-sheet view.
-    - Search bar at the top to quickly find and add items.
-    - Item list with quantity steppers (+/-) and swipe-to-delete.
-    - Breakdown of Subtotal, Tax, and Total.
+- **What this is for**: A clear set of rules for how the cart behaves.
+- **Cart rules**:
+  - Quantities can be increased/decreased for any line item.
+  - Line items can be removed entirely.
+  - Items can be quickly added to the active order from the inventory set.
+- **Totals**:
+  - Subtotal, tax total, and grand total are derived from the cart line items and their tax selections.
+  - Totals update immediately when the cart changes.
+- **Empty cart**:
+  - An order with no items is still a valid in-progress draft; totals should be zero.
 
 ## 4. Payment Flows
-- **Payment Methods**: Cash, Card (Tap to Pay), and Card (External Terminal).
-- **Confirmation Dialogs**: Explicit confirmation of amount and method before processing.
-- **Success/Failure States**: Detailed feedback with transaction IDs and actionable buttons (Reprint, New Order, Retry).
-
-## UI & Interaction Details
-- **Grid Item Badges**: Items in the grid should display a quantity badge (e.g., a small blue circle with the count) when they are already present in the active cart.
-- **Quantity Steppers**: Cart items must use a standard `- 1 +` stepper UI for precise quantity control.
-- **Destructive Action Grouping**: The "Edit Order" modal (for renaming tabs) should explicitly separate destructive actions (Clear Order, Delete Order Tab) with visual cues (red text/icons).
-- **Payment Method Descriptions**: Confirmation dialogs for "External Terminal" must include a note: *"Payment is processed by external terminal"* to clarify that the app only records the transaction.
+- **What this is for**: Taking payment and turning an in-progress order into a completed record.
+- **Supported payment methods**:
+  - Cash
+  - Card via tap-to-pay (provider-integrated)
+  - Card via external terminal (processed outside the app)
+- **Rules**:
+  - Before finalizing, staff should explicitly confirm the amount and chosen method.
+  - On success, the order becomes “completed” and stores:
+    - Order ID + optional order name
+    - Payment method
+    - Amounts (subtotal/tax/total)
+    - Provider transaction IDs (when available)
+  - On failure, the order stays in-progress and we keep enough detail to understand what happened and retry:
+    - The provider’s failure reason (when available)
+    - Any attempt/partial identifiers
+  - **External terminal**: the app is recording what happened, not processing it. We record the outcome and any reference IDs staff can provide, but we don’t assume the terminal processed anything automatically.
+  - Staff can retry after failure without losing the cart.
+  - After a successful payment, staff can start a fresh new order (with a new ID).
 
 ## Metadata & State
 - **Order ID vs Table Name**: Orders should have an auto-generated ID (e.g., #402) but support a user-defined "Table Name" or "Order Name" for better identification in busy environments.
-- **Failure Reasons**: Payment failure screens must display the specific reason provided by the provider (e.g., "Card Declined by Bank") rather than a generic error.
-- **Success Metadata**: The Success screen should display the Transaction ID and the associated Table/Order name for verification.
+- **Failure Reasons**: If a payment fails, show the specific provider reason when available (e.g., "Card Declined by Bank"), not a generic message.
+- **Success Metadata**: If a payment succeeds, show the transaction ID and the order name/label for quick verification.
 
 ## Navigation
-- **Back Navigation in Folders**: When browsing a folder (e.g., "Hot Coffees"), a clear back button and title header are required to return to the top-level inventory.
-- **Search in Cart**: The search bar in the expanded cart serves as a "Quick Add" feature, filtering the inventory as the user types.
+- **Inventory scope changes**: Changing the current inventory subset (e.g., moving in/out of a folder/category) must not affect the active order.
+- **Quick-add search**: Searching filters what can be selected, but never changes pricing/tax rules for the items themselves.

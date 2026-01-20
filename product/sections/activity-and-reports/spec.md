@@ -1,51 +1,72 @@
 ## 1. PIN-Gated Entry (Common)
-- **PIN Authentication**: Accessing Activity always triggers a PIN entry screen. The system uses the PIN to load the appropriate view (Cashier or Manager).
+- **What this is for**: Keeping sensitive business activity behind a PIN, with access based on role.
+- **Rules**:
+  - Entering Activity requires PIN verification.
+  - What you can see and do depends on your role (Cashier vs Manager/Admin).
 
 ## 2. Cashier Perspective ("My Shift")
-This view is strictly for **Today's data**.
+Cashier access is strictly scoped to the current date.
 
 ### Analytics (Today's Summary)
-- **Summary Widgets**: A grid of cards showing:
-  - **Total Income** (Cash + Card)
-  - **Net Profit** (with breakdown)
-  - **Expenses Total** (Today's costs)
-  - **Refunds** (Total amount and count)
-  - **In Drawer** (Current cash total)
-  - **Total Orders** (Total count for today)
+- **What this is for**: A quick snapshot of how today’s shift is going.
+- **What it includes** (today only):
+  - Total income (cash + card)
+  - Net profit (with breakdown inputs available for audit)
+  - Expense totals
+  - Refund totals (amount and count)
+  - Cash-in-drawer estimate (based on recorded cash payments and cash refunds)
+  - Total orders count
 
 ### Orders (Record Browsing)
-- **Order List**: Displays all orders processed by **all staff members** today.
-- **Order Card**: Displays Order ID, time, total, and a **refund badge** (red) if the order has been refunded.
-- **Order Detail (Expanded)**: Shows full itemization, customer name, payment method, and detailed metadata (**Created By**, **Processed By**).
-- **Refund Action**: 
-  - Triggered via "Refund" button. Captures a "Reason for Refund."
-  - **Refund Method**: 
-    - **Cash Orders**: Cash only.
-    - **Tap to Pay**: Choice of "Digital Refund" (Stripe) or "Cash."
-    - **External Terminal**: Choice of "Card" or "Cash" with a reminder to process manually.
+- **Scope**: All orders recorded today, across all staff members.
+- **What you can see per order**:
+  - Order identifier, timestamp, totals, payment method
+  - Itemization and any captured customer attribution (if applicable)
+  - Audit metadata including “created by” and “processed by” identities
+  - Refund status and refund history (if refunded)
+- **Refund rules**:
+  - Refunds require a reason (for audit).
+  - Refund method constraints:
+    - **Cash orders**: refunds must be recorded as cash refunds.
+    - **Tap to pay**: refunds may be processed digitally (provider refund) or recorded as cash, based on policy and capability.
+    - **External terminal**: the system records the refund outcome and method, but does not assume provider processing; card refunds may require out-of-band processing.
 
 ## 3. Manager & Admin Perspective
-This view provides access to full historical records.
+Manager/Admin access includes historical records (within retention constraints).
 
 ### Global Controls
-- **Date Range Picker**: Top-level control to filter all data by Today, Yesterday, This Week, Last 30 Days, or a Custom Range.
-- **Export Data**: A universal "Export" button to generate CSV reports for the currently selected view and date range.
+- **Filtering rules**:
+  - Filter analytics and lists by a date range. Presets include: today, yesterday, this week, last week, last month, and last 30 days, plus a custom range.
+  - Filtering should apply consistently across analytics and record browsing.
+- **Export**:
+  - Allow export of the currently filtered dataset as CSV (or an equivalent tabular format).
 
 ### Analytics (Performance & Trends)
-- **Summary Widgets**: The same set of cards as the cashier view, filtered by the selected date range.
-- **Hourly Income Chart**: Line chart showing revenue fluctuations vs. time.
-- **Top 10 Items**: Performance bar charts for "Top 10 by Revenue" and "Top 10 by Quantity."
+- **What this includes** (filtered by the selected range):
+  - The same core summary metrics as the cashier scope, aggregated over the selected range.
+  - Income over time (granularity may vary by range; e.g., hourly for a single day, daily for multi-day ranges).
+  - Top items by revenue and by quantity for the selected range.
 
 ### Orders (Historical Record Browsing)
-- **Order List**: Historical list of orders for the selected date range.
-- **Order Detail**: Full metadata access (same as Cashier view) for any historical order.
-- **Refund Action**: Capabilities for processing refunds on historical orders.
+- **Scope**: Orders recorded within the selected date range.
+- **What managers/admins can do**:
+  - Inspect full order details and audit metadata for any order in range.
+  - Refund eligible orders in range, subject to payment-method constraints and provider capabilities.
 
 ### Expenses (Historical Audit & Entry)
-- **History List**: Date-grouped list of all expenses with daily totals.
-- **Edit Item**: Each expense item includes a **pencil icon** to trigger the edit flow (restricted to items **no older than 40 days**).
-- **Audit Trail**: Expanded expenses show the history of edits (who changed the price/note and when). Soft-deleted items are visible with a strikethrough.
-- **Historical Entry**: Managers can create or backdate new expenses for any day up to **40 days in the past**.
-- **Expense Entry UI**: Numpad-driven price entry with quick tax toggles (0% Exempt, 10% Reduced, 21% Standard).
+- **What this includes**:
+  - Expenses grouped by date with daily totals.
+- **Connection to Daily Expenses (two-way)**:
+  - Activity and Daily Expenses refer to the same expense records.
+  - If an expense is added/edited/deleted here for **today**, it should show up immediately in Daily Expenses.
+  - If an expense is added/edited/deleted in Daily Expenses, it should show up immediately here under today’s expenses.
+- **Backdating and editing rules**:
+  - Managers can create expenses for historical dates up to **40 days** in the past.
+  - Managers can edit expenses only within **40 days** of the expense date.
+- **Audit trail**:
+  - Keep an edit history (who changed what, and when).
+  - Support soft deletion while keeping deleted entries available for audit, with a clear deleted status.
+- **Per-entry fields**:
+  - Amount, applied tax selection, and optional note (same capture as Daily Expenses).
 
 **Display:** Inside app shell

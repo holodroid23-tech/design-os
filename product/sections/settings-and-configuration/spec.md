@@ -1,79 +1,150 @@
 ## 1. Main Settings Navigation
-- **Access Control**: Entering the Settings section **always prompts for a PIN**. **Cashiers are restricted from accessing this section**; it is only accessible to users with the Administrator or Manager role.
-- **Polymorphic UI**: The view and available actions are dynamically adjusted based on the role of the user who unlocked the section (Administrator vs. Manager).
-- **Navigation Groups**:
-    - **Group 1 (Identity)**: User Profile Row showing Initials, Name, Email, and Role badge.
-    - **Group 2 (Business Core)**: **Inventory** and **Expenses**.
-    - **Group 3 (System)**: General, Users, Payment, Printer, Receipt, and Device Mode.
-    - **Group 4 (Feedback)**: Suggest feature and Report bug.
-    - **Group 5 (Account)**: **Log out** (red-themed).
-- **Versioning**: Static footer showing `VERSION 2.4.1 (BUILD 89)`.
+- **What this is for**: A secure place to manage store and device configuration.
+- **Access rules**:
+  - Entering Settings requires PIN verification.
+  - Cashiers cannot access Settings.
+  - Managers and Admins can access Settings, but some actions are Admin-only (or require an Admin to authorize via PIN).
+- **What lives here**:
+  - Identity (current user profile and role context)
+  - Business core (inventory, expenses)
+  - System (general rules, users, payment, printer, receipt, device mode)
+  - Feedback (feature suggestions, bug reports)
+  - Account (log out)
+- **Versioning**:
+  - Always expose app version/build so support can troubleshoot reliably.
 
 ## 2. Inventory Management
-- **Optional Folders**: Items can exist at the top level or within folders.
-- **New Item Dialog (Fixed Price)**:
-    - **Header**: "New Item" with a close button and a **Star/Favorite** toggle.
-    - **Name**: Text input with placeholder "e.g. Flat White".
-    - **Folder (Optional)**: Dropdown to assign to a folder or leave unassigned.
-    - **Price**: Numeric keypad for entering a **fixed retail price**.
-    - **Tax**: Segmented control for tax rates (e.g., 0%, 10%, 21%). Defaults to the "defaultly use" tax.
-    - **Appearance Tabs**: Switch between **Color** (grid of color circles) and **Image** (Upload/Camera).
-    - **Animation Controls (Stroke Style)**: Selection grid for: None, Common, Dashed, Gradient, Holo, and Glow.
-- **New Folder Dialog**: Assign name, default tax rate, color, and stroke style for categorized items.
+- **What this is for**: Managing the inventory catalog used in Register (POS).
+- **Inventory expectations**:
+  - Inventory items may be ungrouped or grouped into folders/categories.
+  - Each inventory item has:
+    - Name
+    - Fixed retail price
+    - Applied/default tax selection (derived from tax configuration, stored explicitly on the item)
+    - Optional appearance metadata (color/image and optional stroke style) used for fast recognition
+    - Optional “favorite” flag for rapid access
+  - Folders/categories have:
+    - Name
+    - Optional default tax selection for items created within the folder
+    - Optional appearance metadata applied at the folder level
+- **Rules**:
+  - Staff with permission can create/edit/delete items.
+  - Staff with permission can create/rename/delete folders and move items between them.
+  - Items can be marked as favorites.
+  - Prices must be valid currency amounts.
+  - Tax defaults must follow the store’s configured tax rules.
 
 ## 3. Expense Management
-- **Optional Folders**: Expense templates can be grouped or standalone.
-- **New Expense Dialog (Dynamic Price)**:
-    - **Header**: "New Expense" with **Star/Favorite** toggle for pinning to the fast-lane UI.
-    - **Name**: Text input with placeholder "e.g. Monthly Rent".
-    - **Category (Optional)**: Dropdown to assign to a folder/category.
-    - **Tax**: Segmented control for tax rates.
-    - **No Fixed Price**: Explicitly excludes price input; prices are entered during daily logging.
-    - **Appearance & Animation**: Mirrors Inventory exactly (Tabs for Color/Image + **Stroke Style/Animation** selection).
+- **What this is for**: Managing expense templates used for daily logging and reporting.
+- **Expense template expectations**:
+  - Expense templates may be ungrouped or grouped into folders/categories.
+  - Each expense template has:
+    - Name
+    - Applied/default tax selection
+    - No fixed price (amount is captured at logging time)
+    - Optional appearance metadata (color/image and optional stroke style)
+    - Optional “favorite” flag for rapid access in daily logging
+- **Rules**:
+  - Templates can be organized into folders/categories.
+  - Templates can be marked as favorites for faster daily logging.
 
 ## 4. General & System Settings
-- **Store Identity**: Text fields for Store Name, Street, Email, and Website.
-- **Localization**: Currency dropdown and Time Format (AM/PM vs. 24h) segmented control.
-- **Rules**: "Display Always On" toggle and a "PIN Lock Timer" selection (1m, 2m, 3m, 5m, 10m, Never).
-- **Tax Engine**: 
-    - **Use Taxes Toggle**: Global switch to enable/disable tax calculations.
-    - **Additive List**: Manage multiple tax rules (e.g., VAT 21%, Service Charge 10%).
-    - **Default Selection**: Tapping a specific tax in the list sets it as the **"defaultly use"** tax. 
-- **Role Restriction**: **Delete Account** is strictly limited to the **Administrator** role. **Managers do not see this button.**
+- **What this is for**: Store identity, localization, device behavior, and tax configuration.
+- **Store identity**:
+  - Store name, address/street, contact email, and website are editable.
+- **Localization**:
+  - Currency and time format preferences are configurable.
+- **Device rules**:
+  - “Keep display awake” can be enabled/disabled.
+  - An inactivity lock timer controls when PIN re-verification is required.
+- **Tax engine**:
+  - Taxes can be enabled/disabled globally.
+  - When taxes are **disabled**, everything behaves as “no tax” by default (items/templates can still store a configured tax selection, but it does not apply while taxes are off).
+  - Multiple tax rules can exist and may be applied **additively** where configured.
+  - A store-wide **default tax selection** exists and is used:
+    - When creating a new inventory item or expense template (unless a folder default tax overrides it)
+    - For ad-hoc entries that need a tax (e.g., quick item / custom charge)
+  - If there is **only one** tax rule, it is the default tax selection automatically.
+  - If there are **multiple** tax rules, an Admin/Manager can choose which one is the default.
+  - Folders/categories may define a **default tax selection**; items/templates created inside that folder inherit the folder’s default tax (otherwise they inherit the store-wide default).
+- **Role restriction**:
+  - Destructive store-level operations (like account deletion) are Admin-only.
 
 ## 5. User Management
-- **Staff List**: Displays names and roles with role-specific color coding. Tapping a user opens the "Edit User" flow.
-- **Add/Edit User Flow**: 
-    - **Role Selection**: Admin, Manager, or Cashier.
-    - **Cashier Setup**: Name input + instant auto-generated 4-digit PIN display.
-    - **Admin/Manager Setup**: Requires Name and Email for invitation-based setup (password set via email).
-- **Role Restrictions & Interlocks**:
-    - **Manager Role**: Can view the staff list but attempting to add a new user, remove a user, or regenerate a PIN triggers a mandatory **Administrator PIN prompt**.
-    - **Role Guidance**: Side-sheet explaining permissions for each role.
+- **What this is for**: Managing staff identities, roles, and access.
+- **Roles**:
+  - Administrator
+  - Manager
+  - Cashier
+- **Rules**:
+  - Staff lists and roles are visible to permitted users.
+  - Adding/editing staff:
+    - **Cashier**: created with a name and a generated 4-digit PIN (or equivalent provisioning) for device access.
+      - PIN creation requires a confirmation step (e.g., “I saved this PIN” or re-entering the PIN) before the cashier account becomes active.
+    - **Admin/Manager**: created via invitation (name + email); password setup happens via email.
+  - Admins can reset/regenerate cashier PINs and remove users.
+  - Managers can view staff, but restricted actions require Admin authorization via PIN.
+  - Role capabilities should be explained clearly to prevent misconfiguration.
 
 ## 6. Payment Settings
-- **Payment Methods**: Toggles for Cash, External Terminal, and Tap to Pay.
-- **Tap to Pay Checklist**: 4-part progress bar for GPS (System), GPS (App Access), Device Verification, and Account Link requirements.
-- **Role Restriction**: **Manager role** can view Stripe account links and configurations but attempting to edit or disconnect triggers a mandatory **Administrator PIN prompt**.
-- **Reusability**: This configuration UI (checklist and setup) must be available as a modal in the **Register (POS)** section if a user attempts to pay via Tap to Pay without completing setup.
+- **What this is for**: Turning payment methods on/off and making sure tap-to-pay is properly set up.
+- **Embeddable setup (in Register)**:
+  - Payment setup screens must be **embeddable** in a modal/bottom-sheet flow (not only accessible through Settings navigation).
+  - If a cashier attempts a **card payment** (tap-to-pay or external terminal flow) and configuration is missing/invalid, show an **in-context setup prompt** and allow completing setup without leaving the sale.
+- **Supported methods**:
+  - Cash
+  - External terminal (out-of-band card processing)
+  - Tap to pay (provider-integrated)
+- **Rules**:
+  - Payment methods can be enabled/disabled at the store/device level.
+  - Tap-to-pay requires prerequisites (permissions, device verification, account linking); track these so setup is predictable.
+  - If setup is incomplete, don’t allow provider-integrated payments until prerequisites are satisfied.
+  - Managers can view provider linkage/config, but editing/disconnecting requires Admin authorization via PIN.
+  - If someone tries to use a not-yet-configured method during a sale, they need a way to complete setup from within Register (subject to authorization) and then continue the sale.
 
 ## 7. Printer Settings
-- **Printer Pairing**: Status card (Test Print/Disconnect), Hardware Discovery list, and Paper Size selection (58mm/80mm).
-- **Reusability**: The printer discovery and pairing UI must be available as a modal in the **Register (POS)** section if a user attempts to print a receipt without a configured printer.
+- **What this is for**: Connecting receipt printers and keeping printing reliable.
+- **Embeddable setup (in Register)**:
+  - Printer setup screens must be **embeddable** in a modal/bottom-sheet flow (not only accessible through Settings navigation).
+  - If a cashier attempts to **print** and no printer is configured (or the configuration is invalid), show an **in-context setup prompt** and allow completing setup, then retry printing.
+- **Emergency reconnect permissions**:
+  - When printing fails (e.g., Bluetooth printer disconnected), **any user** may:
+    - Discover/select a nearby printer
+    - Pair/connect the printer
+    - Run a test print
+  - All other printer settings remain restricted (Manager/Admin or Admin authorization via PIN), especially anything that affects receipt content/formatting or store-wide defaults.
+- **Rules**:
+  - Printers can be discovered and paired/unpaired.
+  - Paper size (e.g., 58mm/80mm) is selected and validated against printer capability.
+  - A test print is available.
+  - If printing is requested during a sale but no printer is configured, staff should be able to complete setup from Register (subject to authorization) and then retry printing.
 
 ## 8. Receipt Visuals
-- **Configuration Tabs**: Switch between **Design** and **Preview**.
-- **Content Controls**: Toggles for Date, Time, Order ID, and Cashier Name.
-- **Visuals**: Logo upload, Monospace/Sans Serif font selection, Font size (S/M/L), and Separator style (Dashed, Dotted, Solid).
-- **Footer**: Text inputs for Footer Message and Website URL, plus a "Show QR Code" toggle.
+- **What this is for**: Controlling what receipts include and how they look (within printer constraints).
+- **Content rules**:
+  - Configure whether receipts include fields like date, time, order ID, and cashier name.
+- **Branding & formatting**:
+  - Configure logo reference, font family, font sizing, and separator style.
+  - Configure footer message and website URL display.
+  - Configure whether a QR code is included (and what it encodes, if applicable).
+- **Constraints**:
+  - Receipt output must remain readable on supported paper sizes and printers.
 
 ## 9. Device Mode & Handover
-- **Mode Toggle**: Switch between **Register (POS)** and **Back Office** modes.
-- **Takeover Interlock**: Confirmation modals when switching to POS, specifically the "Active Session Detected" warning to prevent dual-POS conflicts.
+- **What this is for**: Switching the device between Register and Back Office, without letting two registers fight over the same active session.
+- **Rules**:
+  - Device mode (Register vs Back Office) is selectable and persisted for the device/session.
+  - If there’s already an active Register session, the product must prevent dual-POS conflicts using an explicit handover/confirmation flow.
+  - Session exclusivity rules (what counts as “active”, and how conflicts resolve) must be consistent and auditable.
 
 ## 10. Support & Feedback
-- **Report Bug**: Bottom sheet overlay with multi-line "Issue details" input, "Upload screenshots" area, and a primary "Report Bug" button.
-- **Suggest Feature**: Full-screen modal with "Feature title", "Feature description", optional screenshot attachment, and a primary "Send Suggestion" button.
+- **What this is for**: Sending feedback with enough context to actually fix things.
+- **Bug report**:
+  - Capture issue details and optional attachments (e.g., screenshots).
+  - Include environment metadata (app version/build, device identifier if available, timestamps).
+- **Feature suggestion**:
+  - Capture a title, description, and optional attachments.
+  - Include environment metadata (app version/build, device identifier if available, timestamps).
 
 **Display:** Inside app shell
 **Configuration:**
