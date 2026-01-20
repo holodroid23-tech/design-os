@@ -1,4 +1,4 @@
-# ExpenseManagementNewFolder Blueprint
+# New Folder (Expenses/Inventory Management) Blueprint
 
 ## Logic Tree
 - [Bottom sliding modal] New folder

@@ -10,6 +10,34 @@
 
 import type { SectionData, ParsedSpec, MockupInfo } from '@/types/section'
 
+/**
+ * Optional display-name overrides for replicated components that don't have mock images.
+ * This lets us merge/rename auto-generated entries without changing component filenames.
+ */
+const replicatedDisplayNameOverrides: Record<string, Record<string, string>> = {
+  'settings-and-configuration': {
+    // Folder creation screen is shared by both Expense + Inventory management.
+    ExpenseManagementNewFolder: 'New Folder (Expenses/Inventory Management)',
+  },
+}
+
+/**
+ * Optional mock -> component aliases. Useful when a single replicated component
+ * intentionally implements multiple mock screens.
+ */
+const mockComponentAliases: Record<
+  string,
+  Record<string, { componentName: string; displayName?: string }>
+> = {
+  'settings-and-configuration': {
+    // Inventory mock should preview the shared folder creation implementation.
+    'inventory-management-new-folder.png': {
+      componentName: 'ExpenseManagementNewFolder',
+      displayName: 'New Folder (Expenses/Inventory Management)',
+    },
+  },
+}
+
 // Load spec.md files from product/sections at build time
 const specFiles = import.meta.glob('/product/sections/*/spec.md', {
   query: '?raw',
@@ -135,6 +163,14 @@ function fileNameToDisplayName(fileName: string): string {
     .join(' ')
 }
 
+function resolveComponentNameForMock(sectionId: string, fileName: string): string {
+  return mockComponentAliases[sectionId]?.[fileName]?.componentName ?? fileNameToComponentName(fileName)
+}
+
+function resolveDisplayNameForMock(sectionId: string, fileName: string): string {
+  return mockComponentAliases[sectionId]?.[fileName]?.displayName ?? fileNameToDisplayName(fileName)
+}
+
 /**
  * Load all mockups for a specific section
  * Also includes replicated components without mockups (Builder workflow)
@@ -150,8 +186,8 @@ export function loadSectionMocks(sectionId: string): MockupInfo[] {
   for (const path of Object.keys(mockFiles)) {
     if (path.startsWith(mockupsPrefix)) {
       const fileName = path.replace(mockupsPrefix, '')
-      const componentName = fileNameToComponentName(fileName)
-      const displayName = fileNameToDisplayName(fileName)
+      const componentName = resolveComponentNameForMock(sectionId, fileName)
+      const displayName = resolveDisplayNameForMock(sectionId, fileName)
       const componentPath = `${replicatedPrefix}${componentName}.tsx`
       const isReplicated = componentPath in replicatedComponents
 
@@ -175,7 +211,9 @@ export function loadSectionMocks(sectionId: string): MockupInfo[] {
       // Convert PascalCase back to kebab-case for component name detection
       const kebabName = fileName.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
       const componentName = fileName
-      const displayName = fileNameToDisplayName(kebabName)
+      const derivedDisplayName = fileNameToDisplayName(kebabName)
+      const displayName =
+        replicatedDisplayNameOverrides[sectionId]?.[componentName] ?? derivedDisplayName
 
       // Only add if not already processed from mockup
       if (!processedComponents.has(componentName)) {
@@ -206,7 +244,7 @@ export function hasSectionMocks(sectionId: string): boolean {
  * Check if a specific mockup has a replicated design
  */
 export function hasReplicatedDesign(sectionId: string, mockName: string): boolean {
-  const componentName = fileNameToComponentName(mockName)
+  const componentName = resolveComponentNameForMock(sectionId, mockName)
   const componentPath = `/product/sections/${sectionId}/replicated/${componentName}.tsx`
   return componentPath in replicatedComponents
 }
@@ -218,7 +256,7 @@ export async function loadReplicatedComponent(
   sectionId: string,
   mockName: string
 ): Promise<React.ComponentType | null> {
-  const componentName = fileNameToComponentName(mockName)
+  const componentName = resolveComponentNameForMock(sectionId, mockName)
   const componentPath = `/product/sections/${sectionId}/replicated/${componentName}.tsx`
 
   if (!(componentPath in replicatedComponents)) {

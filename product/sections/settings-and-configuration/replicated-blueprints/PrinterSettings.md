@@ -53,11 +53,12 @@
 
 | Blueprint Element | Component Path | Variant/Prop Target |
 |---|---|---|
-| Back navigation trigger | @/components/ui/button | variant="invisible", size="icon" |
-| Page title | @/components/ui/section-title | size="page", titleAs="h1" |
-| Section headers | @/components/ui/section-title | size="section" |
-| Connected device panel container | @/components/ui/card | (default) |
+| Back navigation trigger | @/components/ui/section-title | interactive, leading={lucide-react#ChevronLeft} |
+| Page title | @/components/ui/section-title | titleAs="h2" |
+| Section headers | @/components/ui/section-title | titleAs="h2" |
+| Connected device panel container | @/components/settings/settings-group | (default) |
 | Leading device icon (panel) | @/components/ui/icon | Component: IconTile, variant="tile", size="medium", tone="success" |
+| Connected device row | @/components/settings/settings-item | element="div" |
 | Device name text | @/components/settings/settings-item | Component: SettingsItemTitle |
 | Connection state text | @/components/settings/settings-item | Component: SettingsItemDescription, tone="success", size="tiny" |
 | "Test print" action | @/components/ui/button | variant="ghost", size="lg" |

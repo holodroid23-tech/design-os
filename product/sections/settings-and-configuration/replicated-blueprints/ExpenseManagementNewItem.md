@@ -17,7 +17,7 @@
       - [Tab selection] "Color" | "Image" (single selection; default "Color")
       - [Color selection] Single selection (12 options)
     - [Section] Stroke style
-      - [Single selection] "None", "Common", "Dashed", "Gradient", "Holo", "Glow" (default "Common")
+      - [Single selection] "None", "Common", "Dashed" (default "Common")
   - [Footer]
     - [Primary action] "Save expense"
 
@@ -27,7 +27,7 @@
 - [Name row]: "Name" label, text input, and favorite toggle action.
 - [Category row]: "Category" label and single-select control (opens sliding selector).
 - [Appearance block]: Tabs ("Color", "Image") with a default color-selection view.
-- [Stroke style block]: Single-selection grid of 6 stroke style options.
+- [Stroke style block]: Single-selection grid of 3 stroke style options.
 - [Footer action]: Primary submit button ("Save expense").
 
 ## Component Mapping (The Map)
@@ -42,6 +42,6 @@
 | Category dropdown | `@/components/ui/select-with-sliding` | `variant="sliding"` with `options`, `value`, `onValueChange` |
 | Appearance tabs | `@/components/ui/tabs` | `Tabs` + `TabsList` + `TabsTrigger` + `TabsContent` |
 | Color selection grid | `@/components/ui/color-selector` | `ColorSelector` + `ColorSelectorItem` (single selection) |
-| Stroke style selection | `@/components/ui/radio-button-group` | `RadioButtonGroup` + `RadioButtonGroupItem variant="card" size="card"` |
+| Stroke style selection | `@/components/ui/stroke-style-selector` | `StrokeStyleSelector value/onValueChange` |
 | Primary action ("Save expense") | `@/components/ui/button` | `variant="default" size="lg"` |
 

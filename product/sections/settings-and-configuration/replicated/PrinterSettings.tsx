@@ -1,8 +1,14 @@
-import * as React from "react"
 import { ChevronLeft, Printer } from "lucide-react"
 
-import { SettingsItemDescription, SettingsItemTitle } from "@/components/settings/settings-item"
-import { Card, CardContent } from "@/components/ui/card"
+import { SettingsGroup } from "@/components/settings/settings-group"
+import {
+  SettingsItem,
+  SettingsItemAction,
+  SettingsItemContent,
+  SettingsItemDescription,
+  SettingsItemIcon,
+  SettingsItemTitle,
+} from "@/components/settings/settings-item"
 import { Button } from "@/components/ui/button"
 import { IconTile } from "@/components/ui/icon"
 import { SectionTitle } from "@/components/ui/section-title"
@@ -34,28 +40,38 @@ export default function PrinterSettings() {
         <div className="flex flex-col gap-4">
           <SectionTitle titleAs="h2">Printer status</SectionTitle>
 
-          <Card>
-            <CardContent className="space-y-4">
-              <div className="flex items-center gap-4">
+          <SettingsGroup>
+            <SettingsItem element="div">
+              <SettingsItemIcon>
                 <IconTile icon={Printer} size="medium" variant="tile" tone="success" />
-                <div className="flex flex-col gap-1">
-                  <SettingsItemTitle>mPOP Printer</SettingsItemTitle>
-                  <SettingsItemDescription size="tiny" tone="success">
-                    Connected
-                  </SettingsItemDescription>
-                </div>
-              </div>
+              </SettingsItemIcon>
+              <SettingsItemContent>
+                <SettingsItemTitle>mPOP Printer</SettingsItemTitle>
+                <SettingsItemDescription size="tiny" tone="success">
+                  Connected
+                </SettingsItemDescription>
+              </SettingsItemContent>
+              <SettingsItemAction />
+            </SettingsItem>
 
-              <div className="flex gap-3">
-                <Button type="button" variant="ghost" size="lg" className="flex-1">
-                  Test print
-                </Button>
-                <Button type="button" variant="destructive" size="lg" className="flex-1">
-                  Disconnect
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+            <SettingsItem element="div">
+              <SettingsItemContent>
+                <div className="flex gap-3">
+                  <div className="flex-1">
+                    <Button type="button" variant="ghost" size="lg" className="w-full">
+                      Test print
+                    </Button>
+                  </div>
+                  <div className="flex-1">
+                    <Button type="button" variant="destructive" size="lg" className="w-full">
+                      Disconnect
+                    </Button>
+                  </div>
+                </div>
+              </SettingsItemContent>
+              <SettingsItemAction />
+            </SettingsItem>
+          </SettingsGroup>
         </div>
       </div>
 

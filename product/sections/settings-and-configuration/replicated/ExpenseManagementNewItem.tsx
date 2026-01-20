@@ -16,6 +16,7 @@ import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-bu
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ColorSelector, ColorSelectorItem } from "@/components/ui/color-selector"
 import { MediaUpload } from "@/components/ui/media-upload"
+import { StrokeStyleSelector, type StrokeStyleOption } from "@/components/ui/stroke-style-selector"
 import { IconToggleButton } from "@/components/ui/icon-toggle-button"
 
 export const designOS = {
@@ -29,9 +30,7 @@ export default function ExpenseManagementNewItem() {
   const [tax, setTax] = React.useState("21%")
   const [appearanceTab, setAppearanceTab] = React.useState<"color" | "image">("image")
   const [expenseColor, setExpenseColor] = React.useState("blue")
-  const [strokeStyle, setStrokeStyle] = React.useState<
-    "none" | "common" | "dashed" | "gradient" | "holo" | "glow"
-  >("common")
+  const [strokeStyle, setStrokeStyle] = React.useState<StrokeStyleOption>("common")
 
   return (
     <BottomSlidingModal defaultOpen>
@@ -160,34 +159,7 @@ export default function ExpenseManagementNewItem() {
         <div className="px-6 pb-6">
           <div className="flex flex-col gap-3">
             <Label>Stroke style</Label>
-            <RadioButtonGroup
-              value={strokeStyle}
-              onValueChange={(v) => setStrokeStyle(v as any)}
-              className="grid grid-cols-3 gap-3"
-            >
-              {(
-                [
-                  { value: "none", label: "None" },
-                  { value: "common", label: "Common" },
-                  { value: "dashed", label: "Dashed" },
-                  { value: "gradient", label: "Gradient" },
-                  { value: "holo", label: "Holo" },
-                  { value: "glow", label: "Glow" },
-                ] as const
-              ).map((opt) => (
-                <RadioButtonGroupItem
-                  key={opt.value}
-                  value={opt.value}
-                  variant="surface"
-                  className="aspect-square flex flex-col items-center justify-center text-center h-auto p-0"
-                >
-                  <div className="flex flex-col items-center justify-center w-full h-full p-4 gap-2">
-                    <div className="h-12 w-12 rounded-[12px] bg-muted/50 border border-border/40" />
-                    <span className="text-xs text-muted-foreground">{opt.label}</span>
-                  </div>
-                </RadioButtonGroupItem>
-              ))}
-            </RadioButtonGroup>
+            <StrokeStyleSelector value={strokeStyle} onValueChange={setStrokeStyle} />
           </div>
         </div>
       </BottomSlidingModalContent>

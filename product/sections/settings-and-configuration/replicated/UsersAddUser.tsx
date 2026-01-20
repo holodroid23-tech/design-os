@@ -18,7 +18,7 @@ export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function UsersAddAdminFocus() {
+export default function UsersAddUser() {
   const [role, setRole] = React.useState<"admin" | "manager" | "cashier">("admin")
   const [fullName, setFullName] = React.useState("")
   const [email, setEmail] = React.useState("")
@@ -58,10 +58,6 @@ export default function UsersAddAdminFocus() {
           </Button>
         }
       >
-        {/* Block 1 — Modal shell */}
-        {/* Block 2 — Header */}
-
-        {/* Block 3 — Role selection */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between gap-4">
@@ -85,7 +81,6 @@ export default function UsersAddAdminFocus() {
           </div>
         </div>
 
-        {/* Block 4 — Form fields */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-2">
             <Label htmlFor="add-user-full-name">Full name</Label>

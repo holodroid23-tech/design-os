@@ -105,5 +105,5 @@ export interface ManagedItem {
   enabled: boolean
 }
 
-export type StrokeStyle = 'None' | 'Common' | 'Dashed' | 'Gradient' | 'Holo' | 'Glow'
+export type StrokeStyle = 'None' | 'Common' | 'Dashed'
 

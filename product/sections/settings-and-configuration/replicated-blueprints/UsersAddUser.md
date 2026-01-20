@@ -1,4 +1,4 @@
-# UsersAddAdminFocus Blueprint
+# UsersAddUser Blueprint
 
 ## Logic Tree
 - [Bottom sliding modal]
