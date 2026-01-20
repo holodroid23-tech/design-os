@@ -66,7 +66,8 @@ export function ItemRowToggleExamplesCard() {
       description="Row with inline toggle control"
     >
       <SettingsGroup>
-        <SettingsItem>
+        <SettingsItem asChild>
+          <div>
           <SettingsItemContent>
             <SettingsItemTitle>Toggle option</SettingsItemTitle>
             <SettingsItemDescription>Enable or disable this setting</SettingsItemDescription>
@@ -74,6 +75,7 @@ export function ItemRowToggleExamplesCard() {
           <SettingsItemAction>
             <Switch />
           </SettingsItemAction>
+          </div>
         </SettingsItem>
       </SettingsGroup>
     </ItemRowCard>
@@ -88,7 +90,8 @@ export function ItemRowUserProfileExamplesCard() {
       description="Row with leading avatar, description, and trailing action button"
     >
       <SettingsGroup>
-        <SettingsItem>
+        <SettingsItem asChild>
+          <div>
           <SettingsItemIcon>
             <Avatar size="small">
               <AvatarFallback>JD</AvatarFallback>
@@ -104,6 +107,7 @@ export function ItemRowUserProfileExamplesCard() {
               <MoreVertical className="h-[18px] w-[18px]" aria-hidden="true" />
             </Button>
           </SettingsItemAction>
+          </div>
         </SettingsItem>
       </SettingsGroup>
     </ItemRowCard>
@@ -244,7 +248,8 @@ export function ItemRowInlineButtonExamplesCard() {
       description="Row with trailing button action"
     >
       <SettingsGroup>
-        <SettingsItem>
+        <SettingsItem asChild>
+          <div>
           <SettingsItemIcon>
             <IconTile icon={Printer} size="small" variant="tile" tone="success" />
           </SettingsItemIcon>
@@ -259,6 +264,7 @@ export function ItemRowInlineButtonExamplesCard() {
               Test
             </Button>
           </SettingsItemAction>
+          </div>
         </SettingsItem>
       </SettingsGroup>
     </ItemRowCard>
@@ -273,24 +279,26 @@ export function ItemRowInlineButtonsExamplesCard() {
       description="Row with inline button row inside content"
     >
       <SettingsGroup>
-        <SettingsItem className="items-start">
-          <SettingsItemIcon className="pt-0.5">
-            <IconTile icon={AlertTriangle} size="small" variant="tile" tone="warning" />
-          </SettingsItemIcon>
-          <SettingsItemContent>
-            <SettingsItemTitle>Order alerts</SettingsItemTitle>
-            <SettingsItemDescription tone="warning" className="font-medium">
-              Degraded
-            </SettingsItemDescription>
-            <div className="flex flex-wrap items-center gap-2 pt-2">
-              <Button variant="secondary" size="sm">
-                Details
-              </Button>
-              <Button variant="secondary" size="sm">
-                Fix
-              </Button>
-            </div>
-          </SettingsItemContent>
+        <SettingsItem asChild className="items-start">
+          <div>
+            <SettingsItemIcon className="pt-0.5">
+              <IconTile icon={AlertTriangle} size="small" variant="tile" tone="warning" />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>Order alerts</SettingsItemTitle>
+              <SettingsItemDescription tone="warning" className="font-medium">
+                Degraded
+              </SettingsItemDescription>
+              <div className="flex flex-wrap items-center gap-2 pt-2">
+                <Button variant="secondary" size="sm">
+                  Details
+                </Button>
+                <Button variant="secondary" size="sm">
+                  Fix
+                </Button>
+              </div>
+            </SettingsItemContent>
+          </div>
         </SettingsItem>
       </SettingsGroup>
     </ItemRowCard>
@@ -305,21 +313,23 @@ export function ItemRowDestructiveActionExamplesCard() {
       description="Row with destructive trailing action"
     >
       <SettingsGroup>
-        <SettingsItem>
-          <SettingsItemIcon>
-            <IconTile icon={WifiOff} size="small" variant="tile" tone="danger" />
-          </SettingsItemIcon>
-          <SettingsItemContent>
-            <SettingsItemTitle>Receipt printer</SettingsItemTitle>
-            <SettingsItemDescription tone="danger" className="font-medium">
-              Offline
-            </SettingsItemDescription>
-          </SettingsItemContent>
-          <SettingsItemAction>
-            <Button variant="destructive" size="sm">
-              Reconnect
-            </Button>
-          </SettingsItemAction>
+        <SettingsItem asChild>
+          <div>
+            <SettingsItemIcon>
+              <IconTile icon={WifiOff} size="small" variant="tile" tone="danger" />
+            </SettingsItemIcon>
+            <SettingsItemContent>
+              <SettingsItemTitle>Receipt printer</SettingsItemTitle>
+              <SettingsItemDescription tone="danger" className="font-medium">
+                Offline
+              </SettingsItemDescription>
+            </SettingsItemContent>
+            <SettingsItemAction>
+              <Button variant="destructive" size="sm">
+                Reconnect
+              </Button>
+            </SettingsItemAction>
+          </div>
         </SettingsItem>
       </SettingsGroup>
     </ItemRowCard>
@@ -412,7 +422,8 @@ export function ItemRowsExamplesCard() {
           </SettingsGroup>
 
           <SettingsGroup>
-            <SettingsItem>
+            <SettingsItem asChild>
+              <div>
               <SettingsItemContent>
                 <SettingsItemTitle>Toggle option</SettingsItemTitle>
                 <SettingsItemDescription>Enable or disable this setting</SettingsItemDescription>
@@ -420,11 +431,13 @@ export function ItemRowsExamplesCard() {
               <SettingsItemAction>
                 <Switch />
               </SettingsItemAction>
+              </div>
             </SettingsItem>
           </SettingsGroup>
 
           <SettingsGroup>
-            <SettingsItem>
+            <SettingsItem asChild>
+              <div>
               <SettingsItemIcon>
                 <Avatar size="small">
                   <AvatarFallback>JD</AvatarFallback>
@@ -440,6 +453,7 @@ export function ItemRowsExamplesCard() {
                   <MoreVertical className="h-[18px] w-[18px]" aria-hidden="true" />
                 </Button>
               </SettingsItemAction>
+              </div>
             </SettingsItem>
           </SettingsGroup>
 

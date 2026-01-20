@@ -115,76 +115,84 @@ export default function ReceiptConfiguration() {
               <div className="flex flex-col gap-3">
                 <Label className="text-muted-foreground">Included details</Label>
                 <SettingsGroup>
-                  <SettingsItem type="button">
-                    <SettingsItemIcon>
-                      <Calendar className="size-5" aria-hidden="true" />
-                    </SettingsItemIcon>
-                    <SettingsItemContent>
-                      <SettingsItemTitle>Date</SettingsItemTitle>
-                    </SettingsItemContent>
-                    <SettingsItemAction>
-                      <Switch
-                        checked={includedDetails.date}
-                        onCheckedChange={(checked) =>
-                          setIncludedDetails((prev) => ({ ...prev, date: Boolean(checked) }))
-                        }
-                        aria-label="Date"
-                      />
-                    </SettingsItemAction>
+                  <SettingsItem asChild>
+                    <div>
+                      <SettingsItemIcon>
+                        <Calendar className="size-5" aria-hidden="true" />
+                      </SettingsItemIcon>
+                      <SettingsItemContent>
+                        <SettingsItemTitle>Date</SettingsItemTitle>
+                      </SettingsItemContent>
+                      <SettingsItemAction>
+                        <Switch
+                          checked={includedDetails.date}
+                          onCheckedChange={(checked) =>
+                            setIncludedDetails((prev) => ({ ...prev, date: Boolean(checked) }))
+                          }
+                          aria-label="Date"
+                        />
+                      </SettingsItemAction>
+                    </div>
                   </SettingsItem>
 
-                  <SettingsItem type="button">
-                    <SettingsItemIcon>
-                      <Clock className="size-5" aria-hidden="true" />
-                    </SettingsItemIcon>
-                    <SettingsItemContent>
-                      <SettingsItemTitle>Time</SettingsItemTitle>
-                    </SettingsItemContent>
-                    <SettingsItemAction>
-                      <Switch
-                        checked={includedDetails.time}
-                        onCheckedChange={(checked) =>
-                          setIncludedDetails((prev) => ({ ...prev, time: Boolean(checked) }))
-                        }
-                        aria-label="Time"
-                      />
-                    </SettingsItemAction>
+                  <SettingsItem asChild>
+                    <div>
+                      <SettingsItemIcon>
+                        <Clock className="size-5" aria-hidden="true" />
+                      </SettingsItemIcon>
+                      <SettingsItemContent>
+                        <SettingsItemTitle>Time</SettingsItemTitle>
+                      </SettingsItemContent>
+                      <SettingsItemAction>
+                        <Switch
+                          checked={includedDetails.time}
+                          onCheckedChange={(checked) =>
+                            setIncludedDetails((prev) => ({ ...prev, time: Boolean(checked) }))
+                          }
+                          aria-label="Time"
+                        />
+                      </SettingsItemAction>
+                    </div>
                   </SettingsItem>
 
-                  <SettingsItem type="button">
-                    <SettingsItemIcon>
-                      <Hash className="size-5" aria-hidden="true" />
-                    </SettingsItemIcon>
-                    <SettingsItemContent>
-                      <SettingsItemTitle>Order ID</SettingsItemTitle>
-                    </SettingsItemContent>
-                    <SettingsItemAction>
-                      <Switch
-                        checked={includedDetails.orderId}
-                        onCheckedChange={(checked) =>
-                          setIncludedDetails((prev) => ({ ...prev, orderId: Boolean(checked) }))
-                        }
-                        aria-label="Order ID"
-                      />
-                    </SettingsItemAction>
+                  <SettingsItem asChild>
+                    <div>
+                      <SettingsItemIcon>
+                        <Hash className="size-5" aria-hidden="true" />
+                      </SettingsItemIcon>
+                      <SettingsItemContent>
+                        <SettingsItemTitle>Order ID</SettingsItemTitle>
+                      </SettingsItemContent>
+                      <SettingsItemAction>
+                        <Switch
+                          checked={includedDetails.orderId}
+                          onCheckedChange={(checked) =>
+                            setIncludedDetails((prev) => ({ ...prev, orderId: Boolean(checked) }))
+                          }
+                          aria-label="Order ID"
+                        />
+                      </SettingsItemAction>
+                    </div>
                   </SettingsItem>
 
-                  <SettingsItem type="button">
-                    <SettingsItemIcon>
-                      <User className="size-5" aria-hidden="true" />
-                    </SettingsItemIcon>
-                    <SettingsItemContent>
-                      <SettingsItemTitle>Cashier name</SettingsItemTitle>
-                    </SettingsItemContent>
-                    <SettingsItemAction>
-                      <Switch
-                        checked={includedDetails.cashierName}
-                        onCheckedChange={(checked) =>
-                          setIncludedDetails((prev) => ({ ...prev, cashierName: Boolean(checked) }))
-                        }
-                        aria-label="Cashier name"
-                      />
-                    </SettingsItemAction>
+                  <SettingsItem asChild>
+                    <div>
+                      <SettingsItemIcon>
+                        <User className="size-5" aria-hidden="true" />
+                      </SettingsItemIcon>
+                      <SettingsItemContent>
+                        <SettingsItemTitle>Cashier name</SettingsItemTitle>
+                      </SettingsItemContent>
+                      <SettingsItemAction>
+                        <Switch
+                          checked={includedDetails.cashierName}
+                          onCheckedChange={(checked) =>
+                            setIncludedDetails((prev) => ({ ...prev, cashierName: Boolean(checked) }))
+                          }
+                          aria-label="Cashier name"
+                        />
+                      </SettingsItemAction>
+                    </div>
                   </SettingsItem>
                 </SettingsGroup>
               </div>

@@ -81,18 +81,19 @@ SettingsItemTitle.displayName = "SettingsItemTitle"
 
 // Description
 interface SettingsItemDescriptionProps extends React.HTMLAttributes<HTMLSpanElement> {
+  size?: "small" | "tiny"
   tone?: "default" | "success" | "warning" | "danger"
 }
 
 const SettingsItemDescription = React.forwardRef<
   HTMLSpanElement,
   SettingsItemDescriptionProps
->(({ className, tone = "default", children, ...props }, ref) => {
+>(({ className, size = "small", tone = "default", children, ...props }, ref) => {
   return (
     <span
       ref={ref}
       className={cn(
-        "text-support-small",
+        size === "tiny" ? "text-support-tiny" : "text-support-small",
         tone === "default" && "text-secondary",
         // Tokenized semantic tones (defined via @theme variables in `src/index.css`).
         tone === "success" && "text-on-layer-success",

@@ -49,59 +49,50 @@ export default function PaymentSettings() {
           <Label>Payment methods</Label>
 
           <SettingsGroup>
-            <SettingsItem
-              type="button"
-              onClick={() => {
-                setCashEnabled((v) => !v)
-              }}
-            >
-              <SettingsItemIcon>
-                <IconTile icon={Banknote} size="small" variant="plain" tone="neutral" />
-              </SettingsItemIcon>
-              <SettingsItemContent>
-                <SettingsItemTitle>Cash</SettingsItemTitle>
-              </SettingsItemContent>
-              <SettingsItemAction onClick={(e) => e.stopPropagation()}>
-                <Switch checked={cashEnabled} onCheckedChange={setCashEnabled} aria-label="Cash" />
-              </SettingsItemAction>
+            <SettingsItem asChild>
+              <div>
+                <SettingsItemIcon>
+                  <IconTile icon={Banknote} size="small" variant="plain" tone="neutral" />
+                </SettingsItemIcon>
+                <SettingsItemContent>
+                  <SettingsItemTitle>Cash</SettingsItemTitle>
+                </SettingsItemContent>
+                <SettingsItemAction>
+                  <Switch checked={cashEnabled} onCheckedChange={setCashEnabled} aria-label="Cash" />
+                </SettingsItemAction>
+              </div>
             </SettingsItem>
 
-            <SettingsItem
-              type="button"
-              onClick={() => {
-                setExternalTerminalEnabled((v) => !v)
-              }}
-            >
-              <SettingsItemIcon>
-                <IconTile icon={Receipt} size="small" variant="plain" tone="neutral" />
-              </SettingsItemIcon>
-              <SettingsItemContent>
-                <SettingsItemTitle>External terminal</SettingsItemTitle>
-              </SettingsItemContent>
-              <SettingsItemAction onClick={(e) => e.stopPropagation()}>
-                <Switch
-                  checked={externalTerminalEnabled}
-                  onCheckedChange={setExternalTerminalEnabled}
-                  aria-label="External terminal"
-                />
-              </SettingsItemAction>
+            <SettingsItem asChild>
+              <div>
+                <SettingsItemIcon>
+                  <IconTile icon={Receipt} size="small" variant="plain" tone="neutral" />
+                </SettingsItemIcon>
+                <SettingsItemContent>
+                  <SettingsItemTitle>External terminal</SettingsItemTitle>
+                </SettingsItemContent>
+                <SettingsItemAction>
+                  <Switch
+                    checked={externalTerminalEnabled}
+                    onCheckedChange={setExternalTerminalEnabled}
+                    aria-label="External terminal"
+                  />
+                </SettingsItemAction>
+              </div>
             </SettingsItem>
 
-            <SettingsItem
-              type="button"
-              onClick={() => {
-                setTapToPayEnabled((v) => !v)
-              }}
-            >
-              <SettingsItemIcon>
-                <IconTile icon={Smartphone} size="small" variant="plain" tone="neutral" />
-              </SettingsItemIcon>
-              <SettingsItemContent>
-                <SettingsItemTitle>Tap to pay</SettingsItemTitle>
-              </SettingsItemContent>
-              <SettingsItemAction onClick={(e) => e.stopPropagation()}>
-                <Switch checked={tapToPayEnabled} onCheckedChange={setTapToPayEnabled} aria-label="Tap to pay" />
-              </SettingsItemAction>
+            <SettingsItem asChild>
+              <div>
+                <SettingsItemIcon>
+                  <IconTile icon={Smartphone} size="small" variant="plain" tone="neutral" />
+                </SettingsItemIcon>
+                <SettingsItemContent>
+                  <SettingsItemTitle>Tap to pay</SettingsItemTitle>
+                </SettingsItemContent>
+                <SettingsItemAction>
+                  <Switch checked={tapToPayEnabled} onCheckedChange={setTapToPayEnabled} aria-label="Tap to pay" />
+                </SettingsItemAction>
+              </div>
             </SettingsItem>
           </SettingsGroup>
         </div>
@@ -111,7 +102,7 @@ export default function PaymentSettings() {
       <div className="px-6 py-4">
         <div className="flex flex-col gap-3">
           <Label>Terminal configuration</Label>
-          <SettingsItemDescription>
+          <SettingsItemDescription className="text-onLayer-primary">
             All following settings must be enabled to use Tap to Pay.
           </SettingsItemDescription>
           <Stepper value={0} max={4} variant="destructive" mode="segmented" />
@@ -161,7 +152,7 @@ export default function PaymentSettings() {
               <SettingsItemContent>
                 <div className="flex flex-col gap-1">
                   <SettingsItemTitle>Device verification</SettingsItemTitle>
-                  <SettingsItemDescription tone="danger">
+                  <SettingsItemDescription size="tiny" tone="danger" className="text-onLayer-danger">
                     Device integrity failed: rooted device detected
                   </SettingsItemDescription>
                 </div>

@@ -54,27 +54,29 @@ export default function ExpenseManagementFolderDetail() {
         <div className="space-y-3">
           {items.map((item) => (
             <SettingsGroup key={item.id}>
-              <SettingsItem type="button">
-                <SettingsItemIcon>
-                  <ImageTile size="small" alt="" />
-                </SettingsItemIcon>
+              <SettingsItem asChild>
+                <div>
+                  <SettingsItemIcon>
+                    <ImageTile size="small" alt="" />
+                  </SettingsItemIcon>
 
-                <SettingsItemContent>
-                  <SettingsItemTitle>{item.label}</SettingsItemTitle>
-                </SettingsItemContent>
+                  <SettingsItemContent>
+                    <SettingsItemTitle>{item.label}</SettingsItemTitle>
+                  </SettingsItemContent>
 
-                <SettingsItemAction>
-                  <Switch
-                    checked={enabledById[item.id]}
-                    onCheckedChange={(checked) =>
-                      setEnabledById((prev) => ({
-                        ...prev,
-                        [item.id]: Boolean(checked),
-                      }))
-                    }
-                    aria-label={`Toggle ${item.label}`}
-                  />
-                </SettingsItemAction>
+                  <SettingsItemAction>
+                    <Switch
+                      checked={enabledById[item.id]}
+                      onCheckedChange={(checked) =>
+                        setEnabledById((prev) => ({
+                          ...prev,
+                          [item.id]: Boolean(checked),
+                        }))
+                      }
+                      aria-label={`Toggle ${item.label}`}
+                    />
+                  </SettingsItemAction>
+                </div>
               </SettingsItem>
             </SettingsGroup>
           ))}
