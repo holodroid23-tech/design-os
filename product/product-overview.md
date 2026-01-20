@@ -28,6 +28,6 @@ ComPOSt runs on existing phones and tablets and aims for a simple, low-cost subs
 - Cart UX with minimized/expanded states and configurable sticky action buttons
 - Payments: Cash, Tap to Pay (card), and external terminal card recording
 - Printer pairing, test print, and configurable receipt visuals (logo, paper size, footer, QR)
-- Edit Expense “today-only” fast lane with quick edits and immediate analytics impact
+- Daily Expenses “today-only” fast lane with quick edits and immediate analytics impact
 - Activity: PIN-gated, role-based views (Cashier “My Shift” vs Manager/Admin “Command Center”)
 - Settings: inventory and expense templates, staff/users, taxes, payments, printers, device mode, and security

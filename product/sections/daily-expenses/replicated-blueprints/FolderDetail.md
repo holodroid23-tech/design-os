@@ -1,7 +1,7 @@
 # FolderDetail Blueprint
 
 ## Logic Tree
-- [Screen: Edit expense folder detail]
+- [Screen: Daily expenses folder detail]
   - [Header]
     - [Back]: Chevron-left icon
     - [Title]: Folder/category name (e.g. "Monthly utilities")
