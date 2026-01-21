@@ -22,7 +22,7 @@ export function AppShell({
   return (
     <div className="flex h-[100dvh] flex-col bg-background text-foreground overflow-hidden">
       {/* Content Area */}
-      <main className="flex-1 pb-safe animate-fade-in overflow-y-auto">
+      <main className="flex-1 pb-20 animate-fade-in relative overflow-hidden">
         {children}
       </main>
 

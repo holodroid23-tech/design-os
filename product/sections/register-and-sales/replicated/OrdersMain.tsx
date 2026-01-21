@@ -8,6 +8,7 @@ import { SectionTitle } from "@/components/ui/section-title"
 import { OrderTabs } from "@/components/ui/order-tabs"
 import { OrderProductTile } from "@/components/ui/order-product-tile"
 import { GridActionTile } from "@/components/patterns/grid-action-tile"
+import ItemManagementNewItem from "../../settings-and-configuration/replicated/ItemManagementNewItem"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -267,6 +268,7 @@ export default function OrdersMain({
 }: OrdersMainProps) {
   const fallbackSelected = tabs[0]?.id ?? "default"
   const [selected, setSelected] = useControllableState(selectedTabId, fallbackSelected)
+  const [isAddingItem, setIsAddingItem] = React.useState(false)
 
   React.useEffect(() => {
     if (tabs.length === 0) return
@@ -351,7 +353,9 @@ export default function OrdersMain({
 
         {/* Block 3: Inventory */}
         <div className="px-4 pt-8 pb-10">
-          <SectionTitle titleAs="h2">Inventory</SectionTitle>
+          <div className="flex items-center justify-between gap-4">
+            <SectionTitle titleAs="h2">Inventory</SectionTitle>
+          </div>
 
           <div className="mt-3 grid grid-cols-3 gap-3">
             {inventoryTiles.map((tile) => (
@@ -425,6 +429,10 @@ export default function OrdersMain({
           onPayCard={onPayCard}
         />
       </FloatingBottomBar>
+
+      {isAddingItem && (
+        <ItemManagementNewItem onClose={() => setIsAddingItem(false)} />
+      )}
     </div>
   )
 }

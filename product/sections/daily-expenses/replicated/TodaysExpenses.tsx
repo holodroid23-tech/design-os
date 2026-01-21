@@ -120,8 +120,8 @@ function TodaysExpensesBottomSummary({
             className={cn(
               "w-full h-[96px] p-0 cursor-pointer active:scale-[0.99] transition-all relative group flex flex-col items-stretch justify-center text-left",
               "overflow-hidden rounded-[18px] border shadow-lg",
-              "bg-layer-1 border-border-inverse text-onLayer-primary",
-              "supports-[backdrop-filter]:backdrop-blur-md supports-[backdrop-filter]:bg-layer-1/90"
+              "bg-black border-border text-onLayer-primary",
+              "supports-[backdrop-filter]:backdrop-blur-md supports-[backdrop-filter]:bg-black/90"
             )}
             aria-label="Expand expenses summary"
           >
@@ -201,10 +201,10 @@ function TodaysExpensesBottomSummary({
             </div>
           }
           scaffoldProps={{
-            className: "bg-layer-1 border-border-inverse text-onLayer-primary",
+            className: "bg-black border-border text-onLayer-primary",
             headerClassName: "px-6 pt-7 pb-4",
             bodyClassName: "min-h-0",
-            footerClassName: "bg-layer-1 border-t border-border-inverse p-6 pt-5",
+            footerClassName: "bg-black border-t border-border p-6 pt-5",
           }}
         >
           <div className="px-6 pb-4">
@@ -314,7 +314,10 @@ export default function TodaysExpenses({
       <div className="min-h-0 flex-1 overflow-y-auto">
         {/* Header: title (no tabs) */}
         <div className="sticky top-0 z-50 isolate bg-background border-b border-border px-4 pt-4 pb-4">
-          <SectionTitle titleAs="h1" size="page">
+          <SectionTitle
+            titleAs="h1"
+            size="page"
+          >
             {title}
           </SectionTitle>
         </div>

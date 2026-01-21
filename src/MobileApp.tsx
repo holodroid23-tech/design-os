@@ -12,6 +12,7 @@ import PrinterSettings from "@product/sections/settings-and-configuration/replic
 import GeneralSettings from "@product/sections/settings-and-configuration/replicated/GeneralSettings"
 import ItemManagement from "@product/sections/settings-and-configuration/replicated/ItemManagement"
 import UserProfile from "@product/sections/settings-and-configuration/replicated/UserProfile"
+import UsersList from "@product/sections/settings-and-configuration/replicated/UsersList"
 import DeviceMode from "@product/sections/settings-and-configuration/replicated/DeviceMode"
 import ReceiptConfiguration from "@product/sections/settings-and-configuration/replicated/ReceiptConfiguration"
 import PaymentSettings from "@product/sections/settings-and-configuration/replicated/PaymentSettings"
@@ -19,9 +20,10 @@ import ExpenseManagement from "@product/sections/settings-and-configuration/repl
 import SuggestFeature from "@product/sections/settings-and-configuration/replicated/SuggestFeature"
 import ReportBug from "@product/sections/settings-and-configuration/replicated/ReportBug"
 import ActivityAndReportsManagerAdminView from "@product/sections/activity-and-reports/replicated/ActivityAndReportsManagerAdminView"
+import CreateExpense from "@product/sections/daily-expenses/replicated/CreateExpense"
 
 type AppView = 'orders' | 'expenses' | 'activity' | 'settings' | 'payment-success' |
-    'settings-printer' | 'settings-general' | 'settings-inventory' | 'settings-users' |
+    'settings-printer' | 'settings-general' | 'settings-inventory' | 'settings-users' | 'settings-profile' |
     'settings-device-mode' | 'settings-receipt' | 'settings-payment' | 'settings-expenses' |
     'settings-suggest-feature' | 'settings-report-bug'
 
@@ -32,6 +34,7 @@ export interface MobileAppProps {
 export default function MobileApp({ isFrame = true }: MobileAppProps) {
     const [activeView, setActiveView] = React.useState<AppView>('orders')
     const [viewStack, setViewStack] = React.useState<AppView[]>(['orders'])
+    const [isCreatingExpenseInActivity, setIsCreatingExpenseInActivity] = React.useState(false)
 
     React.useEffect(() => {
         // Multi-tap hack for fullscreen
@@ -148,7 +151,16 @@ export default function MobileApp({ isFrame = true }: MobileAppProps) {
             case 'expenses':
                 return <TodaysExpenses />
             case 'activity':
-                return <ActivityAndReportsManagerAdminView />
+                return (
+                    <div className="h-full w-full relative">
+                        <ActivityAndReportsManagerAdminView
+                            onAddExpense={() => setIsCreatingExpenseInActivity(true)}
+                        />
+                        {isCreatingExpenseInActivity && (
+                            <CreateExpense onClose={() => setIsCreatingExpenseInActivity(false)} />
+                        )}
+                    </div>
+                )
             case 'settings':
                 return (
                     <SettingsRoot
@@ -164,7 +176,7 @@ export default function MobileApp({ isFrame = true }: MobileAppProps) {
                             if (id === 'suggest-feature') navigateTo('settings-suggest-feature')
                             if (id === 'report-bug') navigateTo('settings-report-bug')
                         }}
-                        onPressProfile={() => navigateTo('settings-users')}
+                        onPressProfile={() => navigateTo('settings-profile')}
                     />
                 )
             case 'settings-printer':
@@ -174,6 +186,8 @@ export default function MobileApp({ isFrame = true }: MobileAppProps) {
             case 'settings-inventory':
                 return <ItemManagement onBack={goBack} />
             case 'settings-users':
+                return <UsersList onBack={goBack} />
+            case 'settings-profile':
                 return <UserProfile onBack={goBack} />
             case 'settings-device-mode':
                 return <DeviceMode onBack={goBack} />

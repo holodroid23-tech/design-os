@@ -569,7 +569,7 @@ export default function ActivityAndReportsManagerAdminView({
                           note: item.note,
                         }}
                         changes={changes.length > 0 ? changes : undefined}
-                        onEdit={() => {}}
+                        onEdit={() => { }}
                       />
                     )
                   })}

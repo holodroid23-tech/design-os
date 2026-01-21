@@ -18,7 +18,11 @@ export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function UsersAddUser() {
+export interface UsersAddUserProps {
+  onClose?: () => void
+}
+
+export default function UsersAddUser({ onClose }: UsersAddUserProps) {
   const [role, setRole] = React.useState<"admin" | "manager" | "cashier">("admin")
   const [fullName, setFullName] = React.useState("")
   const [email, setEmail] = React.useState("")
@@ -36,7 +40,12 @@ export default function UsersAddUser() {
   }
 
   return (
-    <BottomSlidingModal defaultOpen>
+    <BottomSlidingModal
+      defaultOpen
+      onOpenChange={(open) => {
+        if (!open) onClose?.()
+      }}
+    >
       <BottomSlidingModalContent
         header={
           <SectionTitle

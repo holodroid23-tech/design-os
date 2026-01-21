@@ -1,3 +1,4 @@
+import * as React from "react"
 import { SectionTitle } from "@/components/ui/section-title"
 import { Button } from "@/components/ui/button"
 import { ChevronLeft, Plus } from "lucide-react"
@@ -15,6 +16,7 @@ import { Badge } from "@/components/ui/badge"
 import { SystemIcon } from "@/components/ui/icon"
 import type { AvatarProps } from "@/components/ui/avatar"
 import { ChevronRight } from "lucide-react"
+import UsersAddUser from "./UsersAddUser"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -72,6 +74,8 @@ export default function UsersList({
   pendingInvite = defaultPendingInvite,
   onResendInvite,
 }: UsersListProps) {
+  const [isAddingUser, setIsAddingUser] = React.useState(false)
+
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
@@ -152,11 +156,15 @@ export default function UsersList({
 
       {/* Block 2: Primary action (sticky footer) */}
       <div className="sticky bottom-0 z-10 border-t border-border bg-background px-6 py-4">
-        <Button size="lg" className="w-full">
+        <Button size="lg" className="w-full" onClick={() => setIsAddingUser(true)}>
           <Plus aria-hidden="true" />
           Add new user
         </Button>
       </div>
+
+      {isAddingUser && (
+        <UsersAddUser onClose={() => setIsAddingUser(false)} />
+      )}
     </div>
   )
 }

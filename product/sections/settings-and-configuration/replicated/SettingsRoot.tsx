@@ -81,8 +81,8 @@ export default function SettingsRoot({
   footerBuild = "89",
 }: SettingsRootProps) {
   return (
-    <div className="min-h-full w-full">
-      <div className="flex flex-col gap-4 px-4 pt-4">
+    <div className="h-full w-full overflow-y-auto">
+      <div className="flex flex-col gap-4 px-4 pt-4 min-h-full">
         {/* Block 1: Header */}
         <SectionTitle titleAs="h1">
           {title}
