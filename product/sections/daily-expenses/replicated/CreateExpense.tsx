@@ -16,7 +16,11 @@ export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function CreateExpense() {
+export interface CreateExpenseProps {
+  onClose?: () => void
+}
+
+export default function CreateExpense({ onClose }: CreateExpenseProps) {
   const [date, setDate] = React.useState<Date | undefined>(new Date("2023-10-24"))
   const [name, setName] = React.useState("")
   const [price, setPrice] = React.useState("0")
@@ -24,7 +28,12 @@ export default function CreateExpense() {
   const [note, setNote] = React.useState("")
 
   return (
-    <BottomSlidingModal defaultOpen>
+    <BottomSlidingModal
+      defaultOpen
+      onOpenChange={(open) => {
+        if (!open) onClose?.()
+      }}
+    >
       <BottomSlidingModalContent
         header={
           <SectionTitle

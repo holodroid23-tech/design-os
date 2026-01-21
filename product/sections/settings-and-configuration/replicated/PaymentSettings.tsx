@@ -21,7 +21,11 @@ export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function PaymentSettings() {
+export interface PaymentSettingsProps {
+  onBack?: () => void
+}
+
+export default function PaymentSettings({ onBack }: PaymentSettingsProps) {
   /**
    * NOTE (design intent / export guidance)
    *
@@ -60,7 +64,12 @@ export default function PaymentSettings() {
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
       <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
-        <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
+        <Button
+          type="button"
+          variant="invisible"
+          className="group w-full h-auto p-0 justify-start text-left"
+          onClick={onBack}
+        >
           <SectionTitle
             interactive
             titleAs="h2"

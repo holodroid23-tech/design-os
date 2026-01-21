@@ -321,22 +321,22 @@ export default function OrdersMain({
                           leftAction={
                             inOrder
                               ? {
-                                  icon: leftIcon,
-                                  label: leftLabel,
-                                  onPress: () => {
-                                    if (count <= 1) onPressFavoriteRemove?.(item.id)
-                                    else onPressFavoriteDecrease?.(item.id)
-                                  },
-                                }
+                                icon: leftIcon,
+                                label: leftLabel,
+                                onPress: () => {
+                                  if (count <= 1) onPressFavoriteRemove?.(item.id)
+                                  else onPressFavoriteDecrease?.(item.id)
+                                },
+                              }
                               : undefined
                           }
                           rightAction={
                             inOrder
                               ? {
-                                  icon: Plus,
-                                  label: "Increase",
-                                  onPress: () => onPressFavoriteIncrease?.(item.id),
-                                }
+                                icon: Plus,
+                                label: "Increase",
+                                onPress: () => onPressFavoriteIncrease?.(item.id),
+                              }
                               : undefined
                           }
                         />
@@ -385,22 +385,22 @@ export default function OrdersMain({
                   leftAction={
                     inOrder
                       ? {
-                          icon: leftIcon,
-                          label: leftLabel,
-                          onPress: () => {
-                            if (count <= 1) onPressInventoryRemove?.(item.id)
-                            else onPressInventoryDecrease?.(item.id)
-                          },
-                        }
+                        icon: leftIcon,
+                        label: leftLabel,
+                        onPress: () => {
+                          if (count <= 1) onPressInventoryRemove?.(item.id)
+                          else onPressInventoryDecrease?.(item.id)
+                        },
+                      }
                       : undefined
                   }
                   rightAction={
                     inOrder
                       ? {
-                          icon: Plus,
-                          label: "Increase",
-                          onPress: () => onPressInventoryIncrease?.(item.id),
-                        }
+                        icon: Plus,
+                        label: "Increase",
+                        onPress: () => onPressInventoryIncrease?.(item.id),
+                      }
                       : undefined
                   }
                 />
@@ -414,7 +414,7 @@ export default function OrdersMain({
       </div>
 
       {/* Floating order summary bar (overlays content) */}
-      <FloatingBottomBar>
+      <FloatingBottomBar insetClassName="px-4 pb-[96px]">
         <OrderExpandableSummary
           items={orderItems}
           orderTitle={orderTitle}

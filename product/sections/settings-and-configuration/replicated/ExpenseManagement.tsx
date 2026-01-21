@@ -15,12 +15,21 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from "@/components/settings/settings-item"
+import ExpenseManagementNewItem from "./ExpenseManagementNewItem"
+import ExpenseManagementNewFolder from "./ExpenseManagementNewFolder"
 
 export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function ExpenseManagement() {
+export interface ExpenseManagementProps {
+  onBack?: () => void
+}
+
+export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
+  const [addingItem, setAddingItem] = React.useState(false)
+  const [addingFolder, setAddingFolder] = React.useState(false)
+
   const folders = [
     { id: "monthly-utilities", label: "Monthly utilities", countLabel: "12 items" },
     { id: "suppliers", label: "Suppliers", countLabel: "8 items" },
@@ -54,7 +63,12 @@ export default function ExpenseManagement() {
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
       <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
-        <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
+        <Button
+          type="button"
+          variant="invisible"
+          className="group w-full h-auto p-0 justify-start text-left"
+          onClick={onBack}
+        >
           <SectionTitle
             interactive
             leading={
@@ -133,14 +147,17 @@ export default function ExpenseManagement() {
       {/* Block 3: Actions */}
       <div className="sticky bottom-0 z-10 border-t bg-background p-6">
         <div className="flex gap-3">
-          <Button size="lg" variant="ghost" className="flex-1">
+          <Button size="lg" variant="ghost" className="flex-1" onClick={() => setAddingFolder(true)}>
             Add folder
           </Button>
-          <Button size="lg" variant="ghost" className="flex-1">
+          <Button size="lg" variant="ghost" className="flex-1" onClick={() => setAddingItem(true)}>
             Add expense
           </Button>
         </div>
       </div>
+
+      {addingItem && <ExpenseManagementNewItem onClose={() => setAddingItem(false)} />}
+      {addingFolder && <ExpenseManagementNewFolder onClose={() => setAddingFolder(false)} />}
     </div>
   )
 }

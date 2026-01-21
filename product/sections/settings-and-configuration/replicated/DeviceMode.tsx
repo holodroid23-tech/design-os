@@ -5,14 +5,23 @@ import { ChevronLeft, Store, LayoutDashboard } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
-export default function DeviceMode() {
+export interface DeviceModeProps {
+    onBack?: () => void
+}
+
+export default function DeviceMode({ onBack }: DeviceModeProps) {
     const [mode, setMode] = React.useState("register")
 
     return (
         <div className="flex h-full min-h-full flex-col bg-background">
             {/* Block 1: Header Section */}
             <div className="px-6 py-4 sticky top-0 bg-background z-10 border-b">
-                <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
+                <Button
+                    type="button"
+                    variant="invisible"
+                    className="group w-full h-auto p-0 justify-start text-left"
+                    onClick={onBack}
+                >
                     <SectionTitle
                         interactive
                         leading={

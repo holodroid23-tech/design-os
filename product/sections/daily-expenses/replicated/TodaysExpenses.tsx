@@ -22,6 +22,7 @@ import { SettingsGroup } from "@/components/settings/settings-group"
 import { ExpenseLineItemRow } from "@/components/ui/expense-line-item-row"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import CreateExpense from "./CreateExpense"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -299,8 +300,15 @@ export default function TodaysExpenses({
   ],
   tax = 0,
   onEditLoggedItem,
-  onAddExpense,
+  onAddExpense: onAddExpenseProp,
 }: TodaysExpensesProps) {
+  const [isAddingExpense, setIsAddingExpense] = React.useState(false)
+
+  const handleAddExpense = () => {
+    setIsAddingExpense(true)
+    onAddExpenseProp?.()
+  }
+
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
       <div className="min-h-0 flex-1 overflow-y-auto">
@@ -366,15 +374,21 @@ export default function TodaysExpenses({
       </div>
 
       {/* Floating bottom summary bar (overlays content) */}
-      <FloatingBottomBar>
+      <FloatingBottomBar insetClassName="px-4 pb-[96px]">
         <TodaysExpensesBottomSummary
           title={title}
           items={loggedItems}
           tax={tax}
           onEditItem={onEditLoggedItem}
-          onAddExpense={onAddExpense}
+          onAddExpense={handleAddExpense}
         />
       </FloatingBottomBar>
+
+      {isAddingExpense && (
+        <CreateExpense
+          onClose={() => setIsAddingExpense(false)}
+        />
+      )}
     </div>
   )
 }

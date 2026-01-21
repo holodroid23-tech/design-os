@@ -23,7 +23,11 @@ export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function ExpenseManagementNewItem() {
+export interface ExpenseManagementNewItemProps {
+  onClose?: () => void
+}
+
+export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementNewItemProps) {
   const [name, setName] = React.useState("")
   const [favorite, setFavorite] = React.useState(false)
   const [category, setCategory] = React.useState<string | number>("operations")
@@ -33,7 +37,12 @@ export default function ExpenseManagementNewItem() {
   const [strokeStyle, setStrokeStyle] = React.useState<StrokeStyleOption>("common")
 
   return (
-    <BottomSlidingModal defaultOpen>
+    <BottomSlidingModal
+      defaultOpen
+      onOpenChange={(open) => {
+        if (!open) onClose?.()
+      }}
+    >
       <BottomSlidingModalContent
         header={
           <SectionTitle

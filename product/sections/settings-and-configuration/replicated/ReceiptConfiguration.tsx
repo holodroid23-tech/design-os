@@ -17,7 +17,11 @@ import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Calendar, ChevronLeft, Clock, Hash, QrCode, User } from "lucide-react"
 
-export default function ReceiptConfiguration() {
+export interface ReceiptConfigurationProps {
+  onBack?: () => void
+}
+
+export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationProps) {
   const [showTopControls, setShowTopControls] = React.useState(true)
   const lastScrollTopRef = React.useRef(0)
   const [tab, setTab] = React.useState<"design" | "preview">("design")
@@ -58,7 +62,12 @@ export default function ReceiptConfiguration() {
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
       <div className="sticky top-0 z-10 bg-background px-6 py-4">
-        <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
+        <Button
+          type="button"
+          variant="invisible"
+          className="group w-full h-auto p-0 justify-start text-left"
+          onClick={onBack}
+        >
           <SectionTitle
             interactive
             leading={
@@ -91,9 +100,8 @@ export default function ReceiptConfiguration() {
       >
         <Tabs value={tab} onValueChange={(v) => setTab(v as "design" | "preview")} className="h-full">
           <div
-            className={`sticky top-0 z-10 bg-background transition-transform duration-200 ${
-              showTopControls ? "translate-y-0" : "-translate-y-[calc(100%+30px)]"
-            }`}
+            className={`sticky top-0 z-10 bg-background transition-transform duration-200 ${showTopControls ? "translate-y-0" : "-translate-y-[calc(100%+30px)]"
+              }`}
           >
             <TabsList className="w-full">
               <TabsTrigger value="design" className="flex-1">

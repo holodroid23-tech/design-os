@@ -9,7 +9,11 @@ import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-bu
 import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, Trash2, Plus } from "lucide-react"
 
-export default function GeneralSettings() {
+export interface GeneralSettingsProps {
+    onBack?: () => void
+}
+
+export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
     const [currency, setCurrency] = React.useState("usd")
     const [useTaxes, setUseTaxes] = React.useState(true)
     const [selectedTaxId, setSelectedTaxId] = React.useState("tax-1")
@@ -31,7 +35,12 @@ export default function GeneralSettings() {
         <div className="flex h-full min-h-full flex-col bg-background">
             {/* Block 1: Header */}
             <div className="px-6 py-4 sticky top-0 bg-background z-10 border-b">
-                <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
+                <Button
+                    type="button"
+                    variant="invisible"
+                    className="group w-full h-auto p-0 justify-start text-left"
+                    onClick={onBack}
+                >
                     <SectionTitle
                         interactive
                         leading={

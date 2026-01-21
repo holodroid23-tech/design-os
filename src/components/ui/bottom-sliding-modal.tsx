@@ -83,7 +83,9 @@ function BottomSlidingModalContent({
         {...props}
       >
         <BottomSheetScaffold header={header} footer={footer} {...scaffoldProps}>
-          {children}
+          <div className="dark contents">
+            {children}
+          </div>
         </BottomSheetScaffold>
       </DialogPrimitive.Content>
     </DialogPortal>

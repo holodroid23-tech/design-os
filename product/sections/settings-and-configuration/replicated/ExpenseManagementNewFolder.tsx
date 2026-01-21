@@ -21,14 +21,23 @@ export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function ExpenseManagementNewFolder() {
+export interface ExpenseManagementNewFolderProps {
+  onClose?: () => void
+}
+
+export default function ExpenseManagementNewFolder({ onClose }: ExpenseManagementNewFolderProps) {
   const [defaultTax, setDefaultTax] = React.useState("0%")
   const [appearanceTab, setAppearanceTab] = React.useState<"color" | "image">("color")
   const [folderColor, setFolderColor] = React.useState("blue")
   const [strokeStyle, setStrokeStyle] = React.useState<"none" | "common" | "dashed">("common")
 
   return (
-    <BottomSlidingModal defaultOpen>
+    <BottomSlidingModal
+      defaultOpen
+      onOpenChange={(open) => {
+        if (!open) onClose?.()
+      }}
+    >
       <BottomSlidingModalContent
         header={
           <SectionTitle

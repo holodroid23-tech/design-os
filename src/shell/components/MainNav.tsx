@@ -20,13 +20,13 @@ interface MainNavProps {
   onNavigate?: (href: string) => void
 }
 
-export function MainNav({ 
-  navigationItems, 
-  user, 
-  onNavigate, 
+export function MainNav({
+  navigationItems,
+  user,
+  onNavigate,
 }: MainNavProps) {
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 flex h-20 w-full items-center justify-around border-t border-white/5 bg-[#111114] px-4 pb-safe">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 flex h-20 w-full items-center justify-around border-t border-white/5 bg-[#000000] px-4 pb-safe">
       {navigationItems.map((item) => {
         const Icon = item.icon
         return (
@@ -35,15 +35,15 @@ export function MainNav({
             onClick={() => onNavigate?.(item.href)}
             className={cn(
               "flex flex-1 flex-col items-center justify-center gap-1 py-1 transition-colors focus:outline-hidden",
-              item.isActive 
-                ? "text-white" 
+              item.isActive
+                ? "text-white"
                 : "text-stone-400 hover:text-stone-200"
             )}
           >
             <div className={cn(
               "flex size-12 items-center justify-center rounded-xl transition-all duration-200",
-              item.isActive 
-                ? "bg-white/10 shadow-sm" 
+              item.isActive
+                ? "bg-white/10 shadow-sm"
                 : "bg-transparent active:bg-white/5"
             )}>
               <Icon className={cn("size-6", item.isActive ? "stroke-[2.5]" : "stroke-[2]")} />

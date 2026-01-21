@@ -20,9 +20,9 @@ export function AppShell({
   onNavigate,
 }: AppShellProps) {
   return (
-    <div className="flex min-h-screen flex-col bg-[#fafafa] text-stone-900 dark:bg-[#0a0a0a] dark:text-stone-50">
+    <div className="flex h-[100dvh] flex-col bg-background text-foreground overflow-hidden">
       {/* Content Area */}
-      <main className="flex-1 pb-24 animate-fade-in">
+      <main className="flex-1 pb-safe animate-fade-in overflow-y-auto">
         {children}
       </main>
 

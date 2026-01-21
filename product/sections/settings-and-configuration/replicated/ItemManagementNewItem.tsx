@@ -24,7 +24,11 @@ export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function ItemManagementNewItem() {
+export interface ItemManagementNewItemProps {
+  onClose?: () => void
+}
+
+export default function ItemManagementNewItem({ onClose }: ItemManagementNewItemProps) {
   const [name, setName] = React.useState("")
   const [favorite, setFavorite] = React.useState(false)
   const [folder, setFolder] = React.useState<string | number>("hot-coffees")
@@ -35,7 +39,12 @@ export default function ItemManagementNewItem() {
   const [strokeStyle, setStrokeStyle] = React.useState<StrokeStyleOption>("common")
 
   return (
-    <BottomSlidingModal defaultOpen>
+    <BottomSlidingModal
+      defaultOpen
+      onOpenChange={(open) => {
+        if (!open) onClose?.()
+      }}
+    >
       <BottomSlidingModalContent
         header={
           <SectionTitle

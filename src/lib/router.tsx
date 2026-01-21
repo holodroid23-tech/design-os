@@ -7,13 +7,24 @@ import { SectionPage } from '@/components/SectionPage'
 import { ShellDesignPage, ShellDesignFullscreen } from '@/components/ShellDesignPage'
 import { ExportPage } from '@/components/ExportPage'
 
+import MobileApp from '@/MobileApp'
+
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <ProductPage />,
   },
   {
+    path: '/app',
+    element: <MobileApp />,
+  },
+  {
+    path: '/live',
+    element: <MobileApp isFrame={false} />,
+  },
+  {
     path: '/data-model',
+
     element: <DataModelPage />,
   },
   {

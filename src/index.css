@@ -307,17 +307,16 @@
   Dark theme - Warm Stone dark palette
 */
 .dark {
-  /* Backgrounds & Foregrounds - Stone dark */
-  --background: oklch(0.216 0.006 56.043);
-  /* stone-900 #1C1917 */
+  /* Backgrounds & Foregrounds - Pure black base */
+  --background: #000000;
   --foreground: oklch(0.985 0.001 106.424);
   /* stone-50 */
-  --card: oklch(0.268 0.007 34.298);
-  /* stone-800 #292524 */
+  --card: #111111;
+  /* Very dark gray */
   --card-foreground: oklch(0.985 0.001 106.424);
   /* stone-50 */
-  --popover: oklch(0.268 0.007 34.298);
-  /* stone-800 */
+  --popover: #111111;
+  /* Very dark gray */
   --popover-foreground: oklch(0.985 0.001 106.424);
   /* stone-50 */
   /* Primary - Green (from ComPOSt system: #15a43e) */
