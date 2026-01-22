@@ -386,8 +386,8 @@
   --sidebar-ring: oklch(0.553 0.013 58.071);
   /* stone-500 */
 
-  /* Layered elevation (Dark) - Strong white glow */
-  --elevation-layered: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 12px 32px -6px rgba(255, 255, 255, 0.25), 0 32px 64px -12px rgba(255, 255, 255, 0.15);
+  /* Layered elevation (Dark) - Deep black shadow for depth */
+  --elevation-layered: 0 0 0 1px rgba(0, 0, 0, 0.5), 0 12px 24px -4px rgba(0, 0, 0, 0.6), 0 24px 48px -8px rgba(0, 0, 0, 0.6), 0 40px 80px -12px rgba(0, 0, 0, 0.5);
 }
 
 /* Base layer styles */
@@ -565,4 +565,19 @@
 @utility text-support-tiny {
   font-size: 10px;
   line-height: 12px;
+}
+
+/* Pulse glow animation for "emitting light" effect */
+/* Glassmorphism utilities */
+@utility glass-floating-bar {
+  /* Base: dark semi-transparent glass with blur */
+  @apply bg-stone-900/60 backdrop-blur-xl text-foreground border border-white/10 overflow-hidden shadow-layered rounded-[18px];
+}
+
+@utility glass-modal-full {
+  @apply bg-black/80 backdrop-blur-xl text-foreground border-t border-white/10 rounded-t-[24px] shadow-none h-[calc(100%-1rem)] mt-4;
+}
+
+@utility glass-card {
+  @apply bg-card/50 backdrop-blur-md border border-border overflow-hidden shadow-layered rounded-[18px];
 }

@@ -154,39 +154,43 @@ export function OrderExpandableSummary({
           <button
             type="button"
             className={cn(
-              "w-full cursor-pointer active:scale-[0.99] transition-all relative group h-[96px] flex flex-col justify-center text-left",
-              // Hide when maximized to avoid "double card" look.
+              "w-full cursor-pointer active:scale-[0.99] transition-all relative group h-[72px] flex flex-col justify-center text-left px-5",
+              // Hide when maximized `to avoid "double card" look.
               isOpen ? "opacity-0 pointer-events-none" : "opacity-100",
               // Darker, more “elevated” surface for the floating summary bar.
-              "overflow-hidden rounded-[18px] border border-white/10 shadow-layered",
-              "bg-stone-900 text-foreground",
-              "supports-[backdrop-filter]:backdrop-blur-md supports-[backdrop-filter]:bg-stone-900/90",
+              "glass-floating-bar",
               collapsedClassName
             )}
             aria-label={collapsedAriaLabel}
           >
-            <div className="flex items-center justify-between mt-1 px-4">
-              <div className="flex flex-col min-w-0">
-                <div className="text-[30px] leading-none font-bold tracking-tight font-mono">
-                  {formatMoney(computedTotal)}
+            <div className="flex items-center justify-between w-full">
+              {/* Left Side: Summary Text */}
+              <div className="flex flex-col min-w-0 pr-4">
+                <div className="text-[14px] leading-tight font-medium text-onLayer-secondary truncate">
+                  {collapsedSummary || "No items"}
                 </div>
-                <div className="text-[12px] leading-[16px] text-onLayer-secondary mt-1 truncate max-w-[240px]">
-                  {collapsedSummary}
+                <div className="text-[12px] leading-tight text-onLayer-tertiary">
+                  {items.length} {items.length === 1 ? 'item' : 'items'}
                 </div>
               </div>
 
-              <Button
-                asChild
-                variant="invisible"
-                size="icon"
-                // Match the standard invisible icon-button pattern, but remove the circular hover “blob”
-                // since this control sits on a floating bar already.
-                className="text-onLayer-secondary hover:text-onLayer-primary hover:bg-transparent dark:hover:bg-transparent"
-              >
-                <span aria-hidden="true">
-                  <SystemIcon icon={ChevronDown} size="huge" className="rotate-180" aria-hidden="true" />
-                </span>
-              </Button>
+              {/* Right Side: Total Price & Chevron */}
+              <div className="flex items-center gap-3 shrink-0">
+                <div className="text-[24px] leading-none font-bold tracking-tight font-mono whitespace-nowrap">
+                  {formatMoney(computedTotal)}
+                </div>
+
+                <Button
+                  asChild
+                  variant="invisible"
+                  size="icon"
+                  className="text-onLayer-secondary group-hover:text-onLayer-primary hover:bg-transparent dark:hover:bg-transparent -mr-2"
+                >
+                  <span aria-hidden="true">
+                    <SystemIcon icon={ChevronDown} size="big" className="rotate-180" aria-hidden="true" />
+                  </span>
+                </Button>
+              </div>
             </div>
           </button>
         </BottomSlidingModalTrigger>
@@ -262,11 +266,11 @@ export function OrderExpandableSummary({
             </div>
           }
           scaffoldProps={{
-            // Darker expanded surface to match the collapsed bar.
-            className: "bg-black text-foreground border-border-inverse",
+            // Expanded surface: Full screen feel, no shadow, transparent blur background
+            className: "glass-modal-full",
             headerClassName: "px-6 pt-7 pb-4",
             bodyClassName: "min-h-0",
-            footerClassName: "bg-black border-t border-border-inverse p-6 pt-5",
+            footerClassName: "bg-transparent border-t border-border-inverse p-6 pt-5",
           }}
         >
           <div className="px-6 pb-4">
