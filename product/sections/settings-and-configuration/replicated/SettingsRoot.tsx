@@ -82,7 +82,7 @@ export default function SettingsRoot({
 }: SettingsRootProps) {
   return (
     <div className="h-full w-full overflow-y-auto">
-      <div className="flex flex-col gap-4 px-4 pt-4 min-h-full">
+      <div className="flex flex-col gap-4 px-4 pt-4">
         {/* Block 1: Header */}
         <SectionTitle titleAs="h1">
           {title}

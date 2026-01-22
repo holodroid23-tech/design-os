@@ -32,7 +32,7 @@ const selectTriggerVariants = cva(
         default: "border-input border bg-transparent dark:bg-input/30 dark:hover:bg-input/50",
       },
       size: {
-        default: "h-9",
+        default: "h-11",
         sm: "h-8",
       }
     },
