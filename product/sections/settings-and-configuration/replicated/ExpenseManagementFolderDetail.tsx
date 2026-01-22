@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronLeft } from "lucide-react"
+import { ChevronLeft, Plus } from "lucide-react"
 
 import { SectionTitle } from "@/components/ui/section-title"
 import { Button } from "@/components/ui/button"
@@ -13,8 +13,16 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from "@/components/settings/settings-item"
+import ExpenseManagementNewItem from "./ExpenseManagementNewItem"
 
-export default function ExpenseManagementFolderDetail() {
+interface ExpenseManagementFolderDetailProps {
+  onBack?: () => void
+}
+
+export default function ExpenseManagementFolderDetail({ onBack }: ExpenseManagementFolderDetailProps) {
+  const [addingItem, setAddingItem] = React.useState(false)
+  const [showTopControls, setShowTopControls] = React.useState(true)
+  const lastScrollTopRef = React.useRef(0)
   const items = [
     { id: "electricity-bill", label: "Electricity bill" },
     { id: "water-supply", label: "Water supply" },
@@ -36,8 +44,13 @@ export default function ExpenseManagementFolderDetail() {
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
-      <div className="px-6 py-4 sticky top-0 bg-background z-10 border-b">
-        <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
+      <div className="px-4 py-4 sticky top-0 bg-background z-10 border-b">
+        <Button
+          type="button"
+          variant="invisible"
+          className="group w-full h-auto p-0 justify-start text-left"
+          onClick={onBack}
+        >
           <SectionTitle
             interactive
             leading={
@@ -49,13 +62,48 @@ export default function ExpenseManagementFolderDetail() {
         </Button>
       </div>
 
-      {/* Block 2: Toggle List */}
-      <div className="flex-1 overflow-auto px-6 py-4">
+      {/* Block 2: Actions & List */}
+      <div
+        className="flex-1 overflow-auto px-4 py-4"
+        onScroll={(e) => {
+          const scrollTop = e.currentTarget.scrollTop
+          const prev = lastScrollTopRef.current
+          const delta = scrollTop - prev
+
+          if (scrollTop < 8) {
+            setShowTopControls(true)
+          } else if (delta > 10) {
+            setShowTopControls(false)
+          } else if (delta < -10) {
+            setShowTopControls(true)
+          }
+
+          lastScrollTopRef.current = scrollTop
+        }}
+      >
+        <div
+          className={`sticky top-0 z-10 bg-background pb-4 transition-transform duration-200 ${showTopControls ? "translate-y-0" : "-translate-y-[calc(100%+30px)]"
+            }`}
+        >
+          <div className="flex items-center gap-3">
+            <Button className="flex-1" onClick={() => setAddingItem(true)}>
+              <Plus />
+              <span>Add expense</span>
+            </Button>
+            <Button variant="ghost" className="flex-1" onClick={() => console.log("Import")}>
+              <span>Import</span>
+            </Button>
+          </div>
+        </div>
+
         <div className="space-y-3">
           {items.map((item) => (
             <SettingsGroup key={item.id}>
               <SettingsItem asChild>
-                <div>
+                <div
+                  className="cursor-pointer active:opacity-70 transition-opacity"
+                  onClick={() => setAddingItem(true)}
+                >
                   <SettingsItemIcon>
                     <ImageTile size="small" alt="" />
                   </SettingsItemIcon>
@@ -74,6 +122,7 @@ export default function ExpenseManagementFolderDetail() {
                         }))
                       }
                       aria-label={`Toggle ${item.label}`}
+                      onClick={(e) => e.stopPropagation()}
                     />
                   </SettingsItemAction>
                 </div>
@@ -83,13 +132,13 @@ export default function ExpenseManagementFolderDetail() {
         </div>
       </div>
 
-      {/* Block 3: Primary Action */}
-      <div className="sticky bottom-0 z-10 border-t bg-background p-6">
-        <Button size="lg" className="w-full">
-          Add expense
-        </Button>
-      </div>
+      {/* Block 3: Actions - Moved to top */}
+
+      {addingItem && (
+        <ExpenseManagementNewItem onClose={() => setAddingItem(false)} />
+      )}
     </div>
   )
 }
+
 

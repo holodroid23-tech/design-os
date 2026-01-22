@@ -20,7 +20,7 @@ export function AppShell({
   onNavigate,
 }: AppShellProps) {
   return (
-    <div className="flex h-[100dvh] flex-col bg-background text-foreground overflow-hidden">
+    <div className="flex h-full flex-col bg-background text-foreground overflow-hidden">
       {/* Content Area */}
       <main className="flex-1 pb-20 animate-fade-in relative overflow-hidden">
         {children}

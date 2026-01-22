@@ -34,10 +34,12 @@ function BottomMenuContent({
   children,
   showCloseButton = true,
   showHeader = true,
+  noPadding = false,
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
   showHeader?: boolean
+  noPadding?: boolean
 }) {
   // Standardize: Bottom menus always use the canonical bottom sliding modal + scaffold header.
   return (
@@ -64,10 +66,11 @@ function BottomMenuContent({
       }
       {...props}
     >
-      <div className="p-4">{children}</div>
+      {noPadding ? children : <div className="p-4">{children}</div>}
     </BottomSlidingModalContent>
   )
 }
+
 
 function BottomMenuItem({
   className,

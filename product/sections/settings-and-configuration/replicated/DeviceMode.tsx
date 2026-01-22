@@ -85,6 +85,27 @@ export default function DeviceMode({ onBack }: DeviceModeProps) {
                     </RadioButtonGroupItem>
                 </RadioButtonGroup>
             </div>
+
+            {/* Block 3: Fullscreen Test */}
+            <div className="px-6 py-4 mt-auto pb-12">
+                <Button
+                    variant="outline"
+                    className="w-full"
+                    onClick={() => {
+                        if (!document.fullscreenElement) {
+                            document.documentElement.requestFullscreen().catch(err => {
+                                console.error(`Error attempting to enable fullscreen mode: ${err.message}`);
+                            });
+                        } else {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen();
+                            }
+                        }
+                    }}
+                >
+                    Toggle Fullscreen
+                </Button>
+            </div>
         </div>
     )
 }

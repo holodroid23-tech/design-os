@@ -3,6 +3,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import { SlidingSelector } from "./sliding-selector"
 import { Button } from "./button"
 import { ChevronDown } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 interface SelectOption {
     value: string | number
@@ -28,6 +29,7 @@ interface SelectWithSlidingProps {
      * When false, removes the modal header (title/close).
      */
     slidingShowHeader?: boolean
+    className?: string
 }
 
 export function SelectWithSliding({
@@ -40,6 +42,7 @@ export function SelectWithSliding({
     disabled,
     slidingPresentation,
     slidingShowHeader,
+    className,
 }: SelectWithSlidingProps) {
     const [open, setOpen] = React.useState(false)
     const [internalValue, setInternalValue] = React.useState<string | number | undefined>(
@@ -62,7 +65,7 @@ export function SelectWithSliding({
                     type="button"
                     variant="select"
                     disabled={disabled}
-                    className="w-full justify-between"
+                    className={cn("w-full justify-between", className)}
                     onClick={() => !disabled && setOpen(true)}
                 >
                     <span className="truncate">{selectedLabel}</span>

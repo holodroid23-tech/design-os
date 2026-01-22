@@ -35,7 +35,7 @@ const productTileVariants = cva(
 
 export interface ProductTileProps
   extends Omit<React.HTMLAttributes<HTMLElement>, "children" | "onClick">,
-    VariantProps<typeof productTileVariants> {
+  VariantProps<typeof productTileVariants> {
   element?: ProductTileElement
   /**
    * Main item name displayed in the center.

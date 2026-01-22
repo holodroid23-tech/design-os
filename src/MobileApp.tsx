@@ -21,6 +21,7 @@ import SuggestFeature from "@product/sections/settings-and-configuration/replica
 import ReportBug from "@product/sections/settings-and-configuration/replicated/ReportBug"
 import ActivityAndReportsManagerAdminView from "@product/sections/activity-and-reports/replicated/ActivityAndReportsManagerAdminView"
 import CreateExpense from "@product/sections/daily-expenses/replicated/CreateExpense"
+import { StatusBar } from "@/shell/components/StatusBar"
 
 type AppView = 'orders' | 'expenses' | 'activity' | 'settings' | 'payment-success' |
     'settings-printer' | 'settings-general' | 'settings-inventory' | 'settings-users' | 'settings-profile' |
@@ -31,7 +32,7 @@ export interface MobileAppProps {
     isFrame?: boolean
 }
 
-export default function MobileApp({ isFrame = true }: MobileAppProps) {
+export default function MobileApp({ isFrame = false }: MobileAppProps) {
     const [activeView, setActiveView] = React.useState<AppView>('orders')
     const [viewStack, setViewStack] = React.useState<AppView[]>(['orders'])
     const [isCreatingExpenseInActivity, setIsCreatingExpenseInActivity] = React.useState(false)
@@ -164,6 +165,12 @@ export default function MobileApp({ isFrame = true }: MobileAppProps) {
             case 'settings':
                 return (
                     <SettingsRoot
+                        user={{
+                            name: user.name,
+                            email: 'holodroid23@gmail.com',
+                            badgeText: user.role === 'Store Manager' ? 'Admin' : 'Staff',
+                            status: 'online'
+                        }}
                         onPressDestination={(id) => {
                             if (id === 'printer') navigateTo('settings-printer')
                             if (id === 'general') navigateTo('settings-general')
@@ -188,7 +195,16 @@ export default function MobileApp({ isFrame = true }: MobileAppProps) {
             case 'settings-users':
                 return <UsersList onBack={goBack} />
             case 'settings-profile':
-                return <UserProfile onBack={goBack} />
+                return (
+                    <UserProfile
+                        user={{
+                            fullName: user.name,
+                            emailAddress: 'holodroid23@gmail.com',
+                            roleTag: user.role === 'Store Manager' ? 'Admin' : 'Staff'
+                        }}
+                        onBack={goBack}
+                    />
+                )
             case 'settings-device-mode':
                 return <DeviceMode onBack={goBack} />
             case 'settings-receipt':
@@ -227,12 +243,22 @@ export default function MobileApp({ isFrame = true }: MobileAppProps) {
     )
 
     if (!isFrame) {
-        return <div className="dark h-[100dvh] bg-background">{content}</div>
+        return (
+            <div className="dark h-[100dvh] bg-background flex flex-col">
+                <StatusBar className="relative z-[100] px-1 pt-1 shrink-0" />
+                <div className="flex-1 overflow-hidden relative">
+                    {content}
+                </div>
+            </div>
+        )
     }
 
     return (
         <div className="dark mx-auto w-full max-w-[420px] aspect-[9/19.5] border border-border bg-background shadow-2xl overflow-hidden relative flex flex-col">
-            {content}
+            <StatusBar className="relative z-[100] mt-1" />
+            <div className="flex-1 overflow-hidden relative">
+                {content}
+            </div>
         </div>
     )
 }

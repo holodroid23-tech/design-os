@@ -84,8 +84,8 @@
 
   /* On Layer */
   --color-onLayer-primary: #f9f9fa;
-  --color-onLayer-secondary: #b5b5b7;
-  --color-onLayer-tertiary: #6d6d71;
+  --color-onLayer-secondary: #d4d4d8;
+  --color-onLayer-tertiary: #a1a1aa;
   --color-onLayer-inverse: #f9f9fa;
   --color-onLayer-interactive: #148134;
   --color-onLayer-warning: #e1ab11;
@@ -179,6 +179,9 @@
 
   /* Mapping semantic names to DS tokens */
   --color-tertiary: var(--color-onLayer-tertiary);
+
+  /* New layered elevation */
+  --shadow-layered: var(--elevation-layered);
 }
 
 /* Shadcn theme integration */
@@ -301,6 +304,9 @@
   /* stone-200 */
   --sidebar-ring: oklch(0.553 0.013 58.071);
   /* stone-500 */
+
+  /* Layered elevation (Light) */
+  --elevation-layered: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 12px 24px -6px rgba(0, 0, 0, 0.15), 0 24px 60px -12px rgba(0, 0, 0, 0.1);
 }
 
 /*
@@ -324,16 +330,16 @@
   /* green-600 #16a34a (close to #15a43e) */
   --primary-foreground: oklch(1 0 0);
   /* white */
-  /* Secondary - Stone medium */
-  --secondary: oklch(0.444 0.011 73.639);
-  /* stone-600 */
+  /* Secondary - Stone medium grey for active states */
+  --secondary: oklch(0.350 0.007 34.298);
+  /* stone-750ish */
   --secondary-foreground: oklch(0.985 0.001 106.424);
   /* stone-50 */
-  /* Muted - Stone dark */
-  --muted: oklch(0.318 0.008 43.185);
-  /* stone-700 */
-  --muted-foreground: oklch(0.709 0.01 56.259);
-  /* stone-400 #A8A29E */
+  /* Muted - Neutral dark for containers */
+  --muted: oklch(0.180 0.003 34.298);
+  /* stone-900ish */
+  --muted-foreground: oklch(0.700 0.003 34.298);
+  /* stone-450ish */
   /* Accent - Stone dark */
   --accent: oklch(0.318 0.008 43.185);
   /* stone-700 */
@@ -379,6 +385,9 @@
   /* stone-600 */
   --sidebar-ring: oklch(0.553 0.013 58.071);
   /* stone-500 */
+
+  /* Layered elevation (Dark) - Strong white glow */
+  --elevation-layered: 0 0 0 1px rgba(255, 255, 255, 0.15), 0 12px 32px -6px rgba(255, 255, 255, 0.25), 0 32px 64px -12px rgba(255, 255, 255, 0.15);
 }
 
 /* Base layer styles */

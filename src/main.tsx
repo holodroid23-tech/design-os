@@ -4,6 +4,8 @@ import { RouterProvider } from 'react-router-dom'
 import './index.css'
 import { router } from '@/lib/router'
 
+document.documentElement.classList.add('dark')
+
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <RouterProvider router={router} />

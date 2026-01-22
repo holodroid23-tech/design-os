@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronLeft } from "lucide-react"
+import { ChevronLeft, Plus } from "lucide-react"
 
 import { SectionTitle } from "@/components/ui/section-title"
 import { Button } from "@/components/ui/button"
@@ -14,12 +14,20 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from "@/components/settings/settings-item"
+import ItemManagementNewItem from "./ItemManagementNewItem"
 
 export const designOS = {
   presentation: "mobile" as const,
 }
 
-export default function InventoryManagementFolderDetail() {
+interface InventoryManagementFolderDetailProps {
+  onBack?: () => void
+}
+
+export default function InventoryManagementFolderDetail({ onBack }: InventoryManagementFolderDetailProps) {
+  const [addingItem, setAddingItem] = React.useState(false)
+  const [showTopControls, setShowTopControls] = React.useState(true)
+  const lastScrollTopRef = React.useRef(0)
   const items = [
     { id: "electricity-bill", label: "Electricity bill", price: "$120.00" },
     { id: "water-supply", label: "Water supply", price: "$45.00" },
@@ -41,8 +49,13 @@ export default function InventoryManagementFolderDetail() {
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
-      <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
-        <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left">
+      <div className="sticky top-0 z-10 border-b bg-background px-4 py-4">
+        <Button
+          type="button"
+          variant="invisible"
+          className="group w-full h-auto p-0 justify-start text-left"
+          onClick={onBack}
+        >
           <SectionTitle
             interactive
             leading={
@@ -54,13 +67,48 @@ export default function InventoryManagementFolderDetail() {
         </Button>
       </div>
 
-      {/* Block 2: Toggle List */}
-      <div className="flex-1 overflow-auto px-6 py-4">
+      {/* Block 2: Actions & List */}
+      <div
+        className="flex-1 overflow-auto px-4 py-4"
+        onScroll={(e) => {
+          const scrollTop = e.currentTarget.scrollTop
+          const prev = lastScrollTopRef.current
+          const delta = scrollTop - prev
+
+          if (scrollTop < 8) {
+            setShowTopControls(true)
+          } else if (delta > 10) {
+            setShowTopControls(false)
+          } else if (delta < -10) {
+            setShowTopControls(true)
+          }
+
+          lastScrollTopRef.current = scrollTop
+        }}
+      >
+        <div
+          className={`sticky top-0 z-10 bg-background pb-4 transition-transform duration-200 ${showTopControls ? "translate-y-0" : "-translate-y-[calc(100%+30px)]"
+            }`}
+        >
+          <div className="flex items-center gap-3">
+            <Button className="flex-1" onClick={() => setAddingItem(true)}>
+              <Plus />
+              <span>Add item</span>
+            </Button>
+            <Button variant="ghost" className="flex-1" onClick={() => console.log("Import")}>
+              <span>Import</span>
+            </Button>
+          </div>
+        </div>
+
         <div className="space-y-3">
           {items.map((item) => (
             <SettingsGroup key={item.id}>
               <SettingsItem asChild>
-                <div>
+                <div
+                  className="cursor-pointer active:opacity-70 transition-opacity"
+                  onClick={() => setAddingItem(true)}
+                >
                   <SettingsItemIcon>
                     <ImageTile size="small" alt="" className="rounded-[12px]" />
                   </SettingsItemIcon>
@@ -80,6 +128,7 @@ export default function InventoryManagementFolderDetail() {
                         }))
                       }
                       aria-label={`Toggle ${item.label}`}
+                      onClick={(e) => e.stopPropagation()}
                     />
                   </SettingsItemAction>
                 </div>
@@ -89,13 +138,13 @@ export default function InventoryManagementFolderDetail() {
         </div>
       </div>
 
-      {/* Block 3: Primary Action */}
-      <div className="sticky bottom-0 z-10 border-t bg-background p-6">
-        <Button size="lg" variant="ghost" className="w-full">
-          Add item
-        </Button>
-      </div>
+      {/* Block 3: Actions - Moved to top */}
+
+      {addingItem && (
+        <ItemManagementNewItem onClose={() => setAddingItem(false)} />
+      )}
     </div>
   )
 }
+
 

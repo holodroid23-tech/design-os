@@ -68,7 +68,7 @@ export function OrderExpandableCard({
     <Collapsible
       className={cn(
         // Intentionally background-agnostic: let the parent surface show through.
-        "rounded-[18px] border border-border overflow-hidden",
+        "rounded-[18px] border border-border overflow-hidden shadow-layered",
         containerClassName,
         className
       )}

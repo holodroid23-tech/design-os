@@ -34,6 +34,11 @@
             "description": "Maximum shadow for items with significant depth.",
             "usage": "Floating navigation, search suggestions"
         },
+        "layered": {
+            "value": "0 0 0 1px rgba(255,255,255,0.1), 0 8px 20px -4px rgba(0,0,0,0.1), 0 20px 50px -10px rgba(0,0,0,0.1)",
+            "description": "Complex layered shadow for maximum visibility and depth on all backgrounds.",
+            "usage": "High-priority floating elements, major modals"
+        },
         "inner": {
             "value": "inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)",
             "description": "Inset shadow for pressed states.",

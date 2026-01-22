@@ -15,6 +15,7 @@ export interface OrderTabsProps extends Omit<React.HTMLAttributes<HTMLDivElement
   value: string
   onValueChange?: (next: string) => void
   onAddTab?: () => void
+  onTabClick?: (id: string) => void
   addTabAriaLabel?: string
   showAddButton?: boolean
 }
@@ -30,6 +31,7 @@ export function OrderTabs({
   value,
   onValueChange,
   onAddTab,
+  onTabClick,
   addTabAriaLabel = "Add order",
   showAddButton = true,
   className,
@@ -63,7 +65,13 @@ export function OrderTabs({
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => onValueChange?.(tab.id)}
+                onClick={() => {
+                  if (isSelected && onTabClick) {
+                    onTabClick(tab.id)
+                  } else {
+                    onValueChange?.(tab.id)
+                  }
+                }}
                 className={cn(
                   "relative group flex items-center gap-2 px-4 h-10 rounded-full text-sm font-medium transition-all whitespace-nowrap select-none shrink-0",
                   isSelected
@@ -77,7 +85,7 @@ export function OrderTabs({
                   <span
                     className={cn(
                       "flex items-center justify-center h-5 min-w-[20px] px-1 rounded text-[10px] font-bold leading-none",
-                      isSelected ? "bg-primary-foreground/20 text-primary-foreground" : "bg-muted text-muted-foreground"
+                      isSelected ? "bg-primary-foreground/20 text-primary-foreground" : "bg-primary text-primary-foreground"
                     )}
                   >
                     {tab.count}

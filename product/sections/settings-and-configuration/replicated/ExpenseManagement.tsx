@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronLeft, Folder } from "lucide-react"
+import { ChevronLeft, Folder, Plus } from "lucide-react"
 
 import { SectionTitle } from "@/components/ui/section-title"
 import { Button } from "@/components/ui/button"
@@ -17,6 +17,7 @@ import {
 } from "@/components/settings/settings-item"
 import ExpenseManagementNewItem from "./ExpenseManagementNewItem"
 import ExpenseManagementNewFolder from "./ExpenseManagementNewFolder"
+import ExpenseManagementFolderDetail from "./ExpenseManagementFolderDetail"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -29,6 +30,9 @@ export interface ExpenseManagementProps {
 export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
   const [addingItem, setAddingItem] = React.useState(false)
   const [addingFolder, setAddingFolder] = React.useState(false)
+  const [selectedFolder, setSelectedFolder] = React.useState<string | null>(null)
+  const [showTopControls, setShowTopControls] = React.useState(true)
+  const lastScrollTopRef = React.useRef(0)
 
   const folders = [
     { id: "monthly-utilities", label: "Monthly utilities", countLabel: "12 items" },
@@ -59,10 +63,14 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
     "equipment-maintenance": true,
   })
 
+  if (selectedFolder) {
+    return <ExpenseManagementFolderDetail onBack={() => setSelectedFolder(null)} />
+  }
+
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
-      <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
+      <div className="sticky top-0 z-10 border-b bg-background px-4 py-4">
         <Button
           type="button"
           variant="invisible"
@@ -80,13 +88,52 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
         </Button>
       </div>
 
-      {/* Block 2: List */}
-      <div className="flex-1 overflow-auto px-6 py-4">
+      {/* Block 2: Actions & List */}
+      <div
+        className="flex-1 overflow-auto px-4 py-4"
+        onScroll={(e) => {
+          const scrollTop = e.currentTarget.scrollTop
+          const prev = lastScrollTopRef.current
+          const delta = scrollTop - prev
+
+          if (scrollTop < 8) {
+            setShowTopControls(true)
+          } else if (delta > 10) {
+            setShowTopControls(false)
+          } else if (delta < -10) {
+            setShowTopControls(true)
+          }
+
+          lastScrollTopRef.current = scrollTop
+        }}
+      >
+        <div
+          className={`sticky top-0 z-10 bg-background pb-4 transition-transform duration-200 ${showTopControls ? "translate-y-0" : "-translate-y-[calc(100%+30px)]"
+            }`}
+        >
+          <div className="flex items-center gap-3">
+            <Button className="flex-1" onClick={() => setAddingItem(true)}>
+              <Plus />
+              <span>Add expense</span>
+            </Button>
+            <Button variant="secondary" className="flex-1" onClick={() => setAddingFolder(true)}>
+              <Folder />
+              <span>Add folder</span>
+            </Button>
+            <Button variant="ghost" className="flex-1" onClick={() => console.log("Import")}>
+              <span>Import</span>
+            </Button>
+          </div>
+        </div>
+
         <div className="space-y-3">
           {folders.map((folder) => (
             <SettingsGroup key={folder.id}>
               <SettingsItem asChild>
-                <div>
+                <div
+                  className="cursor-pointer active:opacity-70 transition-opacity"
+                  onClick={() => setSelectedFolder(folder.id)}
+                >
                   <SettingsItemIcon>
                     <IconTile icon={Folder} size="small" variant="tile" tone="info" className="rounded-[12px]" />
                   </SettingsItemIcon>
@@ -106,6 +153,7 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
                         }))
                       }
                       aria-label={`Toggle ${folder.label}`}
+                      onClick={(e) => e.stopPropagation()}
                     />
                   </SettingsItemAction>
                 </div>
@@ -116,7 +164,10 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
           {expenses.map((expense) => (
             <SettingsGroup key={expense.id}>
               <SettingsItem asChild>
-                <div>
+                <div
+                  className="cursor-pointer active:opacity-70 transition-opacity"
+                  onClick={() => setAddingItem(true)}
+                >
                   <SettingsItemIcon>
                     <ImageTile size="small" alt="" className="rounded-[12px]" />
                   </SettingsItemIcon>
@@ -135,6 +186,7 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
                         }))
                       }
                       aria-label={`Toggle ${expense.label}`}
+                      onClick={(e) => e.stopPropagation()}
                     />
                   </SettingsItemAction>
                 </div>
@@ -144,21 +196,10 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
         </div>
       </div>
 
-      {/* Block 3: Actions */}
-      <div className="sticky bottom-0 z-10 border-t bg-background p-6">
-        <div className="flex gap-3">
-          <Button size="lg" variant="ghost" className="flex-1" onClick={() => setAddingFolder(true)}>
-            Add folder
-          </Button>
-          <Button size="lg" variant="ghost" className="flex-1" onClick={() => setAddingItem(true)}>
-            Add expense
-          </Button>
-        </div>
-      </div>
-
       {addingItem && <ExpenseManagementNewItem onClose={() => setAddingItem(false)} />}
       {addingFolder && <ExpenseManagementNewFolder onClose={() => setAddingFolder(false)} />}
     </div>
   )
 }
+
 

@@ -26,7 +26,7 @@ export function FloatingBottomBar({
 }: FloatingBottomBarProps) {
   return (
     <div
-      className={cn("pointer-events-none fixed inset-x-0 bottom-0 z-50", insetClassName, className)}
+      className={cn("pointer-events-none fixed inset-x-0 bottom-0 z-40", insetClassName, className)}
       {...props}
     >
       <div className="pointer-events-auto">{children}</div>

@@ -22,6 +22,8 @@ export interface ExpenseLineItemRowProps extends Omit<React.ComponentProps<typeo
 
   imageSrc?: string
   imageAlt?: string
+  color?: string
+  strokeStyle?: string
 
   editIcon?: LucideIcon
   editAriaLabel?: string
@@ -44,11 +46,44 @@ export function ExpenseLineItemRow({
   price,
   imageSrc,
   imageAlt,
+  color,
+  strokeStyle,
   editIcon: EditIcon = Pencil,
   editAriaLabel = "Edit price",
   onEdit,
   ...props
 }: ExpenseLineItemRowProps) {
+  // Helper to map stroke style to tailwind classes
+  const getStrokeClass = (style?: string) => {
+    switch (style) {
+      case 'none': return 'border-none'
+      case 'dashed': return 'border-dashed'
+      case 'dotted': return 'border-dotted'
+      case 'double': return 'border-double border-4'
+      case 'solid': return 'border-solid'
+      default: return 'border-solid' // common
+    }
+  }
+
+  // Helper to map color to tailwind border color classes
+  const getColorClass = (col?: string) => {
+    switch (col) {
+      case 'blue': return 'border-blue-500'
+      case 'green': return 'border-green-500'
+      case 'red': return 'border-red-500'
+      case 'amber': return 'border-amber-500'
+      case 'purple': return 'border-purple-500'
+      case 'orange': return 'border-orange-500'
+      case 'sky': return 'border-sky-500'
+      case 'pink': return 'border-pink-500'
+      case 'indigo': return 'border-indigo-500'
+      case 'lime': return 'border-lime-500'
+      case 'teal': return 'border-teal-500'
+      case 'slate': return 'border-slate-500'
+      default: return 'border-border'
+    }
+  }
+
   return (
     <SettingsItem
       element="div"
@@ -60,7 +95,16 @@ export function ExpenseLineItemRow({
       {...props}
     >
       <SettingsItemIcon>
-        <ImageTile size="small" src={imageSrc} alt={imageAlt ?? name} />
+        <ImageTile
+          size="small"
+          src={imageSrc}
+          alt={imageAlt ?? name}
+          className={cn(
+            getColorClass(color),
+            getStrokeClass(strokeStyle),
+            color && color !== 'slate' ? "border-2" : ""
+          )}
+        />
       </SettingsItemIcon>
 
       <SettingsItemContent>

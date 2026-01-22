@@ -12,12 +12,14 @@ import { SystemIcon } from "@/components/ui/icon"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { SelectWithSliding } from "@/components/ui/select-with-sliding"
-import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-button-group"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ColorSelector, ColorSelectorItem } from "@/components/ui/color-selector"
 import { MediaUpload } from "@/components/ui/media-upload"
 import { StrokeStyleSelector, type StrokeStyleOption } from "@/components/ui/stroke-style-selector"
 import { IconToggleButton } from "@/components/ui/icon-toggle-button"
+
+import { useExpenseProductsStore } from "@/stores/useExpenseProductsStore"
+import { useSettingsStore } from "@/stores/useSettingsStore"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -28,13 +30,66 @@ export interface ExpenseManagementNewItemProps {
 }
 
 export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementNewItemProps) {
+  // Store
+  const { folders, addFolder, addProduct } = useExpenseProductsStore()
+  const { currency } = useSettingsStore()
+
+  // State
   const [name, setName] = React.useState("")
   const [favorite, setFavorite] = React.useState(false)
-  const [category, setCategory] = React.useState<string | number>("operations")
-  const [tax, setTax] = React.useState("21%")
-  const [appearanceTab, setAppearanceTab] = React.useState<"color" | "image">("image")
+  const [folderId, setFolderId] = React.useState<string | number>("operations") // Default to operations or empty?
+  const [price, setPrice] = React.useState("")
+  const [appearanceTab, setAppearanceTab] = React.useState<"color" | "image">("color")
   const [expenseColor, setExpenseColor] = React.useState("blue")
   const [strokeStyle, setStrokeStyle] = React.useState<StrokeStyleOption>("common")
+
+  // Prepare folder options
+  const folderOptions = React.useMemo(() => {
+    return [
+      { value: "none", label: "No folder" },
+      ...folders.map((f) => ({ value: f.id, label: f.name })),
+      { value: "__create__", label: "Create new folder..." },
+    ]
+  }, [folders])
+
+  const handleFolderChange = (val: string | number) => {
+    if (val === "__create__") {
+      // Simple prompt for now - could be a nested dialog in future
+      // Using a small timeout to allow the select to close if it wants, 
+      // though typically we want to keep context.
+      setTimeout(() => {
+        const newName = window.prompt("Enter new folder name:")
+        if (newName && newName.trim()) {
+          const newId = addFolder(newName.trim())
+          setFolderId(newId)
+        } else {
+          // Revert or keep previous?
+          // If they cancelled, we just don't change anything or go back to what it was.
+          // Ideally we'd keep previous. For now, let's just not set it to __create__.
+        }
+      }, 100)
+    } else {
+      setFolderId(val)
+    }
+  }
+
+  const handleSave = () => {
+    if (!name.trim()) return
+
+    const finalFolderId = folderId === "none" || folderId === "__create__" ? null : String(folderId)
+    const amount = parseFloat(price)
+
+    addProduct({
+      name,
+      folderId: finalFolderId,
+      defaultPrice: isNaN(amount) ? 0 : amount,
+      color: expenseColor,
+      strokeStyle,
+      isFavorite: favorite,
+    })
+
+    onClose?.()
+  }
 
   return (
     <BottomSlidingModal
@@ -55,25 +110,26 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
               </BottomSlidingModalClose>
             }
           >
-            New expense
+            New item
           </SectionTitle>
         }
         footer={
-          <Button size="lg" className="w-full">
-            Save expense
+          <Button size="lg" className="w-full" onClick={handleSave}>
+            Save item
           </Button>
         }
       >
-        {/* Block 2: Name */}
+        {/* Block 1: Name & Favorite */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-2">
-            <Label htmlFor="new-expense-name">Name</Label>
+            <Label htmlFor="new-item-name">Name</Label>
             <div className="flex items-center gap-3">
               <Input
-                id="new-expense-name"
-                placeholder="e.g. Monthly Rent"
+                id="new-item-name"
+                placeholder="e.g. Flat White"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
+                className="h-11"
               />
               <IconToggleButton
                 pressed={favorite}
@@ -83,49 +139,49 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
                 variant="ghost"
                 fillIconWhenPressed
                 pressedIconClassName="text-amber-400 fill-amber-400"
+                className="h-11 w-11 [&_svg]:size-6" // Increased size
               />
             </div>
           </div>
         </div>
 
-        {/* Block 3: Category */}
+        {/* Block 2: Folder */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-2">
-            <Label>Category</Label>
+            <Label>Folder</Label>
             <SelectWithSliding
               variant="sliding"
-              placeholder="Select a category"
-              value={category}
-              onValueChange={setCategory}
-              options={[
-                { value: "operations", label: "Operations" },
-                { value: "rent", label: "Rent" },
-                { value: "utilities", label: "Utilities" },
-                { value: "suppliers", label: "Suppliers" },
-              ]}
+              placeholder="Select a folder"
+              value={folderId}
+              onValueChange={handleFolderChange}
+              options={folderOptions}
+              className="h-11" // Match input height
+              slidingPresentation="picker"
             />
           </div>
         </div>
 
-        {/* Block 4: Tax */}
+        {/* Block 3: Price */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-2">
-            <Label>Tax</Label>
-            <RadioButtonGroup value={tax} onValueChange={setTax}>
-              <RadioButtonGroupItem value="0%" variant="default" size="lg">
-                0%
-              </RadioButtonGroupItem>
-              <RadioButtonGroupItem value="10%" variant="default" size="lg">
-                10%
-              </RadioButtonGroupItem>
-              <RadioButtonGroupItem value="21%" variant="default" size="lg">
-                21%
-              </RadioButtonGroupItem>
-            </RadioButtonGroup>
+            <Label htmlFor="new-item-price">Enter price</Label>
+            <div className="relative">
+              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
+                {currency}
+              </div>
+              <Input
+                id="new-item-price"
+                type="number"
+                placeholder="0.00"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                className="h-14 text-2xl pl-8 font-semibold" // Bigger input for price
+              />
+            </div>
           </div>
         </div>
 
-        {/* Block 5: Appearance */}
+        {/* Block 4: Appearance */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-3">
             <Label>Appearance</Label>
@@ -164,7 +220,7 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
           </div>
         </div>
 
-        {/* Block 6: Stroke style */}
+        {/* Block 5: Stroke style */}
         <div className="px-6 pb-6">
           <div className="flex flex-col gap-3">
             <Label>Stroke style</Label>
@@ -175,4 +231,3 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
     </BottomSlidingModal>
   )
 }
-

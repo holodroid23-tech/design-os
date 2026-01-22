@@ -12,20 +12,46 @@ import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-bu
 import { SectionTitle } from "@/components/ui/section-title"
 import { Textarea } from "@/components/ui/textarea"
 
+import { useExpenseStore } from "@/stores/useExpenseStore"
+import { useSettingsStore } from "@/stores/useSettingsStore"
+
 export const designOS = {
   presentation: "mobile" as const,
 }
 
 export interface CreateExpenseProps {
   onClose?: () => void
+  initialName?: string
+  initialAmount?: number
+  initialColor?: string
+  initialStroke?: string
 }
 
-export default function CreateExpense({ onClose }: CreateExpenseProps) {
-  const [date, setDate] = React.useState<Date | undefined>(new Date("2023-10-24"))
-  const [name, setName] = React.useState("")
-  const [price, setPrice] = React.useState("0")
+export default function CreateExpense({ onClose, initialName = "", initialAmount = 0, initialColor, initialStroke }: CreateExpenseProps) {
+  const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const [name, setName] = React.useState(initialName)
+  const [price, setPrice] = React.useState(initialAmount > 0 ? initialAmount.toString() : "0")
   const [tax, setTax] = React.useState<"0%" | "10%" | "21%">("0%")
   const [note, setNote] = React.useState("")
+
+  const { addExpense } = useExpenseStore()
+  const { currency } = useSettingsStore()
+
+  const handleSave = () => {
+    const amount = parseFloat(price)
+    if (isNaN(amount) || amount <= 0) return // Basic validation
+    if (!name.trim()) return
+
+    addExpense({
+      name,
+      amount,
+      date: date?.toISOString() || new Date().toISOString(),
+      category: "manual", // Could be enhanced
+      color: initialColor,
+      strokeStyle: initialStroke
+    })
+    onClose?.()
+  }
 
   return (
     <BottomSlidingModal
@@ -50,7 +76,7 @@ export default function CreateExpense({ onClose }: CreateExpenseProps) {
           </SectionTitle>
         }
         footer={
-          <Button size="lg" className="w-full">
+          <Button size="lg" className="w-full" onClick={handleSave}>
             Save expense
           </Button>
         }
@@ -79,7 +105,7 @@ export default function CreateExpense({ onClose }: CreateExpenseProps) {
         {/* Price */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-2">
-            <Label>Price</Label>
+            <Label>Price {currency && `(${currency})`}</Label>
             <Numpad className="max-w-none" value={price} onChange={setPrice} isCurrency={true} label="" />
           </div>
         </div>
@@ -87,7 +113,7 @@ export default function CreateExpense({ onClose }: CreateExpenseProps) {
         {/* Tax */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-2">
-            <Label>Tax</Label>
+            <Label>Tax (included)</Label>
             <RadioButtonGroup
               value={tax}
               onValueChange={(v) => setTax(v as any)}

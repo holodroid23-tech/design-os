@@ -54,6 +54,10 @@ type BottomSlidingModalContentProps = Omit<
    */
   scaffoldProps?: Omit<BottomSheetScaffoldProps, "header" | "footer" | "children">
   /**
+   * Whether to occupy the full height (e.g. for search-heavy summary views).
+   */
+  fullHeight?: boolean
+  /**
    * Bottom sheet body content.
    */
   children?: React.ReactNode
@@ -64,6 +68,7 @@ function BottomSlidingModalContent({
   header,
   footer,
   scaffoldProps,
+  fullHeight,
   children,
   ...props
 }: BottomSlidingModalContentProps) {
@@ -73,11 +78,12 @@ function BottomSlidingModalContent({
       <DialogPrimitive.Content
         data-slot="bottom-sliding-modal-content"
         className={cn(
-          "data-[state=open]:animate-in data-[state=closed]:animate-out fixed inset-x-0 bottom-0 z-50",
+          "data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50",
           "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-          // Cap height relative to the containing block (viewport or preview frame),
-          // so the header/close button never scrolls off-screen.
-          "max-h-[85%] overflow-hidden flex flex-col min-h-0 duration-300 outline-none",
+          "overflow-hidden flex flex-col min-h-0 duration-300 outline-none shadow-2xl",
+          fullHeight
+            ? "inset-x-2 bottom-2 top-10 rounded-[32px] border border-white/10 bg-black"
+            : "inset-x-0 bottom-0 max-h-[85%] rounded-t-[18px]",
           className
         )}
         {...props}
@@ -85,7 +91,10 @@ function BottomSlidingModalContent({
         <BottomSheetScaffold
           header={header}
           footer={footer}
-          className="dark"
+          className={cn(
+            "dark flex-1",
+            fullHeight ? "rounded-[32px] border-none" : "rounded-t-[18px]"
+          )}
           {...scaffoldProps}
         >
           {children}

@@ -155,10 +155,12 @@ export function OrderExpandableSummary({
             type="button"
             className={cn(
               "w-full cursor-pointer active:scale-[0.99] transition-all relative group h-[96px] flex flex-col justify-center text-left",
+              // Hide when maximized to avoid "double card" look.
+              isOpen ? "opacity-0 pointer-events-none" : "opacity-100",
               // Darker, more “elevated” surface for the floating summary bar.
-              "overflow-hidden rounded-[18px] border shadow-lg",
-              "bg-layer-1 border-border-inverse text-onLayer-primary",
-              "supports-[backdrop-filter]:backdrop-blur-md supports-[backdrop-filter]:bg-layer-1/90",
+              "overflow-hidden rounded-[18px] border border-white/10 shadow-layered",
+              "bg-stone-900 text-foreground",
+              "supports-[backdrop-filter]:backdrop-blur-md supports-[backdrop-filter]:bg-stone-900/90",
               collapsedClassName
             )}
             aria-label={collapsedAriaLabel}
@@ -190,6 +192,7 @@ export function OrderExpandableSummary({
         </BottomSlidingModalTrigger>
 
         <BottomSlidingModalContent
+          fullHeight
           className={contentClassName}
           header={
             <SectionTitle
@@ -235,7 +238,7 @@ export function OrderExpandableSummary({
               <div className="grid grid-cols-2 gap-3">
                 <Button
                   type="button"
-                  variant="secondary"
+                  variant="default"
                   className="h-12 rounded-[12px]"
                   onClick={(e) => {
                     e.stopPropagation()
@@ -246,7 +249,7 @@ export function OrderExpandableSummary({
                 </Button>
                 <Button
                   type="button"
-                  variant="secondary"
+                  variant="default"
                   className="h-12 rounded-[12px]"
                   onClick={(e) => {
                     e.stopPropagation()
@@ -260,10 +263,10 @@ export function OrderExpandableSummary({
           }
           scaffoldProps={{
             // Darker expanded surface to match the collapsed bar.
-            className: "bg-layer-1 border-border-inverse text-onLayer-primary",
+            className: "bg-black text-foreground border-border-inverse",
             headerClassName: "px-6 pt-7 pb-4",
             bodyClassName: "min-h-0",
-            footerClassName: "bg-layer-1 border-t border-border-inverse p-6 pt-5",
+            footerClassName: "bg-black border-t border-border-inverse p-6 pt-5",
           }}
         >
           <div className="px-6 pb-4">

@@ -15,6 +15,7 @@ export function BadgesTokensCard() {
           <Badge variant="destructive">Destructive</Badge>
           <Badge variant="warning">Warning</Badge>
           <Badge variant="ghost">Ghost</Badge>
+          <Badge variant="success">Success</Badge>
         </div>
       </CardContent>
     </Card>

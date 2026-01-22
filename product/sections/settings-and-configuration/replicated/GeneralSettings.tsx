@@ -9,26 +9,59 @@ import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-bu
 import { Badge } from "@/components/ui/badge"
 import { ChevronLeft, Trash2, Plus } from "lucide-react"
 
+import { useSettingsStore } from "@/stores/useSettingsStore"
+
 export interface GeneralSettingsProps {
     onBack?: () => void
 }
 
 export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
-    const [currency, setCurrency] = React.useState("usd")
-    const [useTaxes, setUseTaxes] = React.useState(true)
+    // Global State
+    const {
+        currency,
+        setCurrency,
+        areTaxesEnabled: useTaxes,
+        setTaxesEnabled: setUseTaxes,
+        taxName,
+        taxRate,
+        setTaxRate,
+        setTaxName
+    } = useSettingsStore()
+
+    // Local state for UI selection only (mapping simplified for this demo)
+    // In a real app, taxes would be a list in the store too. 
+    // For now we map the visual selection to setting the single global tax rate.
     const [selectedTaxId, setSelectedTaxId] = React.useState("tax-1")
 
     const taxes = [
-        { id: "tax-1", label: "VAT Standard", rate: "21%" },
-        { id: "tax-2", label: "Service Charge", rate: "10%" },
-        { id: "tax-3", label: "Luxury Tax", rate: "15%" },
-        { id: "tax-4", label: "New Tax", rate: "10%" },
+        { id: "tax-1", label: "VAT Standard", rate: 0.21, displayRate: "21%" },
+        { id: "tax-2", label: "Service Charge", rate: 0.10, displayRate: "10%" },
+        { id: "tax-3", label: "Luxury Tax", rate: 0.15, displayRate: "15%" },
+        { id: "tax-4", label: "New Tax", rate: 0.10, displayRate: "10%" },
     ]
 
+    // Sync store state to local state on mount
+    React.useEffect(() => {
+        const matchingTax = taxes.find(t => Math.abs(t.rate - taxRate) < 0.001)
+        if (matchingTax) {
+            setSelectedTaxId(matchingTax.id)
+        }
+    }, [taxRate])
+
+    // Sync local selection to store
+    const handleTaxSelection = (id: string) => {
+        setSelectedTaxId(id)
+        const tax = taxes.find(t => t.id === id)
+        if (tax) {
+            setTaxRate(tax.rate)
+            setTaxName(tax.label)
+        }
+    }
+
     const currencyOptions = [
-        { value: "usd", label: "USD ($)" },
-        { value: "eur", label: "EUR (€)" },
-        { value: "gbp", label: "GBP (£)" },
+        { value: "$", label: "USD ($)" },
+        { value: "€", label: "EUR (€)" },
+        { value: "£", label: "GBP (£)" },
     ]
 
     return (
@@ -126,7 +159,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
                 {useTaxes && (
                     <RadioButtonGroup
                         value={selectedTaxId}
-                        onValueChange={setSelectedTaxId}
+                        onValueChange={handleTaxSelection}
                         className="flex flex-col gap-3"
                     >
                         {taxes.map((tax) => {
@@ -150,7 +183,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
                                                 isSelected ? 'text-secondary-foreground' : 'text-foreground',
                                             ].join(' ')}
                                             >
-                                                {tax.label} {tax.rate}
+                                                {tax.label} {tax.displayRate}
                                             </span>
                                             {isSelected && (
                                                 <Badge
