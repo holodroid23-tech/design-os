@@ -9,6 +9,7 @@ export interface InventoryItem {
     imageSrc?: string
     imageAlt?: string
     isFavorite?: boolean
+    color?: string
 }
 
 interface InventoryState {
@@ -20,40 +21,36 @@ interface InventoryState {
 }
 
 const INITIAL_ITEMS: InventoryItem[] = [
-    {
-        id: "cappuccino",
-        name: "Cappuccino",
-        price: 4.5,
-        imageSrc: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=256&auto=format&fit=crop",
-        imageAlt: "Cappuccino",
-    },
-    {
-        id: "macchiato",
-        name: "Macchiato",
-        price: 3.25,
-        imageSrc: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=256&auto=format&fit=crop",
-        imageAlt: "Macchiato",
-        isFavorite: true,
-    },
-    {
-        id: "americano",
-        name: "Americano",
-        price: 4.75,
-        imageSrc: "https://images.unsplash.com/photo-1459755486867-b55449bb39ff?q=80&w=256&auto=format&fit=crop",
-        imageAlt: "Americano",
-    },
-    { id: "latte", name: "Latte", price: 4.75, imageSrc: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=256&auto=format&fit=crop", imageAlt: "Latte", isFavorite: true },
-    { id: "flat-white", name: "Flat White", price: 4.5, imageSrc: "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?q=80&w=256&auto=format&fit=crop", imageAlt: "Flat White", isFavorite: true },
-    { id: "mocha", name: "Mocha", price: 5.0, imageSrc: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=256&auto=format&fit=crop", imageAlt: "Mocha", isFavorite: true },
-    { id: "espresso", name: "Espresso", price: 3.0, imageAlt: "Espresso", isFavorite: true },
-    { id: "cold-brew", name: "Cold Brew", price: 4.5, imageSrc: "https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=256&auto=format&fit=crop", imageAlt: "Cold Brew", isFavorite: true },
-    { id: "matcha", name: "Matcha", price: 5.25, imageAlt: "Matcha", isFavorite: true },
-    { id: "cortado", name: "Cortado", price: 4.0, imageSrc: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?q=80&w=256&auto=format&fit=crop", imageAlt: "Cortado" },
-    { id: "drip", name: "Drip", price: 3.0, imageAlt: "Drip" },
-    { id: "hot-chocolate", name: "Hot Chocolate", price: 4.25, imageAlt: "Hot Chocolate" },
-    { id: "tea", name: "Tea", price: 2.75, imageAlt: "Tea" },
-    { id: "taro-latte", name: "Taro Latte", price: 5.5, imageAlt: "Taro Latte", isFavorite: true },
-    { id: "iced-matcha", name: "Iced Matcha", price: 5.25, imageAlt: "Iced Matcha" },
+    { id: "espresso", name: "Espresso", price: 3.0, color: "surface", isFavorite: true },
+    { id: "macchiato", name: "Macchiato", price: 3.25, imageSrc: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=256&auto=format&fit=crop", color: "surface", isFavorite: true },
+    { id: "latte", name: "Latte", price: 4.75, imageSrc: "https://images.unsplash.com/photo-1461023058943-07fcbe16d735?q=80&w=256&auto=format&fit=crop", color: "blue", isFavorite: true },
+    { id: "flat-white", name: "Flat White", price: 4.5, imageSrc: "https://images.unsplash.com/photo-1512568400610-62da28bc8a13?q=80&w=256&auto=format&fit=crop", color: "orange", isFavorite: true },
+    { id: "mocha", name: "Mocha", price: 5.0, imageSrc: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=256&auto=format&fit=crop", color: "gradient-purple", isFavorite: true },
+    { id: "matcha", name: "Matcha", price: 5.25, color: "green", isFavorite: true },
+    { id: "taro-latte", name: "Taro Latte", price: 5.5, color: "purple", isFavorite: true },
+    { id: "cold-brew", name: "Cold Brew", price: 4.5, imageSrc: "https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=256&auto=format&fit=crop", color: "sky", isFavorite: true },
+    { id: "cortado", name: "Cortado", price: 4.0, color: "gradient-orange", isFavorite: true },
+
+    // Solid Colors
+    { id: "blue-item", name: "Blue Item", price: 1.0, color: "blue" },
+    { id: "green-item", name: "Green Item", price: 1.0, color: "green" },
+    { id: "red-item", name: "Red Item", price: 1.0, color: "red" },
+    { id: "amber-item", name: "Amber Item", price: 1.0, color: "amber" },
+    { id: "purple-item", name: "Purple Item", price: 1.0, color: "purple" },
+    { id: "orange-item", name: "Orange Item", price: 1.0, color: "orange" },
+    { id: "sky-item", name: "Sky Item", price: 1.0, color: "sky" },
+    { id: "pink-item", name: "Pink Item", price: 1.0, color: "pink" },
+    { id: "indigo-item", name: "Indigo Item", price: 1.0, color: "indigo" },
+    { id: "lime-item", name: "Lime Item", price: 1.0, color: "lime" },
+    { id: "teal-item", name: "Teal Item", price: 1.0, color: "teal" },
+
+    // Gradients
+    { id: "grad-blue-item", name: "Blue Gradient", price: 2.0, color: "gradient-blue" },
+    { id: "grad-green-item", name: "Green Gradient", price: 2.0, color: "gradient-green" },
+    { id: "grad-red-item", name: "Red Gradient", price: 2.0, color: "gradient-red" },
+    { id: "grad-amber-item", name: "Amber Gradient", price: 2.0, color: "gradient-amber" },
+    { id: "grad-purple-item", name: "Purple Gradient", price: 2.0, color: "gradient-purple" },
+    { id: "grad-orange-item", name: "Orange Gradient", price: 2.0, color: "gradient-orange" },
 ]
 
 export const useInventoryStore = create<InventoryState>()(
@@ -75,7 +72,7 @@ export const useInventoryStore = create<InventoryState>()(
                 })),
         }),
         {
-            name: 'compost-inventory-storage',
+            name: 'compost-inventory-storage-v5',
             storage: createJSONStorage(() => localStorage),
         }
     )

@@ -1,5 +1,13 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import type { ReceiptConfig } from '@/sections/settings-and-configuration/types'
+
+interface PrinterSettings {
+    connectedPrinterId: string | null
+    connectedPrinterName: string | null
+    printerStatus: 'CONNECTED' | 'DISCONNECTED' | 'SEARCHING' | 'ERROR'
+    paperSize: '58mm' | '80mm'
+}
 
 interface SettingsState {
     currency: string
@@ -7,10 +15,32 @@ interface SettingsState {
     taxName: string
     areTaxesEnabled: boolean
 
+    // Printer settings
+    printerSettings: PrinterSettings
+
+    // Receipt configuration
+    receiptConfig: ReceiptConfig
+
+    // Logo and QR code images (base64)
+    logoImage: string | null
+    qrCodeImage: string | null
+
+    // Currency & Tax actions
     setCurrency: (currency: string) => void
     setTaxRate: (rate: number) => void
     setTaxName: (name: string) => void
     setTaxesEnabled: (enabled: boolean) => void
+
+    // Printer actions
+    setConnectedPrinter: (printerId: string | null, printerName: string | null) => void
+    disconnectPrinter: () => void
+    setPrinterStatus: (status: PrinterSettings['printerStatus']) => void
+    setPaperSize: (size: '58mm' | '80mm') => void
+
+    // Receipt configuration actions
+    updateReceiptConfig: (updates: Partial<ReceiptConfig>) => void
+    setLogoImage: (base64Image: string | null) => void
+    setQrCodeImage: (base64Image: string | null) => void
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -21,10 +51,81 @@ export const useSettingsStore = create<SettingsState>()(
             taxName: 'Tax',
             areTaxesEnabled: true,
 
+            // Default printer settings
+            printerSettings: {
+                connectedPrinterId: null,
+                connectedPrinterName: null,
+                printerStatus: 'DISCONNECTED',
+                paperSize: '58mm',
+            },
+
+            // Default receipt configuration
+            receiptConfig: {
+                showDate: true,
+                showTime: true,
+                showOrderId: true,
+                showCashier: false,
+                fontFamily: 'Monospace',
+                fontSize: 'M',
+                separatorStyle: 'Dashed',
+                footerMessage: 'Thank you for visiting!',
+                showQrCode: false,
+            },
+
+            logoImage: null,
+            qrCodeImage: null,
+
             setCurrency: (currency) => set({ currency }),
             setTaxRate: (rate) => set({ taxRate: rate }),
             setTaxName: (name) => set({ taxName: name }),
             setTaxesEnabled: (enabled) => set({ areTaxesEnabled: enabled }),
+
+            setConnectedPrinter: (printerId, printerName) =>
+                set((state) => ({
+                    printerSettings: {
+                        ...state.printerSettings,
+                        connectedPrinterId: printerId,
+                        connectedPrinterName: printerName,
+                        printerStatus: printerId ? 'CONNECTED' : 'DISCONNECTED',
+                    }
+                })),
+
+            disconnectPrinter: () =>
+                set((state) => ({
+                    printerSettings: {
+                        ...state.printerSettings,
+                        connectedPrinterId: null,
+                        connectedPrinterName: null,
+                        printerStatus: 'DISCONNECTED',
+                    }
+                })),
+
+            setPrinterStatus: (status) =>
+                set((state) => ({
+                    printerSettings: {
+                        ...state.printerSettings,
+                        printerStatus: status,
+                    }
+                })),
+
+            setPaperSize: (size) =>
+                set((state) => ({
+                    printerSettings: {
+                        ...state.printerSettings,
+                        paperSize: size,
+                    }
+                })),
+
+            updateReceiptConfig: (updates) =>
+                set((state) => ({
+                    receiptConfig: {
+                        ...state.receiptConfig,
+                        ...updates,
+                    }
+                })),
+
+            setLogoImage: (base64Image) => set({ logoImage: base64Image }),
+            setQrCodeImage: (base64Image) => set({ qrCodeImage: base64Image }),
         }),
         {
             name: 'compost-settings-storage',

@@ -9,7 +9,7 @@ const gridActionTileVariants = cva(
     {
         variants: {
             intent: {
-                default: "bg-layer-2 border-border text-foreground hover:bg-layer-3",
+                default: "bg-tile-default !border-white/10 text-onLayer-primary hover:bg-tile-default/90",
                 primary: "bg-primary border-primary text-primary-foreground hover:bg-primary/90",
             },
         },

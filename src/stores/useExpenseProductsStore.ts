@@ -35,20 +35,36 @@ const generateId = () => Math.random().toString(36).substring(2, 9)
 
 export const useExpenseProductsStore = create<ExpenseProductsState>()(
     persist(
-        (set, get) => ({
+        (set) => ({
             folders: [
                 { id: 'operations', name: 'Operations' },
-                { id: 'rent', name: 'Rent' },
+                { id: 'marketing', name: 'Marketing' },
                 { id: 'utilities', name: 'Utilities' },
-                { id: 'suppliers', name: 'Suppliers' },
+                { id: 'inventory', name: 'Inventory' },
             ],
             products: [
-                { id: "oat-milk", name: "Oat milk", defaultPrice: 4.50, color: 'blue', strokeStyle: 'common', folderId: 'operations', isFavorite: false },
-                { id: "cleaning", name: "Cleaning supplies", defaultPrice: 12.00, color: 'green', strokeStyle: 'common', folderId: 'operations', isFavorite: false },
-                { id: "pastry-trays", name: "Pastry trays", defaultPrice: 5.00, color: 'orange', strokeStyle: 'dashed', folderId: 'operations', isFavorite: false },
-                { id: "straws", name: "Straws", defaultPrice: 3.50, color: 'purple', strokeStyle: 'common', folderId: 'operations', isFavorite: false },
-                { id: "milk", name: "Milk", defaultPrice: 3.00, color: 'blue', strokeStyle: 'common', folderId: 'operations', isFavorite: true },
-                { id: "sugar", name: "Sugar", defaultPrice: 2.00, color: 'slate', strokeStyle: 'common', folderId: 'operations', isFavorite: true },
+                { id: "beans", name: "Coffee beans", defaultPrice: 45.00, color: 'surface', folderId: 'inventory', isFavorite: true },
+                { id: "milk-oat", name: "Oat milk", defaultPrice: 4.50, color: 'blue', folderId: 'inventory', isFavorite: true },
+                { id: "rent", name: "Monthly rent", defaultPrice: 1500.00, color: 'gradient-blue', folderId: 'operations', isFavorite: true },
+                { id: "cleaning", name: "Cleaning supplies", defaultPrice: 12.00, color: 'green', folderId: 'operations', isFavorite: true },
+                { id: "ads", name: "Social ads", defaultPrice: 50.00, color: 'gradient-orange', folderId: 'marketing', isFavorite: true },
+                { id: "electricity", name: "Electricity", defaultPrice: 120.00, color: 'amber', folderId: 'utilities', isFavorite: true },
+
+                // Solid Colors
+                { id: "exp-blue", name: "Blue Product", defaultPrice: 10, color: "blue", folderId: 'operations' },
+                { id: "exp-green", name: "Green Product", defaultPrice: 10, color: "green", folderId: 'operations' },
+                { id: "exp-red", name: "Red Product", defaultPrice: 10, color: "red", folderId: 'operations' },
+                { id: "exp-amber", name: "Amber Product", defaultPrice: 10, color: "amber", folderId: 'operations' },
+                { id: "exp-purple", name: "Purple Product", defaultPrice: 10, color: "purple", folderId: 'operations' },
+                { id: "exp-orange", name: "Orange Product", defaultPrice: 10, color: "orange", folderId: 'marketing' },
+                { id: "exp-sky", name: "Sky Product", defaultPrice: 10, color: "sky", folderId: 'marketing' },
+                { id: "exp-pink", name: "Pink Product", defaultPrice: 10, color: "pink", folderId: 'marketing' },
+                { id: "exp-indigo", name: "Indigo Product", defaultPrice: 10, color: "indigo", folderId: 'utilities' },
+
+                // Gradients
+                { id: "exp-grad-blue", name: "Blue Gradient", defaultPrice: 20, color: "gradient-blue", folderId: 'utilities' },
+                { id: "exp-grad-green", name: "Green Gradient", defaultPrice: 20, color: "gradient-green", folderId: 'inventory' },
+                { id: "exp-grad-purple", name: "Purple Gradient", defaultPrice: 20, color: "gradient-purple", folderId: 'marketing' },
             ],
 
             addFolder: (name) => {
@@ -96,7 +112,7 @@ export const useExpenseProductsStore = create<ExpenseProductsState>()(
             }
         }),
         {
-            name: 'compost-expense-products-storage',
+            name: 'compost-expense-products-storage-v5',
             storage: createJSONStorage(() => localStorage),
         }
     )

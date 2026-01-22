@@ -6,20 +6,35 @@ import { cn } from "@/lib/utils"
 type ProductTileElement = "button" | "div"
 
 const productTileVariants = cva(
-  "relative aspect-square rounded-2xl overflow-hidden border border-border shadow-sm transition-all",
+  "relative aspect-square rounded-2xl overflow-hidden border !border-white/10 shadow-sm transition-all",
   {
     variants: {
       tone: {
-        surface: "bg-layer-1 text-foreground",
-        primary: "bg-gradient-to-br from-primary/70 to-primary text-primary-foreground",
-        secondary: "bg-gradient-to-br from-secondary/70 to-secondary text-secondary-foreground",
-        info: "bg-gradient-to-br from-layer-info/70 to-layer-info text-primary-foreground",
-        success: "bg-gradient-to-br from-layer-success/70 to-layer-success text-primary-foreground",
-        warning: "bg-gradient-to-br from-layer-warning/70 to-layer-warning text-primary-foreground",
-        danger: "bg-gradient-to-br from-layer-danger/70 to-layer-danger text-primary-foreground",
-        muted: "bg-gradient-to-br from-muted/70 to-muted text-primary-foreground",
-        accent: "bg-gradient-to-br from-accent/70 to-accent text-primary-foreground",
-        card: "bg-gradient-to-br from-card/70 to-card text-primary-foreground",
+        surface: "bg-tile-default text-onLayer-primary",
+        default: "bg-tile-default text-onLayer-primary",
+        // Standard Colors (Solid)
+        blue: "bg-tile-blue text-white",
+        green: "bg-tile-green text-white",
+        red: "bg-tile-red text-white",
+        amber: "bg-tile-amber text-white",
+        purple: "bg-tile-purple text-white",
+        orange: "bg-tile-orange text-white",
+        sky: "bg-tile-sky text-white",
+        pink: "bg-tile-pink text-white",
+        indigo: "bg-tile-indigo text-white",
+        lime: "bg-tile-lime text-white",
+        teal: "bg-tile-teal text-white",
+        slate: "bg-tile-slate text-white",
+        // Standard Gradients
+        "gradient-blue": "bg-gradient-tile-blue text-white",
+        "gradient-green": "bg-gradient-tile-green text-white",
+        "gradient-red": "bg-gradient-tile-red text-white",
+        "gradient-amber": "bg-gradient-tile-amber text-white",
+        "gradient-purple": "bg-gradient-tile-purple text-white",
+        "gradient-orange": "bg-gradient-tile-orange text-white",
+        // Legacy/Back-compat
+        primary: "bg-primary text-primary-foreground",
+        secondary: "bg-secondary text-secondary-foreground",
       },
       interactive: {
         true: "cursor-pointer active:scale-95 hover:shadow-md hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
@@ -128,7 +143,7 @@ export function ProductTile({
       ) : null}
 
       {imageSrc && showImageScrim ? (
-        <div className="absolute inset-0 bg-overlay-default" aria-hidden="true" />
+        <div className="absolute inset-0 bg-black/35" aria-hidden="true" />
       ) : null}
 
       {topRight ? <div className="absolute top-1.5 right-1.5 z-20">{topRight}</div> : null}
@@ -138,7 +153,7 @@ export function ProductTile({
       <div
         className={cn(
           "absolute inset-0 z-10 flex flex-col items-center justify-center text-center p-3",
-          imageSrc ? "text-primary-foreground" : undefined
+          imageSrc ? "text-white" : undefined
         )}
       >
         <div className="font-sans text-base font-semibold tracking-tight leading-tight">{name}</div>

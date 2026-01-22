@@ -80,11 +80,11 @@ function BottomSlidingModalContent({
         className={cn(
           "data-[state=open]:animate-in data-[state=closed]:animate-out fixed z-50",
           "data-[state=closed]:slide-out-to-bottom data-[state=open]:slide-in-from-bottom",
-          "overflow-hidden flex flex-col min-h-0 duration-300 outline-none shadow-2xl",
+          "overflow-hidden flex flex-col min-h-0 duration-300 outline-none",
           // Base defaults can now be overridden by incoming `className`
           fullHeight
-            ? "inset-x-2 bottom-2 top-10 rounded-[32px] border border-white/10 bg-black"
-            : "inset-x-0 bottom-0 max-h-[85%] rounded-t-[18px]",
+            ? "inset-x-0 bottom-0 top-10 rounded-t-[24px] shadow-2xl"
+            : "inset-x-0 bottom-0 max-h-[85%] rounded-t-[18px] shadow-2xl",
           className
         )}
         {...props}
@@ -94,7 +94,7 @@ function BottomSlidingModalContent({
           footer={footer}
           className={cn(
             "dark flex-1",
-            fullHeight ? "rounded-[32px] border-none" : "rounded-t-[18px]",
+            fullHeight ? "rounded-none border-none" : "rounded-t-[18px]",
             scaffoldProps?.className // Allow scaffoldProps to also influence internal structure if needed
           )}
           {...scaffoldProps}

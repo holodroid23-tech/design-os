@@ -15,7 +15,6 @@ import { SelectWithSliding } from "@/components/ui/select-with-sliding"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ColorSelector, ColorSelectorItem } from "@/components/ui/color-selector"
 import { MediaUpload } from "@/components/ui/media-upload"
-import { StrokeStyleSelector, type StrokeStyleOption } from "@/components/ui/stroke-style-selector"
 import { IconToggleButton } from "@/components/ui/icon-toggle-button"
 
 import { useExpenseProductsStore } from "@/stores/useExpenseProductsStore"
@@ -40,8 +39,7 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
   const [folderId, setFolderId] = React.useState<string | number>("operations") // Default to operations or empty?
   const [price, setPrice] = React.useState("")
   const [appearanceTab, setAppearanceTab] = React.useState<"color" | "image">("color")
-  const [expenseColor, setExpenseColor] = React.useState("blue")
-  const [strokeStyle, setStrokeStyle] = React.useState<StrokeStyleOption>("common")
+  const [expenseColor, setExpenseColor] = React.useState("surface")
 
   // Prepare folder options
   const folderOptions = React.useMemo(() => {
@@ -84,7 +82,6 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
       folderId: finalFolderId,
       defaultPrice: isNaN(amount) ? 0 : amount,
       color: expenseColor,
-      strokeStyle,
       isFavorite: favorite,
     })
 
@@ -196,20 +193,24 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
               </TabsList>
 
               <TabsContent value="color" className="pt-3">
-                <ColorSelector value={expenseColor} onValueChange={setExpenseColor} aria-label="Expense color">
+                <ColorSelector value={expenseColor} onValueChange={setExpenseColor} aria-label="Expense appearance">
+                  <ColorSelectorItem value="surface" color="#111114" aria-label="Default Black" />
                   <ColorSelectorItem value="blue" color="#3b82f6" aria-label="Blue" />
                   <ColorSelectorItem value="green" color="#22c55e" aria-label="Green" />
                   <ColorSelectorItem value="red" color="#ef4444" aria-label="Red" />
                   <ColorSelectorItem value="amber" color="#f59e0b" aria-label="Amber" />
                   <ColorSelectorItem value="purple" color="#a855f7" aria-label="Purple" />
                   <ColorSelectorItem value="orange" color="#f97316" aria-label="Orange" />
-
                   <ColorSelectorItem value="sky" color="#38bdf8" aria-label="Sky" />
                   <ColorSelectorItem value="pink" color="#ec4899" aria-label="Pink" />
                   <ColorSelectorItem value="indigo" color="#6366f1" aria-label="Indigo" />
                   <ColorSelectorItem value="lime" color="#84cc16" aria-label="Lime" />
-                  <ColorSelectorItem value="teal" color="#14b8a6" aria-label="Teal" />
-                  <ColorSelectorItem value="slate" color="#64748b" aria-label="Slate" />
+                  <ColorSelectorItem value="gradient-blue" gradient="bg-gradient-tile-blue" aria-label="Blue Gradient" />
+                  <ColorSelectorItem value="gradient-green" gradient="bg-gradient-tile-green" aria-label="Green Gradient" />
+                  <ColorSelectorItem value="gradient-red" gradient="bg-gradient-tile-red" aria-label="Red Gradient" />
+                  <ColorSelectorItem value="gradient-amber" gradient="bg-gradient-tile-amber" aria-label="Amber Gradient" />
+                  <ColorSelectorItem value="gradient-purple" gradient="bg-gradient-tile-purple" aria-label="Purple Gradient" />
+                  <ColorSelectorItem value="gradient-orange" gradient="bg-gradient-tile-orange" aria-label="Orange Gradient" />
                 </ColorSelector>
               </TabsContent>
 
@@ -217,14 +218,6 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
                 <MediaUpload chooseFromFilesLabel="Choose from library" />
               </TabsContent>
             </Tabs>
-          </div>
-        </div>
-
-        {/* Block 5: Stroke style */}
-        <div className="px-6 pb-6">
-          <div className="flex flex-col gap-3">
-            <Label>Stroke style</Label>
-            <StrokeStyleSelector value={strokeStyle} onValueChange={setStrokeStyle} />
           </div>
         </div>
       </BottomSlidingModalContent>

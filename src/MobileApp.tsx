@@ -2,19 +2,22 @@ import * as React from "react"
 import { ShoppingCart, ReceiptText, Activity, Settings } from "lucide-react"
 import { AppShell } from "@/shell/components/AppShell"
 import { hardwareService } from "@/lib/hardware-service"
+import { receiptService } from "@/lib/receipt-service"
+import { useOrderStore, type OrderTab } from "@/stores/useOrderStore"
+import { useSettingsStore } from "@/stores/useSettingsStore"
 
 // Replicated screens imports using the @product alias
 import OrdersMain from "@product/sections/register-and-sales/replicated/OrdersMain"
 import TodaysExpenses from "@product/sections/daily-expenses/replicated/TodaysExpenses"
 import SettingsRoot from "@product/sections/settings-and-configuration/replicated/SettingsRoot"
 import PaymentSuccessAllMethods from "@product/sections/register-and-sales/replicated/PaymentSuccessAllMethods"
-import PrinterSettings from "@product/sections/settings-and-configuration/replicated/PrinterSettings"
+import PrinterSettings from "@/sections/settings-and-configuration/PrinterSettings"
 import GeneralSettings from "@product/sections/settings-and-configuration/replicated/GeneralSettings"
 import ItemManagement from "@product/sections/settings-and-configuration/replicated/ItemManagement"
 import UserProfile from "@product/sections/settings-and-configuration/replicated/UserProfile"
 import UsersList from "@product/sections/settings-and-configuration/replicated/UsersList"
 import DeviceMode from "@product/sections/settings-and-configuration/replicated/DeviceMode"
-import ReceiptConfiguration from "@product/sections/settings-and-configuration/replicated/ReceiptConfiguration"
+import ReceiptConfiguration from "@/sections/settings-and-configuration/ReceiptConfiguration"
 import PaymentSettings from "@product/sections/settings-and-configuration/replicated/PaymentSettings"
 import ExpenseManagement from "@product/sections/settings-and-configuration/replicated/ExpenseManagement"
 import SuggestFeature from "@product/sections/settings-and-configuration/replicated/SuggestFeature"
@@ -36,6 +39,10 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
     const [activeView, setActiveView] = React.useState<AppView>('orders')
     const [viewStack, setViewStack] = React.useState<AppView[]>(['orders'])
     const [isCreatingExpenseInActivity, setIsCreatingExpenseInActivity] = React.useState(false)
+    const [lastCompletedOrder, setLastCompletedOrder] = React.useState<OrderTab | null>(null)
+
+    const { clearOrder } = useOrderStore()
+    const { receiptConfig, logoImage, qrCodeImage, printerSettings, currency, taxRate, areTaxesEnabled } = useSettingsStore()
 
     React.useEffect(() => {
         // Multi-tap hack for fullscreen
@@ -139,13 +146,82 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
         return () => { unsubscribe() }
     }, [])
 
+    const handleOrderPayment = (order: OrderTab) => {
+        setLastCompletedOrder(order)
+        clearOrder(order.id)
+        navigateTo('payment-success')
+    }
+
+    const calculateTotal = (order: OrderTab | null) => {
+        if (!order) return 0
+        const subtotal = order.items.reduce((acc, item) => acc + (item.unitPrice * item.qty), 0)
+        const tax = areTaxesEnabled ? subtotal * taxRate : 0
+        return subtotal + tax
+    }
+
+    const handlePrintReceipt = async () => {
+        if (!lastCompletedOrder) return
+
+        try {
+            const subtotal = lastCompletedOrder.items.reduce((acc, item) => acc + (item.unitPrice * item.qty), 0)
+            const tax = areTaxesEnabled ? subtotal * taxRate : 0
+            const total = subtotal + tax
+
+            const receiptData = await receiptService.generateReceipt({
+                storeName: 'ComPOSt Demo Store', // Ideally from store settings
+                storeAddress: '123 Espresso Lane\nSeattle, WA 98101', // Ideally from store settings
+                storePhone: '(206) 555-0123',
+                orderId: lastCompletedOrder.label,
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString(),
+                cashierName: user.name,
+                items: lastCompletedOrder.items.map(i => ({
+                    name: i.name,
+                    quantity: i.qty,
+                    price: i.unitPrice
+                })),
+                subtotal,
+                tax,
+                taxRate,
+                total,
+            }, receiptConfig, logoImage || undefined, qrCodeImage || undefined, printerSettings.paperSize)
+
+
+            if (printerSettings.connectedPrinterId) {
+                const success = await hardwareService.printReceipt(printerSettings.connectedPrinterId, receiptData)
+                if (success) {
+                    console.log('Receipt printed successfully')
+                } else {
+                    console.error('Failed to print receipt')
+                    alert('Printer error. Please check your connection.')
+                }
+            } else {
+                // Try RawBT fallback (Android)
+                if (hardwareService.isRawBTAvailable()) {
+                    console.log('No printer connected, attempting RawBT...')
+                    const success = hardwareService.printViaRawBT(receiptData)
+                    if (success) {
+                        console.log('Sent to RawBT')
+                    } else {
+                        alert('No printer connected and RawBT failed')
+                    }
+                } else {
+                    alert('No printer connected. Please connect a printer in Settings.')
+                }
+            }
+        } catch (error) {
+            console.error('Error printing receipt:', error)
+            alert('Error generating receipt')
+        }
+    }
+
     const renderActiveView = () => {
         switch (activeView) {
             case 'orders':
                 return (
                     <OrdersMain
-                        onPayCash={() => navigateTo('payment-success')}
-                        onPayCard={() => navigateTo('payment-success')}
+                        onPayCash={(order) => handleOrderPayment(order)}
+                        onPayCard={(order) => handleOrderPayment(order)}
                         onAddOrder={() => console.log('Add Order clicked')}
                     />
                 )
@@ -220,15 +296,17 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
             case 'payment-success':
                 return (
                     <PaymentSuccessAllMethods
+                        amount={`${currency}${calculateTotal(lastCompletedOrder).toFixed(2)}`}
                         onClose={() => handleNavigate('orders')}
                         onStartNewOrder={() => handleNavigate('orders')}
-                        onPrintReceipt={() => hardwareService.printReceipt('default', {})}
+                        onPrintReceipt={handlePrintReceipt}
                     />
                 )
             default:
                 return <OrdersMain />
         }
     }
+
 
     const content = (
         <AppShell

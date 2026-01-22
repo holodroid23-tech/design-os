@@ -12,6 +12,7 @@ import {
 
 // Assuming these are available as they are standard in the project based on ComponentExamples
 import { Button } from "../ui/button"
+import { cn } from "@/lib/utils"
 
 // Placeholder images
 const IMAGES = {
@@ -195,12 +196,15 @@ export default function TodaysExpensesPreview() {
 
             {/* Bottom Summary Sheet (OrderExpandableDemo) */}
             <div className="fixed bottom-0 left-0 right-0 z-50 p-4">
-                <div className="max-w-md mx-auto overflow-hidden rounded-[32px] border border-border bg-layer-1 shadow-2xl relative">
+                <div className={cn(
+                    "max-w-md mx-auto overflow-hidden border border-white/10 shadow-layered relative transition-all duration-300",
+                    isSheetOpen ? "glass-modal-full rounded-[24px]" : "glass-floating-bar rounded-[18px]"
+                )}>
                     {/* Collapsed View */}
                     {!isSheetOpen && (
                         <div
                             onClick={() => setIsSheetOpen(true)}
-                            className="bg-layer-1 text-foreground p-5 cursor-pointer active:scale-[0.98] transition-all relative group h-[110px] flex flex-col justify-center"
+                            className="text-foreground p-5 cursor-pointer active:scale-[0.98] transition-all relative group h-[110px] flex flex-col justify-center"
                         >
                             {/* Drag Handle */}
                             <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-8 h-1 bg-muted-foreground/30 rounded-full" />
@@ -221,7 +225,7 @@ export default function TodaysExpensesPreview() {
 
                     {/* Expanded Content */}
                     {isSheetOpen && (
-                        <div className="bg-layer-1 text-foreground flex flex-col h-[600px] animate-in slide-in-from-bottom-4 duration-300">
+                        <div className="text-foreground flex flex-col h-[600px] animate-in slide-in-from-bottom-4 duration-300 bg-transparent">
                             {/* Header */}
                             <div className="px-6 pt-8 pb-4">
                                 <div className="flex items-center justify-between mb-6">
@@ -292,7 +296,7 @@ export default function TodaysExpensesPreview() {
                             </div>
 
                             {/* Footer */}
-                            <div className="p-6 pt-5 bg-layer-1 border-t border-border">
+                            <div className="p-6 pt-5 border-t border-white/10 bg-transparent">
                                 <div className="flex justify-between items-end">
                                     <span className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest mb-1.5">Total</span>
                                     <div className="text-4xl font-mono font-bold text-foreground tracking-tighter leading-none">$18.50</div>

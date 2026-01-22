@@ -22,7 +22,6 @@ import { ExpenseLineItemRow } from "@/components/ui/expense-line-item-row"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import CreateExpense from "./CreateExpense"
-import ExpenseManagementNewItem from "../../settings-and-configuration/replicated/ExpenseManagementNewItem"
 import { useExpenseProductsStore, type ExpenseProduct } from "@/stores/useExpenseProductsStore"
 
 // Store imports
@@ -130,6 +129,7 @@ function TodaysExpensesBottomSummary({
 
         <BottomSlidingModalContent
           fullHeight
+          className="glass-modal-full flex flex-col bg-stone-900/40"
           header={
             <SectionTitle
               titleAs="h2"
@@ -174,7 +174,7 @@ function TodaysExpensesBottomSummary({
 
               <Button
                 type="button"
-                variant="default"
+                variant="secondary"
                 className="h-12 w-full rounded-[12px]"
                 onClick={(e) => {
                   e.stopPropagation()
@@ -187,9 +187,9 @@ function TodaysExpensesBottomSummary({
           }
           scaffoldProps={{
             // Expanded surface: Full screen feel, no shadow, transparent blur background
-            className: "glass-modal-full",
-            headerClassName: "px-6 pt-7 pb-4",
-            bodyClassName: "min-h-0",
+            className: "flex-1 bg-transparent",
+            headerClassName: "px-6 pt-7 pb-4 bg-transparent",
+            bodyClassName: "min-h-0 bg-transparent",
             footerClassName: "bg-transparent border-t border-border-inverse p-6 pt-5",
           }}
         >
@@ -234,7 +234,6 @@ export default function TodaysExpenses({
   onAddExpense: onAddExpenseProp,
 }: TodaysExpensesProps) {
   const [isAddingExpense, setIsAddingExpense] = React.useState(false)
-  const [isCreatingItem, setIsCreatingItem] = React.useState(false)
 
   // New state to hold prepopulated data for the modal
   const [expenseDraft, setExpenseDraft] = React.useState<{ name: string; amount?: number; color?: string; stroke?: string } | null>(null)
@@ -253,9 +252,6 @@ export default function TodaysExpenses({
     onAddExpenseProp?.()
   }
 
-  const handleCreateItem = () => {
-    setIsCreatingItem(true)
-  }
 
   const handleTileClick = (item: ExpenseProduct) => {
     setExpenseDraft({
@@ -268,37 +264,6 @@ export default function TodaysExpenses({
   }
 
   const favoritesItems = products.filter(p => p.isFavorite)
-
-  // Helper to map stroke style to tailwind classes
-  const getStrokeClass = (style?: string) => {
-    switch (style) {
-      case 'none': return 'border-none'
-      case 'dashed': return 'border-dashed'
-      case 'dotted': return 'border-dotted'
-      case 'double': return 'border-double border-4'
-      case 'solid': return 'border-solid'
-      default: return 'border-solid' // common
-    }
-  }
-
-  // Helper to map color to tailwind border color classes
-  const getColorClass = (color?: string) => {
-    switch (color) {
-      case 'blue': return 'border-blue-500'
-      case 'green': return 'border-green-500'
-      case 'red': return 'border-red-500'
-      case 'amber': return 'border-amber-500'
-      case 'purple': return 'border-purple-500'
-      case 'orange': return 'border-orange-500'
-      case 'sky': return 'border-sky-500'
-      case 'pink': return 'border-pink-500'
-      case 'indigo': return 'border-indigo-500'
-      case 'lime': return 'border-lime-500'
-      case 'teal': return 'border-teal-500'
-      case 'slate': return 'border-slate-500'
-      default: return 'border-border'
-    }
-  }
 
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
@@ -322,12 +287,7 @@ export default function TodaysExpenses({
                 <ProductTile
                   key={item.id}
                   name={item.name}
-                  tone="surface"
-                  className={cn(
-                    getColorClass(item.color),
-                    getStrokeClass(item.strokeStyle),
-                    item.color !== 'slate' && item.color ? "border-2" : "" // Make color more visible
-                  )}
+                  tone={(item.color as any) || "surface"}
                   price={item.defaultPrice ? formatMoney(item.defaultPrice, currency) : undefined}
                   onPress={() => handleTileClick(item)}
                 />
@@ -345,16 +305,9 @@ export default function TodaysExpenses({
             {/* New Expense (Log) */}
             <GridActionTile
               icon={Plus}
-              label="Custom expense"
+              label="New expense"
               iconClassName="text-primary"
               onClick={handleAddExpense}
-            />
-            {/* New Item (Create) */}
-            <GridActionTile
-              icon={Plus}
-              label="New item"
-              iconClassName="text-layer-success" // Green plus for new item
-              onClick={handleCreateItem}
             />
 
             {folders.map((folder) => (
@@ -377,12 +330,7 @@ export default function TodaysExpenses({
               <ProductTile
                 key={item.id}
                 name={item.name}
-                tone="surface"
-                className={cn(
-                  getColorClass(item.color),
-                  getStrokeClass(item.strokeStyle),
-                  item.color && "border-2"
-                )}
+                tone={(item.color as any) || "surface"}
                 price={item.defaultPrice ? formatMoney(item.defaultPrice, currency) : undefined}
                 onPress={() => handleTileClick(item)}
               />
@@ -424,11 +372,6 @@ export default function TodaysExpenses({
         />
       )}
 
-      {isCreatingItem && (
-        <ExpenseManagementNewItem
-          onClose={() => setIsCreatingItem(false)}
-        />
-      )}
     </div>
   )
 }

@@ -6,6 +6,7 @@ import { SectionsPage } from '@/components/SectionsPage'
 import { SectionPage } from '@/components/SectionPage'
 import { ShellDesignPage, ShellDesignFullscreen } from '@/components/ShellDesignPage'
 import { ExportPage } from '@/components/ExportPage'
+import PrintReceipt from '@/pages/PrintReceipt'
 
 import MobileApp from '@/MobileApp'
 
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
   {
     path: '/live',
     element: <MobileApp isFrame={false} />,
+  },
+  {
+    path: '/print-receipt',
+    element: <PrintReceipt />,
   },
   {
     path: '/data-model',
@@ -52,3 +57,4 @@ export const router = createBrowserRouter([
     element: <ExportPage />,
   },
 ])
+

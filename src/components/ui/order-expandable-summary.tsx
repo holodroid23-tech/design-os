@@ -197,7 +197,7 @@ export function OrderExpandableSummary({
 
         <BottomSlidingModalContent
           fullHeight
-          className={contentClassName}
+          className={cn(contentClassName, "glass-modal-full bg-stone-900/40")}
           header={
             <SectionTitle
               titleAs="h2"
@@ -242,7 +242,7 @@ export function OrderExpandableSummary({
               <div className="grid grid-cols-2 gap-3">
                 <Button
                   type="button"
-                  variant="default"
+                  variant="secondary"
                   className="h-12 rounded-[12px]"
                   onClick={(e) => {
                     e.stopPropagation()
@@ -253,7 +253,7 @@ export function OrderExpandableSummary({
                 </Button>
                 <Button
                   type="button"
-                  variant="default"
+                  variant="secondary"
                   className="h-12 rounded-[12px]"
                   onClick={(e) => {
                     e.stopPropagation()
@@ -265,11 +265,12 @@ export function OrderExpandableSummary({
               </div>
             </div>
           }
+
           scaffoldProps={{
             // Expanded surface: Full screen feel, no shadow, transparent blur background
-            className: "glass-modal-full",
-            headerClassName: "px-6 pt-7 pb-4",
-            bodyClassName: "min-h-0",
+            className: "bg-transparent",
+            headerClassName: "px-6 pt-7 pb-4 bg-transparent",
+            bodyClassName: "min-h-0 bg-transparent",
             footerClassName: "bg-transparent border-t border-border-inverse p-6 pt-5",
           }}
         >

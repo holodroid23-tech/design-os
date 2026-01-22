@@ -6,7 +6,7 @@ import { SystemIcon } from "@/components/atoms/icon"
 import { Image as ImageIcon } from "lucide-react"
 
 const imageTileVariants = cva(
-  "inline-flex shrink-0 overflow-hidden rounded-[12px] bg-layer-level-2",
+  "inline-flex shrink-0 overflow-hidden rounded-[12px] bg-tile-default border border-white/10",
   {
     variants: {
       size: {
@@ -23,7 +23,7 @@ const imageTileVariants = cva(
 
 export interface ImageTileProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "children">,
-    VariantProps<typeof imageTileVariants> {
+  VariantProps<typeof imageTileVariants> {
   src?: string
   alt?: string
 }

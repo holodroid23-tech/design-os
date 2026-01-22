@@ -21,8 +21,8 @@ export const designOS = {
 }
 
 export interface OrdersMainProps {
-  onPayCash?: () => void
-  onPayCard?: () => void
+  onPayCash?: (order: any) => void
+  onPayCard?: (order: any) => void
   onAddOrder?: () => void // Kept for API compatibility if used by parent, but mostly handled internally now
 }
 
@@ -102,16 +102,14 @@ export default function OrdersMain({
   }
 
   const handlePayCash = () => {
-    if (activeTabId) {
-      clearOrder(activeTabId)
-      onPayCash?.()
+    if (activeTabId && activeTab) {
+      onPayCash?.(activeTab)
     }
   }
 
   const handlePayCard = () => {
-    if (activeTabId) {
-      clearOrder(activeTabId)
-      onPayCard?.()
+    if (activeTabId && activeTab) {
+      onPayCard?.(activeTab)
     }
   }
 
@@ -195,7 +193,7 @@ export default function OrdersMain({
                             price={formatPrice(item.price)}
                             imageSrc={item.imageSrc}
                             imageAlt={item.imageAlt}
-                            tone="surface"
+                            tone={(item.color as any) || "surface"}
                             count={inOrder ? count : undefined}
                             onPress={() => activeTabId && addItemToOrder(activeTabId, item)}
                             leftAction={
@@ -266,7 +264,7 @@ export default function OrdersMain({
                   price={formatPrice(item.price)}
                   imageSrc={item.imageSrc}
                   imageAlt={item.imageAlt}
-                  tone="surface"
+                  tone={(item.color as any) || "surface"}
                   count={inOrder ? count : undefined}
                   onPress={() => activeTabId && addItemToOrder(activeTabId, item)}
                   leftAction={
