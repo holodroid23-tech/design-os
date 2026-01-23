@@ -15,10 +15,11 @@ import { RadioButtonGroup, RadioButtonGroupItem } from '@/components/ui/radio-bu
 import { SectionTitle } from '@/components/ui/section-title'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Calendar, ChevronLeft, Clock, Hash, QrCode, User } from 'lucide-react'
+import { Calendar, ChevronLeft, Clock, Hash, QrCode, User, X } from 'lucide-react'
 import { useSettingsStore } from '@/stores/useSettingsStore'
 import { hardwareService } from '@/lib/hardware-service'
 import { receiptService } from '@/lib/receipt-service'
+import { MediaUpload } from '@/components/ui/media-upload'
 
 export interface ReceiptConfigurationProps {
     onBack?: () => void
@@ -53,7 +54,7 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
                 ? 'border-dotted'
                 : 'border-solid'
 
-    const handleLogoUpload = () => {
+    const handleFileUpload = (updater: (data: string | null) => void) => {
         const input = document.createElement('input')
         input.type = 'file'
         input.accept = 'image/*'
@@ -63,25 +64,7 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
                 const reader = new FileReader()
                 reader.onload = (e) => {
                     const base64 = e.target?.result as string
-                    setLogoImage(base64)
-                }
-                reader.readAsDataURL(file)
-            }
-        }
-        input.click()
-    }
-
-    const handleQrCodeUpload = () => {
-        const input = document.createElement('input')
-        input.type = 'file'
-        input.accept = 'image/*'
-        input.onchange = (e) => {
-            const file = (e.target as HTMLInputElement).files?.[0]
-            if (file) {
-                const reader = new FileReader()
-                reader.onload = (e) => {
-                    const base64 = e.target?.result as string
-                    setQrCodeImage(base64)
+                    updater(base64)
                 }
                 reader.readAsDataURL(file)
             }
@@ -129,7 +112,7 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
     return (
         <div className="flex h-full min-h-full flex-col bg-background">
             {/* Block 1: Header */}
-            <div className="sticky top-0 z-10 bg-background px-6 py-4">
+            <div className="sticky top-0 z-10 bg-background px-6 py-4 min-h-[100px]">
                 <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left" onClick={onBack}>
                     <SectionTitle
                         interactive
@@ -178,14 +161,37 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
 
                     <TabsContent value="design" className="mt-6">
                         <div className="flex flex-col gap-8">
-                            <Button className="w-full" type="button" onClick={handleLogoUpload}>
-                                {logoImage ? 'Change logo' : 'Upload logo'}
-                            </Button>
+                            <div className="flex flex-col gap-3">
+                                <Label className="text-muted-foreground">Logo</Label>
+                                {logoImage ? (
+                                    <div className="relative group w-fit mx-auto">
+                                        <div className="rounded-xl border border-border p-4 bg-white">
+                                            <img src={logoImage} alt="Receipt Logo" className="max-h-32 object-contain mx-auto" />
+                                        </div>
+                                        <Button
+                                            variant="destructive"
+                                            size="icon"
+                                            className="absolute -top-2 -right-2 h-8 w-8 rounded-full shadow-md"
+                                            onClick={() => setLogoImage(null)}
+                                        >
+                                            <X className="w-4 h-4" />
+                                        </Button>
+                                    </div>
+                                ) : (
+                                    <MediaUpload
+                                        onChooseFromFiles={() => handleFileUpload(setLogoImage)}
+                                        onTakePhoto={() => handleFileUpload(setLogoImage)} // Fallback for now, could act same
+                                        chooseFromFilesLabel="Upload logo"
+                                        takePhotoLabel="Take photo"
+                                    />
+                                )}
+                            </div>
 
                             {/* Block 3: Included details */}
                             <div className="flex flex-col gap-3">
                                 <Label className="text-muted-foreground">Included details</Label>
                                 <SettingsGroup>
+                                    {/* Keep existing Checkboxes/Switches */}
                                     <SettingsItem element="div">
                                         <SettingsItemIcon>
                                             <Calendar className="size-5" aria-hidden="true" />
@@ -374,9 +380,28 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
 
                                 {receiptConfig.showQrCode ? (
                                     <div className="pb-6">
-                                        <Button className="w-full" variant="secondary" type="button" onClick={handleQrCodeUpload}>
-                                            {qrCodeImage ? 'Change QR code' : 'Upload QR code'}
-                                        </Button>
+                                        {qrCodeImage ? (
+                                            <div className="relative group w-fit mx-auto">
+                                                <div className="rounded-xl border border-border p-4 bg-white">
+                                                    <img src={qrCodeImage} alt="Receipt QR Code" className="max-h-32 object-contain mx-auto" />
+                                                </div>
+                                                <Button
+                                                    variant="destructive"
+                                                    size="icon"
+                                                    className="absolute -top-2 -right-2 h-8 w-8 rounded-full shadow-md"
+                                                    onClick={() => setQrCodeImage(null)}
+                                                >
+                                                    <X className="w-4 h-4" />
+                                                </Button>
+                                            </div>
+                                        ) : (
+                                            <MediaUpload
+                                                onChooseFromFiles={() => handleFileUpload(setQrCodeImage)}
+                                                onTakePhoto={() => handleFileUpload(setQrCodeImage)}
+                                                chooseFromFilesLabel="Upload QR code"
+                                                takePhotoLabel="Take photo"
+                                            />
+                                        )}
                                     </div>
                                 ) : (
                                     <div className="pb-6" />

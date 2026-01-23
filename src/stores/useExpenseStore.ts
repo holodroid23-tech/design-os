@@ -29,10 +29,9 @@ export const useExpenseStore = create<ExpenseState>()(
 
             addExpense: (item) => {
                 const newItem: ExpenseItem = {
+                    ...item,
                     id: generateId(),
-                    // Use provided date or default to now if somehow missing (though type says it's there, partials might omit)
                     date: item.date || new Date().toISOString(),
-                    ...item
                 }
                 set(state => ({ expenses: [...state.expenses, newItem] }))
             },

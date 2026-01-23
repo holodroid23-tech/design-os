@@ -1,4 +1,14 @@
 export type HardwareType = 'printer' | 'terminal' | 'scanner' | 'card_reader';
+import { Capacitor, registerPlugin } from '@capacitor/core';
+
+interface StripeTerminalPlugin {
+    initialize(): Promise<void>;
+    discoverReaders(options?: any): Promise<void>;
+    addListener(eventName: 'readersDiscovered', listenerFunc: (data: { readers: any[] }) => void): Promise<{ remove: () => void }>;
+}
+
+const StripeTerminal = registerPlugin<StripeTerminalPlugin>('StripeTerminal');
+
 export type PrinterConnectionMethod = 'bluetooth' | 'usb';
 
 export interface BaseDevice {
@@ -219,24 +229,77 @@ class HardwareService {
             return [];
         }
 
-        if (type === 'terminal' && this.isBluetoothAvailable()) {
-            try {
-                const device = await (navigator as any).bluetooth.requestDevice({
-                    acceptAllDevices: true,
-                    optionalServices: ['battery_service']
+        if (type === 'terminal') {
+            if (Capacitor.isNativePlatform()) {
+                console.log('🚀 Using Native Stripe Terminal...');
+                return new Promise(async (resolve, reject) => {
+                    let hasResolved = false;
+                    try {
+                        console.log('📱 Initializing Stripe Terminal SDK...');
+                        await StripeTerminal.initialize();
+                        console.log('✅ Stripe Terminal SDK initialized');
+
+                        const listener = await StripeTerminal.addListener('readersDiscovered', (data) => {
+                            if (hasResolved) return;
+                            hasResolved = true;
+
+                            console.log('📡 Native readers discovered:', data.readers);
+                            listener.remove();
+                            const mapped = data.readers.map((r: any) => ({
+                                id: r.serialNumber,
+                                name: `Phone NFC Reader`,
+                                type: 'terminal' as const,
+                                isConnected: false,
+                                status: 'idle' as const,
+                                connectionType: 'embedded' as const
+                            }));
+                            resolve(mapped);
+                        });
+
+                        console.log('🔍 Starting reader discovery...');
+                        await StripeTerminal.discoverReaders();
+                        console.log('📋 Discovery request sent, waiting for response...');
+
+                        // Timeout after 10 seconds
+                        setTimeout(() => {
+                            if (hasResolved) return;
+                            hasResolved = true;
+
+                            console.warn('⏱️ Discovery timed out after 10 seconds');
+                            listener.remove();
+                            reject(new Error('NFC initialization timed out. This device may not support Tap to Pay on Android.'));
+                        }, 10000);
+                    } catch (e: any) {
+                        if (hasResolved) return;
+                        hasResolved = true;
+
+                        console.error('❌ Native terminal discovery failed:', e);
+                        console.error('Error details:', JSON.stringify(e, null, 2));
+                        const errorMessage = e && e.message ? e.message : JSON.stringify(e);
+                        reject(new Error(errorMessage));
+                    }
                 });
-                console.log('Found bluetooth device:', device.name);
-                const newDevice: BaseDevice = {
-                    id: device.id,
-                    name: device.name || 'Unknown Device',
-                    type,
-                    isConnected: false,
-                    status: 'idle',
-                    connectionType: 'bluetooth'
-                };
-                return [newDevice];
-            } catch (e) {
-                console.log('Bluetooth discovery cancelled or failed', e);
+            }
+
+            if (this.isBluetoothAvailable()) {
+                try {
+                    const device = await (navigator as any).bluetooth.requestDevice({
+                        acceptAllDevices: true,
+                        optionalServices: ['battery_service']
+                    });
+                    console.log('Found bluetooth device:', device.name);
+                    const newDevice: BaseDevice = {
+                        id: device.id,
+                        name: device.name || 'Unknown Device',
+                        type,
+                        isConnected: false,
+                        status: 'idle',
+                        connectionType: 'bluetooth'
+                    };
+                    return [newDevice];
+                } catch (e) {
+                    console.log('Bluetooth discovery cancelled or failed', e);
+                }
             }
         }
 

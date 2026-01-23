@@ -13,11 +13,15 @@ import MobileApp from '@/MobileApp'
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <ProductPage />,
+    element: <MobileApp isFrame={false} />,
   },
   {
     path: '/app',
     element: <MobileApp />,
+  },
+  {
+    path: '/product',
+    element: <ProductPage />,
   },
   {
     path: '/live',

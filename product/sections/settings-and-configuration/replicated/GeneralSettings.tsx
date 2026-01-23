@@ -67,7 +67,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
     return (
         <div className="flex h-full min-h-full flex-col bg-background">
             {/* Block 1: Header */}
-            <div className="px-6 py-4 sticky top-0 bg-background z-10 border-b">
+            <div className="px-6 py-4 sticky top-0 bg-background z-10 border-b min-h-[100px]">
                 <Button
                     type="button"
                     variant="invisible"

@@ -61,9 +61,9 @@ export default function PaymentSettings({ onBack }: PaymentSettingsProps) {
   }
 
   return (
-    <div className="flex h-full min-h-full flex-col bg-background">
+    <div className="flex h-full min-h-full flex-col bg-background overflow-y-auto">
       {/* Block 1: Header */}
-      <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
+      <div className="sticky top-0 z-10 border-b bg-background px-6 py-4 min-h-[100px]">
         <Button
           type="button"
           variant="invisible"

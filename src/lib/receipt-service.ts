@@ -41,152 +41,9 @@ export class ReceiptService {
         return this.stringToBytes(commands.join(''))
     }
 
-    /**
-     * Generate complete receipt with all configured elements
-     */
-    static async generateReceipt(data: ReceiptData, config: ReceiptConfig, logoData?: string, paperSize: '58mm' | '80mm' = '58mm'): Promise<Uint8Array> {
-        const commands: string[] = []
-        const is58mm = paperSize === '58mm'
-        const maxChars = is58mm ? 32 : 48
 
-        // Initialize
-        commands.push(ESC + '@')
 
-        // Set character set
-        commands.push(ESC + 't' + '\x00')
 
-        // Logo (if provided)
-        if (logoData) {
-            // Center align
-            commands.push(ESC + 'a' + '\x01')
-
-            // Dither and print image
-            const imageWidth = is58mm ? 384 : 576
-            const dithered = await this.ditherImage(logoData, imageWidth)
-            if (dithered) {
-                const imageCommands = this.getImageCommands(dithered)
-                commands.push(...imageCommands)
-            }
-
-            // Store name (if not in logo, or always? specific to user pref, but here we print text below logo if desired or fallback)
-            // For now, let's print store name text too if it's not empty, even if logo exists
-            if (data.storeName) {
-                commands.push(ESC + 'E' + '\x01') // Bold on
-                commands.push(data.storeName + '\n')
-                commands.push(ESC + 'E' + '\x00') // Bold off
-            }
-        } else if (data.storeName) {
-            // Store name centered
-            commands.push(ESC + 'a' + '\x01') // Center align
-            commands.push(ESC + 'E' + '\x01') // Bold on
-            commands.push(data.storeName + '\n')
-            commands.push(ESC + 'E' + '\x00') // Bold off
-        }
-
-        // Store details centered
-        if (data.storeAddress || data.storePhone) {
-            commands.push(ESC + 'a' + '\x01') // Center align
-            if (data.storeAddress) {
-                commands.push(data.storeAddress + '\n')
-            }
-            if (data.storePhone) {
-                commands.push('Tel: ' + data.storePhone + '\n')
-            }
-        }
-
-        commands.push('\n')
-
-        // Left align for receipt details
-        commands.push(ESC + 'a' + '\x00')
-
-        // Receipt header info
-        if (config.showOrderId && data.orderId) {
-            this.addSeparator(commands, config.separatorStyle, maxChars)
-            commands.push(`Receipt #: ${data.orderId}\n`)
-        }
-
-        if ((config.showDate && data.date) || (config.showTime && data.time)) {
-            let dateTimeLine = 'Date: '
-            if (config.showDate && data.date) {
-                dateTimeLine += data.date
-            }
-            if (config.showDate && config.showTime && data.date && data.time) {
-                dateTimeLine += ' '
-            }
-            if (config.showTime && data.time) {
-                dateTimeLine += data.time
-            }
-            commands.push(dateTimeLine + '\n')
-        }
-
-        if (config.showCashier && data.cashierName) {
-            commands.push(`Cashier: ${data.cashierName}\n`)
-        }
-
-        // Main separator
-        this.addSeparator(commands, config.separatorStyle, maxChars)
-
-        // Items
-        for (const item of data.items) {
-            const itemLine = this.formatItemLine(item, config, maxChars)
-            commands.push(itemLine + '\n')
-        }
-
-        // Separator before totals
-        this.addSeparator(commands, config.separatorStyle, maxChars)
-
-        // Totals
-        commands.push(this.formatTotalLine('Subtotal', data.subtotal, maxChars) + '\n')
-        commands.push(this.formatTotalLine(`Tax (${(data.taxRate * 100).toFixed(1)}%)`, data.tax, maxChars) + '\n')
-        commands.push('\n')
-        commands.push(ESC + 'E' + '\x01') // Bold on
-        commands.push(this.formatTotalLine('TOTAL', data.total, maxChars) + '\n')
-        commands.push(ESC + 'E' + '\x00') // Bold off
-
-        // Footer separator
-        this.addSeparator(commands, config.separatorStyle, maxChars)
-
-        // Footer message and website
-        if (config.footerMessage) {
-            commands.push(ESC + 'a' + '\x01') // Center align
-            commands.push('\n' + config.footerMessage + '\n')
-        }
-
-        // QR Code (if enabled and data provided)
-        if (config.showQrCode && config.footerMessage) { // Using footer message or store website URL as QR data
-            // TODO: We need a specific URL field for QR code, but using footer message or a default if empty
-            const qrData = 'https://compost.app' // Default or from config in future
-
-            commands.push(ESC + 'a' + '\x01') // Center align
-            commands.push('\n')
-
-            // Check if we have an image for QR (uploaded) or if we should generate one from text
-            // The prompt implies we have `qrCodeImage` (base64) from store. 
-            // If we have a custom QR image uploaded, print that.
-            // Otherwise, generate one from text commands?
-            // The user instructions say "QR code is also not visible in the app after upload". 
-            // This implies printing the UPLOADED image.
-
-            // Wait, receive `logoData` is passed, but what about QR? 
-            // We need to pass qrCodeImage as well to generateReceipt. 
-            // I will assume the caller passes it or we add it to arguments.
-            // For now, let's fix the interface to accept qrDataString or qrImage
-        }
-
-        // Handling QR Code properly requires arguments update. 
-        // Let's defer strict QR implementation inside this block and rely on the updated signature I'm about to write.
-        commands.push(ESC + 'a' + '\x01') // Center align
-        commands.push('\n')
-
-        // Cut paper
-        commands.push('\n\n\n')
-        commands.push(GS + 'V' + '\x41' + '\x03') // Partial cut
-
-        return this.stringToBytes(commands.join(''))
-    }
-
-    // REDEFINING generateReceipt with correct signature for the step below to replace cleanly.
-    // I will include the QR Logic inside the replacement content fully.
 
     /**
      * Generate test receipt with sample data
@@ -340,7 +197,12 @@ export class ReceiptService {
             }
 
             // Align width to 8 bytes for printing
+            const originalWidth = width
             width = Math.floor(width / 8) * 8
+            // Recalculate height to maintain aspect ratio with the aligned width
+            if (width !== originalWidth) {
+                height = Math.floor(height * (width / originalWidth))
+            }
 
             // Create canvas
             const canvas = document.createElement('canvas')
@@ -366,10 +228,22 @@ export class ReceiptService {
                     const idx = (y * width + x) * 4
 
                     // Convert to grayscale
-                    const gray = data[idx] * 0.299 + data[idx + 1] * 0.587 + data[idx + 2] * 0.114
+                    let r = data[idx]
+                    let g = data[idx + 1]
+                    let b = data[idx + 2]
 
-                    // Threshold
-                    const newGray = gray < 128 ? 0 : 255
+                    // Stronger brightness/gamma correction to clear up "blobs"
+                    // Apply a power curve to lift midtones/shadows
+                    // or just a simple bias
+                    r = Math.min(255, r + 60)
+                    g = Math.min(255, g + 60)
+                    b = Math.min(255, b + 60)
+
+                    const gray = r * 0.299 + g * 0.587 + b * 0.114
+
+                    // Lower threshold means pixels must be darker to become black
+                    // 128 is mid-gray. 90 requires darker gray to print black.
+                    const newGray = gray < 90 ? 0 : 255
                     const error = gray - newGray
 
                     // Set pixel
@@ -430,7 +304,12 @@ export class ReceiptService {
             commands.push(ESC + 'a' + '\x01')
 
             // Dither and print image
-            const imageWidth = is58mm ? 384 : 576
+            // Reduce width to ~40% of paper width (requested size)
+            // 58mm: 384 * 0.4 = ~153px
+            const totalWidth = is58mm ? 384 : 576
+            const imageWidth = Math.floor(totalWidth * 0.4)
+
+            // Pass brightness adjustment to dither if possible, or handle inside dither
             const dithered = await this.ditherImage(logoData, imageWidth)
             if (dithered) {
                 const imageCommands = this.getImageCommands(dithered)
@@ -525,13 +404,13 @@ export class ReceiptService {
             commands.push('\n')
 
             // Print user uploaded QR code image
-            // We assume qrCodeData is base64 image here since that's what we have in store
-            // We can also support text-to-QR later if needed but user specifically asked for uploaded QR to work
-            const qrWidth = is58mm ? 200 : 300 // Smaller than full width
+            const qrWidth = is58mm ? 192 : 256
             const ditheredQr = await this.ditherImage(qrCodeData, qrWidth)
             if (ditheredQr) {
                 const qrCommands = this.getImageCommands(ditheredQr)
                 commands.push(...qrCommands)
+                // Add extra padding (5 lines) to prevent cutoff
+                commands.push('\n\n\n\n\n')
             }
         }
 

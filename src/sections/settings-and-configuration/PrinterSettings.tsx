@@ -121,7 +121,7 @@ export default function PrinterSettings({ onBack }: PrinterSettingsProps) {
 
         try {
             console.log('Generating test receipt...')
-            const receiptData = receiptService.generateTestReceipt(receiptConfig, logoImage || undefined)
+            const receiptData = await receiptService.generateTestReceipt(receiptConfig, logoImage || undefined)
             console.log(`Receipt generated (${receiptData.length} bytes). Sending to printer...`)
 
             const success = await hardwareService.printReceipt(printerSettings.connectedPrinterId, receiptData)
@@ -165,7 +165,7 @@ export default function PrinterSettings({ onBack }: PrinterSettingsProps) {
             )}
 
             {/* Block 1: Header */}
-            <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
+            <div className="sticky top-0 z-10 border-b bg-background px-6 py-4 min-h-[100px]">
                 <Button
                     type="button"
                     variant="invisible"

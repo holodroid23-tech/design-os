@@ -153,7 +153,7 @@ export default function OrdersMain({
     <div className="flex h-full min-h-full w-full flex-col bg-background">
       <div className="min-h-0 flex-1 overflow-y-auto">
         {/* Block 1: Order switcher */}
-        <div className="sticky top-0 z-50 isolate bg-background border-b border-border px-4 pt-4 pb-4">
+        <div className="sticky top-0 z-50 isolate bg-background border-b border-border px-4 pt-4 pb-4 min-h-[100px]">
           <OrderTabs
             tabs={tabs.map(t => ({
               id: t.id,

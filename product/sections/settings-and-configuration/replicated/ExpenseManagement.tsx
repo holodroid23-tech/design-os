@@ -70,7 +70,7 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
-      <div className="sticky top-0 z-10 border-b bg-background px-4 py-4">
+      <div className="sticky top-0 z-10 border-b bg-background px-4 py-4 min-h-[100px]">
         <Button
           type="button"
           variant="invisible"

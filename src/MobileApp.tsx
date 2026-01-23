@@ -24,7 +24,8 @@ import SuggestFeature from "@product/sections/settings-and-configuration/replica
 import ReportBug from "@product/sections/settings-and-configuration/replicated/ReportBug"
 import ActivityAndReportsManagerAdminView from "@product/sections/activity-and-reports/replicated/ActivityAndReportsManagerAdminView"
 import CreateExpense from "@product/sections/daily-expenses/replicated/CreateExpense"
-import { StatusBar } from "@/shell/components/StatusBar"
+
+import { StripePaymentModal } from "@/components/StripePaymentModal"
 
 type AppView = 'orders' | 'expenses' | 'activity' | 'settings' | 'payment-success' |
     'settings-printer' | 'settings-general' | 'settings-inventory' | 'settings-users' | 'settings-profile' |
@@ -40,6 +41,8 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
     const [viewStack, setViewStack] = React.useState<AppView[]>(['orders'])
     const [isCreatingExpenseInActivity, setIsCreatingExpenseInActivity] = React.useState(false)
     const [lastCompletedOrder, setLastCompletedOrder] = React.useState<OrderTab | null>(null)
+    const [isProcessingCardPayment, setIsProcessingCardPayment] = React.useState(false)
+    const [pendingPaymentOrder, setPendingPaymentOrder] = React.useState<OrderTab | null>(null)
 
     const { clearOrder } = useOrderStore()
     const { receiptConfig, logoImage, qrCodeImage, printerSettings, currency, taxRate, areTaxesEnabled } = useSettingsStore()
@@ -146,10 +149,32 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
         return () => { unsubscribe() }
     }, [])
 
-    const handleOrderPayment = (order: OrderTab) => {
-        setLastCompletedOrder(order)
-        clearOrder(order.id)
-        navigateTo('payment-success')
+    const handleOrderPayment = (order: OrderTab, paymentMethod: 'cash' | 'card' = 'card') => {
+        if (paymentMethod === 'card') {
+            // Show Stripe Terminal modal for card payments
+            setPendingPaymentOrder(order)
+            setIsProcessingCardPayment(true)
+        } else {
+            // Cash payment - immediate success
+            setLastCompletedOrder(order)
+            clearOrder(order.id)
+            navigateTo('payment-success')
+        }
+    }
+
+    const handlePaymentSuccess = () => {
+        if (pendingPaymentOrder) {
+            setLastCompletedOrder(pendingPaymentOrder)
+            clearOrder(pendingPaymentOrder.id)
+            setIsProcessingCardPayment(false)
+            setPendingPaymentOrder(null)
+            navigateTo('payment-success')
+        }
+    }
+
+    const handlePaymentCancel = () => {
+        setIsProcessingCardPayment(false)
+        setPendingPaymentOrder(null)
     }
 
     const calculateTotal = (order: OrderTab | null) => {
@@ -220,8 +245,8 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
             case 'orders':
                 return (
                     <OrdersMain
-                        onPayCash={(order) => handleOrderPayment(order)}
-                        onPayCard={(order) => handleOrderPayment(order)}
+                        onPayCash={(order) => handleOrderPayment(order, 'cash')}
+                        onPayCard={(order) => handleOrderPayment(order, 'card')}
                         onAddOrder={() => console.log('Add Order clicked')}
                     />
                 )
@@ -309,21 +334,31 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
 
 
     const content = (
-        <AppShell
-            navigationItems={navigationItems}
-            user={user}
-            onNavigate={handleNavigate}
-        >
-            <div className="h-full w-full relative">
-                {renderActiveView()}
-            </div>
-        </AppShell>
+        <>
+            <AppShell
+                navigationItems={navigationItems}
+                user={user}
+                onNavigate={handleNavigate}
+            >
+                <div className="h-full w-full relative">
+                    {renderActiveView()}
+                </div>
+            </AppShell>
+
+            {/* Stripe Payment Modal */}
+            {isProcessingCardPayment && pendingPaymentOrder && (
+                <StripePaymentModal
+                    amount={calculateTotal(pendingPaymentOrder)}
+                    onSuccess={handlePaymentSuccess}
+                    onCancel={handlePaymentCancel}
+                />
+            )}
+        </>
     )
 
     if (!isFrame) {
         return (
-            <div className="dark h-[100dvh] bg-background flex flex-col">
-                <StatusBar className="relative z-[100] px-1 pt-1 shrink-0" />
+            <div className="dark h-[100dvh] bg-background flex flex-col pt-[calc(env(safe-area-inset-top)_+_32px)]">
                 <div className="flex-1 overflow-hidden relative">
                     {content}
                 </div>
@@ -332,8 +367,8 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
     }
 
     return (
-        <div className="dark mx-auto w-full max-w-[420px] aspect-[9/19.5] border border-border bg-background shadow-2xl overflow-hidden relative flex flex-col">
-            <StatusBar className="relative z-[100] mt-1" />
+        <div className="dark mx-auto w-full max-w-[420px] aspect-[9/19.5] border border-border bg-background shadow-2xl overflow-hidden relative flex flex-col pt-8">
+
             <div className="flex-1 overflow-hidden relative">
                 {content}
             </div>

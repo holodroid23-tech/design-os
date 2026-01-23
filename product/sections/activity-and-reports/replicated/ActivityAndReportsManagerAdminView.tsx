@@ -352,7 +352,7 @@ export default function ActivityAndReportsManagerAdminView({
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
       {/* Header: Top tabs (Expenses header style) */}
-      <div className="sticky top-0 z-50 bg-background border-b border-border px-4 pt-4 pb-4">
+      <div className="sticky top-0 z-50 bg-background border-b border-border px-4 pt-4 pb-4 min-h-[100px]">
         <Tabs
           value={selectedTab}
           onValueChange={(next) => {
