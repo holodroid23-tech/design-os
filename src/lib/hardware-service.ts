@@ -3,8 +3,12 @@ import { Capacitor, registerPlugin } from '@capacitor/core';
 
 interface StripeTerminalPlugin {
     initialize(): Promise<void>;
+    setBackendUrl(options: { url: string }): Promise<void>;
     discoverReaders(options?: any): Promise<void>;
+    connectReader(options: { serialNumber: string }): Promise<{ connected: boolean; serialNumber: string }>;
+    collectPayment(options: { amount: number; currency?: string }): Promise<{ success: boolean; amount: number; simulated: boolean; paymentIntentId?: string }>;
     addListener(eventName: 'readersDiscovered', listenerFunc: (data: { readers: any[] }) => void): Promise<{ remove: () => void }>;
+    addListener(eventName: 'paymentStatus', listenerFunc: (data: { status: string; message: string }) => void): Promise<{ remove: () => void }>;
 }
 
 const StripeTerminal = registerPlugin<StripeTerminalPlugin>('StripeTerminal');
@@ -62,8 +66,31 @@ class HardwareService {
     private listeners: Set<(devices: BaseDevice[]) => void> = new Set();
     private connectedPrinters: Map<string, PrinterConnection> = new Map();
 
+    // Stripe backend URL (ngrok URL for real device, localhost for emulator)
+    private stripeBackendUrl: string = 'http://10.0.2.2:4242'; // Default for Android emulator
+
     constructor() {
         this.loadDevices();
+    }
+
+    /**
+     * Set the Stripe backend URL (e.g., ngrok URL)
+     * Call this before initializing terminal
+     */
+    async setStripeBackendUrl(url: string): Promise<void> {
+        this.stripeBackendUrl = url;
+        console.log('🔗 Stripe backend URL set to:', url);
+
+        if (Capacitor.isNativePlatform()) {
+            await StripeTerminal.setBackendUrl({ url });
+        }
+    }
+
+    /**
+     * Get the current Stripe backend URL
+     */
+    getStripeBackendUrl(): string {
+        return this.stripeBackendUrl;
     }
 
     private loadDevices() {
@@ -304,6 +331,89 @@ class HardwareService {
         }
 
         return this.devices.filter(d => d.type === type);
+    }
+
+
+    /**
+     * Connect to a discovered Stripe Terminal reader
+     * Uses native plugin on Android, simulated on browser
+     */
+    async connectToTerminal(serialNumber: string): Promise<{ connected: boolean; serialNumber: string }> {
+        console.log('🔌 Connecting to terminal:', serialNumber);
+
+        if (Capacitor.isNativePlatform()) {
+            // Use actual native plugin
+            console.log('📱 Using native Stripe Terminal plugin...');
+            try {
+                const result = await StripeTerminal.connectReader({ serialNumber });
+                console.log('✅ Native terminal connected:', result);
+                return result;
+            } catch (error) {
+                console.error('❌ Native connection failed:', error);
+                throw error;
+            }
+        }
+
+        // Web simulation fallback
+        console.log('🌐 Using web simulation (no native platform detected)...');
+        await new Promise(resolve => setTimeout(resolve, 800));
+        console.log('✅ Terminal connected (simulated)');
+        return { connected: true, serialNumber };
+    }
+
+    /**
+     * Collect payment using the connected terminal
+     * Uses native plugin on Android, simulated on browser
+     */
+    async collectTerminalPayment(amount: number, onStatusChange?: (status: string, message: string) => void): Promise<{ success: boolean; amount: number; simulated: boolean; paymentIntentId?: string }> {
+        console.log('💳 Collecting payment:', amount);
+
+        if (Capacitor.isNativePlatform()) {
+            // Use actual native plugin
+            console.log('📱 Using native Stripe Terminal plugin for payment...');
+
+            // Listen for payment status updates
+            let statusListener: { remove: () => void } | null = null;
+            if (onStatusChange) {
+                statusListener = await StripeTerminal.addListener('paymentStatus', (data) => {
+                    console.log('📊 Payment status:', data.status, data.message);
+                    onStatusChange(data.status, data.message);
+                });
+            }
+
+            try {
+                const result = await StripeTerminal.collectPayment({ amount, currency: 'usd' });
+                console.log('✅ Native payment collected:', result);
+                return result;
+            } catch (error) {
+                console.error('❌ Native payment failed:', error);
+                throw error;
+            } finally {
+                if (statusListener) {
+                    statusListener.remove();
+                }
+            }
+        }
+
+        // Web simulation fallback
+        console.log('🌐 Using web simulation (no native platform detected)...');
+        console.log('⏱️ Simulating card tap (4 seconds)...');
+
+        if (onStatusChange) {
+            onStatusChange('waiting_for_card', 'Please tap your card');
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 4000));
+        console.log('✅ Card tapped! (simulated)');
+
+        if (onStatusChange) {
+            onStatusChange('processing', 'Processing payment...');
+        }
+
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        console.log('✅ Payment successful! (simulated)');
+
+        return { success: true, amount, simulated: true };
     }
 
     // Scanner Keyboard Integration

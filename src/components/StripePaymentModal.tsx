@@ -21,6 +21,12 @@ export function StripePaymentModal({ amount, onSuccess, onCancel }: StripePaymen
 
     const startPaymentFlow = async () => {
         try {
+            // Step 0: Configure backend URL (ngrok)
+            // TODO: Move this to app settings once testing is complete
+            const STRIPE_BACKEND_URL = 'https://beatris-unhating-emmaline.ngrok-free.dev';
+            console.log('🔗 Setting backend URL:', STRIPE_BACKEND_URL);
+            await hardwareService.setStripeBackendUrl(STRIPE_BACKEND_URL);
+
             // Step 1: Initialize Terminal
             setStep('initializing')
             setStatusMessage('Initializing Stripe Terminal...')
@@ -60,18 +66,29 @@ export function StripePaymentModal({ amount, onSuccess, onCancel }: StripePaymen
             // Step 3: Connect to phone's NFC reader
             setStep('connecting')
             setStatusMessage('Activating NFC reader...')
-            await new Promise(resolve => setTimeout(resolve, 1000))
+            console.log('🔌 Connecting to reader:', reader.id)
 
-            // Step 4: Process payment
+            const connectResult = await hardwareService.connectToTerminal(reader.id)
+            console.log('✅ Connected to reader:', connectResult)
+
+            // Step 4: Collect payment with status callback for real-time updates
             setStep('processing')
-            setStatusMessage('Ready - Tap card or phone to pay...')
+            setStatusMessage('Waiting for card tap...')
+            console.log('💳 Starting payment collection for $' + amount)
 
-            // Simulate payment collection (2-3 seconds for tap animation)
-            await new Promise(resolve => setTimeout(resolve, 2500))
+            const paymentResult = await hardwareService.collectTerminalPayment(
+                amount,
+                (status, message) => {
+                    // Update UI based on SDK events
+                    console.log('📊 Payment status update:', status, message)
+                    setStatusMessage(message)
+                }
+            )
+            console.log('✅ Payment collected:', paymentResult)
 
             // Success!
             setStep('success')
-            setStatusMessage('Payment successful!')
+            setStatusMessage(`Payment successful!${paymentResult.simulated ? ' (simulated)' : ''}`)
 
             // Auto-close after success
             setTimeout(() => {
@@ -79,9 +96,9 @@ export function StripePaymentModal({ amount, onSuccess, onCancel }: StripePaymen
             }, 1500)
 
         } catch (error) {
-            console.error('Connection/payment error:', error)
+            console.error('❌ Connection/payment error:', error)
             setStep('error')
-            setStatusMessage(error instanceof Error ? error.message : 'Connection failed')
+            setStatusMessage(error instanceof Error ? error.message : 'Payment failed')
         }
     }
 

@@ -66,9 +66,9 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
-    // Stripe Terminal SDK - upgraded to v5.x (unified package on Maven Central)
-    // Replaces stripeterminal-localmobile:3.6.1 and stripeterminal-core:3.6.1
+    // Stripe Terminal SDK - v5.x with Tap to Pay module
     implementation "com.stripe:stripeterminal:5.1.1"
+    implementation "com.stripe:stripeterminal-taptopay:5.1.1"  // Required for Tap to Pay on Android
 }
 
 configurations {

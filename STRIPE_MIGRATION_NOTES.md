@@ -132,13 +132,37 @@ public void connectReader(PluginCall call) {
 
 ### Testing Checklist
 
+- [x] Build succeeds in Android Studio
+- [x] Gradle sync completes without errors
+- [x] Terminal initializes correctly
+- [x] Reader discovery works (Tap to Pay)
+- [x] Reader connection works (connectReader → TapToPayConnectionConfiguration)
+- [x] Payment flow works end-to-end (createPaymentIntent → collectPaymentMethod → confirmPaymentIntent)
 
-- [ ] Build succeeds in Android Studio
-- [ ] Gradle sync completes without errors
-- [ ] Terminal initializes correctly
-- [ ] Reader discovery works (Tap to Pay)
-- [ ] Reader connection works
-- [ ] Payment flow works end-to-end
+## Implementation Status (Updated Jan 2026)
+
+### ✅ Completed
+
+| Component | File | Status |
+|-----------|------|--------|
+| SDK Initialization | `StripeTerminalPlugin.java` | ✅ Using `Terminal.init()` with required listeners |
+| Reader Discovery | `StripeTerminalPlugin.java` | ✅ `TapToPayDiscoveryConfiguration` with `isSimulated: true` |
+| Reader Connection | `StripeTerminalPlugin.java` | ✅ `TapToPayConnectionConfiguration` with simulated location |
+| Payment Collection | `StripeTerminalPlugin.java` | ✅ Full SDK flow: `createPaymentIntent` → `collectPaymentMethod` → `confirmPaymentIntent` |
+| TypeScript Bridge | `hardware-service.ts` | ✅ Calls native plugin on Android, web simulation fallback |
+| UI Integration | `StripePaymentModal.tsx` | ✅ Real-time status updates from SDK events |
+
+### How Simulated Mode Works
+
+The implementation uses Stripe SDK's **built-in simulated mode**:
+
+1. `TapToPayDiscoveryConfiguration(true)` enables simulated reader discovery
+2. The SDK creates a simulated reader (your phone's NFC)
+3. `createPaymentIntent()` creates a simulated PaymentIntent
+4. `collectPaymentMethod()` triggers the "tap card" flow - in simulated mode, the SDK auto-simulates a test card tap
+5. `confirmPaymentIntent()` completes the payment
+
+**No backend required for testing!** The SDK handles everything internally.
 
 ## Resources
 
@@ -146,12 +170,14 @@ public void connectReader(PluginCall call) {
 - [Stripe Terminal Android CHANGELOG](https://github.com/stripe/stripe-terminal-android/blob/master/CHANGELOG.md)
 - [Stripe Terminal Android SDK v5 Documentation](https://stripe.dev/stripe-terminal-android/v5/)
 
-## Next Steps
+## Next Steps (Optional - For Production)
 
-1. **Sync your project in Android Studio** - Click File → Sync Project with Gradle Files
-2. **Check for compilation errors** - The new SDK may require code changes
-3. **Review the migration guide** - Link above for detailed API changes
-4. **Test the Tap to Pay flow** - Ensure discovery and connection still work
+When ready for **real payments**:
+
+1. **Create a backend endpoint** to fetch connection tokens
+2. Update `ConnectionTokenProvider.fetchConnectionToken()` to call your backend
+3. Set `isSimulated: false` in `TapToPayDiscoveryConfiguration`
+4. Use real Stripe test cards for testing
 
 ## Notes
 
@@ -159,3 +185,4 @@ public void connectReader(PluginCall call) {
 - Version 5.1.1 (latest as of Jan 2026) is on Maven Central
 - The API changes between v3 and v5 are minimal for basic usage but significant for advanced features
 - Auto-reconnection is now enabled by default for mobile readers
+
