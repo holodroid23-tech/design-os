@@ -28,7 +28,7 @@ export interface CardTapToPayConfirmationProps {
 export default function CardTapToPayConfirmation({
   title = "Confirm card payment",
   prompt = "Are you sure you want to process the payment?",
-  amount = "$24.00",
+  amount = "24.00 Kč",
   methodLabel = "Method: Card (tap to pay)",
   cancelLabel = "Cancel",
   payLabel = "Pay",

@@ -46,7 +46,7 @@ interface SettingsState {
 export const useSettingsStore = create<SettingsState>()(
     persist(
         (set) => ({
-            currency: '$',
+            currency: 'Kč',
             taxRate: 0.08, // 8% default
             taxName: 'Tax',
             areTaxesEnabled: true,

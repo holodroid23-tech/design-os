@@ -72,7 +72,7 @@ export interface OrderExpandableSummaryProps extends Omit<React.HTMLAttributes<H
 }
 
 function defaultFormatMoney(value: number) {
-  return `$${value.toFixed(2)}`
+  return `${value.toFixed(2)} Kč`
 }
 
 function buildSummaryText(items: OrderExpandableSummaryItem[], maxChars: number) {

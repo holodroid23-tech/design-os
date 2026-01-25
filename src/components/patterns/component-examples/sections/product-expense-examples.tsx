@@ -22,13 +22,13 @@ import { CreditCard, Folder, Minus, Pencil, Plus, Trash2 } from 'lucide-react'
 const productSwatches = [
   { name: 'Primary', tone: 'primary' as const },
   { name: 'Secondary', tone: 'secondary' as const },
-  { name: 'Info', tone: 'info' as const },
-  { name: 'Success', tone: 'success' as const },
-  { name: 'Warning', tone: 'warning' as const },
-  { name: 'Danger', tone: 'danger' as const },
-  { name: 'Muted', tone: 'muted' as const },
-  { name: 'Accent', tone: 'accent' as const },
-  { name: 'Card', tone: 'card' as const },
+  { name: 'Info', tone: 'sky' as const },
+  { name: 'Success', tone: 'green' as const },
+  { name: 'Warning', tone: 'amber' as const },
+  { name: 'Danger', tone: 'red' as const },
+  { name: 'Muted', tone: 'slate' as const },
+  { name: 'Accent', tone: 'purple' as const },
+  { name: 'Card', tone: 'surface' as const },
 ]
 
 export function ProductExpenseCardsExamplesCard() {
@@ -152,8 +152,8 @@ export function ProductExpenseItemsDsExamplesCard() {
                 price="$11.00"
                 imageSrc="https://images.unsplash.com/photo-1542332213-31f87348057f?q=80&w=256&auto=format&fit=crop"
                 imageAlt="Iced Matcha"
-                onDecrease={() => {}}
-                onIncrease={() => {}}
+                onDecrease={() => { }}
+                onIncrease={() => { }}
               />
             </SettingsGroup>
           </div>
@@ -166,7 +166,7 @@ export function ProductExpenseItemsDsExamplesCard() {
                 price="$1,250.00"
                 imageSrc="https://picsum.photos/seed/office-rent/72"
                 imageAlt="Office rent"
-                onEdit={() => {}}
+                onEdit={() => { }}
               />
             </SettingsGroup>
           </div>

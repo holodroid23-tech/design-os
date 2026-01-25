@@ -1,7 +1,11 @@
 import * as React from 'react'
-import { Loader2, X } from 'lucide-react'
+import { CreditCard, Loader2, RotateCw, Smartphone, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { hardwareService } from '@/lib/hardware-service'
+import { useSettingsStore } from '@/stores/useSettingsStore'
+import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { SectionTitle } from '@/components/ui/section-title'
+import { IconTile, SystemIcon } from '@/components/atoms/icon'
 
 export interface StripePaymentModalProps {
     amount: number
@@ -13,7 +17,8 @@ type PaymentStep = 'initializing' | 'discovering' | 'connecting' | 'processing' 
 
 export function StripePaymentModal({ amount, onSuccess, onCancel }: StripePaymentModalProps) {
     const [step, setStep] = React.useState<PaymentStep>('initializing')
-    const [statusMessage, setStatusMessage] = React.useState('Initializing Stripe Terminal...')
+    const [statusMessage, setStatusMessage] = React.useState('Initializing Tap to Pay...')
+    const { currency } = useSettingsStore()
 
     React.useEffect(() => {
         startPaymentFlow()
@@ -21,186 +26,154 @@ export function StripePaymentModal({ amount, onSuccess, onCancel }: StripePaymen
 
     const startPaymentFlow = async () => {
         try {
-            // Step 0: Configure backend URL (ngrok)
-            // TODO: Move this to app settings once testing is complete
-            const STRIPE_BACKEND_URL = 'https://beatris-unhating-emmaline.ngrok-free.dev';
-            console.log('🔗 Setting backend URL:', STRIPE_BACKEND_URL);
-            await hardwareService.setStripeBackendUrl(STRIPE_BACKEND_URL);
+            // Ensure backend URL is set (from ngrok)
+            // Note: If you have a settings UI for this, it should be read from there.
+            const currentBackend = hardwareService.getStripeBackendUrl();
+            console.log('🔗 Stripe Terminal using backend:', currentBackend);
 
-            // Step 1: Initialize Terminal
             setStep('initializing')
-            setStatusMessage('Initializing Stripe Terminal...')
-            console.log('🎯 Starting payment flow...')
-            await new Promise(resolve => setTimeout(resolve, 1000))
+            setStatusMessage('Starting terminal...')
 
-            // Step 2: Prepare internal NFC (Tap to Pay on Android)
-            setStep('discovering')
-            setStatusMessage('Preparing NFC for Tap to Pay...')
-            console.log('🔍 Preparing Tap to Pay on Android (internal NFC)...')
-
+            // Step 1: Initialize & Discover
             const readers = await hardwareService.discoverDevices('terminal')
-            console.log('📱 Readers found:', readers.length, readers)
 
             if (readers.length === 0) {
-                setStep('error')
-                setStatusMessage('Failed to initialize phone NFC reader. Please check permissions.')
-                console.error('❌ Failed to initialize internal NFC reader')
-                return
+                throw new Error('No NFC reader found. Ensure NFC is enabled.')
             }
 
-            setStatusMessage('Phone NFC ready')
-            console.log('✅ Phone NFC reader ready, connecting...')
-
-            // Auto-connect to first reader after a moment
-            setTimeout(() => connectToReader(readers[0]), 1500)
-
-        } catch (error) {
-            console.error('❌ Payment flow error:', error)
-            setStep('error')
-            setStatusMessage(error instanceof Error ? error.message : 'Payment failed')
-        }
-    }
-
-    const connectToReader = async (reader: any) => {
-        try {
-            // Step 3: Connect to phone's NFC reader
+            // Step 2: Connect
             setStep('connecting')
-            setStatusMessage('Activating NFC reader...')
-            console.log('🔌 Connecting to reader:', reader.id)
+            setStatusMessage('Connecting to NFC hardware...')
+            await hardwareService.connectToTerminal(readers[0].id)
 
-            const connectResult = await hardwareService.connectToTerminal(reader.id)
-            console.log('✅ Connected to reader:', connectResult)
-
-            // Step 4: Collect payment with status callback for real-time updates
+            // Step 3: Collect payment
             setStep('processing')
-            setStatusMessage('Waiting for card tap...')
-            console.log('💳 Starting payment collection for $' + amount)
+            setStatusMessage('Ready to tap')
 
-            const paymentResult = await hardwareService.collectTerminalPayment(
+            const _paymentResult = await hardwareService.collectTerminalPayment(
                 amount,
-                (status, message) => {
-                    // Update UI based on SDK events
-                    console.log('📊 Payment status update:', status, message)
+                (_status, message) => {
                     setStatusMessage(message)
                 }
             )
-            console.log('✅ Payment collected:', paymentResult)
 
             // Success!
             setStep('success')
-            setStatusMessage(`Payment successful!${paymentResult.simulated ? ' (simulated)' : ''}`)
+            setStatusMessage('Payment complete')
 
-            // Auto-close after success
             setTimeout(() => {
                 onSuccess()
             }, 1500)
 
-        } catch (error) {
-            console.error('❌ Connection/payment error:', error)
+        } catch (error: any) {
+            console.error('❌ Tap to Pay Error:', error)
             setStep('error')
-            setStatusMessage(error instanceof Error ? error.message : 'Payment failed')
+            setStatusMessage(error?.message || 'Transaction failed')
         }
     }
 
-    const getStepIcon = () => {
+    const renderContent = () => {
+        const displayAmount = `${amount.toLocaleString('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currency}`
+
         switch (step) {
             case 'success':
                 return (
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-success/20">
-                        <svg
-                            className="h-8 w-8 text-success"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M5 13l4 4L19 7"
-                            />
-                        </svg>
+                    <div className="flex flex-col items-center justify-center gap-8 py-10 text-center">
+                        <IconTile icon={CreditCard} size="large" tone="success" />
+                        <div className="space-y-2">
+                            <SectionTitle titleAs="h1">Payment Success</SectionTitle>
+                            <p className="text-muted-foreground">Transaction completed successfully</p>
+                        </div>
+                        <SectionTitle titleAs="div" size="page" className="mt-4">
+                            {displayAmount}
+                        </SectionTitle>
                     </div>
                 )
+
             case 'error':
                 return (
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-destructive/20">
-                        <X className="h-8 w-8 text-destructive" />
+                    <div className="flex flex-col items-center justify-center gap-6 py-10 text-center">
+                        <IconTile icon={X} size="large" tone="danger" />
+                        <div className="space-y-2">
+                            <SectionTitle titleAs="h1">Failed</SectionTitle>
+                            <p className="text-destructive font-medium">{statusMessage}</p>
+                        </div>
+
+                        <SectionTitle titleAs="div" size="page" className="my-2">
+                            {displayAmount}
+                        </SectionTitle>
+
+                        <div className="grid grid-cols-2 gap-3 w-full mt-4">
+                            <Button variant="secondary" size="lg" onClick={onCancel}>
+                                Cancel
+                            </Button>
+                            <Button variant="default" size="lg" onClick={startPaymentFlow}>
+                                <RotateCw className="mr-2 h-4 w-4" />
+                                Retry
+                            </Button>
+                        </div>
                     </div>
                 )
+
             case 'processing':
                 return (
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary/20 animate-pulse">
-                        <svg
-                            className="h-8 w-8 text-primary"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={2}
-                                d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                            />
-                        </svg>
+                    <div className="flex flex-col items-center justify-center gap-8 py-10 text-center">
+                        <div className="relative">
+                            <IconTile icon={Smartphone} size="large" tone="neutral" className="bg-primary/10 animate-pulse scale-110" />
+                            <div className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-25" />
+                        </div>
+
+                        <div className="space-y-2">
+                            <SectionTitle titleAs="h1">Tap to pay</SectionTitle>
+                            <p className="text-xl font-medium animate-pulse">{statusMessage}</p>
+                        </div>
+
+                        <SectionTitle titleAs="div" size="page" className="mt-6">
+                            {displayAmount}
+                        </SectionTitle>
+
+                        <div className="flex items-center gap-2 text-muted-foreground mt-4">
+                            <SystemIcon icon={CreditCard} size="regular" />
+                            <span className="text-sm font-medium">Hold card to back of phone</span>
+                        </div>
                     </div>
                 )
-            default:
+
+            default: // Initializing / Connecting
                 return (
-                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
-                        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+                    <div className="flex flex-col items-center justify-center gap-8 py-10 text-center">
+                        <Loader2 className="h-16 w-16 animate-spin text-primary opacity-50" />
+                        <div className="space-y-2">
+                            <SectionTitle titleAs="h1">Initializing</SectionTitle>
+                            <p className="text-muted-foreground">{statusMessage}</p>
+                        </div>
+                        <SectionTitle titleAs="div" size="page" className="opacity-50">
+                            {displayAmount}
+                        </SectionTitle>
                     </div>
                 )
         }
     }
 
     return (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-sm">
-            <div className="w-full max-w-md mx-4">
-                <div className="rounded-xl border bg-card p-8 shadow-lg">
-                    <div className="flex flex-col items-center gap-6 text-center">
-                        {getStepIcon()}
-
-                        <div className="space-y-2">
-                            <h2 className="text-2xl font-semibold">
-                                {step === 'success' ? 'Payment Successful!' : `$${amount.toFixed(2)}`}
-                            </h2>
-                            <p className="text-sm text-muted-foreground">
-                                {statusMessage}
-                            </p>
-                        </div>
-
-                        {step === 'error' && (
-                            <div className="flex gap-3 w-full">
-                                <Button
-                                    variant="ghost"
-                                    className="flex-1"
-                                    onClick={onCancel}
-                                >
-                                    Cancel
-                                </Button>
-                                <Button
-                                    className="flex-1"
-                                    onClick={startPaymentFlow}
-                                >
-                                    Retry
-                                </Button>
-                            </div>
-                        )}
-
-                        {(step === 'initializing' || step === 'discovering' || step === 'connecting') && (
-                            <Button
-                                variant="ghost"
-                                onClick={onCancel}
-                                className="w-full"
-                            >
-                                Cancel
-                            </Button>
-                        )}
+        <Dialog open onOpenChange={(open) => { if (!open) onCancel() }}>
+            <DialogContent className="sm:max-w-[420px] max-h-[90vh] overflow-hidden" showCloseButton={false}>
+                <div className="relative">
+                    {/* Header close button */}
+                    <div className="absolute right-0 top-0 z-10">
+                        <Button
+                            variant="invisible"
+                            size="icon-lg"
+                            className="rounded-full bg-muted/50"
+                            onClick={onCancel}
+                        >
+                            <SystemIcon icon={X} />
+                        </Button>
                     </div>
+
+                    {renderContent()}
                 </div>
-            </div>
-        </div>
+            </DialogContent>
+        </Dialog>
     )
 }

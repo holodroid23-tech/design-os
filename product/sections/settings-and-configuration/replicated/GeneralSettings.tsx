@@ -22,7 +22,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
         setCurrency,
         areTaxesEnabled: useTaxes,
         setTaxesEnabled: setUseTaxes,
-        taxName,
+        // taxName,
         taxRate,
         setTaxRate,
         setTaxName
@@ -59,6 +59,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
     }
 
     const currencyOptions = [
+        { value: "Kč", label: "CZK (Kč)" },
         { value: "$", label: "USD ($)" },
         { value: "€", label: "EUR (€)" },
         { value: "£", label: "GBP (£)" },

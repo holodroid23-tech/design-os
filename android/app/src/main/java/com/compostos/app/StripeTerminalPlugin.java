@@ -184,6 +184,19 @@ public class StripeTerminalPlugin extends Plugin {
             return;
         }
 
+        // Check NFC
+        android.nfc.NfcAdapter nfcAdapter = android.nfc.NfcAdapter.getDefaultAdapter(getContext());
+        if (nfcAdapter == null) {
+            android.util.Log.e("StripeTerminal", "❌ NFC not available");
+            call.reject("NFC is not available on this device");
+            return;
+        }
+        if (!nfcAdapter.isEnabled()) {
+            android.util.Log.e("StripeTerminal", "❌ NFC disabled");
+            call.reject("NFC is disabled. Please enable it in system settings.");
+            return;
+        }
+
         boolean hasLocation = getPermissionState("location") == PermissionState.GRANTED;
         boolean hasBluetooth = getPermissionState("bluetooth") == PermissionState.GRANTED;
         
@@ -219,7 +232,7 @@ public class StripeTerminalPlugin extends Plugin {
         
         // Tap to Pay -> TapToPayDiscoveryConfiguration
         DiscoveryConfiguration config = new DiscoveryConfiguration.TapToPayDiscoveryConfiguration(
-            true  // isSimulated = true for testing with phone's internal NFC
+            false  // isSimulated = false for REAL hardware interaction (phone's NFC)
         );
         
         android.util.Log.d("StripeTerminal", "⚙️ Config created: TapToPayDiscoveryConfiguration (simulated=true)");
@@ -261,8 +274,8 @@ public class StripeTerminalPlugin extends Plugin {
 
             @Override
             public void onFailure(TerminalException e) {
-                android.util.Log.e("StripeTerminal", "❌ Discovery failed: " + e.getMessage(), e);
-                call.reject("Discovery failed", e);
+                android.util.Log.e("StripeTerminal", "❌ Discovery failed: " + e.getErrorCode() + " - " + e.getMessage(), e);
+                call.reject("Discovery failed: " + e.getMessage() + " (" + e.getErrorCode() + ")");
             }
         };
 
@@ -325,8 +338,8 @@ public class StripeTerminalPlugin extends Plugin {
                 
                 @Override
                 public void onFailure(TerminalException e) {
-                    android.util.Log.e("StripeTerminal", "❌ Failed to connect: " + e.getMessage(), e);
-                    call.reject("Failed to connect to reader", e);
+                    android.util.Log.e("StripeTerminal", "❌ Failed to connect: " + e.getErrorCode() + " - " + e.getMessage(), e);
+                    call.reject("Failed to connect to reader: " + e.getMessage() + " (" + e.getErrorCode() + ")");
                 }
             }
         );

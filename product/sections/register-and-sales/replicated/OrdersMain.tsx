@@ -146,7 +146,7 @@ export default function OrdersMain({
   ]
 
   const formatPrice = (price: number) => {
-    return `${currency}${price.toFixed(2)}`
+    return `${price.toLocaleString('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currency}`
   }
 
   return (
@@ -318,6 +318,7 @@ export default function OrdersMain({
           onDecreaseItem={(itemId) => activeTabId && decreaseItemQty(activeTabId, itemId)}
           onPayCash={handlePayCash}
           onPayCard={handlePayCard}
+          formatMoney={formatPrice}
         />
       </FloatingBottomBar>
 

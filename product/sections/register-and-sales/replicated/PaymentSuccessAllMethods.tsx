@@ -23,7 +23,7 @@ export interface PaymentSuccessAllMethodsProps {
 export default function PaymentSuccessAllMethods({
   title = "Payment successful",
   contextLine = "Transaction #8920 • Table 4",
-  amount = "$24.00",
+  amount = "24.00 Kč",
   printReceiptLabel = "Print receipt",
   startNewOrderLabel = "Start new order",
   onClose,

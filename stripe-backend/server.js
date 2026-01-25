@@ -63,7 +63,7 @@ app.post('/connection_token', async (req, res) => {
  * Body: { amount: number (in cents), currency: string }
  */
 app.post('/create_payment_intent', async (req, res) => {
-    const { amount, currency = 'usd' } = req.body;
+    const { amount, currency = 'czk' } = req.body;
 
     console.log(`💳 Creating PaymentIntent for ${amount} ${currency}`);
 

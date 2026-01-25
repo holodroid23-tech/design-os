@@ -321,7 +321,7 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
             case 'payment-success':
                 return (
                     <PaymentSuccessAllMethods
-                        amount={`${currency}${calculateTotal(lastCompletedOrder).toFixed(2)}`}
+                        amount={`${calculateTotal(lastCompletedOrder).toLocaleString('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currency}`}
                         onClose={() => handleNavigate('orders')}
                         onStartNewOrder={() => handleNavigate('orders')}
                         onPrintReceipt={handlePrintReceipt}

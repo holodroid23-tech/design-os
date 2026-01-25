@@ -382,7 +382,7 @@ class HardwareService {
             }
 
             try {
-                const result = await StripeTerminal.collectPayment({ amount, currency: 'usd' });
+                const result = await StripeTerminal.collectPayment({ amount, currency: 'czk' });
                 console.log('✅ Native payment collected:', result);
                 return result;
             } catch (error) {

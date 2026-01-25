@@ -25,7 +25,7 @@ export default function PaymentFailedTapToPay({
   title = "Payment failed",
   contextLine = "Transaction #8920 • Table 4",
   reason = "Card declined by bank",
-  amount = "$24.00",
+  amount = "24.00 Kč",
   changePaymentMethodLabel = "Change payment method",
   retryPaymentLabel = "Retry payment",
   onClose,
