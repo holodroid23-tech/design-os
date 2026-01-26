@@ -25,7 +25,9 @@ import {
   Users,
   Wallet,
 } from "lucide-react"
+import { Switch } from "@/components/ui/switch"
 import { useAuthStore } from "@/stores/useAuthStore"
+import { useSettingsStore } from "@/stores/useSettingsStore"
 import ManagerUsersSecurityRestriction from "./ManagerUsersSecurityRestriction"
 import PaymentModificationPinRequest from "./PaymentModificationPinRequest"
 
@@ -85,6 +87,14 @@ export default function SettingsRoot({
   footerBuild = "89",
 }: SettingsRootProps) {
   const { currentUser, verifyAdminAction } = useAuthStore()
+  const {
+    useSimulatedTapToPay,
+    setSimulatedTapToPay,
+    stripeBackendUrl,
+    setStripeBackendUrl,
+    stripeLocationId,
+    setStripeLocationId
+  } = useSettingsStore()
   const [showUsersSecurity, setShowUsersSecurity] = React.useState(false)
   const [showPaymentSecurity, setShowPaymentSecurity] = React.useState(false)
 
@@ -252,6 +262,47 @@ export default function SettingsRoot({
                 <ChevronRight aria-hidden className="size-5" />
               </SettingsItemAction>
             </SettingsItem>
+          </SettingsGroup>
+
+          <SettingsGroup>
+            <div className="px-4 py-2">
+              <SectionTitle size="section" className="mb-2">Developer</SectionTitle>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col">
+                    <span className="text-sm font-medium">Simulated Tap to Pay</span>
+                    <span className="text-xs text-muted-foreground">Mock backend & NFC</span>
+                  </div>
+                  <Switch
+                    checked={useSimulatedTapToPay}
+                    onCheckedChange={setSimulatedTapToPay}
+                  />
+                </div>
+
+                {!useSimulatedTapToPay && (
+                  <div className="flex flex-col gap-3 animate-in fade-in slide-in-from-top-2">
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-xs font-medium text-muted-foreground">Stripe Backend URL</span>
+                      <input
+                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                        value={stripeBackendUrl}
+                        onChange={(e) => setStripeBackendUrl(e.target.value)}
+                        placeholder="https://...ngrok-free.app"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      <span className="text-xs font-medium text-muted-foreground">Location ID</span>
+                      <input
+                        className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                        value={stripeLocationId}
+                        onChange={(e) => setStripeLocationId(e.target.value)}
+                        placeholder="tml_..."
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
           </SettingsGroup>
         </div>
       </div>

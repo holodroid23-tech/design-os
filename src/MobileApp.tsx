@@ -48,7 +48,7 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
     const [pendingPaymentOrder, setPendingPaymentOrder] = React.useState<OrderTab | null>(null)
 
     const { clearOrder } = useOrderStore()
-    const { receiptConfig, logoImage, qrCodeImage, printerSettings, currency, taxRate, areTaxesEnabled } = useSettingsStore()
+    const { receiptConfig, logoImage, qrCodeImage, printerSettings, currency, taxRate, areTaxesEnabled, stripeBackendUrl, stripeLocationId } = useSettingsStore()
     const { currentUser } = useAuthStore()
 
     const isCashier = currentUser?.role === 'Cashier'
@@ -154,11 +154,14 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
         // Initialize Stripe Terminal with real Location ID (from dashboard)
         const initHardware = async () => {
             try {
-                // Automatically set to your running ngrok tunnel
-                await hardwareService.setStripeBackendUrl('https://beatris-unhating-emmaline.ngrok-free.dev');
+                // Use configured values from settings store
+                await hardwareService.setStripeBackendUrl(stripeBackendUrl || 'https://beatris-unhating-emmaline.ngrok-free.dev');
+                await hardwareService.setStripeLocationId(stripeLocationId || 'tml_GXNjCAxtrU1n9x');
 
-                await hardwareService.setStripeLocationId('tml_GXNjCAxtrU1n9x');
-                console.log('✅ Hardware Service initialized with real Location ID');
+                console.log('✅ Hardware Service initialized with config:', {
+                    url: stripeBackendUrl,
+                    locationId: stripeLocationId
+                });
             } catch (err) {
                 console.error('❌ Failed to initialize Hardware Service:', err);
             }

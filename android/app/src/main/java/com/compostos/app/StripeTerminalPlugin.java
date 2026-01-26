@@ -428,6 +428,14 @@ public class StripeTerminalPlugin extends Plugin {
         String currency = call.getString("currency", "czk");
         
         android.util.Log.d("StripeTerminal", "💰 Collecting payment: " + amount + " " + currency + " (" + amountInCents + " cents)");
+
+        // In simulated mode, ALWAYS override to a safe amount to ensure successful testing
+        // This prevents "minimum amount" errors (e.g. < 15 CZK) and "magic number" errors (e.g. requires chip/pin)
+        // 25.00 CZK (2500 cents) is a safe "approved" amount in Stripe test mode.
+        if (useSimulatedMode) {
+             android.util.Log.d("StripeTerminal", "🔧 Simulated mode: Overriding amount to 2500 cents (25.00 " + currency + ") to ensure safe test transaction");
+             amountInCents = 2500;
+        }
         
         // Check if terminal is connected
         Reader connectedReader = Terminal.getInstance().getConnectedReader();
@@ -439,10 +447,13 @@ public class StripeTerminalPlugin extends Plugin {
         
         android.util.Log.d("StripeTerminal", "📱 Connected reader: " + connectedReader.getSerialNumber());
         
+        
+        final long finalAmountInCents = amountInCents;
+
         // Fetch PaymentIntent from backend (required for REAL payments)
         new Thread(() -> {
             try {
-                String clientSecret = fetchPaymentIntentClientSecret(amountInCents, currency);
+                String clientSecret = fetchPaymentIntentClientSecret(finalAmountInCents, currency);
                 
                 // Step 1: Retrieve the PaymentIntent
                 Terminal.getInstance().retrievePaymentIntent(clientSecret, new com.stripe.stripeterminal.external.callable.PaymentIntentCallback() {

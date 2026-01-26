@@ -27,6 +27,8 @@ interface SettingsState {
 
     // Developer/Debug settings
     useSimulatedTapToPay: boolean
+    stripeBackendUrl: string
+    stripeLocationId: string
 
     // Currency & Tax actions
     setCurrency: (currency: string) => void
@@ -47,6 +49,8 @@ interface SettingsState {
 
     // Developer/Debug actions
     setSimulatedTapToPay: (enabled: boolean) => void
+    setStripeBackendUrl: (url: string) => void
+    setStripeLocationId: (id: string) => void
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -83,6 +87,9 @@ export const useSettingsStore = create<SettingsState>()(
 
             // Default to simulated mode for development (set false for production)
             useSimulatedTapToPay: true,
+            // Default to the provided ID and a placeholder URL
+            stripeBackendUrl: 'https://beatris-unhating-emmaline.ngrok-free.dev',
+            stripeLocationId: 'tml_GXNjCAxtrU1n9x',
 
             setCurrency: (currency) => set({ currency }),
             setTaxRate: (rate) => set({ taxRate: rate }),
@@ -136,6 +143,8 @@ export const useSettingsStore = create<SettingsState>()(
             setLogoImage: (base64Image) => set({ logoImage: base64Image }),
             setQrCodeImage: (base64Image) => set({ qrCodeImage: base64Image }),
             setSimulatedTapToPay: (enabled) => set({ useSimulatedTapToPay: enabled }),
+            setStripeBackendUrl: (url) => set({ stripeBackendUrl: url }),
+            setStripeLocationId: (id) => set({ stripeLocationId: id }),
         }),
         {
             name: 'compost-settings-storage',

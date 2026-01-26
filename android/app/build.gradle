@@ -34,6 +34,11 @@ android {
         checkReleaseBuilds false
         abortOnError false
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 repositories {
@@ -47,13 +52,13 @@ dependencies {
         implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk7') {
             because 'kotlin-stdlib-jdk7 is now part of kotlin-stdlib'
             version {
-                strictly '1.8.22'
+                strictly '1.9.10'
             }
         }
         implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8') {
             because 'kotlin-stdlib-jdk8 is now part of kotlin-stdlib'
             version {
-                strictly '1.8.22'
+                strictly '1.9.10'
             }
         }
     }
@@ -70,15 +75,14 @@ dependencies {
     // Stripe Terminal SDK - v5.x with Tap to Pay module
     // All three modules are required for proper AIDL service communication
     implementation "com.stripe:stripeterminal-core:5.1.1"  // Core AIDL service
-    implementation "com.stripe:stripeterminal:5.1.1"
     implementation "com.stripe:stripeterminal-taptopay:5.1.1"  // Required for Tap to Pay on Android
 }
 
 configurations {
     all {
         resolutionStrategy {
-            force 'org.jetbrains.kotlin:kotlin-stdlib:1.8.22'
-            force 'org.jetbrains.kotlin:kotlin-stdlib-common:1.8.22'
+            force 'org.jetbrains.kotlin:kotlin-stdlib:1.9.10'
+            force 'org.jetbrains.kotlin:kotlin-stdlib-common:1.9.10'
         }
     }
 }
