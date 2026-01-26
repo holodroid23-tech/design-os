@@ -7,6 +7,7 @@ import { SectionTitle } from "@/components/ui/section-title"
 import { OrderTabs } from "@/components/ui/order-tabs"
 import { OrderProductTile } from "@/components/ui/order-product-tile"
 import { GridActionTile } from "@/components/patterns/grid-action-tile"
+import { PageHeader } from "@/components/ui/page-header"
 import { cn } from "@/lib/utils"
 import ItemManagementNewItem from "../../settings-and-configuration/replicated/ItemManagementNewItem"
 import OrderEditTab from "./OrderEditTab"
@@ -168,8 +169,7 @@ export default function OrdersMain({
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {/* Block 1: Order switcher */}
-        <div className="sticky top-0 z-50 isolate bg-background border-b border-border px-6 pt-10 pb-4">
+        <PageHeader>
           <OrderTabs
             tabs={tabs.map(t => ({
               id: t.id,
@@ -181,12 +181,13 @@ export default function OrdersMain({
             onAddTab={handleAddTab}
             onTabClick={handleEditTab}
             addTabAriaLabel="Add order"
+            className="w-full"
           />
-        </div>
+        </PageHeader>
 
         {/* Block 2: Favorites grid */}
         <div className="px-4 pt-6">
-          <SectionTitle titleAs="h2">Favorites</SectionTitle>
+          <SectionTitle titleAs="h2" size="group">Favorites</SectionTitle>
 
           <div className="mt-3 overflow-x-auto no-scrollbar snap-x snap-mandatory">
             {favoritePages.length === 0 ? (
@@ -249,7 +250,7 @@ export default function OrdersMain({
         {/* Block 3: Inventory */}
         <div className="px-4 pt-8 pb-10">
           <div className="flex items-center justify-between gap-4">
-            <SectionTitle titleAs="h2">Inventory</SectionTitle>
+            <SectionTitle titleAs="h2" size="group">Inventory</SectionTitle>
           </div>
 
           <div className="mt-3 grid grid-cols-3 gap-3">

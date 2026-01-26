@@ -11,9 +11,8 @@ import {
   SettingsItemIcon,
   SettingsItemTitle,
 } from "@/components/settings/settings-item"
-import { Button } from "@/components/ui/button"
-import { SectionTitle } from "@/components/ui/section-title"
-import { ChevronLeft, ChevronRight, KeyRound, LockKeyhole } from "lucide-react"
+import { PageHeader } from "@/components/ui/page-header"
+import { ChevronRight, KeyRound, LockKeyhole } from "lucide-react"
 
 import { useAuthStore } from "@/stores/useAuthStore"
 import SettingsSecurityAccesWithPinToEnterSection from "./SettingsSecurityAccesWithPinToEnterSection"
@@ -50,28 +49,7 @@ export default function UserProfile({
 
   return (
     <div className="flex h-full flex-col bg-background overflow-hidden">
-      {/* Block 1: Header bar */}
-      <div className="shrink-0 z-10 bg-background px-6 pt-10 pb-4 flex items-center border-b">
-        <Button
-          type="button"
-          variant="invisible"
-          className="group w-full h-auto p-0 justify-start text-left"
-          onClick={onBack}
-        >
-          <SectionTitle
-            interactive
-            titleAs="h2"
-            leading={
-              <ChevronLeft
-                aria-hidden="true"
-                className="h-[18px] w-[18px] text-muted-foreground transition-colors group-hover:text-foreground"
-              />
-            }
-          >
-            {title}
-          </SectionTitle>
-        </Button>
-      </div>
+      <PageHeader title={title} onBack={onBack} />
 
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto">

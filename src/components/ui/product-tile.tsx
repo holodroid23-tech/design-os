@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils"
 type ProductTileElement = "button" | "div"
 
 const productTileVariants = cva(
-  "relative aspect-square rounded-2xl overflow-hidden border !border-white/10 shadow-sm transition-all",
+  "relative aspect-square rounded-2xl overflow-hidden border border-white/10 shadow-sm transition-all",
   {
     variants: {
       tone: {

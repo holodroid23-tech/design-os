@@ -1,7 +1,6 @@
 import * as React from "react"
-import { SectionTitle } from "@/components/ui/section-title"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, Plus } from "lucide-react"
+import { PageHeader } from "@/components/ui/page-header"
 import { SettingsGroup } from "@/components/settings/settings-group"
 import {
   SettingsItem,
@@ -15,7 +14,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { SystemIcon } from "@/components/ui/icon"
 import type { AvatarProps } from "@/components/ui/avatar"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, Plus } from "lucide-react"
 import UsersAddUser from "./UsersAddUser"
 
 export const designOS = {
@@ -78,25 +77,7 @@ export default function UsersList({
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
-      {/* Block 1: Header */}
-      <div className="shrink-0 z-10 bg-background px-6 pt-10 pb-4 flex items-center border-b">
-        <Button
-          type="button"
-          variant="invisible"
-          className="group w-full h-auto p-0 justify-start text-left"
-          onClick={onBack}
-        >
-          <SectionTitle
-            interactive
-            titleAs="h2"
-            leading={
-              <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground transition-colors group-hover:text-foreground" />
-            }
-          >
-            {title}
-          </SectionTitle>
-        </Button>
-      </div>
+      <PageHeader title={title} onBack={onBack} />
 
       {/* Scroll area (Blocks 3-4 live here) */}
       <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4 pb-24">

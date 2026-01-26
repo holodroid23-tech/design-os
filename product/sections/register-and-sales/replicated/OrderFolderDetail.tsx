@@ -1,11 +1,10 @@
 import * as React from "react"
-import { ChevronLeft, Minus, Plus, Trash2 } from "lucide-react"
+import { Minus, Plus, Trash2 } from "lucide-react"
 
 import { OrderExpandableSummary, type OrderExpandableSummaryItem } from "@/components/ui/order-expandable-summary"
 import { FloatingBottomBar, FloatingBottomBarSpacer } from "@/components/ui/floating-bottom-bar"
-import { SectionTitle } from "@/components/ui/section-title"
+import { PageHeader } from "@/components/ui/page-header"
 import { OrderProductTile } from "@/components/ui/order-product-tile"
-import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 import { useOrderStore } from "@/stores/useOrderStore"
@@ -80,25 +79,7 @@ export default function OrderFolderDetail({
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {/* Header: back + title (replaces order tabs) */}
-        <div className="sticky top-0 z-40 border-b bg-background px-6 py-4">
-          <Button
-            type="button"
-            variant="invisible"
-            className="group w-full h-auto p-0 justify-start text-left"
-            aria-label="Back"
-            onClick={onBack}
-          >
-            <SectionTitle
-              interactive
-              leading={
-                <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground transition-colors group-hover:text-foreground" />
-              }
-            >
-              {category?.name || "Folder"}
-            </SectionTitle>
-          </Button>
-        </div>
+        <PageHeader title={category?.name || "Folder"} onBack={onBack} />
 
         {/* Items grid (no favorites, no inventory title, no custom item/folders tiles) */}
         <div className="px-6 pt-6 pb-10">

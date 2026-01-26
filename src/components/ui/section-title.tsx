@@ -8,6 +8,7 @@ const sectionTitleVariants = cva("flex items-center justify-between gap-3", {
     size: {
       section: "",
       page: "",
+      group: "",
     },
     interactive: {
       true: "cursor-pointer select-none",
@@ -25,6 +26,7 @@ const sectionTitleTextVariants = cva("text-foreground font-semibold leading-tigh
     size: {
       section: "text-lg",
       page: "text-3xl tracking-tight",
+      group: "text-sm font-medium",
     },
   },
   defaultVariants: {
@@ -70,4 +72,3 @@ export function SectionTitle({
     </div>
   )
 }
-

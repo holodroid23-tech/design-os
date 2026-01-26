@@ -1,13 +1,13 @@
 import * as React from "react"
 import { Button } from "@/components/ui/button"
-import { SectionTitle } from "@/components/ui/section-title"
+import { PageHeader } from "@/components/ui/page-header"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { SelectWithSliding } from "@/components/ui/select-with-sliding"
 import { Switch } from "@/components/ui/switch"
 import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-button-group"
 import { Badge } from "@/components/ui/badge"
-import { ChevronLeft, Trash2, Plus } from "lucide-react"
+import { Trash2, Plus } from "lucide-react"
 
 import { useSettingsStore } from "@/stores/useSettingsStore"
 import { useAuthStore } from "@/stores/useAuthStore"
@@ -69,24 +69,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
 
     return (
         <div className="flex h-full min-h-full flex-col bg-background overflow-y-auto">
-            {/* Block 1: Header (Sticky) */}
-            <div className="sticky top-0 z-10 bg-background px-6 pt-10 pb-4 border-b">
-                <Button
-                    type="button"
-                    variant="invisible"
-                    className="group w-full h-auto p-0 justify-start text-left"
-                    onClick={onBack}
-                >
-                    <SectionTitle
-                        interactive
-                        leading={
-                            <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors" />
-                        }
-                    >
-                        General
-                    </SectionTitle>
-                </Button>
-            </div>
+            <PageHeader title="General" onBack={onBack} />
 
             {/* Block 2: Store Fields */}
             <div className="px-6 py-4">

@@ -1,4 +1,4 @@
-import { ChevronLeft, Printer, Search } from "lucide-react"
+import { Printer, Search } from "lucide-react"
 
 import { SettingsGroup } from "@/components/settings/settings-group"
 import {
@@ -12,7 +12,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { IconTile, SystemIcon } from "@/components/ui/icon"
 import { Label } from "@/components/ui/label"
-import { SectionTitle } from "@/components/ui/section-title"
+import { PageHeader } from "@/components/ui/page-header"
 
 export interface PrinterSettingsProps {
   onBack?: () => void
@@ -21,25 +21,7 @@ export interface PrinterSettingsProps {
 export default function PrinterSettings({ onBack }: PrinterSettingsProps) {
   return (
     <div className="flex h-full flex-col bg-background overflow-hidden">
-      {/* Block 1: Header */}
-      <div className="shrink-0 border-b bg-background px-6 pt-10 pb-4 z-10 flex items-center">
-        <Button
-          type="button"
-          variant="invisible"
-          className="group w-full h-auto p-0 justify-start text-left"
-          onClick={onBack}
-        >
-          <SectionTitle
-            interactive
-            titleAs="h2"
-            leading={
-              <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground transition-colors group-hover:text-foreground" />
-            }
-          >
-            Printer
-          </SectionTitle>
-        </Button>
-      </div>
+      <PageHeader title="Printer" onBack={onBack} />
 
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto">

@@ -1,8 +1,8 @@
 import * as React from "react"
-import { ChevronLeft, Folder, Plus } from "lucide-react"
+import { Folder, Plus } from "lucide-react"
 
-import { SectionTitle } from "@/components/ui/section-title"
 import { Button } from "@/components/ui/button"
+import { PageHeader } from "@/components/ui/page-header"
 import { Switch } from "@/components/ui/switch"
 import { ImageTile } from "@/components/ui/image-tile"
 import { IconTile } from "@/components/atoms/icon"
@@ -46,24 +46,7 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
-      {/* Block 1: Header */}
-      <div className="shrink-0 border-b bg-background px-6 pt-10 pb-4 z-10 flex items-center">
-        <Button
-          type="button"
-          variant="invisible"
-          className="group w-full h-auto p-0 justify-start text-left"
-          onClick={onBack}
-        >
-          <SectionTitle
-            interactive
-            leading={
-              <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground transition-colors group-hover:text-foreground" />
-            }
-          >
-            Expense management
-          </SectionTitle>
-        </Button>
-      </div>
+      <PageHeader title="Expense management" onBack={onBack} />
 
       {/* Block 2: Actions & List */}
       <div
@@ -112,7 +95,7 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
                   onClick={() => setSelectedFolderId(folder.id)}
                 >
                   <SettingsItemIcon>
-                    <IconTile icon={Folder} size="small" variant="tile" tone="info" className="rounded-[12px]" />
+                    <IconTile icon={Folder} size="small" variant="tile" className="rounded-[12px]" />
                   </SettingsItemIcon>
 
                   <SettingsItemContent>
@@ -147,7 +130,7 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
                 <SettingsItem asChild>
                   <div className="cursor-pointer active:opacity-70 transition-opacity" onClick={() => setAddingItem(true)}>
                     <SettingsItemIcon>
-                      <ImageTile size="small" alt="" className="rounded-[12px]" tone={expense.color as any} />
+                      <ImageTile size="small" alt="" className="rounded-[12px]" />
                     </SettingsItemIcon>
 
                     <SettingsItemContent>
@@ -179,5 +162,3 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
     </div>
   )
 }
-
-

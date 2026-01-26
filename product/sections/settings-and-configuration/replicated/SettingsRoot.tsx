@@ -10,6 +10,7 @@ import {
   SettingsItemTitle,
 } from "@/components/settings/settings-item"
 import { UserProfileRow } from "@/components/settings/user-profile-row"
+import { PageHeader } from "@/components/ui/page-header"
 import { SectionTitle } from "@/components/ui/section-title"
 import { Badge } from "@/components/ui/badge"
 import {
@@ -121,12 +122,7 @@ export default function SettingsRoot({
 
   return (
     <div className="h-full w-full overflow-y-auto">
-      <div className="flex flex-col gap-4 px-6 pt-10 pb-4 border-b">
-        {/* Block 1: Header */}
-        <SectionTitle titleAs="h1">
-          {title}
-        </SectionTitle>
-      </div>
+      <PageHeader title={title} sticky={false} />
 
       {/* Block 2: Profile destination */}
       <div className="px-4 pt-3">
@@ -291,7 +287,7 @@ export default function SettingsRoot({
 
           <SettingsGroup>
             <div className="px-4 py-2">
-              <SectionTitle size="section" className="mb-2">Developer</SectionTitle>
+              <SectionTitle size="group" className="mb-2">Developer</SectionTitle>
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col">

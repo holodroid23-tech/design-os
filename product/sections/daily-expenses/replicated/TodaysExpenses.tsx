@@ -5,6 +5,7 @@ import { SystemIcon } from "@/components/atoms/icon"
 import { GridActionTile } from "@/components/patterns/grid-action-tile"
 import { FloatingBottomBar, FloatingBottomBarSpacer } from "@/components/ui/floating-bottom-bar"
 import { ProductTile } from "@/components/ui/product-tile"
+import { PageHeader } from "@/components/ui/page-header"
 import { SectionTitle } from "@/components/ui/section-title"
 import {
   BottomSlidingModal,
@@ -101,7 +102,7 @@ function TodaysExpensesBottomSummary({
                 <div className="text-[14px] leading-tight font-medium text-onLayer-secondary truncate">
                   {items.length === 0 ? "No expenses" : collapsedSummary}
                 </div>
-                <div className="text-[12px] leading-tight text-onLayer-tertiary">
+                <div className="text-[12px] font-semibold text-onLayer-tertiary">
                   {items.length} {items.length === 1 ? 'item' : 'items'}
                 </div>
               </div>
@@ -119,7 +120,7 @@ function TodaysExpensesBottomSummary({
                   className="text-onLayer-secondary group-hover:text-onLayer-primary hover:bg-transparent dark:hover:bg-transparent -mr-2"
                 >
                   <span aria-hidden="true">
-                    <SystemIcon icon={ChevronDown} size="big" className="rotate-180" aria-hidden="true" />
+                    <SystemIcon icon={ChevronDown} size="huge" className="rotate-180" aria-hidden="true" />
                   </span>
                 </Button>
               </div>
@@ -268,20 +269,12 @@ export default function TodaysExpenses({
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {/* Header: title (no tabs) */}
-        <div className="sticky top-0 z-50 isolate bg-background border-b border-border px-6 pt-10 pb-4">
-          <SectionTitle
-            titleAs="h1"
-            size="page"
-          >
-            {title}
-          </SectionTitle>
-        </div>
+        <PageHeader title={title} />
 
         {/* Block 1: Favorites grid */}
         {favoritesItems.length > 0 && (
           <div className="px-4 pt-6">
-            <SectionTitle titleAs="h2">Favorites</SectionTitle>
+            <SectionTitle titleAs="h2" size="group">Favorites</SectionTitle>
             <div className="mt-3 grid grid-cols-3 gap-3">
               {favoritesItems.map((item) => (
                 <ProductTile
@@ -298,7 +291,7 @@ export default function TodaysExpenses({
 
         {/* Block 2: Expenses browser */}
         <div className="px-4 pt-8 pb-10">
-          <SectionTitle titleAs="h2">Expenses</SectionTitle>
+          <SectionTitle titleAs="h2" size="group">Expenses</SectionTitle>
 
           {/* Action / Folders Grid */}
           <div className="mt-3 grid grid-cols-3 gap-3">

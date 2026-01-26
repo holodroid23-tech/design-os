@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Banknote, ChevronLeft, Link, Lock, MapPin, Receipt, Shield, Smartphone } from "lucide-react"
+import { Banknote, Link, Lock, MapPin, Receipt, Shield, Smartphone } from "lucide-react"
 
 import { SettingsGroup } from "@/components/settings/settings-group"
 import {
@@ -12,9 +12,9 @@ import {
 } from "@/components/settings/settings-item"
 import { IconTile } from "@/components/ui/icon"
 import { Label } from "@/components/ui/label"
-import { SectionTitle } from "@/components/ui/section-title"
 import { Stepper } from "@/components/ui/stepper"
 import { Button } from "@/components/ui/button"
+import { PageHeader } from "@/components/ui/page-header"
 import { Switch } from "@/components/ui/switch"
 
 export const designOS = {
@@ -62,25 +62,7 @@ export default function PaymentSettings({ onBack }: PaymentSettingsProps) {
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background overflow-y-auto">
-      {/* Block 1: Header */}
-      <div className="sticky top-0 z-10 border-b bg-background px-6 pt-10 pb-4">
-        <Button
-          type="button"
-          variant="invisible"
-          className="group w-full h-auto p-0 justify-start text-left"
-          onClick={onBack}
-        >
-          <SectionTitle
-            interactive
-            titleAs="h2"
-            leading={
-              <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground transition-colors group-hover:text-foreground" />
-            }
-          >
-            Payment
-          </SectionTitle>
-        </Button>
-      </div>
+      <PageHeader title="Payment" onBack={onBack} />
 
       {/* Block 2: Payment methods */}
       <div className="px-6 py-4">

@@ -403,7 +403,7 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
 
     if (!isFrame) {
         return (
-            <div className="dark h-[100dvh] bg-background flex flex-col pt-[calc(env(safe-area-inset-top)_+_32px)]">
+            <div className="dark h-[100dvh] bg-background flex flex-col pt-[env(safe-area-inset-top)]">
                 <div className="flex-1 overflow-hidden relative">
                     {content}
                 </div>
@@ -412,7 +412,7 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
     }
 
     return (
-        <div className="dark mx-auto w-full max-w-[420px] aspect-[9/19.5] border border-border bg-background shadow-2xl overflow-hidden relative flex flex-col pt-8">
+        <div className="dark mx-auto w-full max-w-[420px] aspect-[9/19.5] border border-border bg-background shadow-2xl overflow-hidden relative flex flex-col">
 
             <div className="flex-1 overflow-hidden relative">
                 {content}

@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { OrderTabs, type OrderTabsTab } from "@/components/ui/order-tabs"
 import { GridActionTile } from "@/components/patterns/grid-action-tile"
 import { ProductTile, type ProductTileProps } from "@/components/ui/product-tile"
+import { PageHeader } from "@/components/ui/page-header"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -111,8 +112,7 @@ export default function FirstLaunchOnboardingOrders({
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-gradient-to-b from-background via-background to-layer-1">
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {/* Header: order tab */}
-        <div className="px-6 pt-6">
+        <PageHeader>
           <OrderTabs
             tabs={tabs}
             value={selected}
@@ -122,8 +122,9 @@ export default function FirstLaunchOnboardingOrders({
             }}
             onAddTab={onAddOrder}
             addTabAriaLabel="Add order"
+            className="w-full"
           />
-        </div>
+        </PageHeader>
 
         {/* Starter grid */}
         <div className="px-6 pt-6">

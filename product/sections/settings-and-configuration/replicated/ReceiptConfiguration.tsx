@@ -12,10 +12,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-button-group"
-import { SectionTitle } from "@/components/ui/section-title"
+import { PageHeader } from "@/components/ui/page-header"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Calendar, ChevronLeft, Clock, Hash, QrCode, User } from "lucide-react"
+import { Calendar, Clock, Hash, QrCode, User } from "lucide-react"
 
 export interface ReceiptConfigurationProps {
   onBack?: () => void
@@ -60,24 +60,7 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
-      {/* Block 1: Header */}
-      <div className="sticky top-0 z-10 bg-background px-6 py-4">
-        <Button
-          type="button"
-          variant="invisible"
-          className="group w-full h-auto p-0 justify-start text-left"
-          onClick={onBack}
-        >
-          <SectionTitle
-            interactive
-            leading={
-              <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors" />
-            }
-          >
-            Receipt
-          </SectionTitle>
-        </Button>
-      </div>
+      <PageHeader title="Receipt" onBack={onBack} />
 
       {/* Block 2: View mode */}
       <div

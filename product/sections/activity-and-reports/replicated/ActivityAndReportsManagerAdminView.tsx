@@ -17,6 +17,7 @@ import { MeterBar } from "@/components/ui/meter-bar"
 import { OrderExpandableCard, type OrderExpandableCardDetail, type OrderExpandableCardLineItem } from "@/components/ui/order-expandable-card"
 import { SelectWithSliding } from "@/components/ui/select-with-sliding"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { PageHeader } from "@/components/ui/page-header"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -351,8 +352,7 @@ export default function ActivityAndReportsManagerAdminView({
 
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
-      {/* Header: Top tabs (Expenses header style) */}
-      <div className="sticky top-0 z-50 bg-background border-b border-border px-6 pt-10 pb-4">
+      <PageHeader>
         <Tabs
           value={selectedTab}
           onValueChange={(next) => {
@@ -360,6 +360,7 @@ export default function ActivityAndReportsManagerAdminView({
             setSelectedTab(tabId)
             onSelectTopTab?.(tabId)
           }}
+          className="w-full"
         >
           <TabsList className="w-full">
             <TabsTrigger value="analytics">{analyticsLabel}</TabsTrigger>
@@ -367,7 +368,7 @@ export default function ActivityAndReportsManagerAdminView({
             <TabsTrigger value="expenses">{expensesLabel}</TabsTrigger>
           </TabsList>
         </Tabs>
-      </div>
+      </PageHeader>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
         {/* Toolbar: Date range */}

@@ -1,7 +1,7 @@
 import * as React from "react"
-import { SectionTitle } from "@/components/ui/section-title"
+import { PageHeader } from "@/components/ui/page-header"
 import { RadioButtonGroup, RadioButtonGroupItem } from "@/components/ui/radio-button-group"
-import { ChevronLeft, Store, LayoutDashboard } from "lucide-react"
+import { Store, LayoutDashboard } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
@@ -14,24 +14,7 @@ export default function DeviceMode({ onBack }: DeviceModeProps) {
 
     return (
         <div className="flex h-full min-h-full flex-col bg-background">
-            {/* Block 1: Header Section */}
-            <div className="sticky top-0 z-10 border-b bg-background px-6 pt-10 pb-4 flex items-center">
-                <Button
-                    type="button"
-                    variant="invisible"
-                    className="group w-full h-auto p-0 justify-start text-left"
-                    onClick={onBack}
-                >
-                    <SectionTitle
-                        interactive
-                        leading={
-                            <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors" />
-                        }
-                    >
-                        Device mode
-                    </SectionTitle>
-                </Button>
-            </div>
+            <PageHeader title="Device mode" onBack={onBack} />
 
             {/* Block 2: Mode Selection */}
             <div className="px-6 py-4">

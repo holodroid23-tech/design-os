@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { OrderExpandableCard, type OrderExpandableCardDetail, type OrderExpandableCardLineItem } from "@/components/ui/order-expandable-card"
 import { SectionTitle } from "@/components/ui/section-title"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { PageHeader } from "@/components/ui/page-header"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -150,7 +151,7 @@ export default function ActivityCashierView({
 
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
-      <div className="sticky top-0 z-50 bg-background border-b border-border px-6 py-4">
+      <PageHeader>
         <Tabs
           value={selectedTab}
           onValueChange={(next) => {
@@ -158,18 +159,19 @@ export default function ActivityCashierView({
             setSelectedTab(tabId)
             onSelectTopTab?.(tabId)
           }}
+          className="w-full"
         >
           <TabsList className="w-full">
             <TabsTrigger value="analytics">{analyticsLabel}</TabsTrigger>
             <TabsTrigger value="orders">{ordersLabel}</TabsTrigger>
           </TabsList>
         </Tabs>
-      </div>
+      </PageHeader>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
         {selectedTab === "analytics" ? (
           <div className="px-4 pt-4 pb-10">
-            <SectionTitle titleAs="h2">{todaysAnalyticsTitle}</SectionTitle>
+            <SectionTitle titleAs="h2" size="group">{todaysAnalyticsTitle}</SectionTitle>
 
             <Card className="mt-4 bg-transparent">
               <CardHeader className="gap-3">
@@ -203,7 +205,7 @@ export default function ActivityCashierView({
           </div>
         ) : (
           <div className="px-4 pt-4 pb-6">
-            <SectionTitle titleAs="h2">{todaysOrdersTitle}</SectionTitle>
+            <SectionTitle titleAs="h2" size="group">{todaysOrdersTitle}</SectionTitle>
 
             <div className="mt-4 space-y-3">
               {orders.map((order) => (
@@ -225,4 +227,3 @@ export default function ActivityCashierView({
     </div>
   )
 }
-

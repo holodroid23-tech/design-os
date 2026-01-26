@@ -1,8 +1,8 @@
 import * as React from "react"
-import { ChevronLeft, Plus } from "lucide-react"
+import { Plus } from "lucide-react"
 
-import { SectionTitle } from "@/components/ui/section-title"
 import { Button } from "@/components/ui/button"
+import { PageHeader } from "@/components/ui/page-header"
 import { Switch } from "@/components/ui/switch"
 import { ImageTile } from "@/components/ui/image-tile"
 import { SettingsGroup } from "@/components/settings/settings-group"
@@ -39,24 +39,7 @@ export default function InventoryManagementFolderDetail({ categoryId, onBack }: 
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
-      {/* Block 1: Header */}
-      <div className="sticky top-0 z-10 border-b bg-background px-6 pt-10 pb-4">
-        <Button
-          type="button"
-          variant="invisible"
-          className="group w-full h-auto p-0 justify-start text-left"
-          onClick={onBack}
-        >
-          <SectionTitle
-            interactive
-            leading={
-              <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground transition-colors group-hover:text-foreground" />
-            }
-          >
-            {category?.name || "Folder"}
-          </SectionTitle>
-        </Button>
-      </div>
+      <PageHeader title={category?.name || "Folder"} onBack={onBack} />
 
       {/* Block 2: Actions & List */}
       <div
@@ -98,7 +81,7 @@ export default function InventoryManagementFolderDetail({ categoryId, onBack }: 
               <SettingsItem asChild>
                 <div className="cursor-pointer active:opacity-70 transition-opacity" onClick={() => setAddingItem(true)}>
                   <SettingsItemIcon>
-                    <ImageTile size="small" alt="" className="rounded-[12px]" tone={item.color as any} />
+                    <ImageTile size="small" alt="" className="rounded-[12px]" />
                   </SettingsItemIcon>
 
                   <SettingsItemContent>

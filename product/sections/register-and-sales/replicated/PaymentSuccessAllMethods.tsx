@@ -3,6 +3,7 @@ import { Check, Plus, Printer, X } from "lucide-react"
 import { IconTile, SystemIcon } from "@/components/atoms/icon"
 import { Button } from "@/components/ui/button"
 import { SectionTitle } from "@/components/ui/section-title"
+import { PageHeader } from "@/components/ui/page-header"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -34,20 +35,20 @@ export default function PaymentSuccessAllMethods({
     // Block 1: Screen container
     <div className="h-full min-h-full w-full bg-background">
       <div className="flex h-full min-h-full flex-col">
-        <div className="px-6 pt-10 pb-4">
-          {/* Block 2: Header close action */}
-          <div className="flex justify-end">
+        <PageHeader
+          trailing={
             <Button
               type="button"
               variant="invisible"
-              size="icon-lg"
+              size="icon"
               aria-label="Close"
               onClick={onClose}
+              className="-mr-2"
             >
               <SystemIcon icon={X} aria-hidden="true" />
             </Button>
-          </div>
-        </div>
+          }
+        />
 
         <div className="flex flex-1 items-center justify-center px-6">
           {/* Block 3: Status + summary */}

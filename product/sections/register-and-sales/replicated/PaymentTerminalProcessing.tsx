@@ -3,6 +3,7 @@ import { CreditCard, Loader2, RotateCw, Smartphone, X, XCircle } from 'lucide-re
 import { Button } from '@/components/ui/button'
 import { SystemIcon, IconTile } from '@/components/atoms/icon'
 import { SectionTitle } from '@/components/ui/section-title'
+import { PageHeader } from '@/components/ui/page-header'
 import { hardwareService } from '@/lib/hardware-service'
 import { useSettingsStore } from '@/stores/useSettingsStore'
 
@@ -102,21 +103,21 @@ export default function PaymentTerminalProcessing({ amount, onSuccess, onCancel 
     return (
         <div className="h-full min-h-full w-full bg-background animate-in fade-in duration-500">
             <div className="flex h-full min-h-full flex-col">
-                {/* Block 1: Header controls */}
-                <div className="px-6 pt-10 pb-4">
-                    <div className="flex justify-end">
+                <PageHeader
+                    trailing={
                         <Button
                             type="button"
                             variant="invisible"
-                            size="icon-lg"
+                            size="icon"
                             aria-label="Close"
                             onClick={onCancel}
                             disabled={step === 'processing' || step === 'success'}
+                            className="-mr-2"
                         >
                             <SystemIcon icon={X} aria-hidden="true" />
                         </Button>
-                    </div>
-                </div>
+                    }
+                />
 
                 {/* Block 2: Main Status Area */}
                 <div className="flex flex-1 items-center justify-center px-6">

@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronDown, ChevronLeft } from "lucide-react"
+import { ChevronDown } from "lucide-react"
 
 import { SystemIcon } from "@/components/atoms/icon"
 import {
@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/search-input-with-suggestions"
 import { SectionTitle } from "@/components/ui/section-title"
 import { ProductTile } from "@/components/ui/product-tile"
+import { PageHeader } from "@/components/ui/page-header"
 import { SettingsGroup } from "@/components/settings/settings-group"
 import { cn } from "@/lib/utils"
 
@@ -90,25 +91,7 @@ export default function FolderDetail({
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {/* Header: back + title */}
-        <div className="sticky top-0 z-10 border-b bg-background px-6 py-4">
-          <Button
-            type="button"
-            variant="invisible"
-            className="group w-full h-auto p-0 justify-start text-left"
-            aria-label="Back"
-            onClick={onBack}
-          >
-            <SectionTitle
-              interactive
-              leading={
-                <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground transition-colors group-hover:text-foreground" />
-              }
-            >
-              {folder?.name || "Folder"}
-            </SectionTitle>
-          </Button>
-        </div>
+        <PageHeader title={folder?.name || "Folder"} onBack={onBack} />
 
         {/* Items grid (tiles without prices and without counters) */}
         <div className="px-6 pt-6 pb-10">
