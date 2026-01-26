@@ -23,14 +23,14 @@ import ExpenseManagement from "@product/sections/settings-and-configuration/repl
 import SuggestFeature from "@product/sections/settings-and-configuration/replicated/SuggestFeature"
 import ReportBug from "@product/sections/settings-and-configuration/replicated/ReportBug"
 import CreateExpense from "@product/sections/daily-expenses/replicated/CreateExpense"
+import PaymentTerminalProcessing from "@product/sections/register-and-sales/replicated/PaymentTerminalProcessing"
 
-import { StripePaymentModal } from "@/components/StripePaymentModal"
 import { useAuthStore } from "@/stores/useAuthStore"
 import { AuthGate } from "@/components/auth/AuthGate"
 import { DevTools } from "@/components/debug/DevTools"
 import ActivityPolymorphicView from "@product/sections/activity-and-reports/replicated/ActivityPolymorphicView"
 
-type AppView = 'orders' | 'expenses' | 'activity' | 'settings' | 'payment-success' |
+type AppView = 'orders' | 'expenses' | 'activity' | 'settings' | 'payment-success' | 'payment-terminal' |
     'settings-printer' | 'settings-general' | 'settings-inventory' | 'settings-users' | 'settings-profile' |
     'settings-device-mode' | 'settings-receipt' | 'settings-payment' | 'settings-expenses' |
     'settings-suggest-feature' | 'settings-report-bug'
@@ -44,7 +44,6 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
     const [viewStack, setViewStack] = React.useState<AppView[]>(['orders'])
     const [isCreatingExpenseInActivity, setIsCreatingExpenseInActivity] = React.useState(false)
     const [lastCompletedOrder, setLastCompletedOrder] = React.useState<OrderTab | null>(null)
-    const [isProcessingCardPayment, setIsProcessingCardPayment] = React.useState(false)
     const [pendingPaymentOrder, setPendingPaymentOrder] = React.useState<OrderTab | null>(null)
 
     const { clearOrder } = useOrderStore()
@@ -177,9 +176,9 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
 
     const handleOrderPayment = (order: OrderTab, paymentMethod: 'cash' | 'card' = 'card') => {
         if (paymentMethod === 'card') {
-            // Show Stripe Terminal modal for card payments
+            // Navigate to full-screen payment terminal
             setPendingPaymentOrder(order)
-            setIsProcessingCardPayment(true)
+            navigateTo('payment-terminal')
         } else {
             // Cash payment - immediate success
             setLastCompletedOrder(order)
@@ -190,17 +189,22 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
 
     const handlePaymentSuccess = () => {
         if (pendingPaymentOrder) {
-            setLastCompletedOrder(pendingPaymentOrder)
-            clearOrder(pendingPaymentOrder.id)
-            setIsProcessingCardPayment(false)
+            const orderToFinalize = pendingPaymentOrder;
+            setLastCompletedOrder(orderToFinalize)
+            clearOrder(orderToFinalize.id)
             setPendingPaymentOrder(null)
             navigateTo('payment-success')
+
+            // Auto-print receipt after a short delay to ensure navigation is complete
+            setTimeout(() => {
+                handlePrintReceipt();
+            }, 500);
         }
     }
 
     const handlePaymentCancel = () => {
-        setIsProcessingCardPayment(false)
         setPendingPaymentOrder(null)
+        goBack()
     }
 
     const calculateTotal = (order: OrderTab | null) => {
@@ -239,12 +243,13 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
 
 
             if (printerSettings.connectedPrinterId) {
+                alert('Tiskárna připojena, tisknu... (' + printerSettings.connectedPrinterName + ')');
                 const success = await hardwareService.printReceipt(printerSettings.connectedPrinterId, receiptData)
                 if (success) {
                     console.log('Receipt printed successfully')
                 } else {
                     console.error('Failed to print receipt')
-                    alert('Printer error. Please check your connection.')
+                    alert('Chyba tiskárny. Zkontrolujte připojení.')
                 }
             } else {
                 // Try RawBT fallback (Android)
@@ -252,12 +257,12 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
                     console.log('No printer connected, attempting RawBT...')
                     const success = hardwareService.printViaRawBT(receiptData)
                     if (success) {
-                        console.log('Sent to RawBT')
+                        console.log('Odesláno do RawBT')
                     } else {
-                        alert('No printer connected and RawBT failed')
+                        alert('Nepodařilo se odeslat do RawBT')
                     }
                 } else {
-                    alert('No printer connected. Please connect a printer in Settings.')
+                    alert('Není připojena tiskárna a RawBT není k dispozici.')
                 }
             }
         } catch (error) {
@@ -296,27 +301,32 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
             case 'settings':
                 return (
                     <AuthGate section="settings">
-                        <SettingsRoot
-                            user={{
-                                name: currentUser?.name || user.name,
-                                email: currentUser?.email || 'holodroid23@gmail.com',
-                                badgeText: currentUser?.role || (user.role === 'Store Manager' ? 'Admin' : 'Staff'),
-                                status: 'online'
-                            }}
-                            onPressDestination={(id) => {
-                                if (id === 'printer') navigateTo('settings-printer')
-                                if (id === 'general') navigateTo('settings-general')
-                                if (id === 'inventory') navigateTo('settings-inventory')
-                                if (id === 'users') navigateTo('settings-users')
-                                if (id === 'device-mode') navigateTo('settings-device-mode')
-                                if (id === 'receipt') navigateTo('settings-receipt')
-                                if (id === 'payment') navigateTo('settings-payment')
-                                if (id === 'expenses') navigateTo('settings-expenses')
-                                if (id === 'suggest-feature') navigateTo('settings-suggest-feature')
-                                if (id === 'report-bug') navigateTo('settings-report-bug')
-                            }}
-                            onPressProfile={() => navigateTo('settings-profile')}
-                        />
+                        <div className="flex flex-col h-full">
+                            <div className="px-6 py-2 bg-muted/30 text-[10px] text-center font-mono opacity-50 uppercase tracking-widest">
+                                Build: {hardwareService.getVersion()}
+                            </div>
+                            <SettingsRoot
+                                user={{
+                                    name: currentUser?.name || user.name,
+                                    email: currentUser?.email || 'holodroid23@gmail.com',
+                                    badgeText: currentUser?.role || (user.role === 'Store Manager' ? 'Admin' : 'Staff'),
+                                    status: 'online'
+                                }}
+                                onPressDestination={(id) => {
+                                    if (id === 'printer') navigateTo('settings-printer')
+                                    if (id === 'general') navigateTo('settings-general')
+                                    if (id === 'inventory') navigateTo('settings-inventory')
+                                    if (id === 'users') navigateTo('settings-users')
+                                    if (id === 'device-mode') navigateTo('settings-device-mode')
+                                    if (id === 'receipt') navigateTo('settings-receipt')
+                                    if (id === 'payment') navigateTo('settings-payment')
+                                    if (id === 'expenses') navigateTo('settings-expenses')
+                                    if (id === 'suggest-feature') navigateTo('settings-suggest-feature')
+                                    if (id === 'report-bug') navigateTo('settings-report-bug')
+                                }}
+                                onPressProfile={() => navigateTo('settings-profile')}
+                            />
+                        </div>
                     </AuthGate>
                 )
             case 'settings-printer':
@@ -359,6 +369,14 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
                         onPrintReceipt={handlePrintReceipt}
                     />
                 )
+            case 'payment-terminal':
+                return (
+                    <PaymentTerminalProcessing
+                        amount={calculateTotal(pendingPaymentOrder)}
+                        onSuccess={handlePaymentSuccess}
+                        onCancel={handlePaymentCancel}
+                    />
+                )
             default:
                 return <OrdersMain />
         }
@@ -376,15 +394,6 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
                     {renderActiveView()}
                 </div>
             </AppShell>
-
-            {/* Stripe Payment Modal */}
-            {isProcessingCardPayment && pendingPaymentOrder && (
-                <StripePaymentModal
-                    amount={calculateTotal(pendingPaymentOrder)}
-                    onSuccess={handlePaymentSuccess}
-                    onCancel={handlePaymentCancel}
-                />
-            )}
 
             <DevTools />
         </>

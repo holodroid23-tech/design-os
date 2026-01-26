@@ -83,12 +83,13 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
             )
 
             if (printerSettings.connectedPrinterId) {
-                // Send to connected printer
+                alert('Tiskárna připojena, tisknu test... (' + printerSettings.connectedPrinterName + ')');
                 const success = await hardwareService.printReceipt(printerSettings.connectedPrinterId, receiptData)
                 if (success) {
                     console.log('Test print sent successfully')
                 } else {
                     console.error('Test print failed')
+                    alert('Chyba testovacího tisku.')
                 }
             } else {
                 // Try RawBT fallback (Android)
@@ -96,12 +97,12 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
                     console.log('No printer connected, attempting RawBT...')
                     const success = hardwareService.printViaRawBT(receiptData)
                     if (success) {
-                        console.log('Sent to RawBT')
+                        console.log('Test odeslán do RawBT')
                     } else {
-                        alert('No printer connected and RawBT failed')
+                        alert('Test se nepodařilo odeslat do RawBT')
                     }
                 } else {
-                    alert('Please connect a printer first')
+                    alert('Není připojena tiskárna a RawBT není k dispozici.')
                 }
             }
         } catch (error) {

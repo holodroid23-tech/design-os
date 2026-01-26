@@ -89,7 +89,7 @@ export default function DeviceMode({ onBack }: DeviceModeProps) {
             {/* Block 3: Fullscreen Test */}
             <div className="px-6 py-4 mt-auto pb-12">
                 <Button
-                    variant="outline"
+                    variant="ghost"
                     className="w-full"
                     onClick={() => {
                         if (!document.fullscreenElement) {

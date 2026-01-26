@@ -790,30 +790,33 @@ class HardwareService {
             // Encode to Base64
             const base64 = btoa(binary);
 
-            // RawBT intent URL scheme with AUTO PRINT parameters
-            // This structure is more reliable for passing base64 binary data
-            const url = `intent:base64,${base64}#Intent;scheme=rawbt;package=ru.a402d.rawbtprinter;S.editor=false;S.auto=true;S.dialog=false;launchFlags=0x10000;end;`;
-
             console.log(`Sending ${data.length} bytes to RawBT...`);
 
-            // Use iframe method to avoid navigating away
-            const iframe = document.createElement('iframe');
-            iframe.style.display = 'none';
-            document.body.appendChild(iframe);
-            iframe.src = url;
+            // For Capacitor/Android, the rawbt: scheme is often more reliable
+            // We use window.open with _system for reliable intent handling in Capacitor
+            const rawbtUrl = `rawbt:base64,${base64}`;
 
-            setTimeout(() => {
-                if (document.body.contains(iframe)) {
-                    document.body.removeChild(iframe);
-                }
-            }, 2000);
+            try {
+                window.open(rawbtUrl, '_system');
+            } catch (e) {
+                // Fallback for browser testing
+                window.location.assign(rawbtUrl);
+            }
 
-            console.log('✅ Sent to RawBT');
+            console.log('✅ Intent sent to RawBT');
             return true;
         } catch (e) {
             console.error('Failed to send to RawBT:', e);
+            alert('Chyba RawBT: ' + (e instanceof Error ? e.message : String(e)));
             return false;
         }
+    }
+
+    /**
+     * Get the current build version for debugging
+     */
+    getVersion(): string {
+        return "1.0.6-PRINT-FIX";
     }
 
     /**
