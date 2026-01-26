@@ -47,6 +47,9 @@ export interface ReceiptConfig {
   separatorStyle: 'Dashed' | 'Dotted' | 'Solid';
   footerMessage: string;
   showQrCode: boolean;
+  storeName?: string;
+  storeAddress?: string;
+  storePhone?: string;
 }
 
 export interface TapToPayStep {

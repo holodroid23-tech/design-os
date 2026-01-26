@@ -197,8 +197,8 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
 
             // Auto-print receipt after a short delay to ensure navigation is complete
             setTimeout(() => {
-                handlePrintReceipt();
-            }, 500);
+                handlePrintReceipt(orderToFinalize);
+            }, 600);
         }
     }
 
@@ -214,23 +214,27 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
         return subtotal + tax
     }
 
-    const handlePrintReceipt = async () => {
-        if (!lastCompletedOrder) return
+    const handlePrintReceipt = async (orderToPrint?: OrderTab) => {
+        const order = orderToPrint || lastCompletedOrder;
+        if (!order) {
+            console.warn('No order available to print');
+            return;
+        }
 
         try {
-            const subtotal = lastCompletedOrder.items.reduce((acc, item) => acc + (item.unitPrice * item.qty), 0)
+            const subtotal = order.items.reduce((acc, item) => acc + (item.unitPrice * item.qty), 0)
             const tax = areTaxesEnabled ? subtotal * taxRate : 0
             const total = subtotal + tax
 
             const receiptData = await receiptService.generateReceipt({
-                storeName: 'ComPOSt Demo Store', // Ideally from store settings
-                storeAddress: '123 Espresso Lane\nSeattle, WA 98101', // Ideally from store settings
-                storePhone: '(206) 555-0123',
-                orderId: lastCompletedOrder.label,
+                storeName: receiptConfig.storeName || 'ComPOSt Store',
+                storeAddress: receiptConfig.storeAddress || '',
+                storePhone: receiptConfig.storePhone || '',
+                orderId: order.label,
                 date: new Date().toLocaleDateString(),
                 time: new Date().toLocaleTimeString(),
-                cashierName: user.name,
-                items: lastCompletedOrder.items.map(i => ({
+                cashierName: currentUser?.name || user.name,
+                items: order.items.map(i => ({
                     name: i.name,
                     quantity: i.qty,
                     price: i.unitPrice
@@ -243,13 +247,11 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
 
 
             if (printerSettings.connectedPrinterId) {
-                alert('Tiskárna připojena, tisknu... (' + printerSettings.connectedPrinterName + ')');
                 const success = await hardwareService.printReceipt(printerSettings.connectedPrinterId, receiptData)
                 if (success) {
                     console.log('Receipt printed successfully')
                 } else {
                     console.error('Failed to print receipt')
-                    alert('Chyba tiskárny. Zkontrolujte připojení.')
                 }
             } else {
                 // Try RawBT fallback (Android)
@@ -258,16 +260,11 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
                     const success = hardwareService.printViaRawBT(receiptData)
                     if (success) {
                         console.log('Odesláno do RawBT')
-                    } else {
-                        alert('Nepodařilo se odeslat do RawBT')
                     }
-                } else {
-                    alert('Není připojena tiskárna a RawBT není k dispozici.')
                 }
             }
         } catch (error) {
             console.error('Error printing receipt:', error)
-            alert('Error generating receipt')
         }
     }
 
@@ -366,7 +363,7 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
                         amount={`${calculateTotal(lastCompletedOrder).toLocaleString('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currency}`}
                         onClose={() => handleNavigate('orders')}
                         onStartNewOrder={() => handleNavigate('orders')}
-                        onPrintReceipt={handlePrintReceipt}
+                        onPrintReceipt={() => handlePrintReceipt()}
                     />
                 )
             case 'payment-terminal':

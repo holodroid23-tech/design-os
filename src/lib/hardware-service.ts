@@ -790,24 +790,17 @@ class HardwareService {
             // Encode to Base64
             const base64 = btoa(binary);
 
-            console.log(`Sending ${data.length} bytes to RawBT...`);
-
-            // For Capacitor/Android, the rawbt: scheme is often more reliable
-            // We use window.open with _system for reliable intent handling in Capacitor
+            // For Capacitor/Android, the rawbt: scheme or intent: scheme is used.
+            // window.location.href is often more reliable than window.open for custom schemes in Android WebViews
             const rawbtUrl = `rawbt:base64,${base64}`;
 
-            try {
-                window.open(rawbtUrl, '_system');
-            } catch (e) {
-                // Fallback for browser testing
-                window.location.assign(rawbtUrl);
-            }
+            console.log('🔗 Redirecting to RawBT:', rawbtUrl.substring(0, 50) + '...');
+            window.location.href = rawbtUrl;
 
-            console.log('✅ Intent sent to RawBT');
+            console.log('✅ Request sent to RawBT');
             return true;
         } catch (e) {
             console.error('Failed to send to RawBT:', e);
-            alert('Chyba RawBT: ' + (e instanceof Error ? e.message : String(e)));
             return false;
         }
     }
@@ -890,7 +883,7 @@ class HardwareService {
      * Check if this is likely running on Android
      */
     isAndroid(): boolean {
-        return /android/i.test(navigator.userAgent);
+        return /android/i.test(navigator.userAgent) || Capacitor.getPlatform() === 'android';
     }
 
     /**

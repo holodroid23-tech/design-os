@@ -80,6 +80,9 @@ export const useSettingsStore = create<SettingsState>()(
                 separatorStyle: 'Dashed',
                 footerMessage: 'Thank you for visiting!',
                 showQrCode: false,
+                storeName: 'My Coffee Shop',
+                storeAddress: '123 Espresso Lane, Seattle, WA 98101',
+                storePhone: '(206) 555-0123',
             },
 
             logoImage: null,

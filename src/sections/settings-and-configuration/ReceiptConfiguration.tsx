@@ -162,6 +162,36 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
 
                     <TabsContent value="design" className="mt-6">
                         <div className="flex flex-col gap-8">
+                            <div className="flex flex-col gap-6">
+                                <div className="flex flex-col gap-2">
+                                    <Label htmlFor="store-name">Store Name</Label>
+                                    <Input
+                                        id="store-name"
+                                        value={receiptConfig.storeName}
+                                        onChange={(e) => updateReceiptConfig({ storeName: e.target.value })}
+                                        placeholder="Store Name"
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                    <Label htmlFor="store-address">Store Address</Label>
+                                    <Input
+                                        id="store-address"
+                                        value={receiptConfig.storeAddress}
+                                        onChange={(e) => updateReceiptConfig({ storeAddress: e.target.value })}
+                                        placeholder="Store Address"
+                                    />
+                                </div>
+                                <div className="flex flex-col gap-2">
+                                    <Label htmlFor="store-phone">Store Phone</Label>
+                                    <Input
+                                        id="store-phone"
+                                        value={receiptConfig.storePhone}
+                                        onChange={(e) => updateReceiptConfig({ storePhone: e.target.value })}
+                                        placeholder="Store Phone"
+                                    />
+                                </div>
+                            </div>
+
                             <div className="flex flex-col gap-3">
                                 <Label className="text-muted-foreground">Logo</Label>
                                 {logoImage ? (
@@ -432,12 +462,11 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
                                                 <img src={logoImage} alt="Logo" className="max-h-16" />
                                             </div>
                                         ) : (
-                                            <div className="text-lg font-semibold leading-tight">ComPOSt Demo</div>
+                                            <div className="text-lg font-semibold leading-tight">{receiptConfig.storeName || 'ComPOSt Demo'}</div>
                                         )}
                                         <div className="mt-2 space-y-0.5 text-xs text-black/60">
-                                            <div>123 Espresso Lane</div>
-                                            <div>Seattle, WA 98101</div>
-                                            <div>Tel: (206) 555-0123</div>
+                                            {receiptConfig.storeAddress && <div>{receiptConfig.storeAddress}</div>}
+                                            {receiptConfig.storePhone && <div>Tel: {receiptConfig.storePhone}</div>}
                                         </div>
                                     </div>
 
