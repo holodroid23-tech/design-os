@@ -22,10 +22,13 @@ import PaymentSettings from "@product/sections/settings-and-configuration/replic
 import ExpenseManagement from "@product/sections/settings-and-configuration/replicated/ExpenseManagement"
 import SuggestFeature from "@product/sections/settings-and-configuration/replicated/SuggestFeature"
 import ReportBug from "@product/sections/settings-and-configuration/replicated/ReportBug"
-import ActivityAndReportsManagerAdminView from "@product/sections/activity-and-reports/replicated/ActivityAndReportsManagerAdminView"
 import CreateExpense from "@product/sections/daily-expenses/replicated/CreateExpense"
 
 import { StripePaymentModal } from "@/components/StripePaymentModal"
+import { useAuthStore } from "@/stores/useAuthStore"
+import { AuthGate } from "@/components/auth/AuthGate"
+import { DevTools } from "@/components/debug/DevTools"
+import ActivityPolymorphicView from "@product/sections/activity-and-reports/replicated/ActivityPolymorphicView"
 
 type AppView = 'orders' | 'expenses' | 'activity' | 'settings' | 'payment-success' |
     'settings-printer' | 'settings-general' | 'settings-inventory' | 'settings-users' | 'settings-profile' |
@@ -46,6 +49,9 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
 
     const { clearOrder } = useOrderStore()
     const { receiptConfig, logoImage, qrCodeImage, printerSettings, currency, taxRate, areTaxesEnabled } = useSettingsStore()
+    const { currentUser } = useAuthStore()
+
+    const isCashier = currentUser?.role === 'Cashier'
 
     React.useEffect(() => {
         // Multi-tap hack for fullscreen
@@ -116,24 +122,26 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
             icon: ShoppingCart,
             isActive: activeView === 'orders'
         },
-        {
+        // Expenses hidden for Cashiers
+        ...(!isCashier ? [{
             label: 'Expenses',
             href: 'expenses',
             icon: ReceiptText,
             isActive: activeView === 'expenses'
-        },
+        }] : []),
         {
             label: 'Activity',
             href: 'activity',
             icon: Activity,
             isActive: activeView === 'activity'
         },
-        {
+        // Settings hidden for Cashiers
+        ...(!isCashier ? [{
             label: 'Settings',
             href: 'settings',
             icon: Settings,
             isActive: activeView === 'settings'
-        },
+        }] : []),
     ]
 
     const handleNavigate = (href: string) => {
@@ -141,8 +149,23 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
         setViewStack([href as AppView]) // Reset stack when using main nav
     }
 
-    // Effect to subscribe to hardware changes (example)
+    // Effect to initialize hardware and subscribe to changes
     React.useEffect(() => {
+        // Initialize Stripe Terminal with real Location ID (from dashboard)
+        const initHardware = async () => {
+            try {
+                // Automatically set to your running ngrok tunnel
+                await hardwareService.setStripeBackendUrl('https://beatris-unhating-emmaline.ngrok-free.dev');
+
+                await hardwareService.setStripeLocationId('tml_GXNjCAxtrU1n9x');
+                console.log('✅ Hardware Service initialized with real Location ID');
+            } catch (err) {
+                console.error('❌ Failed to initialize Hardware Service:', err);
+            }
+        }
+
+        initHardware()
+
         const unsubscribe = hardwareService.subscribe((devices) => {
             console.log('Hardware devices updated:', devices)
         })
@@ -251,41 +274,47 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
                     />
                 )
             case 'expenses':
-                return <TodaysExpenses />
+                return (
+                    <AuthGate section="expenses">
+                        <TodaysExpenses />
+                    </AuthGate>
+                )
             case 'activity':
                 return (
-                    <div className="h-full w-full relative">
-                        <ActivityAndReportsManagerAdminView
-                            onAddExpense={() => setIsCreatingExpenseInActivity(true)}
-                        />
-                        {isCreatingExpenseInActivity && (
-                            <CreateExpense onClose={() => setIsCreatingExpenseInActivity(false)} />
-                        )}
-                    </div>
+                    <AuthGate section="activity">
+                        <div className="h-full w-full relative">
+                            <ActivityPolymorphicView />
+                            {isCreatingExpenseInActivity && (
+                                <CreateExpense onClose={() => setIsCreatingExpenseInActivity(false)} />
+                            )}
+                        </div>
+                    </AuthGate>
                 )
             case 'settings':
                 return (
-                    <SettingsRoot
-                        user={{
-                            name: user.name,
-                            email: 'holodroid23@gmail.com',
-                            badgeText: user.role === 'Store Manager' ? 'Admin' : 'Staff',
-                            status: 'online'
-                        }}
-                        onPressDestination={(id) => {
-                            if (id === 'printer') navigateTo('settings-printer')
-                            if (id === 'general') navigateTo('settings-general')
-                            if (id === 'inventory') navigateTo('settings-inventory')
-                            if (id === 'users') navigateTo('settings-users')
-                            if (id === 'device-mode') navigateTo('settings-device-mode')
-                            if (id === 'receipt') navigateTo('settings-receipt')
-                            if (id === 'payment') navigateTo('settings-payment')
-                            if (id === 'expenses') navigateTo('settings-expenses')
-                            if (id === 'suggest-feature') navigateTo('settings-suggest-feature')
-                            if (id === 'report-bug') navigateTo('settings-report-bug')
-                        }}
-                        onPressProfile={() => navigateTo('settings-profile')}
-                    />
+                    <AuthGate section="settings">
+                        <SettingsRoot
+                            user={{
+                                name: currentUser?.name || user.name,
+                                email: currentUser?.email || 'holodroid23@gmail.com',
+                                badgeText: currentUser?.role || (user.role === 'Store Manager' ? 'Admin' : 'Staff'),
+                                status: 'online'
+                            }}
+                            onPressDestination={(id) => {
+                                if (id === 'printer') navigateTo('settings-printer')
+                                if (id === 'general') navigateTo('settings-general')
+                                if (id === 'inventory') navigateTo('settings-inventory')
+                                if (id === 'users') navigateTo('settings-users')
+                                if (id === 'device-mode') navigateTo('settings-device-mode')
+                                if (id === 'receipt') navigateTo('settings-receipt')
+                                if (id === 'payment') navigateTo('settings-payment')
+                                if (id === 'expenses') navigateTo('settings-expenses')
+                                if (id === 'suggest-feature') navigateTo('settings-suggest-feature')
+                                if (id === 'report-bug') navigateTo('settings-report-bug')
+                            }}
+                            onPressProfile={() => navigateTo('settings-profile')}
+                        />
+                    </AuthGate>
                 )
             case 'settings-printer':
                 return <PrinterSettings onBack={goBack} />
@@ -353,6 +382,8 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
                     onCancel={handlePaymentCancel}
                 />
             )}
+
+            <DevTools />
         </>
     )
 

@@ -4,8 +4,10 @@ import { Capacitor, registerPlugin } from '@capacitor/core';
 interface StripeTerminalPlugin {
     initialize(): Promise<void>;
     setBackendUrl(options: { url: string }): Promise<void>;
+    setSimulatedMode(options: { simulated: boolean }): Promise<void>;
     discoverReaders(options?: any): Promise<void>;
     connectReader(options: { serialNumber: string }): Promise<{ connected: boolean; serialNumber: string }>;
+    setLocationId(options: { locationId: string }): Promise<void>;
     collectPayment(options: { amount: number; currency?: string }): Promise<{ success: boolean; amount: number; simulated: boolean; paymentIntentId?: string }>;
     addListener(eventName: 'readersDiscovered', listenerFunc: (data: { readers: any[] }) => void): Promise<{ remove: () => void }>;
     addListener(eventName: 'paymentStatus', listenerFunc: (data: { status: string; message: string }) => void): Promise<{ remove: () => void }>;
@@ -91,6 +93,26 @@ class HardwareService {
      */
     getStripeBackendUrl(): string {
         return this.stripeBackendUrl;
+    }
+
+    /**
+     * Set the Stripe Location ID (tml_...)
+     */
+    async setStripeLocationId(locationId: string): Promise<void> {
+        if (Capacitor.isNativePlatform()) {
+            await StripeTerminal.setLocationId({ locationId });
+        }
+    }
+
+    /**
+     * Enable or disable simulated mode for Stripe Terminal
+     * Use this for development/debugging when real NFC is not available
+     */
+    async setStripeSimulatedMode(simulated: boolean): Promise<void> {
+        console.log('🔧 Setting Stripe simulated mode:', simulated);
+        if (Capacitor.isNativePlatform()) {
+            await StripeTerminal.setSimulatedMode({ simulated });
+        }
     }
 
     private loadDevices() {

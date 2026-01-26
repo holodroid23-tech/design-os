@@ -1,11 +1,11 @@
 import * as React from 'react'
-import { CreditCard, Loader2, RotateCw, Smartphone, X } from 'lucide-react'
+import { CreditCard, Loader2, RotateCw, Smartphone, X, XCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { hardwareService } from '@/lib/hardware-service'
 import { useSettingsStore } from '@/stores/useSettingsStore'
 import { Dialog, DialogContent } from '@/components/ui/dialog'
 import { SectionTitle } from '@/components/ui/section-title'
-import { IconTile, SystemIcon } from '@/components/atoms/icon'
+import { IconTile } from '@/components/atoms/icon'
 
 export interface StripePaymentModalProps {
     amount: number
@@ -18,7 +18,7 @@ type PaymentStep = 'initializing' | 'discovering' | 'connecting' | 'processing' 
 export function StripePaymentModal({ amount, onSuccess, onCancel }: StripePaymentModalProps) {
     const [step, setStep] = React.useState<PaymentStep>('initializing')
     const [statusMessage, setStatusMessage] = React.useState('Initializing Tap to Pay...')
-    const { currency } = useSettingsStore()
+    const { currency, useSimulatedTapToPay } = useSettingsStore()
 
     React.useEffect(() => {
         startPaymentFlow()
@@ -26,89 +26,124 @@ export function StripePaymentModal({ amount, onSuccess, onCancel }: StripePaymen
 
     const startPaymentFlow = async () => {
         try {
-            // Ensure backend URL is set (from ngrok)
-            // Note: If you have a settings UI for this, it should be read from there.
             const currentBackend = hardwareService.getStripeBackendUrl();
             console.log('🔗 Stripe Terminal using backend:', currentBackend);
+            console.log('🔧 Simulated mode:', useSimulatedTapToPay);
 
             setStep('initializing')
-            setStatusMessage('Starting terminal...')
+            setStatusMessage(useSimulatedTapToPay ? 'Starting simulated terminal...' : 'Starting terminal...')
 
-            // Step 1: Initialize & Discover
+            // Apply simulated mode setting before discovery
+            await hardwareService.setStripeSimulatedMode(useSimulatedTapToPay);
+
             const readers = await hardwareService.discoverDevices('terminal')
 
             if (readers.length === 0) {
-                throw new Error('No NFC reader found. Ensure NFC is enabled.')
+                throw new Error('No NFC reader detected. Ensure NFC/Location are enabled.')
             }
 
-            // Step 2: Connect
             setStep('connecting')
-            setStatusMessage('Connecting to NFC hardware...')
+            setStatusMessage('System connecting...')
             await hardwareService.connectToTerminal(readers[0].id)
 
-            // Step 3: Collect payment
             setStep('processing')
-            setStatusMessage('Ready to tap')
+            setStatusMessage('Ready for card tap')
 
-            const _paymentResult = await hardwareService.collectTerminalPayment(
+            await hardwareService.collectTerminalPayment(
                 amount,
                 (_status, message) => {
                     setStatusMessage(message)
                 }
             )
 
-            // Success!
             setStep('success')
-            setStatusMessage('Payment complete')
+            setStatusMessage('Payment successful')
 
             setTimeout(() => {
                 onSuccess()
-            }, 1500)
+            }, 2000)
 
         } catch (error: any) {
             console.error('❌ Tap to Pay Error:', error)
             setStep('error')
-            setStatusMessage(error?.message || 'Transaction failed')
+
+            // Handle the specific debug build error from SDK
+            let msg = error?.message || 'Transaction failed'
+            if (msg.includes('Debuggable applications are prohibited')) {
+                msg = 'Real NFC requires a production-signed build. Use simulated mode for testing.'
+            }
+            setStatusMessage(msg)
         }
     }
 
-    const renderContent = () => {
-        const displayAmount = `${amount.toLocaleString('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currency}`
+    const displayAmount = amount.toLocaleString('cs-CZ', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }) + ` ${currency}`
 
+    const renderHeader = () => (
+        <div className="flex justify-end p-2 pointer-events-none sticky top-0 z-50">
+            <Button
+                variant="invisible"
+                size="icon"
+                className="rounded-full bg-muted/40 pointer-events-auto"
+                onClick={onCancel}
+            >
+                <X className="size-5" />
+            </Button>
+        </div>
+    )
+
+    const renderContent = () => {
         switch (step) {
             case 'success':
                 return (
-                    <div className="flex flex-col items-center justify-center gap-8 py-10 text-center">
+                    <div className="flex flex-col items-center justify-center gap-6 px-6 py-10 text-center animate-in fade-in zoom-in-95 duration-300">
                         <IconTile icon={CreditCard} size="large" tone="success" />
                         <div className="space-y-2">
-                            <SectionTitle titleAs="h1">Payment Success</SectionTitle>
-                            <p className="text-muted-foreground">Transaction completed successfully</p>
+                            <SectionTitle titleAs="h1" className="justify-center">Success</SectionTitle>
+                            <p className="text-muted-foreground font-medium">Transaction completed</p>
                         </div>
-                        <SectionTitle titleAs="div" size="page" className="mt-4">
+                        <div className="text-4xl font-bold tracking-tight font-mono mt-2">
                             {displayAmount}
-                        </SectionTitle>
+                        </div>
                     </div>
                 )
 
             case 'error':
                 return (
-                    <div className="flex flex-col items-center justify-center gap-6 py-10 text-center">
-                        <IconTile icon={X} size="large" tone="danger" />
-                        <div className="space-y-2">
-                            <SectionTitle titleAs="h1">Failed</SectionTitle>
-                            <p className="text-destructive font-medium">{statusMessage}</p>
+                    <div className="flex flex-col items-center justify-center gap-10 px-6 py-8 text-center animate-in fade-in slide-in-from-bottom-4 duration-500">
+                        <IconTile icon={XCircle} size="large" tone="danger" className="scale-110 shadow-xl shadow-danger/20" />
+
+                        <div className="space-y-4">
+                            <SectionTitle
+                                titleAs="h1"
+                                size="page"
+                                className="justify-center"
+                                titleClassName="text-onLayer-danger"
+                            >
+                                Failed
+                            </SectionTitle>
+                            <div className="space-y-1">
+                                <p className="text-muted-foreground font-medium uppercase tracking-[0.1em] text-[10px]">
+                                    Technical Error
+                                </p>
+                                <p className="text-foreground text-sm font-semibold max-w-[320px] leading-relaxed mx-auto">
+                                    {statusMessage}
+                                </p>
+                            </div>
                         </div>
 
-                        <SectionTitle titleAs="div" size="page" className="my-2">
+                        <div className="text-4xl font-bold font-mono tracking-tighter text-foreground/40 py-2">
                             {displayAmount}
-                        </SectionTitle>
+                        </div>
 
-                        <div className="grid grid-cols-2 gap-3 w-full mt-4">
-                            <Button variant="secondary" size="lg" onClick={onCancel}>
+                        <div className="grid grid-cols-2 gap-4 w-full mt-4">
+                            <Button variant="ghost" size="lg" className="w-full h-14 rounded-2xl" onClick={onCancel}>
                                 Cancel
                             </Button>
-                            <Button variant="default" size="lg" onClick={startPaymentFlow}>
-                                <RotateCw className="mr-2 h-4 w-4" />
+                            <Button variant="default" size="lg" className="w-full h-14 rounded-2xl shadow-lg shadow-primary/20" onClick={startPaymentFlow}>
+                                <RotateCw className="mr-2 size-4" />
                                 Retry
                             </Button>
                         </div>
@@ -117,39 +152,44 @@ export function StripePaymentModal({ amount, onSuccess, onCancel }: StripePaymen
 
             case 'processing':
                 return (
-                    <div className="flex flex-col items-center justify-center gap-8 py-10 text-center">
-                        <div className="relative">
-                            <IconTile icon={Smartphone} size="large" tone="neutral" className="bg-primary/10 animate-pulse scale-110" />
-                            <div className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-25" />
+                    <div className="flex flex-col items-center justify-center gap-8 px-6 py-10 text-center">
+                        <div className="relative isolate">
+                            <div className="absolute inset-0 -z-10 rounded-full bg-primary/20 animate-ping duration-1000" />
+                            <IconTile icon={Smartphone} size="large" tone="neutral" className="bg-primary/10 text-primary scale-110 shadow-lg shadow-primary/20" />
                         </div>
 
-                        <div className="space-y-2">
-                            <SectionTitle titleAs="h1">Tap to pay</SectionTitle>
-                            <p className="text-xl font-medium animate-pulse">{statusMessage}</p>
+                        <div className="space-y-3">
+                            <SectionTitle titleAs="h1" className="justify-center">Tap to pay</SectionTitle>
+                            <p className="text-xl font-bold tracking-tight animate-pulse text-foreground">
+                                {statusMessage}
+                            </p>
                         </div>
 
-                        <SectionTitle titleAs="div" size="page" className="mt-6">
+                        <div className="text-3xl font-bold font-mono tracking-tight mt-4">
                             {displayAmount}
-                        </SectionTitle>
+                        </div>
 
-                        <div className="flex items-center gap-2 text-muted-foreground mt-4">
-                            <SystemIcon icon={CreditCard} size="regular" />
-                            <span className="text-sm font-medium">Hold card to back of phone</span>
+                        <div className="flex items-center gap-2 text-muted-foreground mt-4 text-sm font-semibold uppercase tracking-wider">
+                            <CreditCard className="size-4" />
+                            <span>Hold card to back</span>
                         </div>
                     </div>
                 )
 
             default: // Initializing / Connecting
                 return (
-                    <div className="flex flex-col items-center justify-center gap-8 py-10 text-center">
-                        <Loader2 className="h-16 w-16 animate-spin text-primary opacity-50" />
-                        <div className="space-y-2">
-                            <SectionTitle titleAs="h1">Initializing</SectionTitle>
-                            <p className="text-muted-foreground">{statusMessage}</p>
+                    <div className="flex flex-col items-center justify-center gap-8 px-6 py-10 text-center animate-in fade-in duration-500">
+                        <div className="h-16 w-16 relative flex items-center justify-center">
+                            <Loader2 className="h-full w-full animate-spin text-primary/30" strokeWidth={3} />
+                            <Loader2 className="absolute h-full w-full animate-spin text-primary duration-1000" strokeWidth={3} style={{ animationDirection: 'reverse' }} />
                         </div>
-                        <SectionTitle titleAs="div" size="page" className="opacity-50">
+                        <div className="space-y-2">
+                            <SectionTitle titleAs="h1" className="justify-center">Initializing</SectionTitle>
+                            <p className="text-muted-foreground font-medium">{statusMessage}</p>
+                        </div>
+                        <div className="text-2xl font-bold font-mono opacity-40">
                             {displayAmount}
-                        </SectionTitle>
+                        </div>
                     </div>
                 )
         }
@@ -157,20 +197,9 @@ export function StripePaymentModal({ amount, onSuccess, onCancel }: StripePaymen
 
     return (
         <Dialog open onOpenChange={(open) => { if (!open) onCancel() }}>
-            <DialogContent className="sm:max-w-[420px] max-h-[90vh] overflow-hidden" showCloseButton={false}>
-                <div className="relative">
-                    {/* Header close button */}
-                    <div className="absolute right-0 top-0 z-10">
-                        <Button
-                            variant="invisible"
-                            size="icon-lg"
-                            className="rounded-full bg-muted/50"
-                            onClick={onCancel}
-                        >
-                            <SystemIcon icon={X} />
-                        </Button>
-                    </div>
-
+            <DialogContent className="sm:max-w-[400px] p-0 overflow-hidden border-border/40 shadow-2xl rounded-3xl" showCloseButton={false}>
+                {renderHeader()}
+                <div className="relative -mt-12">
                     {renderContent()}
                 </div>
             </DialogContent>

@@ -1,3 +1,4 @@
+import * as React from "react"
 import { IconTile } from "@/components/atoms/icon"
 import { SettingsGroup } from "@/components/settings/settings-group"
 import { SettingsFooter } from "@/components/settings/settings-footer"
@@ -24,6 +25,9 @@ import {
   Users,
   Wallet,
 } from "lucide-react"
+import { useAuthStore } from "@/stores/useAuthStore"
+import ManagerUsersSecurityRestriction from "./ManagerUsersSecurityRestriction"
+import PaymentModificationPinRequest from "./PaymentModificationPinRequest"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -73,13 +77,30 @@ export interface SettingsRootProps {
 
 export default function SettingsRoot({
   title = "Settings",
-  user = { name: "Ghhh", email: "holodroid23@gmail.com", badgeText: "Admin", status: "online" },
+  user: userProp,
   onPressProfile,
   onPressDestination,
   onPressLogout,
   footerVersion = "ComPOSt",
   footerBuild = "89",
 }: SettingsRootProps) {
+  const { currentUser, verifyAdminAction } = useAuthStore()
+  const [showUsersSecurity, setShowUsersSecurity] = React.useState(false)
+  const [showPaymentSecurity, setShowPaymentSecurity] = React.useState(false)
+
+  const isManager = currentUser?.role === 'Manager'
+
+  const handleDestinationPress = (id: string) => {
+    if (id === 'users' && isManager) {
+      setShowUsersSecurity(true)
+      return
+    }
+    if (id === 'payment' && isManager) {
+      setShowPaymentSecurity(true)
+      return
+    }
+    onPressDestination?.(id)
+  }
   return (
     <div className="h-full w-full overflow-y-auto">
       <div className="flex flex-col gap-4 px-4 pt-4 min-h-[100px]">
@@ -94,11 +115,11 @@ export default function SettingsRoot({
         <SettingsGroup>
           <UserProfileRow
             type="button"
-            name={user.name}
-            email={user.email}
-            showBadge={Boolean(user.badgeText)}
-            badgeText={user.badgeText}
-            status={user.status}
+            name={userProp?.name || currentUser?.name || "User"}
+            email={userProp?.email || currentUser?.email || ""}
+            showBadge={true}
+            badgeText={currentUser?.role || "User"}
+            status="online"
             onClick={onPressProfile}
           />
         </SettingsGroup>
@@ -134,7 +155,7 @@ export default function SettingsRoot({
           </SettingsGroup>
 
           <SettingsGroup>
-            <SettingsItem onPress={() => onPressDestination?.("general")}>
+            <SettingsItem onPress={() => handleDestinationPress("general")}>
               <SettingsItemIcon>
                 <IconTile icon={Settings} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -146,7 +167,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem onPress={() => onPressDestination?.("users")}>
+            <SettingsItem onPress={() => handleDestinationPress("users")}>
               <SettingsItemIcon>
                 <IconTile icon={Users} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -158,7 +179,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem onPress={() => onPressDestination?.("payment")}>
+            <SettingsItem onPress={() => handleDestinationPress("payment")}>
               <SettingsItemIcon>
                 <IconTile icon={Banknote} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -170,7 +191,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem onPress={() => onPressDestination?.("printer")}>
+            <SettingsItem onPress={() => handleDestinationPress("printer")}>
               <SettingsItemIcon>
                 <IconTile icon={Printer} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -182,7 +203,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem onPress={() => onPressDestination?.("receipt")}>
+            <SettingsItem onPress={() => handleDestinationPress("receipt")}>
               <SettingsItemIcon>
                 <IconTile icon={Receipt} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -194,7 +215,7 @@ export default function SettingsRoot({
               </SettingsItemAction>
             </SettingsItem>
 
-            <SettingsItem onPress={() => onPressDestination?.("device-mode")}>
+            <SettingsItem onPress={() => handleDestinationPress("device-mode")}>
               <SettingsItemIcon>
                 <IconTile icon={Smartphone} size="small" variant="tile" tone="neutral" />
               </SettingsItemIcon>
@@ -256,6 +277,35 @@ export default function SettingsRoot({
       <div className="px-4">
         <SettingsFooter version={footerVersion} build={footerBuild} className="mt-6" />
       </div>
+
+      {/* Action Gating Modals for Manager */}
+      {showUsersSecurity && (
+        <ManagerUsersSecurityRestriction
+          onClose={() => setShowUsersSecurity(false)}
+          onConfirmPin={(pin) => {
+            if (verifyAdminAction(pin)) {
+              setShowUsersSecurity(false)
+              onPressDestination?.("users")
+            } else {
+              alert("Invalid Admin PIN")
+            }
+          }}
+        />
+      )}
+
+      {showPaymentSecurity && (
+        <PaymentModificationPinRequest
+          onClose={() => setShowPaymentSecurity(false)}
+          onConfirmPin={(pin) => {
+            if (verifyAdminAction(pin)) {
+              setShowPaymentSecurity(false)
+              onPressDestination?.("payment")
+            } else {
+              alert("Invalid Admin PIN")
+            }
+          }}
+        />
+      )}
     </div>
   )
 }

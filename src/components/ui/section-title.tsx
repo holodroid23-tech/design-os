@@ -34,8 +34,9 @@ const sectionTitleTextVariants = cva("text-foreground font-semibold leading-tigh
 
 export interface SectionTitleProps
   extends React.ComponentPropsWithoutRef<"div">,
-    VariantProps<typeof sectionTitleVariants> {
+  VariantProps<typeof sectionTitleVariants> {
   titleAs?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "div"
+  titleClassName?: string
   leading?: React.ReactNode
   trailing?: React.ReactNode
 }
@@ -46,6 +47,7 @@ export function SectionTitle({
   leading,
   size,
   titleAs: TitleComp = "h2",
+  titleClassName,
   trailing,
   children,
   ...props
@@ -60,7 +62,7 @@ export function SectionTitle({
     >
       <div className="flex min-w-0 items-center gap-3">
         {leading}
-        <TitleComp className={cn(sectionTitleTextVariants({ size }))}>
+        <TitleComp className={cn(sectionTitleTextVariants({ size }), titleClassName)}>
           {children}
         </TitleComp>
       </div>

@@ -19,3 +19,8 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Stripe Terminal SDK - Keep AIDL service classes for Tap to Pay
+-keep class com.stripe.stripeterminal.** { *; }
+-keep class com.stripe.core.aidlrpc.** { *; }
+-dontwarn com.stripe.**

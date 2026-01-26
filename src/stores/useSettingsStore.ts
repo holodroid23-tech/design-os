@@ -25,6 +25,9 @@ interface SettingsState {
     logoImage: string | null
     qrCodeImage: string | null
 
+    // Developer/Debug settings
+    useSimulatedTapToPay: boolean
+
     // Currency & Tax actions
     setCurrency: (currency: string) => void
     setTaxRate: (rate: number) => void
@@ -41,6 +44,9 @@ interface SettingsState {
     updateReceiptConfig: (updates: Partial<ReceiptConfig>) => void
     setLogoImage: (base64Image: string | null) => void
     setQrCodeImage: (base64Image: string | null) => void
+
+    // Developer/Debug actions
+    setSimulatedTapToPay: (enabled: boolean) => void
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -74,6 +80,9 @@ export const useSettingsStore = create<SettingsState>()(
 
             logoImage: null,
             qrCodeImage: null,
+
+            // Default to simulated mode for development (set false for production)
+            useSimulatedTapToPay: true,
 
             setCurrency: (currency) => set({ currency }),
             setTaxRate: (rate) => set({ taxRate: rate }),
@@ -126,6 +135,7 @@ export const useSettingsStore = create<SettingsState>()(
 
             setLogoImage: (base64Image) => set({ logoImage: base64Image }),
             setQrCodeImage: (base64Image) => set({ qrCodeImage: base64Image }),
+            setSimulatedTapToPay: (enabled) => set({ useSimulatedTapToPay: enabled }),
         }),
         {
             name: 'compost-settings-storage',

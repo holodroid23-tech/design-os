@@ -63,9 +63,10 @@ public class StripeTerminalPlugin extends Plugin {
     private Cancelable discoveryCancelable;
     private List<Reader> discoveredReaders = new ArrayList<>();
     
-    // Backend URL - update this with your ngrok URL
-    // Default to localhost for emulator, but should be set via setBackendUrl()
+    // Stripe backend URL - update this with your ngrok URL
     private String backendUrl = "http://10.0.2.2:4242"; // 10.0.2.2 is localhost from Android emulator
+    private String locationId = "tml_test_simulated_location"; // Default to test location
+    private boolean useSimulatedMode = false;  // Set to true for development/debugging
 
     /**
      * Set the backend URL (e.g., ngrok URL for real device testing)
@@ -80,6 +81,33 @@ public class StripeTerminalPlugin extends Plugin {
         } else {
             call.reject("URL is required");
         }
+    }
+
+    /**
+     * Set the Stripe Location ID (required for real transactions)
+     */
+    @PluginMethod
+    public void setLocationId(PluginCall call) {
+        String id = call.getString("locationId");
+        if (id != null && !id.isEmpty()) {
+            this.locationId = id;
+            android.util.Log.d("StripeTerminal", "📍 Location ID set to: " + id);
+            call.resolve();
+        } else {
+            call.reject("Location ID is required");
+        }
+    }
+
+    /**
+     * Enable or disable simulated mode for development/debugging
+     * When simulated mode is enabled, no real NFC hardware is used
+     */
+    @PluginMethod
+    public void setSimulatedMode(PluginCall call) {
+        Boolean simulated = call.getBoolean("simulated", false);
+        this.useSimulatedMode = simulated;
+        android.util.Log.d("StripeTerminal", "🔧 Simulated mode set to: " + simulated);
+        call.resolve();
     }
 
     /**
@@ -121,6 +149,43 @@ public class StripeTerminalPlugin extends Plugin {
         
         android.util.Log.d("StripeTerminal", "✅ Got connection token from backend");
         return secret;
+    }
+
+    /**
+     * Fetch PaymentIntent client secret from backend
+     */
+    private String fetchPaymentIntentClientSecret(long amount, String currency) throws Exception {
+        android.util.Log.d("StripeTerminal", "💳 Requesting PaymentIntent from backend for " + amount + " " + currency);
+        
+        URL url = new URL(backendUrl + "/create_payment_intent");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("POST");
+        conn.setRequestProperty("Content-Type", "application/json");
+        conn.setDoOutput(true);
+        
+        JSONObject body = new JSONObject();
+        body.put("amount", amount);
+        body.put("currency", currency);
+        
+        try (OutputStream os = conn.getOutputStream()) {
+            os.write(body.toString().getBytes());
+        }
+        
+        int responseCode = conn.getResponseCode();
+        if (responseCode != 200) {
+            throw new Exception("Backend returned " + responseCode);
+        }
+        
+        StringBuilder response = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                response.append(line);
+            }
+        }
+        
+        JSONObject json = new JSONObject(response.toString());
+        return json.getString("client_secret");
     }
 
     @PluginMethod
@@ -168,9 +233,9 @@ public class StripeTerminalPlugin extends Plugin {
                 android.util.Log.d("StripeTerminal", "✅ Terminal already initialized");
             }
             call.resolve();
-        } catch (TerminalException e) {
+        } catch (Exception e) {
             android.util.Log.e("StripeTerminal", "❌ Failed to initialize Terminal: " + e.getMessage(), e);
-            call.reject("Failed to initialize Terminal", e);
+            call.reject("Failed to initialize Terminal: " + e.getMessage());
         }
     }
 
@@ -229,13 +294,18 @@ public class StripeTerminalPlugin extends Plugin {
 
     private void startDiscovery(PluginCall call) {
         android.util.Log.d("StripeTerminal", "🚀 Starting discovery process...");
+        android.util.Log.d("StripeTerminal", "📍 Simulated mode: " + useSimulatedMode);
+        
+        // Log device info for debugging
+        android.util.Log.d("StripeTerminal", "📱 Device: " + android.os.Build.MODEL);
+        android.util.Log.d("StripeTerminal", "📱 Android: " + android.os.Build.VERSION.SDK_INT);
         
         // Tap to Pay -> TapToPayDiscoveryConfiguration
         DiscoveryConfiguration config = new DiscoveryConfiguration.TapToPayDiscoveryConfiguration(
-            false  // isSimulated = false for REAL hardware interaction (phone's NFC)
+            useSimulatedMode  // Use simulated mode for debugging if real NFC fails
         );
         
-        android.util.Log.d("StripeTerminal", "⚙️ Config created: TapToPayDiscoveryConfiguration (simulated=true)");
+        android.util.Log.d("StripeTerminal", "⚙️ Config created: TapToPayDiscoveryConfiguration (simulated=" + useSimulatedMode + ")");
 
         DiscoveryListener listener = new DiscoveryListener() {
             @Override
@@ -268,7 +338,7 @@ public class StripeTerminalPlugin extends Plugin {
         Callback statusCallback = new Callback() {
             @Override
             public void onSuccess() {
-                android.util.Log.d("StripeTerminal", "✅ Discovery completed successfully");
+                android.util.Log.d("StripeTerminal", "✅ Discovery session started");
                 call.resolve();
             }
 
@@ -312,15 +382,13 @@ public class StripeTerminalPlugin extends Plugin {
         }
         
         final Reader finalReader = readerToConnect;
-        android.util.Log.d("StripeTerminal", "📱 Connecting to reader: " + finalReader.getSerialNumber());
+        android.util.Log.d("StripeTerminal", "📱 Connecting to reader: " + finalReader.getSerialNumber() + " at location: " + locationId);
         
         // SDK v5 requires ConnectionConfiguration for Tap to Pay
-        // Using 3-parameter constructor: locationId, failIfInUse, listener
-        // For simulated mode, use a test location ID (cannot be null)
         ConnectionConfiguration connectionConfig = new ConnectionConfiguration.TapToPayConnectionConfiguration(
-            "tml_test_simulated_location",  // locationId - test value for simulated mode
-            false, // failIfInUse - allow connection even if in use
-            null   // TapToPayReaderListener - null for simple case
+            locationId,
+            false, // failIfInUse
+            null   // TapToPayReaderListener
         );
         
         Terminal.getInstance().connectReader(
@@ -357,9 +425,9 @@ public class StripeTerminalPlugin extends Plugin {
         
         // Convert dollars to cents (Stripe uses cents)
         long amountInCents = Math.round(amount * 100);
-        String currency = call.getString("currency", "usd");
+        String currency = call.getString("currency", "czk");
         
-        android.util.Log.d("StripeTerminal", "💰 Collecting payment: $" + amount + " (" + amountInCents + " cents)");
+        android.util.Log.d("StripeTerminal", "💰 Collecting payment: " + amount + " " + currency + " (" + amountInCents + " cents)");
         
         // Check if terminal is connected
         Reader connectedReader = Terminal.getInstance().getConnectedReader();
@@ -370,85 +438,77 @@ public class StripeTerminalPlugin extends Plugin {
         }
         
         android.util.Log.d("StripeTerminal", "📱 Connected reader: " + connectedReader.getSerialNumber());
-        android.util.Log.d("StripeTerminal", "🎯 Using SIMULATED mode - SDK will simulate card tap");
         
-        // In simulated mode, we use the SDK's built-in simulation
-        // The SDK creates a simulated PaymentIntent and handles the "card tap" internally
-        
-        // Create PaymentIntent parameters for simulation
-        com.stripe.stripeterminal.external.models.PaymentIntentParameters params = 
-            new com.stripe.stripeterminal.external.models.PaymentIntentParameters.Builder()
-                .setAmount(amountInCents)
-                .setCurrency(currency)
-                .build();
-        
-        android.util.Log.d("StripeTerminal", "📝 Creating PaymentIntent...");
-        
-        // Step 1: Create PaymentIntent (in simulated mode, this creates a simulated intent)
-        Terminal.getInstance().createPaymentIntent(
-            params,
-            new com.stripe.stripeterminal.external.callable.PaymentIntentCallback() {
-                @Override
-                public void onSuccess(com.stripe.stripeterminal.external.models.PaymentIntent paymentIntent) {
-                    android.util.Log.d("StripeTerminal", "✅ PaymentIntent created: " + paymentIntent.getId());
-                    
-                    // Step 2: Collect payment method (this triggers the "tap card" flow)
-                    android.util.Log.d("StripeTerminal", "💳 Waiting for card tap...");
-                    notifyPaymentStatus("waiting_for_card", "Please tap your card");
-                    
-                    // SDK v5: Use simpler 2-parameter method signature
-                    Terminal.getInstance().collectPaymentMethod(
-                        paymentIntent,
-                        new com.stripe.stripeterminal.external.callable.PaymentIntentCallback() {
-                            @Override
-                            public void onSuccess(com.stripe.stripeterminal.external.models.PaymentIntent collectedIntent) {
-                                android.util.Log.d("StripeTerminal", "✅ Card tapped! Payment method collected");
-                                notifyPaymentStatus("processing", "Processing payment...");
-                                
-                                // Step 3: Confirm the payment
-                                android.util.Log.d("StripeTerminal", "🔄 Confirming payment...");
-                                
-                                Terminal.getInstance().confirmPaymentIntent(
-                                    collectedIntent,
-                                    new com.stripe.stripeterminal.external.callable.PaymentIntentCallback() {
-                                        @Override
-                                        public void onSuccess(com.stripe.stripeterminal.external.models.PaymentIntent confirmedIntent) {
-                                            android.util.Log.d("StripeTerminal", "✅ Payment confirmed!");
-                                            android.util.Log.d("StripeTerminal", "💰 Amount: $" + amount);
-                                            
-                                            JSObject ret = new JSObject();
-                                            ret.put("success", true);
-                                            ret.put("amount", amount);
-                                            ret.put("paymentIntentId", confirmedIntent.getId());
-                                            ret.put("simulated", true);
-                                            call.resolve(ret);
-                                        }
-                                        
-                                        @Override
-                                        public void onFailure(TerminalException e) {
-                                            android.util.Log.e("StripeTerminal", "❌ Confirm failed: " + e.getMessage(), e);
-                                            call.reject("Payment confirmation failed: " + e.getMessage(), e);
-                                        }
-                                    }
-                                );
-                            }
-                            
-                            @Override
-                            public void onFailure(TerminalException e) {
-                                android.util.Log.e("StripeTerminal", "❌ Collect failed: " + e.getMessage(), e);
-                                call.reject("Card collection failed: " + e.getMessage(), e);
-                            }
-                        }
-                    );
-                }
+        // Fetch PaymentIntent from backend (required for REAL payments)
+        new Thread(() -> {
+            try {
+                String clientSecret = fetchPaymentIntentClientSecret(amountInCents, currency);
                 
-                @Override
-                public void onFailure(TerminalException e) {
-                    android.util.Log.e("StripeTerminal", "❌ Create PaymentIntent failed: " + e.getMessage(), e);
-                    call.reject("Failed to create payment: " + e.getMessage(), e);
-                }
+                // Step 1: Retrieve the PaymentIntent
+                Terminal.getInstance().retrievePaymentIntent(clientSecret, new com.stripe.stripeterminal.external.callable.PaymentIntentCallback() {
+                    @Override
+                    public void onSuccess(com.stripe.stripeterminal.external.models.PaymentIntent paymentIntent) {
+                        android.util.Log.d("StripeTerminal", "✅ PaymentIntent retrieved: " + paymentIntent.getId());
+                        
+                        // Step 2: Collect payment method (this triggers the "tap card" flow)
+                        android.util.Log.d("StripeTerminal", "💳 Waiting for card tap...");
+                        notifyPaymentStatus("waiting_for_card", "Please tap your card");
+                        
+                        Terminal.getInstance().collectPaymentMethod(
+                            paymentIntent,
+                            new com.stripe.stripeterminal.external.callable.PaymentIntentCallback() {
+                                @Override
+                                public void onSuccess(com.stripe.stripeterminal.external.models.PaymentIntent collectedIntent) {
+                                    android.util.Log.d("StripeTerminal", "✅ Card tapped! Payment method collected");
+                                    notifyPaymentStatus("processing", "Processing payment...");
+                                    
+                                    // Step 3: Confirm the payment
+                                    android.util.Log.d("StripeTerminal", "🔄 Confirming payment...");
+                                    
+                                    Terminal.getInstance().confirmPaymentIntent(
+                                        collectedIntent,
+                                        new com.stripe.stripeterminal.external.callable.PaymentIntentCallback() {
+                                            @Override
+                                            public void onSuccess(com.stripe.stripeterminal.external.models.PaymentIntent confirmedIntent) {
+                                                android.util.Log.d("StripeTerminal", "✅ Payment confirmed!");
+                                                
+                                                JSObject ret = new JSObject();
+                                                ret.put("success", true);
+                                                ret.put("amount", amount);
+                                                ret.put("paymentIntentId", confirmedIntent.getId());
+                                                ret.put("simulated", false);
+                                                call.resolve(ret);
+                                            }
+                                            
+                                            @Override
+                                            public void onFailure(TerminalException e) {
+                                                android.util.Log.e("StripeTerminal", "❌ Confirm failed: " + e.getMessage(), e);
+                                                call.reject("Payment confirmation failed: " + e.getMessage(), e);
+                                            }
+                                        }
+                                    );
+                                }
+                                
+                                @Override
+                                public void onFailure(TerminalException e) {
+                                    android.util.Log.e("StripeTerminal", "❌ Collect failed: " + e.getMessage(), e);
+                                    call.reject("Card collection failed: " + e.getMessage(), e);
+                                }
+                            }
+                        );
+                    }
+                    
+                    @Override
+                    public void onFailure(TerminalException e) {
+                        android.util.Log.e("StripeTerminal", "❌ Retrieve PaymentIntent failed: " + e.getMessage(), e);
+                        call.reject("Failed to retrieve payment: " + e.getMessage(), e);
+                    }
+                });
+            } catch (Exception e) {
+                android.util.Log.e("StripeTerminal", "❌ Backend error: " + e.getMessage(), e);
+                call.reject("Backend error: " + e.getMessage());
             }
-        );
+        }).start();
     }
     
     private void notifyPaymentStatus(String status, String message) {

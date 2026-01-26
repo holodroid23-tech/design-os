@@ -18,6 +18,7 @@ android {
     }
     buildTypes {
         release {
+            debuggable false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -67,6 +68,8 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
     // Stripe Terminal SDK - v5.x with Tap to Pay module
+    // All three modules are required for proper AIDL service communication
+    implementation "com.stripe:stripeterminal-core:5.1.1"  // Core AIDL service
     implementation "com.stripe:stripeterminal:5.1.1"
     implementation "com.stripe:stripeterminal-taptopay:5.1.1"  // Required for Tap to Pay on Android
 }
