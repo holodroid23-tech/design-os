@@ -10,6 +10,7 @@ import { GridActionTile } from "@/components/patterns/grid-action-tile"
 import { cn } from "@/lib/utils"
 import ItemManagementNewItem from "../../settings-and-configuration/replicated/ItemManagementNewItem"
 import OrderEditTab from "./OrderEditTab"
+import OrderFolderDetail from "./OrderFolderDetail"
 
 // Store imports
 import { useOrderStore } from "@/stores/useOrderStore"
@@ -18,6 +19,11 @@ import { useSettingsStore } from "@/stores/useSettingsStore"
 
 export const designOS = {
   presentation: "mobile" as const,
+}
+
+export interface OrderFolderDetailProps {
+  categoryId: string
+  onBack?: () => void
 }
 
 export interface OrdersMainProps {
@@ -50,15 +56,15 @@ export default function OrdersMain({
     removeItemFromOrder,
     clearOrder,
     updateTabLabel,
-    removeTab
+    removeTab,
   } = useOrderStore()
 
-  const { items: inventoryItems } = useInventoryStore()
-  const { taxRate, areTaxesEnabled, currency } = useSettingsStore()
-
-  // Local State
   const [isAddingItem, setIsAddingItem] = React.useState(false)
   const [editingTabId, setEditingTabId] = React.useState<string | null>(null)
+  const [selectedFolderId, setSelectedFolderId] = React.useState<string | null>(null)
+
+  const { items: inventoryItems, categories } = useInventoryStore()
+  const { taxRate, areTaxesEnabled, currency } = useSettingsStore()
 
   // Computed State
   const activeTab = tabs.find(t => t.id === activeTabId)
@@ -138,22 +144,32 @@ export default function OrdersMain({
     }
   }
 
-  // Inventory tiles (static for now, could be dynamic categories later)
-  const inventoryTiles = [
-    { id: "custom-item", label: "Custom item", icon: Plus, iconClassName: "text-primary" },
-    { id: "iced-drinks", label: "Iced drinks", icon: Folder, iconClassName: "text-layer-info" },
-    { id: "pastries", label: "Pastries", icon: Folder, iconClassName: "text-layer-info" },
-  ]
+  // Inventory tiles from store
+  const inventoryTiles = React.useMemo(() => {
+    return [
+      { id: "custom-item", label: "Custom item", icon: Plus, iconClassName: "text-primary" },
+      ...categories.map(c => ({ id: c.id, label: c.name, icon: Folder, iconClassName: "text-layer-info" }))
+    ]
+  }, [categories])
 
   const formatPrice = (price: number) => {
     return `${price.toLocaleString('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currency}`
+  }
+
+  if (selectedFolderId) {
+    return (
+      <OrderFolderDetail
+        categoryId={selectedFolderId}
+        onBack={() => setSelectedFolderId(null)}
+      />
+    )
   }
 
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
       <div className="min-h-0 flex-1 overflow-y-auto">
         {/* Block 1: Order switcher */}
-        <div className="sticky top-0 z-50 isolate bg-background border-b border-border px-4 pt-4 pb-4 min-h-[100px]">
+        <div className="sticky top-0 z-50 isolate bg-background border-b border-border px-6 pt-10 pb-4">
           <OrderTabs
             tabs={tabs.map(t => ({
               id: t.id,
@@ -244,7 +260,11 @@ export default function OrdersMain({
                 label={tile.label}
                 iconClassName={tile.iconClassName}
                 onClick={() => {
-                  if (tile.id === "custom-item") setIsAddingItem(true)
+                  if (tile.id === "custom-item") {
+                    setIsAddingItem(true)
+                  } else {
+                    setSelectedFolderId(tile.id)
+                  }
                 }}
               />
             ))}

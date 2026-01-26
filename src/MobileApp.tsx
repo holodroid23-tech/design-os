@@ -24,6 +24,8 @@ import SuggestFeature from "@product/sections/settings-and-configuration/replica
 import ReportBug from "@product/sections/settings-and-configuration/replicated/ReportBug"
 import CreateExpense from "@product/sections/daily-expenses/replicated/CreateExpense"
 import PaymentTerminalProcessing from "@product/sections/register-and-sales/replicated/PaymentTerminalProcessing"
+import BeatMachine from "@product/sections/settings-and-configuration/replicated/BeatMachine"
+
 
 import { useAuthStore } from "@/stores/useAuthStore"
 import { AuthGate } from "@/components/auth/AuthGate"
@@ -33,7 +35,8 @@ import ActivityPolymorphicView from "@product/sections/activity-and-reports/repl
 type AppView = 'orders' | 'expenses' | 'activity' | 'settings' | 'payment-success' | 'payment-terminal' |
     'settings-printer' | 'settings-general' | 'settings-inventory' | 'settings-users' | 'settings-profile' |
     'settings-device-mode' | 'settings-receipt' | 'settings-payment' | 'settings-expenses' |
-    'settings-suggest-feature' | 'settings-report-bug'
+    'settings-suggest-feature' | 'settings-report-bug' | 'settings-beat-machine'
+
 
 export interface MobileAppProps {
     isFrame?: boolean
@@ -299,9 +302,6 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
                 return (
                     <AuthGate section="settings">
                         <div className="flex flex-col h-full">
-                            <div className="px-6 py-2 bg-muted/30 text-[10px] text-center font-mono opacity-50 uppercase tracking-widest">
-                                Build: {hardwareService.getVersion()}
-                            </div>
                             <SettingsRoot
                                 user={{
                                     name: currentUser?.name || user.name,
@@ -320,7 +320,9 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
                                     if (id === 'expenses') navigateTo('settings-expenses')
                                     if (id === 'suggest-feature') navigateTo('settings-suggest-feature')
                                     if (id === 'report-bug') navigateTo('settings-report-bug')
+                                    if (id === 'beat-machine') navigateTo('settings-beat-machine')
                                 }}
+
                                 onPressProfile={() => navigateTo('settings-profile')}
                             />
                         </div>
@@ -357,6 +359,9 @@ export default function MobileApp({ isFrame = false }: MobileAppProps) {
                 return <SuggestFeature onClose={goBack} />
             case 'settings-report-bug':
                 return <ReportBug onClose={goBack} />
+            case 'settings-beat-machine':
+                return <BeatMachine onBack={goBack} />
+
             case 'payment-success':
                 return (
                     <PaymentSuccessAllMethods

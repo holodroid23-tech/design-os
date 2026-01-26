@@ -22,7 +22,7 @@ export default function PrinterSettings({ onBack }: PrinterSettingsProps) {
   return (
     <div className="flex h-full flex-col bg-background overflow-hidden">
       {/* Block 1: Header */}
-      <div className="shrink-0 border-b bg-background px-6 py-4 z-10 min-h-[100px] flex items-center">
+      <div className="shrink-0 border-b bg-background px-6 pt-10 pb-4 z-10 flex items-center">
         <Button
           type="button"
           variant="invisible"

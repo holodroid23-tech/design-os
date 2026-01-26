@@ -103,7 +103,7 @@ export default function PaymentTerminalProcessing({ amount, onSuccess, onCancel 
         <div className="h-full min-h-full w-full bg-background animate-in fade-in duration-500">
             <div className="flex h-full min-h-full flex-col">
                 {/* Block 1: Header controls */}
-                <div className="px-6 pt-6 min-h-[100px]">
+                <div className="px-6 pt-10 pb-4">
                     <div className="flex justify-end">
                         <Button
                             type="button"

@@ -21,105 +21,71 @@ import { ProductTile } from "@/components/ui/product-tile"
 import { SettingsGroup } from "@/components/settings/settings-group"
 import { cn } from "@/lib/utils"
 
+import { useExpenseProductsStore } from "@/stores/useExpenseProductsStore"
+import { useExpenseStore } from "@/stores/useExpenseStore"
+import { useSettingsStore } from "@/stores/useSettingsStore"
+import CreateExpense from "./CreateExpense"
+
 export const designOS = {
   presentation: "mobile" as const,
 }
 
 export interface DailyExpensesFolderDetailProps {
-  title?: string
+  folderId: string
   onBack?: () => void
-
-  items?: {
-    id: string
-    name: string
-    imageSrc?: string
-    imageAlt?: string
-    tone?: React.ComponentProps<typeof ProductTile>["tone"]
-  }[]
-  onPressItem?: (itemId: string) => void
-
-  /**
-   * Bottom expandable summary (expense version; uses pencil edit affordance).
-   */
-  expensesTitle?: string
-  expenses?: {
-    id: string
-    name: string
-    amount: number
-    imageSrc?: string
-    imageAlt?: string
-  }[]
-  tax?: number
-  formatMoney?: (value: number) => string
-  onEditExpense?: (expenseId: string) => void
-  onAddExpense?: () => void
 }
 
 export default function FolderDetail({
-  title = "Monthly utilities",
+  folderId,
   onBack,
-  items = [
-    { id: "electricity", name: "Electricity bill", tone: "surface" },
-    { id: "water", name: "Water supply", tone: "surface" },
-    { id: "rent", name: "Store rent", tone: "surface" },
-    { id: "internet", name: "Internet services", tone: "surface" },
-    { id: "maintenance", name: "Equipment maintenance", tone: "surface" },
-    { id: "packaging", name: "Packaging", tone: "surface" },
-    { id: "produce", name: "Produce", tone: "surface" },
-    { id: "cleaning", name: "Cleaning supplies", tone: "surface" },
-    { id: "coffee", name: "Coffee beans", tone: "surface" },
-  ],
-  onPressItem,
-  expensesTitle = "Today's expenses",
-  expenses = [
-    {
-      id: "milk",
-      name: "Milk",
-      amount: 3.0,
-      imageSrc: "https://images.unsplash.com/photo-1550583724-b2692b85b150?q=80&w=256&auto=format&fit=crop",
-      imageAlt: "Milk",
-    },
-    {
-      id: "paper-cups",
-      name: "Paper cups",
-      amount: 8.5,
-      imageAlt: "Paper cups",
-    },
-    {
-      id: "cleaning",
-      name: "Cleaning supplies",
-      amount: 7.0,
-      imageSrc: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=256&auto=format&fit=crop",
-      imageAlt: "Cleaning supplies",
-    },
-  ],
-  tax = 0,
-  formatMoney = (value) => `$${value.toFixed(2)}`,
-  onEditExpense,
-  onAddExpense,
 }: DailyExpensesFolderDetailProps) {
   const [open, setOpen] = React.useState(false)
+  const [isAddingExpense, setIsAddingExpense] = React.useState(false)
+  const [expenseDraft, setExpenseDraft] = React.useState<{ name: string; amount?: number; color?: string; stroke?: string } | null>(null)
 
-  const subtotal = React.useMemo(() => expenses.reduce((acc, e) => acc + e.amount, 0), [expenses])
-  const total = subtotal + (tax ?? 0)
+  const { products, folders } = useExpenseProductsStore()
+  const { expenses } = useExpenseStore()
+  const { currency } = useSettingsStore()
+
+  const folder = folders.find(f => f.id === folderId)
+  const folderProducts = products.filter(p => p.folderId === folderId)
+  // For now we don't filter logged items by folder, usually they are just shown as a list for today
+  // but if we wanted to filter we could.
+  const loggedItems = expenses
+
+  const formatMoney = (value: number) => `${currency}${value.toFixed(2)}`
+
+  const subtotal = React.useMemo(() => loggedItems.reduce((acc, e) => acc + e.amount, 0), [loggedItems])
+  const tax = 0 // Fixed for now
+  const total = subtotal + tax
 
   const summaryText = React.useMemo(() => {
-    const base = expenses.map((e) => e.name).join(", ")
+    const base = loggedItems.map((e) => e.name).join(", ")
     return base.length > 30 ? `${base.slice(0, 27)}...` : base
-  }, [expenses])
+  }, [loggedItems])
 
   const suggestions: SearchSuggestion[] = React.useMemo(
     () =>
-      expenses.map((e) => ({
+      loggedItems.map((e) => ({
         id: e.id,
         label: e.name,
-        leading: e.imageSrc ? (
-          <ImageTile size="small" src={e.imageSrc} alt={e.imageAlt ?? e.name} />
+        leading: (e as any).imageSrc ? (
+          <ImageTile size="small" src={(e as any).imageSrc} alt={(e as any).imageAlt ?? e.name} />
         ) : undefined,
         price: formatMoney(e.amount),
       })),
-    [expenses, formatMoney]
+    [loggedItems, currency]
   )
+
+  const handleTileClick = (item: any) => {
+    setExpenseDraft({
+      name: item.name,
+      amount: item.defaultPrice,
+      color: item.color,
+      stroke: item.strokeStyle
+    })
+    setIsAddingExpense(true)
+  }
 
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
@@ -139,7 +105,7 @@ export default function FolderDetail({
                 <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground transition-colors group-hover:text-foreground" />
               }
             >
-              {title}
+              {folder?.name || "Folder"}
             </SectionTitle>
           </Button>
         </div>
@@ -147,15 +113,14 @@ export default function FolderDetail({
         {/* Items grid (tiles without prices and without counters) */}
         <div className="px-6 pt-6 pb-10">
           <div className="grid grid-cols-3 gap-3">
-            {items.map((item) => (
+            {folderProducts.map((item) => (
               <ProductTile
                 key={item.id}
                 name={item.name}
-                imageSrc={item.imageSrc}
-                imageAlt={item.imageAlt}
-                tone={item.tone ?? "surface"}
-                // No price, no count, no actions
-                onPress={() => onPressItem?.(item.id)}
+                imageSrc={(item as any).imageSrc}
+                imageAlt={(item as any).imageAlt}
+                tone={(item.color as any) ?? "surface"}
+                onPress={() => handleTileClick(item)}
               />
             ))}
           </div>
@@ -223,7 +188,7 @@ export default function FolderDetail({
                     </BottomSlidingModalClose>
                   }
                 >
-                  {expensesTitle}
+                  Today's expenses
                 </SectionTitle>
               }
               footer={
@@ -235,7 +200,7 @@ export default function FolderDetail({
                     </div>
                     <div className="flex items-center justify-between gap-12 text-regular-semibold text-onLayer-secondary">
                       <span>Tax</span>
-                      <span className="font-mono">{formatMoney(tax ?? 0)}</span>
+                      <span className="font-mono">{formatMoney(tax)}</span>
                     </div>
                     <div className="flex justify-between items-end pt-4 mt-2">
                       <span className="text-regular-semibold text-onLayer-secondary mb-1.5">Total</span>
@@ -251,7 +216,7 @@ export default function FolderDetail({
                     className="h-12 w-full rounded-[12px]"
                     onClick={(e) => {
                       e.stopPropagation()
-                      onAddExpense?.()
+                      setIsAddingExpense(true)
                     }}
                   >
                     Add expense
@@ -276,14 +241,15 @@ export default function FolderDetail({
 
               <div className="px-6 pb-6">
                 <SettingsGroup className="border-border-inverse">
-                  {expenses.map((e) => (
+                  {loggedItems.map((e) => (
                     <ExpenseLineItemRow
                       key={e.id}
                       name={e.name}
                       price={formatMoney(e.amount)}
-                      imageSrc={e.imageSrc}
-                      imageAlt={e.imageAlt}
-                      onEdit={onEditExpense ? () => onEditExpense(e.id) : undefined}
+                      imageSrc={(e as any).imageSrc}
+                      imageAlt={(e as any).imageAlt}
+                      color={e.color}
+                      strokeStyle={e.strokeStyle}
                     />
                   ))}
                 </SettingsGroup>
@@ -292,6 +258,16 @@ export default function FolderDetail({
           </BottomSlidingModal>
         </div>
       </FloatingBottomBar>
+
+      {isAddingExpense && (
+        <CreateExpense
+          onClose={() => setIsAddingExpense(false)}
+          initialName={expenseDraft?.name}
+          initialAmount={expenseDraft?.amount}
+          initialColor={expenseDraft?.color}
+          initialStroke={expenseDraft?.stroke}
+        />
+      )}
     </div>
   )
 }

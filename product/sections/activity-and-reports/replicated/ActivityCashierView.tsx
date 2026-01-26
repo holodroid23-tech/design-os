@@ -150,7 +150,7 @@ export default function ActivityCashierView({
 
   return (
     <div className="flex h-full min-h-full w-full flex-col bg-background">
-      <div className="sticky top-0 z-50 bg-background border-b border-border px-4 pt-4 pb-4">
+      <div className="sticky top-0 z-50 bg-background border-b border-border px-6 py-4">
         <Tabs
           value={selectedTab}
           onValueChange={(next) => {

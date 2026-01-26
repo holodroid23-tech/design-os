@@ -34,7 +34,7 @@ export default function PaymentSuccessAllMethods({
     // Block 1: Screen container
     <div className="h-full min-h-full w-full bg-background">
       <div className="flex h-full min-h-full flex-col">
-        <div className="px-6 pt-6 min-h-[100px]">
+        <div className="px-6 pt-10 pb-4">
           {/* Block 2: Header close action */}
           <div className="flex justify-end">
             <Button

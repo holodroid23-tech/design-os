@@ -104,10 +104,10 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
               }`}
           >
             <TabsList className="w-full">
-              <TabsTrigger value="design" className="flex-1">
+              <TabsTrigger value="design">
                 Design
               </TabsTrigger>
-              <TabsTrigger value="preview" className="flex-1">
+              <TabsTrigger value="preview">
                 Preview
               </TabsTrigger>
             </TabsList>

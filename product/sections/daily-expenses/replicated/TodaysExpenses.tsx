@@ -269,7 +269,7 @@ export default function TodaysExpenses({
     <div className="flex h-full min-h-full w-full flex-col bg-background">
       <div className="min-h-0 flex-1 overflow-y-auto">
         {/* Header: title (no tabs) */}
-        <div className="sticky top-0 z-50 isolate bg-background border-b border-border px-4 pt-4 pb-4 min-h-[100px]">
+        <div className="sticky top-0 z-50 isolate bg-background border-b border-border px-6 pt-10 pb-4">
           <SectionTitle
             titleAs="h1"
             size="page"

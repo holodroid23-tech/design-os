@@ -18,6 +18,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ColorSelector, ColorSelectorItem } from "@/components/ui/color-selector"
 import { MediaUpload } from "@/components/ui/media-upload"
 import { IconToggleButton } from "@/components/ui/icon-toggle-button"
+import { useInventoryStore } from "@/stores/useInventoryStore"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -28,13 +29,27 @@ export interface ItemManagementNewItemProps {
 }
 
 export default function ItemManagementNewItem({ onClose }: ItemManagementNewItemProps) {
+  const { categories, addItem } = useInventoryStore()
+
   const [name, setName] = React.useState("")
   const [favorite, setFavorite] = React.useState(false)
-  const [folder, setFolder] = React.useState<string | number>("hot-coffees")
+  const [folderId, setFolderId] = React.useState<string>("none")
   const [price, setPrice] = React.useState("0")
   const [tax, setTax] = React.useState("21%")
   const [appearanceTab, setAppearanceTab] = React.useState<"color" | "image">("color")
   const [itemColor, setItemColor] = React.useState("surface")
+
+  const handleSave = () => {
+    if (!name.trim()) return
+    addItem({
+      name,
+      price: parseFloat(price) || 0,
+      categoryId: folderId === "none" ? null : folderId,
+      isFavorite: favorite,
+      color: itemColor,
+    })
+    onClose?.()
+  }
 
   return (
     <BottomSlidingModal
@@ -59,7 +74,7 @@ export default function ItemManagementNewItem({ onClose }: ItemManagementNewItem
           </SectionTitle>
         }
         footer={
-          <Button size="lg" className="w-full">
+          <Button size="lg" className="w-full" onClick={handleSave}>
             Save item
           </Button>
         }
@@ -95,12 +110,11 @@ export default function ItemManagementNewItem({ onClose }: ItemManagementNewItem
             <SelectWithSliding
               variant="sliding"
               placeholder="Select a folder"
-              value={folder}
-              onValueChange={setFolder}
+              value={folderId}
+              onValueChange={(val) => setFolderId(String(val))}
               options={[
-                { value: "hot-coffees", label: "Hot Coffees" },
-                { value: "cold-coffees", label: "Cold Coffees" },
-                { value: "tea", label: "Tea" },
+                { value: "none", label: "No Folder" },
+                ...categories.map((c) => ({ value: c.id, label: c.name })),
               ]}
             />
           </div>
@@ -140,10 +154,10 @@ export default function ItemManagementNewItem({ onClose }: ItemManagementNewItem
             <Label>Appearance</Label>
             <Tabs value={appearanceTab} onValueChange={(v) => setAppearanceTab(v as any)}>
               <TabsList className="w-full">
-                <TabsTrigger value="color" className="flex-1">
+                <TabsTrigger value="color">
                   Color
                 </TabsTrigger>
-                <TabsTrigger value="image" className="flex-1">
+                <TabsTrigger value="image">
                   Image
                 </TabsTrigger>
               </TabsList>

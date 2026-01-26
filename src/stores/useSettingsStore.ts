@@ -29,6 +29,8 @@ interface SettingsState {
     useSimulatedTapToPay: boolean
     stripeBackendUrl: string
     stripeLocationId: string
+    isBeatMachineUnlocked: boolean
+
 
     // Currency & Tax actions
     setCurrency: (currency: string) => void
@@ -51,6 +53,8 @@ interface SettingsState {
     setSimulatedTapToPay: (enabled: boolean) => void
     setStripeBackendUrl: (url: string) => void
     setStripeLocationId: (id: string) => void
+    setBeatMachineUnlocked: (unlocked: boolean) => void
+
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -93,6 +97,8 @@ export const useSettingsStore = create<SettingsState>()(
             // Default to the provided ID and a placeholder URL
             stripeBackendUrl: 'https://beatris-unhating-emmaline.ngrok-free.dev',
             stripeLocationId: 'tml_GXNjCAxtrU1n9x',
+            isBeatMachineUnlocked: false,
+
 
             setCurrency: (currency) => set({ currency }),
             setTaxRate: (rate) => set({ taxRate: rate }),
@@ -148,6 +154,8 @@ export const useSettingsStore = create<SettingsState>()(
             setSimulatedTapToPay: (enabled) => set({ useSimulatedTapToPay: enabled }),
             setStripeBackendUrl: (url) => set({ stripeBackendUrl: url }),
             setStripeLocationId: (id) => set({ stripeLocationId: id }),
+            setBeatMachineUnlocked: (unlocked) => set({ isBeatMachineUnlocked: unlocked }),
+
         }),
         {
             name: 'compost-settings-storage',

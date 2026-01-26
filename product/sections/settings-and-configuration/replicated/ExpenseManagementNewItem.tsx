@@ -184,10 +184,10 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
             <Label>Appearance</Label>
             <Tabs value={appearanceTab} onValueChange={(v) => setAppearanceTab(v as any)}>
               <TabsList className="w-full">
-                <TabsTrigger value="color" className="flex-1">
+                <TabsTrigger value="color">
                   Color
                 </TabsTrigger>
-                <TabsTrigger value="image" className="flex-1">
+                <TabsTrigger value="image">
                   Image
                 </TabsTrigger>
               </TabsList>

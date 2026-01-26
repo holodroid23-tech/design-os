@@ -18,6 +18,7 @@ import {
 import ExpenseManagementNewItem from "./ExpenseManagementNewItem"
 import ExpenseManagementNewFolder from "./ExpenseManagementNewFolder"
 import ExpenseManagementFolderDetail from "./ExpenseManagementFolderDetail"
+import { useExpenseProductsStore } from "@/stores/useExpenseProductsStore"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -30,47 +31,23 @@ export interface ExpenseManagementProps {
 export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
   const [addingItem, setAddingItem] = React.useState(false)
   const [addingFolder, setAddingFolder] = React.useState(false)
-  const [selectedFolder, setSelectedFolder] = React.useState<string | null>(null)
+  const [selectedFolderId, setSelectedFolderId] = React.useState<string | null>(null)
   const [showTopControls, setShowTopControls] = React.useState(true)
   const lastScrollTopRef = React.useRef(0)
 
-  const folders = [
-    { id: "monthly-utilities", label: "Monthly utilities", countLabel: "12 items" },
-    { id: "suppliers", label: "Suppliers", countLabel: "8 items" },
-  ] as const
+  const { products, folders } = useExpenseProductsStore()
 
-  const expenses = [
-    { id: "electricity-bill", label: "Electricity bill" },
-    { id: "water-supply", label: "Water supply" },
-    { id: "store-rent", label: "Store rent" },
-    { id: "internet-services", label: "Internet services" },
-    { id: "equipment-maintenance", label: "Equipment maintenance" },
-  ] as const
+  const [enabledFolders, setEnabledFolders] = React.useState<Record<string, boolean>>({})
+  const [enabledExpenses, setEnabledExpenses] = React.useState<Record<string, boolean>>({})
 
-  type FolderId = (typeof folders)[number]["id"]
-  type ExpenseId = (typeof expenses)[number]["id"]
-
-  const [enabledFolders, setEnabledFolders] = React.useState<Record<FolderId, boolean>>({
-    "monthly-utilities": true,
-    suppliers: true,
-  })
-
-  const [enabledExpenses, setEnabledExpenses] = React.useState<Record<ExpenseId, boolean>>({
-    "electricity-bill": true,
-    "water-supply": true,
-    "store-rent": true,
-    "internet-services": true,
-    "equipment-maintenance": true,
-  })
-
-  if (selectedFolder) {
-    return <ExpenseManagementFolderDetail onBack={() => setSelectedFolder(null)} />
+  if (selectedFolderId) {
+    return <ExpenseManagementFolderDetail folderId={selectedFolderId} onBack={() => setSelectedFolderId(null)} />
   }
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
-      <div className="sticky top-0 z-10 border-b bg-background px-4 py-4 min-h-[100px]">
+      <div className="shrink-0 border-b bg-background px-6 pt-10 pb-4 z-10 flex items-center">
         <Button
           type="button"
           variant="invisible"
@@ -132,27 +109,29 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
               <SettingsItem asChild>
                 <div
                   className="cursor-pointer active:opacity-70 transition-opacity"
-                  onClick={() => setSelectedFolder(folder.id)}
+                  onClick={() => setSelectedFolderId(folder.id)}
                 >
                   <SettingsItemIcon>
                     <IconTile icon={Folder} size="small" variant="tile" tone="info" className="rounded-[12px]" />
                   </SettingsItemIcon>
 
                   <SettingsItemContent>
-                    <SettingsItemTitle>{folder.label}</SettingsItemTitle>
-                    <SettingsItemDescription>{folder.countLabel}</SettingsItemDescription>
+                    <SettingsItemTitle>{folder.name}</SettingsItemTitle>
+                    <SettingsItemDescription>
+                      {products.filter((p) => p.folderId === folder.id).length} items
+                    </SettingsItemDescription>
                   </SettingsItemContent>
 
                   <SettingsItemAction>
                     <Switch
-                      checked={enabledFolders[folder.id]}
+                      checked={enabledFolders[folder.id] ?? true}
                       onCheckedChange={(checked) =>
                         setEnabledFolders((prev) => ({
                           ...prev,
                           [folder.id]: Boolean(checked),
                         }))
                       }
-                      aria-label={`Toggle ${folder.label}`}
+                      aria-label={`Toggle ${folder.name}`}
                       onClick={(e) => e.stopPropagation()}
                     />
                   </SettingsItemAction>
@@ -161,38 +140,37 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
             </SettingsGroup>
           ))}
 
-          {expenses.map((expense) => (
-            <SettingsGroup key={expense.id}>
-              <SettingsItem asChild>
-                <div
-                  className="cursor-pointer active:opacity-70 transition-opacity"
-                  onClick={() => setAddingItem(true)}
-                >
-                  <SettingsItemIcon>
-                    <ImageTile size="small" alt="" className="rounded-[12px]" />
-                  </SettingsItemIcon>
+          {products
+            .filter((p) => !p.folderId)
+            .map((expense) => (
+              <SettingsGroup key={expense.id}>
+                <SettingsItem asChild>
+                  <div className="cursor-pointer active:opacity-70 transition-opacity" onClick={() => setAddingItem(true)}>
+                    <SettingsItemIcon>
+                      <ImageTile size="small" alt="" className="rounded-[12px]" tone={expense.color as any} />
+                    </SettingsItemIcon>
 
-                  <SettingsItemContent>
-                    <SettingsItemTitle>{expense.label}</SettingsItemTitle>
-                  </SettingsItemContent>
+                    <SettingsItemContent>
+                      <SettingsItemTitle>{expense.name}</SettingsItemTitle>
+                    </SettingsItemContent>
 
-                  <SettingsItemAction>
-                    <Switch
-                      checked={enabledExpenses[expense.id]}
-                      onCheckedChange={(checked) =>
-                        setEnabledExpenses((prev) => ({
-                          ...prev,
-                          [expense.id]: Boolean(checked),
-                        }))
-                      }
-                      aria-label={`Toggle ${expense.label}`}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                  </SettingsItemAction>
-                </div>
-              </SettingsItem>
-            </SettingsGroup>
-          ))}
+                    <SettingsItemAction>
+                      <Switch
+                        checked={enabledExpenses[expense.id] ?? true}
+                        onCheckedChange={(checked) =>
+                          setEnabledExpenses((prev) => ({
+                            ...prev,
+                            [expense.id]: Boolean(checked),
+                          }))
+                        }
+                        aria-label={`Toggle ${expense.name}`}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </SettingsItemAction>
+                  </div>
+                </SettingsItem>
+              </SettingsGroup>
+            ))}
         </div>
       </div>
 

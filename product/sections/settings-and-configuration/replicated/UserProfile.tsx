@@ -51,7 +51,7 @@ export default function UserProfile({
   return (
     <div className="flex h-full flex-col bg-background overflow-hidden">
       {/* Block 1: Header bar */}
-      <div className="shrink-0 z-10 bg-background px-6 py-4 min-h-[100px] flex items-center border-b">
+      <div className="shrink-0 z-10 bg-background px-6 pt-10 pb-4 flex items-center border-b">
         <Button
           type="button"
           variant="invisible"

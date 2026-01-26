@@ -18,6 +18,7 @@ import {
 import ItemManagementNewItem from "./ItemManagementNewItem"
 import ExpenseManagementNewFolder from "./ExpenseManagementNewFolder"
 import InventoryManagementFolderDetail from "./InventoryManagementFolderDetail"
+import { useInventoryStore } from "@/stores/useInventoryStore"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -30,47 +31,23 @@ export interface ItemManagementProps {
 export default function ItemManagement({ onBack }: ItemManagementProps) {
   const [addingItem, setAddingItem] = React.useState(false)
   const [addingFolder, setAddingFolder] = React.useState(false)
-  const [selectedFolder, setSelectedFolder] = React.useState<string | null>(null)
+  const [selectedFolderId, setSelectedFolderId] = React.useState<string | null>(null)
   const [showTopControls, setShowTopControls] = React.useState(true)
   const lastScrollTopRef = React.useRef(0)
 
-  const folders = [
-    { id: "monthly-utilities", label: "Monthly utilities", countLabel: "12 items" },
-    { id: "suppliers", label: "Suppliers", countLabel: "8 items" },
-  ] as const
+  const { items, categories } = useInventoryStore()
 
-  const items = [
-    { id: "electricity-bill", label: "Electricity bill", price: "$120.00" },
-    { id: "water-supply", label: "Water supply", price: "$45.00" },
-    { id: "store-rent", label: "Store rent", price: "$2,400.00" },
-    { id: "internet-services", label: "Internet services", price: "$89.00" },
-    { id: "equipment-maintenance", label: "Equipment maintenance", price: "$150.00" },
-  ] as const
+  const [enabledFolders, setEnabledFolders] = React.useState<Record<string, boolean>>({})
+  const [enabledItems, setEnabledItems] = React.useState<Record<string, boolean>>({})
 
-  type FolderId = (typeof folders)[number]["id"]
-  type ItemId = (typeof items)[number]["id"]
-
-  const [enabledFolders, setEnabledFolders] = React.useState<Record<FolderId, boolean>>({
-    "monthly-utilities": true,
-    suppliers: true,
-  })
-
-  const [enabledItems, setEnabledItems] = React.useState<Record<ItemId, boolean>>({
-    "electricity-bill": true,
-    "water-supply": true,
-    "store-rent": true,
-    "internet-services": true,
-    "equipment-maintenance": true,
-  })
-
-  if (selectedFolder) {
-    return <InventoryManagementFolderDetail onBack={() => setSelectedFolder(null)} />
+  if (selectedFolderId) {
+    return <InventoryManagementFolderDetail categoryId={selectedFolderId} onBack={() => setSelectedFolderId(null)} />
   }
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
       {/* Block 1: Header */}
-      <div className="sticky top-0 z-10 border-b bg-background px-4 py-4 min-h-[100px]">
+      <div className="shrink-0 border-b bg-background px-6 pt-10 pb-4 z-10 flex items-center">
         <Button
           type="button"
           variant="invisible"
@@ -127,32 +104,34 @@ export default function ItemManagement({ onBack }: ItemManagementProps) {
         </div>
 
         <div className="space-y-3">
-          {folders.map((folder) => (
+          {categories.map((folder) => (
             <SettingsGroup key={folder.id}>
               <SettingsItem asChild>
                 <div
                   className="cursor-pointer active:opacity-70 transition-opacity"
-                  onClick={() => setSelectedFolder(folder.id)}
+                  onClick={() => setSelectedFolderId(folder.id)}
                 >
                   <SettingsItemIcon>
                     <IconTile icon={Folder} size="small" variant="tile" tone="info" className="rounded-[12px]" />
                   </SettingsItemIcon>
 
                   <SettingsItemContent>
-                    <SettingsItemTitle>{folder.label}</SettingsItemTitle>
-                    <SettingsItemDescription>{folder.countLabel}</SettingsItemDescription>
+                    <SettingsItemTitle>{folder.name}</SettingsItemTitle>
+                    <SettingsItemDescription>
+                      {items.filter((i) => i.categoryId === folder.id).length} items
+                    </SettingsItemDescription>
                   </SettingsItemContent>
 
                   <SettingsItemAction>
                     <Switch
-                      checked={enabledFolders[folder.id]}
+                      checked={enabledFolders[folder.id] ?? true}
                       onCheckedChange={(checked) =>
                         setEnabledFolders((prev) => ({
                           ...prev,
                           [folder.id]: Boolean(checked),
                         }))
                       }
-                      aria-label={`Toggle ${folder.label}`}
+                      aria-label={`Toggle ${folder.name}`}
                       onClick={(e) => e.stopPropagation()}
                     />
                   </SettingsItemAction>
@@ -161,39 +140,38 @@ export default function ItemManagement({ onBack }: ItemManagementProps) {
             </SettingsGroup>
           ))}
 
-          {items.map((item) => (
-            <SettingsGroup key={item.id}>
-              <SettingsItem asChild>
-                <div
-                  className="cursor-pointer active:opacity-70 transition-opacity"
-                  onClick={() => setAddingItem(true)}
-                >
-                  <SettingsItemIcon>
-                    <ImageTile size="small" alt="" className="rounded-[12px]" />
-                  </SettingsItemIcon>
+          {items
+            .filter((item) => !item.categoryId)
+            .map((item) => (
+              <SettingsGroup key={item.id}>
+                <SettingsItem asChild>
+                  <div className="cursor-pointer active:opacity-70 transition-opacity" onClick={() => setAddingItem(true)}>
+                    <SettingsItemIcon>
+                      <ImageTile size="small" alt="" className="rounded-[12px]" />
+                    </SettingsItemIcon>
 
-                  <SettingsItemContent>
-                    <SettingsItemTitle>{item.label}</SettingsItemTitle>
-                    <SettingsItemDescription>{item.price}</SettingsItemDescription>
-                  </SettingsItemContent>
+                    <SettingsItemContent>
+                      <SettingsItemTitle>{item.name}</SettingsItemTitle>
+                      <SettingsItemDescription>${item.price.toFixed(2)}</SettingsItemDescription>
+                    </SettingsItemContent>
 
-                  <SettingsItemAction>
-                    <Switch
-                      checked={enabledItems[item.id]}
-                      onCheckedChange={(checked) =>
-                        setEnabledItems((prev) => ({
-                          ...prev,
-                          [item.id]: Boolean(checked),
-                        }))
-                      }
-                      aria-label={`Toggle ${item.label}`}
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                  </SettingsItemAction>
-                </div>
-              </SettingsItem>
-            </SettingsGroup>
-          ))}
+                    <SettingsItemAction>
+                      <Switch
+                        checked={enabledItems[item.id] ?? true}
+                        onCheckedChange={(checked) =>
+                          setEnabledItems((prev) => ({
+                            ...prev,
+                            [item.id]: Boolean(checked),
+                          }))
+                        }
+                        aria-label={`Toggle ${item.name}`}
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                    </SettingsItemAction>
+                  </div>
+                </SettingsItem>
+              </SettingsGroup>
+            ))}
         </div>
       </div>
 
@@ -206,5 +184,3 @@ export default function ItemManagement({ onBack }: ItemManagementProps) {
     </div>
   )
 }
-
-

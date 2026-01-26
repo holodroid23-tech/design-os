@@ -15,31 +15,23 @@ import {
 } from "@/components/settings/settings-item"
 import ExpenseManagementNewItem from "./ExpenseManagementNewItem"
 
+import { useExpenseProductsStore } from "@/stores/useExpenseProductsStore"
+
 interface ExpenseManagementFolderDetailProps {
+  folderId: string
   onBack?: () => void
 }
 
-export default function ExpenseManagementFolderDetail({ onBack }: ExpenseManagementFolderDetailProps) {
+export default function ExpenseManagementFolderDetail({ folderId, onBack }: ExpenseManagementFolderDetailProps) {
   const [addingItem, setAddingItem] = React.useState(false)
   const [showTopControls, setShowTopControls] = React.useState(true)
   const lastScrollTopRef = React.useRef(0)
-  const items = [
-    { id: "electricity-bill", label: "Electricity bill" },
-    { id: "water-supply", label: "Water supply" },
-    { id: "store-rent", label: "Store rent" },
-    { id: "internet-services", label: "Internet services" },
-    { id: "equipment-maintenance", label: "Equipment maintenance" },
-  ] as const
 
-  type ItemId = (typeof items)[number]["id"]
+  const { products, folders } = useExpenseProductsStore()
+  const folder = folders.find(f => f.id === folderId)
+  const items = products.filter(p => p.folderId === folderId)
 
-  const [enabledById, setEnabledById] = React.useState<Record<ItemId, boolean>>({
-    "electricity-bill": true,
-    "water-supply": true,
-    "store-rent": true,
-    "internet-services": true,
-    "equipment-maintenance": true,
-  })
+  const [enabledById, setEnabledById] = React.useState<Record<string, boolean>>({})
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">

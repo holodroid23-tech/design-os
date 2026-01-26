@@ -15,7 +15,7 @@ export default function DeviceMode({ onBack }: DeviceModeProps) {
     return (
         <div className="flex h-full min-h-full flex-col bg-background">
             {/* Block 1: Header Section */}
-            <div className="px-6 py-4 sticky top-0 bg-background z-10 border-b min-h-[100px]">
+            <div className="sticky top-0 z-10 border-b bg-background px-6 pt-10 pb-4 flex items-center">
                 <Button
                     type="button"
                     variant="invisible"

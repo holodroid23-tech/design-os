@@ -34,6 +34,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
     // Local state for UI selection only
     const [selectedTaxId, setSelectedTaxId] = React.useState("tax-1")
 
+
     const taxes = [
         { id: "tax-1", label: "VAT Standard", rate: 0.21, displayRate: "21%" },
         { id: "tax-2", label: "Service Charge", rate: 0.10, displayRate: "10%" },
@@ -69,7 +70,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
     return (
         <div className="flex h-full min-h-full flex-col bg-background overflow-y-auto">
             {/* Block 1: Header (Sticky) */}
-            <div className="sticky top-0 z-10 bg-background px-6 py-4 min-h-[100px]">
+            <div className="sticky top-0 z-10 bg-background px-6 pt-10 pb-4 border-b">
                 <Button
                     type="button"
                     variant="invisible"

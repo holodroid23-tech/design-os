@@ -59,11 +59,11 @@ export default function AuthRegisterLogin({
               onTabChange?.(next)
             }}
           >
-            <TabsList className="w-full h-12 rounded-[12px] bg-layer-2 p-1">
-              <TabsTrigger value="register" className="flex-1 h-full">
+            <TabsList className="w-full">
+              <TabsTrigger value="register">
                 Register
               </TabsTrigger>
-              <TabsTrigger value="login" className="flex-1 h-full">
+              <TabsTrigger value="login">
                 Login
               </TabsTrigger>
             </TabsList>

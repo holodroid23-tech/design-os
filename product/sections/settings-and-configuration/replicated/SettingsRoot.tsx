@@ -11,12 +11,14 @@ import {
 } from "@/components/settings/settings-item"
 import { UserProfileRow } from "@/components/settings/user-profile-row"
 import { SectionTitle } from "@/components/ui/section-title"
+import { Badge } from "@/components/ui/badge"
 import {
   Banknote,
   Bug,
   ChevronRight,
   Lightbulb,
   LogOut,
+  Music,
   Package,
   Printer,
   Receipt,
@@ -93,8 +95,13 @@ export default function SettingsRoot({
     stripeBackendUrl,
     setStripeBackendUrl,
     stripeLocationId,
-    setStripeLocationId
+    setStripeLocationId,
+    isBeatMachineUnlocked,
+    setBeatMachineUnlocked
   } = useSettingsStore()
+
+  const [tapCount, setTapCount] = React.useState(0)
+
   const [showUsersSecurity, setShowUsersSecurity] = React.useState(false)
   const [showPaymentSecurity, setShowPaymentSecurity] = React.useState(false)
 
@@ -111,9 +118,10 @@ export default function SettingsRoot({
     }
     onPressDestination?.(id)
   }
+
   return (
     <div className="h-full w-full overflow-y-auto">
-      <div className="flex flex-col gap-4 px-4 pt-4 min-h-[100px]">
+      <div className="flex flex-col gap-4 px-6 pt-10 pb-4 border-b">
         {/* Block 1: Header */}
         <SectionTitle titleAs="h1">
           {title}
@@ -238,6 +246,23 @@ export default function SettingsRoot({
             </SettingsItem>
           </SettingsGroup>
 
+          {isBeatMachineUnlocked && (
+            <SettingsGroup className="border-primary/20 bg-primary/5">
+              <SettingsItem onPress={() => handleDestinationPress("beat-machine")}>
+                <SettingsItemIcon>
+                  <IconTile icon={Music} size="small" variant="tile" tone="info" />
+                </SettingsItemIcon>
+                <SettingsItemContent>
+                  <SettingsItemTitle className="text-primary font-bold">Beat Machine</SettingsItemTitle>
+                </SettingsItemContent>
+                <SettingsItemAction>
+                  <Badge variant="default" className="bg-primary text-primary-foreground text-[10px] leading-none px-1.5 h-4">NEW</Badge>
+                  <ChevronRight aria-hidden className="size-5 text-primary" />
+                </SettingsItemAction>
+              </SettingsItem>
+            </SettingsGroup>
+          )}
+
           <SettingsGroup>
             <SettingsItem onPress={() => onPressDestination?.("suggest-feature")}>
               <SettingsItemIcon>
@@ -326,7 +351,21 @@ export default function SettingsRoot({
 
       {/* Block 5: Footer meta */}
       <div className="px-4">
-        <SettingsFooter version={footerVersion} build={footerBuild} className="mt-6" />
+        <SettingsFooter
+          version={footerVersion}
+          build={footerBuild}
+          className="mt-6"
+          onClick={() => {
+            if (isBeatMachineUnlocked) return
+            const newCount = tapCount + 1
+            if (newCount >= 10) {
+              setBeatMachineUnlocked(true)
+              alert("Beat Machine Unlocked! 🎹")
+            } else {
+              setTapCount(newCount)
+            }
+          }}
+        />
       </div>
 
       {/* Action Gating Modals for Manager */}
@@ -360,4 +399,3 @@ export default function SettingsRoot({
     </div>
   )
 }
-
