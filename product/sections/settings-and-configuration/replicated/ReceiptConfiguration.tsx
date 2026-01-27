@@ -64,7 +64,7 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
 
       {/* Block 2: View mode */}
       <div
-        className="flex-1 overflow-y-auto px-6 py-4"
+        className="flex-1 overflow-y-auto px-4 py-4"
         onScroll={(e) => {
           const scrollTop = e.currentTarget.scrollTop
           const prev = lastScrollTopRef.current

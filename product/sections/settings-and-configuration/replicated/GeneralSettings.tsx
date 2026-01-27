@@ -72,7 +72,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
             <PageHeader title="General" onBack={onBack} />
 
             {/* Block 2: Store Fields */}
-            <div className="px-6 py-4">
+            <div className="px-4 py-4">
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-col gap-2">
                         <Label>Store name</Label>
@@ -94,7 +94,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
             </div>
 
             {/* Block 3: Preferences */}
-            <div className="px-6 py-4">
+            <div className="px-4 py-4">
                 <div className="flex flex-col gap-6">
                     <div className="flex flex-col gap-2">
                         <Label>Currency</Label>
@@ -113,7 +113,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
             </div>
 
             {/* Block 4: Time Format */}
-            <div className="px-6 py-4">
+            <div className="px-4 py-4">
                 <div className="flex flex-col gap-2">
                     <Label>Time format</Label>
                     <RadioButtonGroup defaultValue="ampm">
@@ -124,7 +124,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
             </div>
 
             {/* Block 5: Taxes */}
-            <div className="px-6 py-4">
+            <div className="px-4 py-4">
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
                         <Label htmlFor="use-taxes-section" className="text-base font-medium leading-none text-foreground cursor-pointer">Use taxes</Label>
@@ -190,7 +190,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
             </div>
 
             {/* Block 6: PIN Lock Timer */}
-            <div className="px-6 py-4">
+            <div className="px-4 py-4">
                 <div className="flex flex-col gap-2">
                     <Label>PIN lock timer</Label>
                     <RadioButtonGroup defaultValue="2m" className="flex w-full gap-2">
@@ -212,7 +212,7 @@ export default function GeneralSettings({ onBack }: GeneralSettingsProps) {
             {/* Block 7: Developer Options */}
             {/* Block 8: Delete Store (Admin Only) */}
             {currentUser?.role === 'Admin' && (
-                <div className="px-6 py-8 pb-12">
+                <div className="px-4 py-8 pb-12">
                     <Button variant="destructive" className="w-full" size="lg">
                         Delete Store
                     </Button>

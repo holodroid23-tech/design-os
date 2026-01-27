@@ -35,10 +35,10 @@ interface InventoryState {
 const generateId = () => Math.random().toString(36).substring(2, 9)
 
 const INITIAL_CATEGORIES: InventoryCategory[] = [
-    { id: "hot-coffees", name: "Hot Coffees" },
-    { id: "cold-coffees", name: "Cold Coffees" },
-    { id: "tea", name: "Tea" },
-    { id: "pastries", name: "Pastries" },
+    { id: "hot-coffees", name: "Hot Coffees", color: "orange" },
+    { id: "cold-coffees", name: "Cold Coffees", color: "blue" },
+    { id: "tea", name: "Tea", color: "green" },
+    { id: "pastries", name: "Pastries", color: "amber" },
 ]
 
 const INITIAL_ITEMS: InventoryItem[] = [
@@ -51,6 +51,10 @@ const INITIAL_ITEMS: InventoryItem[] = [
     { id: "taro-latte", name: "Taro Latte", price: 5.5, color: "purple", isFavorite: true, categoryId: "hot-coffees" },
     { id: "cold-brew", name: "Cold Brew", price: 4.5, imageSrc: "https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=256&auto=format&fit=crop", color: "sky", isFavorite: true, categoryId: "cold-coffees" },
     { id: "cortado", name: "Cortado", price: 4.0, color: "gradient-orange", isFavorite: true, categoryId: "hot-coffees" },
+    { id: "iced-americano", name: "Iced Americano", price: 3.5, color: "sky", isFavorite: true, categoryId: "cold-coffees" },
+    { id: "cappuccino", name: "Cappuccino", price: 4.5, color: "orange", isFavorite: true, categoryId: "hot-coffees" },
+    { id: "chai-latte", name: "Chai Latte", price: 4.75, color: "gradient-green", isFavorite: true, categoryId: "tea" },
+    { id: "hot-chocolate", name: "Hot Chocolate", price: 4.0, color: "red", isFavorite: true, categoryId: "hot-coffees" },
 
     // Solid Colors
     { id: "blue-item", name: "Blue Item", price: 1.0, color: "blue" },

@@ -90,7 +90,7 @@ export default function SuggestFeature({
           </Button>
         }
       >
-        <div className="px-6 pb-6">
+        <div className="px-4 pb-6">
           <div className="flex flex-col gap-5">
             <div className="flex flex-col gap-2">
               <Label htmlFor="suggest-feature-title">{featureTitleLabel}</Label>

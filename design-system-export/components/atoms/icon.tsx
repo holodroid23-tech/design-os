@@ -21,7 +21,7 @@ const systemIconVariants = cva("", {
 
 export interface SystemIconProps
   extends Omit<React.SVGProps<SVGSVGElement>, "children">,
-    VariantProps<typeof systemIconVariants> {
+  VariantProps<typeof systemIconVariants> {
   icon: IconComponent
 }
 
@@ -78,12 +78,18 @@ const iconToneToStyles: Record<IconTone, { bg: string; icon: string }> = {
 
 export interface IconTileProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "children">,
-    VariantProps<typeof iconTileContainer> {
+  VariantProps<typeof iconTileContainer> {
   icon: IconComponent
   /**
    * `neutral` is the default. Other tones use DS semantic layer colors.
+   * If `color` is provided, it takes precedence over `tone`.
    */
   tone?: IconTone
+  /**
+   * Standard color or gradient name (e.g. 'blue', 'gradient-purple').
+   * Maps to the standardized tile system.
+   */
+  color?: string
 }
 
 export function IconTile({
@@ -91,6 +97,7 @@ export function IconTile({
   size = "small",
   variant = "tile",
   tone = "neutral",
+  color,
   className,
   ...props
 }: IconTileProps) {
@@ -102,17 +109,50 @@ export function IconTile({
   // Small (12px) glyphs should not be placed inside a bg tile.
   const resolvedIconSize = size === "large" ? "huge" : size === "medium" ? "big" : "regular"
 
+  const colorMap: Record<string, string> = {
+    surface: "bg-tile-default",
+    blue: "bg-tile-blue",
+    green: "bg-tile-green",
+    red: "bg-tile-red",
+    amber: "bg-tile-amber",
+    purple: "bg-tile-purple",
+    orange: "bg-tile-orange",
+    sky: "bg-tile-sky",
+    pink: "bg-tile-pink",
+    indigo: "bg-tile-indigo",
+    lime: "bg-tile-lime",
+    teal: "bg-tile-teal",
+    "gradient-blue": "bg-gradient-tile-blue",
+    "gradient-green": "bg-gradient-tile-green",
+    "gradient-red": "bg-gradient-tile-red",
+    "gradient-amber": "bg-gradient-tile-amber",
+    "gradient-purple": "bg-gradient-tile-purple",
+    "gradient-orange": "bg-gradient-tile-orange",
+    "gradient-teal": "bg-gradient-tile-teal",
+    "gradient-pink": "bg-gradient-tile-pink",
+    "gradient-indigo": "bg-gradient-tile-indigo",
+    "gradient-lime": "bg-gradient-tile-lime",
+    "gradient-sky": "bg-gradient-tile-sky",
+  }
+
+  const bgClass = color ? colorMap[color] || "bg-tile-default" : styles.bg
+  const iconClass = color ? "text-white" : styles.icon
+
   return (
     <div
       className={cn(
         iconTileContainer({ size, variant }),
-        variant === "tile" ? styles.bg : undefined,
+        variant === "tile" ? bgClass : undefined,
         className,
       )}
       {...props}
     >
-      <SystemIcon icon={icon} size={resolvedIconSize} className={cn(styles.icon)} aria-hidden="true" />
+      <SystemIcon
+        icon={icon}
+        size={resolvedIconSize}
+        className={cn(iconClass)}
+        aria-hidden="true"
+      />
     </div>
   )
 }
-

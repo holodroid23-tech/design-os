@@ -65,7 +65,7 @@ export default function PaymentSettings({ onBack }: PaymentSettingsProps) {
       <PageHeader title="Payment" onBack={onBack} />
 
       {/* Block 2: Payment methods */}
-      <div className="px-6 py-4">
+      <div className="px-4 py-4">
         <div className="flex flex-col gap-4">
           <Label>Payment methods</Label>
 
@@ -120,7 +120,7 @@ export default function PaymentSettings({ onBack }: PaymentSettingsProps) {
       </div>
 
       {/* Block 3: Terminal configuration (intro) */}
-      <div className="px-6 py-4">
+      <div className="px-4 py-4">
         <div className="flex flex-col gap-3">
           <Label>Terminal configuration</Label>
           <SettingsItemDescription>
@@ -131,7 +131,7 @@ export default function PaymentSettings({ onBack }: PaymentSettingsProps) {
       </div>
 
       {/* Block 4: Terminal configuration (requirements) */}
-      <div className="px-6 py-4">
+      <div className="px-4 py-4">
         <SettingsGroup>
           <SettingsItem
             element="div"

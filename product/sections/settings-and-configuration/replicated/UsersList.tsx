@@ -16,6 +16,8 @@ import { SystemIcon } from "@/components/ui/icon"
 import type { AvatarProps } from "@/components/ui/avatar"
 import { ChevronRight, Plus } from "lucide-react"
 import UsersAddUser from "./UsersAddUser"
+import { FloatingActionButton } from "@/components/ui/floating-action-button"
+
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -80,7 +82,7 @@ export default function UsersList({
       <PageHeader title={title} onBack={onBack} />
 
       {/* Scroll area (Blocks 3-4 live here) */}
-      <div className="min-h-0 flex-1 overflow-y-auto px-6 py-4 pb-24">
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-4 pb-24">
         {/* Block 3: User rows */}
         <div className="flex flex-col gap-4">
           {users?.map((user) => (
@@ -135,13 +137,15 @@ export default function UsersList({
         </div>
       </div>
 
-      {/* Block 2: Primary action (sticky footer) */}
-      <div className="sticky bottom-0 z-10 border-t border-border bg-background px-6 py-4">
-        <Button size="lg" className="w-full" onClick={() => setIsAddingUser(true)}>
-          <Plus aria-hidden="true" />
-          Add new user
-        </Button>
-      </div>
+      <FloatingActionButton
+        actions={[
+          {
+            label: "Add new user",
+            icon: <Plus />,
+            onClick: () => setIsAddingUser(true),
+          },
+        ]}
+      />
 
       {isAddingUser && (
         <UsersAddUser onClose={() => setIsAddingUser(false)} />

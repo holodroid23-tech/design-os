@@ -165,7 +165,7 @@ export default function PrinterSettings({ onBack }: PrinterSettingsProps) {
             )}
 
             {/* Block 1: Header */}
-            <div className="sticky top-0 z-10 border-b bg-background px-6 py-4 min-h-[100px]">
+            <div className="sticky top-0 z-10 border-b bg-background px-4 py-4 min-h-[100px]">
                 <Button
                     type="button"
                     variant="invisible"
@@ -186,7 +186,7 @@ export default function PrinterSettings({ onBack }: PrinterSettingsProps) {
 
             {/* Block 2: Printer status */}
             {isConnected && (
-                <div className="px-6 py-4">
+                <div className="px-4 py-4">
                     <div className="flex flex-col gap-4">
                         <Label>Printer status</Label>
 
@@ -227,7 +227,7 @@ export default function PrinterSettings({ onBack }: PrinterSettingsProps) {
             )}
 
             {/* Block 3: Hardware discovery */}
-            <div className="px-6 py-4">
+            <div className="px-4 py-4">
                 <div className="flex flex-col gap-4">
                     <Label>Connect a printer</Label>
 

@@ -10,6 +10,7 @@ export interface OrderItem {
     qty: number
     imageSrc?: string
     imageAlt?: string
+    color?: string
 }
 
 export interface OrderTab {
@@ -21,6 +22,7 @@ export interface OrderTab {
 interface OrderState {
     tabs: OrderTab[]
     activeTabId: string
+    orderCounter: number
 
     setActiveTab: (id: string) => void
     addTab: (label?: string) => void
@@ -48,20 +50,25 @@ export const useOrderStore = create<OrderState>()(
         (set) => ({
             tabs: [DEFAULT_TAB],
             activeTabId: 'default-tab',
+            orderCounter: 1,
 
             setActiveTab: (id) => set({ activeTabId: id }),
 
             addTab: (label) => {
                 const newId = generateId()
-                const newTab = {
-                    id: newId,
-                    label: label || `Order #${Math.floor(Math.random() * 100)}`,
-                    items: []
-                }
-                set(state => ({
-                    tabs: [newTab, ...state.tabs],
-                    activeTabId: newId
-                }))
+                set(state => {
+                    const currentCount = state.orderCounter
+                    const newTab = {
+                        id: newId,
+                        label: label || `Order ${currentCount}`,
+                        items: []
+                    }
+                    return {
+                        tabs: [newTab, ...state.tabs],
+                        activeTabId: newId,
+                        orderCounter: currentCount + 1
+                    }
+                })
             },
 
             removeTab: (id) => {
@@ -70,7 +77,7 @@ export const useOrderStore = create<OrderState>()(
                     // If we removed the active tab, switch to the last one available, or create a new default if empty
                     let nextActiveId = state.activeTabId
                     if (id === state.activeTabId) {
-                        nextActiveId = newTabs.length > 0 ? newTabs[newTabs.length - 1].id : 'default-tab'
+                        nextActiveId = newTabs.length > 0 ? newTabs[0].id : 'default-tab'
                     }
 
                     if (newTabs.length === 0) {
@@ -113,7 +120,8 @@ export const useOrderStore = create<OrderState>()(
                                 unitPrice: product.price,
                                 qty: 1,
                                 imageSrc: product.imageSrc,
-                                imageAlt: product.imageAlt
+                                imageAlt: product.imageAlt,
+                                color: product.color
                             }
                             return { ...tab, items: [...tab.items, newItem] }
                         }

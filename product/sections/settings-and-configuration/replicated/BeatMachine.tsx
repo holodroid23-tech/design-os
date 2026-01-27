@@ -386,7 +386,7 @@ export default function BeatMachine({ onBack }: { onBack?: () => void }) {
             <PageHeader title="Beat Machine" onBack={onBack} />
 
             <div className="flex-1 overflow-y-auto no-scrollbar pb-60">
-                <div className="px-6 pt-2">
+                <div className="px-4 pt-2">
                     <OrderTabs
                         tabs={MUSIC_STYLES.map(s => ({ id: s.id, label: s.label }))}
                         value={activeStyle}

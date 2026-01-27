@@ -62,9 +62,14 @@ export default function OrderEditTab({
   onOpenChange,
   onClose,
 }: OrderEditTabProps) {
-  const [uncontrolledOrderName, setUncontrolledOrderName] = React.useState(defaultOrderName)
-  const isControlled = controlledOrderName !== undefined
-  const resolvedOrderName = isControlled ? controlledOrderName : uncontrolledOrderName
+  const [localName, setLocalName] = React.useState(controlledOrderName ?? defaultOrderName)
+
+  // Sync local state when dialog opens or prop changes
+  React.useLayoutEffect(() => {
+    if (open) {
+      setLocalName(controlledOrderName ?? defaultOrderName)
+    }
+  }, [open, controlledOrderName, defaultOrderName])
 
   return (
     <Dialog
@@ -95,11 +100,11 @@ export default function OrderEditTab({
             <Input
               id="order-edit-tab-order-name"
               type="text"
-              value={resolvedOrderName}
+              value={localName}
               onChange={(e) => {
                 const next = e.target.value
+                setLocalName(next)
                 onOrderNameChange?.(next)
-                if (!isControlled) setUncontrolledOrderName(next)
               }}
             />
           </div>
@@ -152,7 +157,7 @@ export default function OrderEditTab({
                 type="button"
                 variant="default"
                 onClick={() => {
-                  onSave?.({ orderName: resolvedOrderName.trim() })
+                  onSave?.({ orderName: localName.trim() })
                 }}
               >
                 {saveLabel}

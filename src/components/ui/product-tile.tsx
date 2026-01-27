@@ -1,6 +1,5 @@
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
-
 import { cn } from "@/lib/utils"
 
 type ProductTileElement = "button" | "div"
@@ -32,6 +31,11 @@ const productTileVariants = cva(
         "gradient-amber": "bg-gradient-tile-amber text-white",
         "gradient-purple": "bg-gradient-tile-purple text-white",
         "gradient-orange": "bg-gradient-tile-orange text-white",
+        "gradient-teal": "bg-gradient-tile-teal text-white",
+        "gradient-pink": "bg-gradient-tile-pink text-white",
+        "gradient-indigo": "bg-gradient-tile-indigo text-white",
+        "gradient-lime": "bg-gradient-tile-lime text-white",
+        "gradient-sky": "bg-gradient-tile-sky text-white",
         // Legacy/Back-compat
         primary: "bg-primary text-primary-foreground",
         secondary: "bg-secondary text-secondary-foreground",

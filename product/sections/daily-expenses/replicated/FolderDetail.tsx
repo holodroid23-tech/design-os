@@ -81,7 +81,6 @@ export default function FolderDetail({
   const handleTileClick = (item: any) => {
     setExpenseDraft({
       name: item.name,
-      amount: item.defaultPrice,
       color: item.color,
       stroke: item.strokeStyle
     })

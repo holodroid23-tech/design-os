@@ -113,7 +113,7 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
     return (
         <div className="flex h-full min-h-full flex-col bg-background">
             {/* Block 1: Header */}
-            <div className="sticky top-0 z-10 bg-background px-6 py-4">
+            <div className="sticky top-0 z-10 bg-background px-4 py-4">
                 <Button type="button" variant="invisible" className="group w-full h-auto p-0 justify-start text-left" onClick={onBack}>
                     <SectionTitle
                         interactive
@@ -128,7 +128,7 @@ export default function ReceiptConfiguration({ onBack }: ReceiptConfigurationPro
 
             {/* Block 2: View mode */}
             <div
-                className="flex-1 overflow-y-auto px-6 py-4"
+                className="flex-1 overflow-y-auto px-4 py-4"
                 onScroll={(e) => {
                     const scrollTop = e.currentTarget.scrollTop
                     const prev = lastScrollTopRef.current

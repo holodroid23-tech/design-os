@@ -2,9 +2,9 @@
 
 import * as React from "react"
 import type { LucideIcon } from "lucide-react"
-import { Minus, Plus } from "lucide-react"
+import { Minus, Plus, ShoppingBag } from "lucide-react"
 
-import { SystemIcon } from "@/components/atoms/icon"
+import { IconTile, SystemIcon } from "@/components/atoms/icon"
 import { Button } from "@/components/ui/button"
 import { ImageTile } from "@/components/ui/image-tile"
 import { cn } from "@/lib/utils"
@@ -23,6 +23,7 @@ export interface OrderLineItemRowProps extends Omit<React.ComponentProps<typeof 
 
   imageSrc?: string
   imageAlt?: string
+  color?: string
 
   onIncrease?: () => void
   onDecrease?: () => void
@@ -45,6 +46,7 @@ export function OrderLineItemRow({
   price,
   imageSrc,
   imageAlt,
+  color,
   onIncrease,
   onDecrease,
   increaseIcon: IncreaseIcon = Plus,
@@ -64,7 +66,16 @@ export function OrderLineItemRow({
       {...props}
     >
       <SettingsItemIcon>
-        <ImageTile size="small" src={imageSrc} alt={imageAlt ?? name} />
+        {imageSrc ? (
+          <ImageTile size="small" src={imageSrc} alt={imageAlt ?? name} />
+        ) : (
+          <IconTile
+            icon={ShoppingBag}
+            size="small"
+            color={color}
+            className="rounded-[12px]"
+          />
+        )}
       </SettingsItemIcon>
 
       <SettingsItemContent>

@@ -84,7 +84,7 @@ export default function ReportBug({
           </Button>
         }
       >
-        <div className="px-6 pb-6">
+        <div className="px-4 pb-6">
           {/* Block 2: Header controls */}
           {/* Block 3: Issue details input */}
           <div className="flex flex-col gap-2">

@@ -54,7 +54,7 @@ export default function UserProfile({
       {/* Scrollable Content */}
       <div className="flex-1 overflow-y-auto">
         {/* Block 2: Identity section */}
-        <div className="px-6 py-4">
+        <div className="px-4 py-4">
           <div className="flex flex-col gap-6">
             <div className="flex flex-col gap-2">
               <div className="flex items-center justify-between gap-4">
@@ -83,7 +83,7 @@ export default function UserProfile({
         </div>
 
         {/* Block 3: Security navigation */}
-        <div className="px-6 py-4">
+        <div className="px-4 py-4">
           <div className="flex flex-col gap-3">
             <Label className="text-muted-foreground">Security</Label>
             <SettingsGroup>

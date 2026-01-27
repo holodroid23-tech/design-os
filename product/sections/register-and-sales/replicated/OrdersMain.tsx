@@ -94,7 +94,8 @@ export default function OrdersMain({
       qty: item.qty,
       unitPrice: item.unitPrice,
       imageSrc: item.imageSrc,
-      imageAlt: item.imageAlt
+      imageAlt: item.imageAlt,
+      color: item.color
     }))
   }, [activeTab])
 

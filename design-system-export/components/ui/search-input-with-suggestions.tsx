@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Search, CupSoda, Utensils, Box, Coffee } from "lucide-react"
+import { Search, ShoppingBag, Wallet, CupSoda, Utensils, Box, Coffee } from "lucide-react"
 import { cn } from "../../lib/utils"
 import { Input } from "./input"
 

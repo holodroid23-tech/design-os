@@ -1,10 +1,9 @@
 "use client"
 
 import * as React from "react"
-import type { LucideIcon } from "lucide-react"
-import { Pencil } from "lucide-react"
+import { type LucideIcon, Wallet, Pencil } from "lucide-react"
 
-import { SystemIcon } from "@/components/atoms/icon"
+import { IconTile, SystemIcon } from "@/components/atoms/icon"
 import { Button } from "@/components/ui/button"
 import { ImageTile } from "@/components/ui/image-tile"
 import { cn } from "@/lib/utils"
@@ -95,16 +94,26 @@ export function ExpenseLineItemRow({
       {...props}
     >
       <SettingsItemIcon>
-        <ImageTile
-          size="small"
-          src={imageSrc}
-          alt={imageAlt ?? name}
-          className={cn(
-            getColorClass(color),
-            getStrokeClass(strokeStyle),
-            color && color !== 'slate' ? "border-2" : ""
-          )}
-        />
+        {imageSrc ? (
+          <ImageTile
+            size="small"
+            src={imageSrc}
+            alt={imageAlt ?? name}
+            className={cn(
+              // Keep stroke legacy support if explicitly provided with an image
+              strokeStyle !== 'none' && getColorClass(color),
+              getStrokeClass(strokeStyle),
+              color && strokeStyle !== 'none' ? "border-2" : ""
+            )}
+          />
+        ) : (
+          <IconTile
+            icon={Wallet}
+            size="small"
+            color={color}
+            className="rounded-[12px]"
+          />
+        )}
       </SettingsItemIcon>
 
       <SettingsItemContent>

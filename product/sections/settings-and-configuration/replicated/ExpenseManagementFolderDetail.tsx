@@ -1,10 +1,10 @@
 import * as React from "react"
-import { ChevronLeft, Plus } from "lucide-react"
+import { ChevronLeft, Plus, Download, Wallet } from "lucide-react"
 
 import { SectionTitle } from "@/components/ui/section-title"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
-import { ImageTile } from "@/components/ui/image-tile"
+import { IconTile } from "@/components/atoms/icon"
 import { SettingsGroup } from "@/components/settings/settings-group"
 import {
   SettingsItem,
@@ -16,6 +16,8 @@ import {
 import ExpenseManagementNewItem from "./ExpenseManagementNewItem"
 
 import { useExpenseProductsStore } from "@/stores/useExpenseProductsStore"
+import { FloatingActionButton } from "@/components/ui/floating-action-button"
+
 
 interface ExpenseManagementFolderDetailProps {
   folderId: string
@@ -24,8 +26,7 @@ interface ExpenseManagementFolderDetailProps {
 
 export default function ExpenseManagementFolderDetail({ folderId, onBack }: ExpenseManagementFolderDetailProps) {
   const [addingItem, setAddingItem] = React.useState(false)
-  const [showTopControls, setShowTopControls] = React.useState(true)
-  const lastScrollTopRef = React.useRef(0)
+
 
   const { products, folders } = useExpenseProductsStore()
   const folder = folders.find(f => f.id === folderId)
@@ -49,7 +50,7 @@ export default function ExpenseManagementFolderDetail({ folderId, onBack }: Expe
               <ChevronLeft className="h-[18px] w-[18px] text-muted-foreground group-hover:text-foreground transition-colors" />
             }
           >
-            Monthly utilities
+            {folder?.name || "Folder"}
           </SectionTitle>
         </Button>
       </div>
@@ -57,38 +58,10 @@ export default function ExpenseManagementFolderDetail({ folderId, onBack }: Expe
       {/* Block 2: Actions & List */}
       <div
         className="flex-1 overflow-auto px-4 py-4"
-        onScroll={(e) => {
-          const scrollTop = e.currentTarget.scrollTop
-          const prev = lastScrollTopRef.current
-          const delta = scrollTop - prev
-
-          if (scrollTop < 8) {
-            setShowTopControls(true)
-          } else if (delta > 10) {
-            setShowTopControls(false)
-          } else if (delta < -10) {
-            setShowTopControls(true)
-          }
-
-          lastScrollTopRef.current = scrollTop
-        }}
       >
-        <div
-          className={`sticky top-0 z-10 bg-background pb-4 transition-transform duration-200 ${showTopControls ? "translate-y-0" : "-translate-y-[calc(100%+30px)]"
-            }`}
-        >
-          <div className="flex items-center gap-3">
-            <Button className="flex-1" onClick={() => setAddingItem(true)}>
-              <Plus />
-              <span>Add expense</span>
-            </Button>
-            <Button variant="ghost" className="flex-1" onClick={() => console.log("Import")}>
-              <span>Import</span>
-            </Button>
-          </div>
-        </div>
 
         <div className="space-y-3">
+
           {items.map((item) => (
             <SettingsGroup key={item.id}>
               <SettingsItem asChild>
@@ -97,11 +70,16 @@ export default function ExpenseManagementFolderDetail({ folderId, onBack }: Expe
                   onClick={() => setAddingItem(true)}
                 >
                   <SettingsItemIcon>
-                    <ImageTile size="small" alt="" />
+                    <IconTile
+                      icon={Wallet}
+                      size="small"
+                      color={item.color}
+                      className="rounded-[12px]"
+                    />
                   </SettingsItemIcon>
 
                   <SettingsItemContent>
-                    <SettingsItemTitle>{item.label}</SettingsItemTitle>
+                    <SettingsItemTitle>{item.name}</SettingsItemTitle>
                   </SettingsItemContent>
 
                   <SettingsItemAction>
@@ -113,7 +91,7 @@ export default function ExpenseManagementFolderDetail({ folderId, onBack }: Expe
                           [item.id]: Boolean(checked),
                         }))
                       }
-                      aria-label={`Toggle ${item.label}`}
+                      aria-label={`Toggle ${item.name}`}
                       onClick={(e) => e.stopPropagation()}
                     />
                   </SettingsItemAction>
@@ -124,10 +102,26 @@ export default function ExpenseManagementFolderDetail({ folderId, onBack }: Expe
         </div>
       </div>
 
+      <FloatingActionButton
+        actions={[
+          {
+            label: "Add expense",
+            icon: <Plus />,
+            onClick: () => setAddingItem(true),
+          },
+          {
+            label: "Import",
+            icon: <Download />,
+            onClick: () => console.log("Import"),
+          },
+
+        ]}
+      />
+
       {/* Block 3: Actions - Moved to top */}
 
       {addingItem && (
-        <ExpenseManagementNewItem onClose={() => setAddingItem(false)} />
+        <ExpenseManagementNewItem onClose={() => setAddingItem(false)} initialFolderId={folderId} />
       )}
     </div>
   )

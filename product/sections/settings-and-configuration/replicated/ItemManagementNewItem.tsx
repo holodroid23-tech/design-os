@@ -164,6 +164,7 @@ export default function ItemManagementNewItem({ onClose }: ItemManagementNewItem
 
               <TabsContent value="color" className="pt-3">
                 <ColorSelector value={itemColor} onValueChange={setItemColor} aria-label="Item appearance">
+                  {/* Solid Colors */}
                   <ColorSelectorItem value="surface" color="#111114" aria-label="Default Black" />
                   <ColorSelectorItem value="blue" color="#3b82f6" aria-label="Blue" />
                   <ColorSelectorItem value="green" color="#22c55e" aria-label="Green" />
@@ -175,12 +176,18 @@ export default function ItemManagementNewItem({ onClose }: ItemManagementNewItem
                   <ColorSelectorItem value="pink" color="#ec4899" aria-label="Pink" />
                   <ColorSelectorItem value="indigo" color="#6366f1" aria-label="Indigo" />
                   <ColorSelectorItem value="lime" color="#84cc16" aria-label="Lime" />
+                  {/* Gradients - Cross-hue for visual distinction */}
                   <ColorSelectorItem value="gradient-blue" gradient="bg-gradient-tile-blue" aria-label="Blue Gradient" />
                   <ColorSelectorItem value="gradient-green" gradient="bg-gradient-tile-green" aria-label="Green Gradient" />
                   <ColorSelectorItem value="gradient-red" gradient="bg-gradient-tile-red" aria-label="Red Gradient" />
                   <ColorSelectorItem value="gradient-amber" gradient="bg-gradient-tile-amber" aria-label="Amber Gradient" />
                   <ColorSelectorItem value="gradient-purple" gradient="bg-gradient-tile-purple" aria-label="Purple Gradient" />
                   <ColorSelectorItem value="gradient-orange" gradient="bg-gradient-tile-orange" aria-label="Orange Gradient" />
+                  <ColorSelectorItem value="gradient-teal" gradient="bg-gradient-tile-teal" aria-label="Teal Gradient" />
+                  <ColorSelectorItem value="gradient-pink" gradient="bg-gradient-tile-pink" aria-label="Pink Gradient" />
+                  <ColorSelectorItem value="gradient-indigo" gradient="bg-gradient-tile-indigo" aria-label="Indigo Gradient" />
+                  <ColorSelectorItem value="gradient-lime" gradient="bg-gradient-tile-lime" aria-label="Lime Gradient" />
+                  <ColorSelectorItem value="gradient-sky" gradient="bg-gradient-tile-sky" aria-label="Sky Gradient" />
                 </ColorSelector>
               </TabsContent>
 

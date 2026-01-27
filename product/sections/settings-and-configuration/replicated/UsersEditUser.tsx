@@ -54,7 +54,7 @@ export default function UsersEditUser() {
         }
       >
         {/* Block 3 — Role selection */}
-        <div className="px-6 pb-5">
+        <div className="px-4 pb-5">
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between gap-4">
               <Label>User role</Label>
@@ -78,7 +78,7 @@ export default function UsersEditUser() {
         </div>
 
         {/* Block 4 — Form fields */}
-        <div className="px-6 pb-5">
+        <div className="px-4 pb-5">
           <div className="flex flex-col gap-2">
             <Label htmlFor="edit-user-full-name">Full name</Label>
             <Input
@@ -91,7 +91,7 @@ export default function UsersEditUser() {
           </div>
         </div>
 
-        <div className="px-6 pb-6">
+        <div className="px-4 pb-6">
           {isCashier ? (
             <div className="flex flex-col gap-2">
               <Label htmlFor="edit-user-pin">PIN</Label>

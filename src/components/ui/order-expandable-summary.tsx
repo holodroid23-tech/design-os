@@ -28,6 +28,7 @@ export interface OrderExpandableSummaryItem {
   unitPrice: number
   imageSrc?: string
   imageAlt?: string
+  color?: string
 }
 
 export interface OrderExpandableSummaryProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
@@ -293,6 +294,7 @@ export function OrderExpandableSummary({
                   price={formatMoney(item.unitPrice)}
                   imageSrc={item.imageSrc}
                   imageAlt={item.imageAlt}
+                  color={item.color}
                   onDecrease={onDecreaseItem ? () => onDecreaseItem(item.id) : undefined}
                   onIncrease={onIncreaseItem ? () => onIncreaseItem(item.id) : undefined}
                 />

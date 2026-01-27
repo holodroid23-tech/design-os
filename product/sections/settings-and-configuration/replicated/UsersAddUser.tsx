@@ -67,7 +67,7 @@ export default function UsersAddUser({ onClose }: UsersAddUserProps) {
           </Button>
         }
       >
-        <div className="px-6 pb-5">
+        <div className="px-4 pb-5">
           <div className="flex flex-col gap-3">
             <div className="flex items-center justify-between gap-4">
               <Label>User role</Label>
@@ -90,7 +90,7 @@ export default function UsersAddUser({ onClose }: UsersAddUserProps) {
           </div>
         </div>
 
-        <div className="px-6 pb-5">
+        <div className="px-4 pb-5">
           <div className="flex flex-col gap-2">
             <Label htmlFor="add-user-full-name">Full name</Label>
             <Input
@@ -104,7 +104,7 @@ export default function UsersAddUser({ onClose }: UsersAddUserProps) {
           </div>
         </div>
 
-        <div className="px-6 pb-6">
+        <div className="px-4 pb-6">
           {role === "cashier" ? (
             <div className="flex flex-col gap-2">
               <Label htmlFor="add-user-pin">PIN</Label>

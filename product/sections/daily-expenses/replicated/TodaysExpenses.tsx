@@ -23,6 +23,7 @@ import { ExpenseLineItemRow } from "@/components/ui/expense-line-item-row"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import CreateExpense from "./CreateExpense"
+import FolderDetail from "./FolderDetail"
 import { useExpenseProductsStore, type ExpenseProduct } from "@/stores/useExpenseProductsStore"
 
 // Store imports
@@ -41,6 +42,13 @@ export interface TodaysExpensesProps {
 
 function formatMoney(value: number, currency: string) {
   return `${currency}${value.toFixed(2)}`
+}
+
+function chunkArray<T>(items: T[], chunkSize: number) {
+  if (chunkSize <= 0) return [items]
+  const out: T[][] = []
+  for (let i = 0; i < items.length; i += chunkSize) out.push(items.slice(i, i + chunkSize))
+  return out
 }
 
 function buildSummaryText(items: ExpenseItem[], maxChars: number) {
@@ -234,6 +242,7 @@ export default function TodaysExpenses({
   onEditLoggedItem,
   onAddExpense: onAddExpenseProp,
 }: TodaysExpensesProps) {
+  const [selectedFolderId, setSelectedFolderId] = React.useState<string | null>(null)
   const [isAddingExpense, setIsAddingExpense] = React.useState(false)
 
   // New state to hold prepopulated data for the modal
@@ -257,11 +266,14 @@ export default function TodaysExpenses({
   const handleTileClick = (item: ExpenseProduct) => {
     setExpenseDraft({
       name: item.name,
-      amount: item.defaultPrice,
       color: item.color,
       stroke: item.strokeStyle
     })
     setIsAddingExpense(true)
+  }
+
+  if (selectedFolderId) {
+    return <FolderDetail folderId={selectedFolderId} onBack={() => setSelectedFolderId(null)} />
   }
 
   const favoritesItems = products.filter(p => p.isFavorite)
@@ -275,16 +287,23 @@ export default function TodaysExpenses({
         {favoritesItems.length > 0 && (
           <div className="px-4 pt-6">
             <SectionTitle titleAs="h2" size="group">Favorites</SectionTitle>
-            <div className="mt-3 grid grid-cols-3 gap-3">
-              {favoritesItems.map((item) => (
-                <ProductTile
-                  key={item.id}
-                  name={item.name}
-                  tone={(item.color as any) || "surface"}
-                  price={item.defaultPrice ? formatMoney(item.defaultPrice, currency) : undefined}
-                  onPress={() => handleTileClick(item)}
-                />
-              ))}
+            <div className="mt-3 overflow-x-auto no-scrollbar snap-x snap-mandatory">
+              <div className="flex gap-3">
+                {chunkArray(favoritesItems, 9).map((page, pageIdx) => (
+                  <div key={pageIdx} className="min-w-full shrink-0 snap-start">
+                    <div className="grid grid-cols-3 gap-3">
+                      {page.map((item) => (
+                        <ProductTile
+                          key={item.id}
+                          name={item.name}
+                          tone={(item.color as any) || "surface"}
+                          onPress={() => handleTileClick(item)}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         )}
@@ -308,11 +327,8 @@ export default function TodaysExpenses({
                 key={folder.id}
                 icon={Folder}
                 label={folder.name}
-                iconClassName="text-layer-info"
-                onClick={() => {
-                  // For now we don't have navigation, maybe filter?
-                  console.log("Folder clicked", folder.id)
-                }}
+                tone={folder.color as any || "blue"}
+                onClick={() => setSelectedFolderId(folder.id)}
               />
             ))}
           </div>
@@ -324,7 +340,6 @@ export default function TodaysExpenses({
                 key={item.id}
                 name={item.name}
                 tone={(item.color as any) || "surface"}
-                price={item.defaultPrice ? formatMoney(item.defaultPrice, currency) : undefined}
                 onPress={() => handleTileClick(item)}
               />
             ))}

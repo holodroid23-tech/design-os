@@ -734,6 +734,173 @@
           }
         ]
       }
+    },
+    "tile": {
+      "blue": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#6366f1",
+            "position": 0
+          },
+          {
+            "color": "#0ea5e9",
+            "position": 100
+          }
+        ],
+        "note": "Indigo to Cyan - cross-hue for visual distinction"
+      },
+      "green": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#22c55e",
+            "position": 0
+          },
+          {
+            "color": "#0d9488",
+            "position": 100
+          }
+        ],
+        "note": "Green to Teal"
+      },
+      "red": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#f43f5e",
+            "position": 0
+          },
+          {
+            "color": "#ea580c",
+            "position": 100
+          }
+        ],
+        "note": "Rose to Orange-Red"
+      },
+      "amber": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#fbbf24",
+            "position": 0
+          },
+          {
+            "color": "#f97316",
+            "position": 100
+          }
+        ],
+        "note": "Amber to Orange"
+      },
+      "purple": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#a855f7",
+            "position": 0
+          },
+          {
+            "color": "#ec4899",
+            "position": 100
+          }
+        ],
+        "note": "Purple to Pink"
+      },
+      "orange": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#fb923c",
+            "position": 0
+          },
+          {
+            "color": "#dc2626",
+            "position": 100
+          }
+        ],
+        "note": "Orange to Red"
+      },
+      "teal": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#14b8a6",
+            "position": 0
+          },
+          {
+            "color": "#3b82f6",
+            "position": 100
+          }
+        ],
+        "note": "Teal to Blue"
+      },
+      "pink": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#ec4899",
+            "position": 0
+          },
+          {
+            "color": "#a855f7",
+            "position": 100
+          }
+        ],
+        "note": "Pink to Purple"
+      },
+      "indigo": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#6366f1",
+            "position": 0
+          },
+          {
+            "color": "#7c3aed",
+            "position": 100
+          }
+        ],
+        "note": "Indigo to Violet"
+      },
+      "lime": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#84cc16",
+            "position": 0
+          },
+          {
+            "color": "#22c55e",
+            "position": 100
+          }
+        ],
+        "note": "Lime to Green"
+      },
+      "sky": {
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          {
+            "color": "#38bdf8",
+            "position": 0
+          },
+          {
+            "color": "#6366f1",
+            "position": 100
+          }
+        ],
+        "note": "Sky to Indigo"
+      }
     }
   },
   "rules": {

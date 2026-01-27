@@ -18,7 +18,6 @@ import { MediaUpload } from "@/components/ui/media-upload"
 import { IconToggleButton } from "@/components/ui/icon-toggle-button"
 
 import { useExpenseProductsStore } from "@/stores/useExpenseProductsStore"
-import { useSettingsStore } from "@/stores/useSettingsStore"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -26,18 +25,17 @@ export const designOS = {
 
 export interface ExpenseManagementNewItemProps {
   onClose?: () => void
+  initialFolderId?: string | number
 }
 
-export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementNewItemProps) {
+export default function ExpenseManagementNewItem({ onClose, initialFolderId }: ExpenseManagementNewItemProps) {
   // Store
   const { folders, addFolder, addProduct } = useExpenseProductsStore()
-  const { currency } = useSettingsStore()
 
   // State
   const [name, setName] = React.useState("")
   const [favorite, setFavorite] = React.useState(false)
-  const [folderId, setFolderId] = React.useState<string | number>("operations") // Default to operations or empty?
-  const [price, setPrice] = React.useState("")
+  const [folderId, setFolderId] = React.useState<string | number>(initialFolderId || "operations") // Default to operations or empty?
   const [appearanceTab, setAppearanceTab] = React.useState<"color" | "image">("color")
   const [expenseColor, setExpenseColor] = React.useState("surface")
 
@@ -75,12 +73,10 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
     if (!name.trim()) return
 
     const finalFolderId = folderId === "none" || folderId === "__create__" ? null : String(folderId)
-    const amount = parseFloat(price)
 
     addProduct({
       name,
       folderId: finalFolderId,
-      defaultPrice: isNaN(amount) ? 0 : amount,
       color: expenseColor,
       isFavorite: favorite,
     })
@@ -107,12 +103,12 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
               </BottomSlidingModalClose>
             }
           >
-            New item
+            New expense
           </SectionTitle>
         }
         footer={
           <Button size="lg" className="w-full" onClick={handleSave}>
-            Save item
+            Save expense
           </Button>
         }
       >
@@ -158,26 +154,6 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
           </div>
         </div>
 
-        {/* Block 3: Price */}
-        <div className="px-6 pb-5">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="new-item-price">Enter price</Label>
-            <div className="relative">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none">
-                {currency}
-              </div>
-              <Input
-                id="new-item-price"
-                type="number"
-                placeholder="0.00"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                className="h-14 text-2xl pl-8 font-semibold" // Bigger input for price
-              />
-            </div>
-          </div>
-        </div>
-
         {/* Block 4: Appearance */}
         <div className="px-6 pb-5">
           <div className="flex flex-col gap-3">
@@ -194,6 +170,7 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
 
               <TabsContent value="color" className="pt-3">
                 <ColorSelector value={expenseColor} onValueChange={setExpenseColor} aria-label="Expense appearance">
+                  {/* Solid Colors */}
                   <ColorSelectorItem value="surface" color="#111114" aria-label="Default Black" />
                   <ColorSelectorItem value="blue" color="#3b82f6" aria-label="Blue" />
                   <ColorSelectorItem value="green" color="#22c55e" aria-label="Green" />
@@ -205,12 +182,18 @@ export default function ExpenseManagementNewItem({ onClose }: ExpenseManagementN
                   <ColorSelectorItem value="pink" color="#ec4899" aria-label="Pink" />
                   <ColorSelectorItem value="indigo" color="#6366f1" aria-label="Indigo" />
                   <ColorSelectorItem value="lime" color="#84cc16" aria-label="Lime" />
+                  {/* Gradients - Cross-hue for visual distinction */}
                   <ColorSelectorItem value="gradient-blue" gradient="bg-gradient-tile-blue" aria-label="Blue Gradient" />
                   <ColorSelectorItem value="gradient-green" gradient="bg-gradient-tile-green" aria-label="Green Gradient" />
                   <ColorSelectorItem value="gradient-red" gradient="bg-gradient-tile-red" aria-label="Red Gradient" />
                   <ColorSelectorItem value="gradient-amber" gradient="bg-gradient-tile-amber" aria-label="Amber Gradient" />
                   <ColorSelectorItem value="gradient-purple" gradient="bg-gradient-tile-purple" aria-label="Purple Gradient" />
                   <ColorSelectorItem value="gradient-orange" gradient="bg-gradient-tile-orange" aria-label="Orange Gradient" />
+                  <ColorSelectorItem value="gradient-teal" gradient="bg-gradient-tile-teal" aria-label="Teal Gradient" />
+                  <ColorSelectorItem value="gradient-pink" gradient="bg-gradient-tile-pink" aria-label="Pink Gradient" />
+                  <ColorSelectorItem value="gradient-indigo" gradient="bg-gradient-tile-indigo" aria-label="Indigo Gradient" />
+                  <ColorSelectorItem value="gradient-lime" gradient="bg-gradient-tile-lime" aria-label="Lime Gradient" />
+                  <ColorSelectorItem value="gradient-sky" gradient="bg-gradient-tile-sky" aria-label="Sky Gradient" />
                 </ColorSelector>
               </TabsContent>
 

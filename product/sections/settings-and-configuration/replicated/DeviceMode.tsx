@@ -17,7 +17,7 @@ export default function DeviceMode({ onBack }: DeviceModeProps) {
             <PageHeader title="Device mode" onBack={onBack} />
 
             {/* Block 2: Mode Selection */}
-            <div className="px-6 py-4">
+            <div className="px-4 py-4">
                 <RadioButtonGroup value={mode} onValueChange={setMode} className="flex flex-col gap-3">
                     <RadioButtonGroupItem
                         value="register"
@@ -70,7 +70,7 @@ export default function DeviceMode({ onBack }: DeviceModeProps) {
             </div>
 
             {/* Block 3: Fullscreen Test */}
-            <div className="px-6 py-4 mt-auto pb-12">
+            <div className="px-4 py-4 mt-auto pb-12">
                 <Button
                     variant="ghost"
                     className="w-full"

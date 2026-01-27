@@ -13,7 +13,7 @@ export function DevTools() {
         return (
             <button
                 onClick={() => setIsOpen(true)}
-                className="fixed bottom-24 right-4 z-[9999] size-12 rounded-full bg-primary flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
+                className="fixed bottom-24 left-4 z-[9999] size-12 rounded-full bg-primary flex items-center justify-center shadow-lg hover:scale-110 transition-transform"
             >
                 <FlaskConical className="size-6 text-primary-foreground" />
             </button>
