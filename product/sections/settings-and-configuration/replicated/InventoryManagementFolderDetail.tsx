@@ -32,11 +32,9 @@ export default function InventoryManagementFolderDetail({ categoryId, onBack }: 
   const [addingItem, setAddingItem] = React.useState(false)
 
 
-  const { items, categories } = useInventoryStore()
+  const { items, categories, updateItem } = useInventoryStore()
   const category = categories.find((c) => c.id === categoryId)
   const folderItems = items.filter((i) => i.categoryId === categoryId)
-
-  const [enabledById, setEnabledById] = React.useState<Record<string, boolean>>({})
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
@@ -73,12 +71,9 @@ export default function InventoryManagementFolderDetail({ categoryId, onBack }: 
 
                   <SettingsItemAction>
                     <Switch
-                      checked={enabledById[item.id] ?? true}
+                      checked={item.isVisible !== false}
                       onCheckedChange={(checked) =>
-                        setEnabledById((prev) => ({
-                          ...prev,
-                          [item.id]: Boolean(checked),
-                        }))
+                        updateItem(item.id, { isVisible: checked })
                       }
                       aria-label={`Toggle ${item.name}`}
                       onClick={(e) => e.stopPropagation()}

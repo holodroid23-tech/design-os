@@ -32,7 +32,7 @@ export function OrderTabs({
   onValueChange,
   onAddTab,
   onTabClick,
-  addTabAriaLabel = "Add order",
+  addTabAriaLabel = "Add table",
   showAddButton = true,
   className,
   ...props

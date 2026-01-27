@@ -5,6 +5,7 @@ export interface ExpenseFolder {
     id: string
     name: string
     color?: string
+    isVisible?: boolean
 }
 
 export interface ExpenseProduct {
@@ -16,6 +17,7 @@ export interface ExpenseProduct {
     strokeStyle?: 'none' | 'common' | 'dashed' | 'dotted' | 'double' | 'solid' // Extended for compatibility, but UI might only support subset for now
     icon?: string // Optional icon name
     isFavorite?: boolean
+    isVisible?: boolean
 }
 
 interface ExpenseProductsState {
@@ -23,13 +25,15 @@ interface ExpenseProductsState {
     products: ExpenseProduct[]
 
     addFolder: (name: string) => string // Returns ID
-    updateFolder: (id: string, name: string) => void
+    updateFolder: (id: string, updates: Partial<ExpenseFolder>) => void
     removeFolder: (id: string) => void
 
     addProduct: (product: Omit<ExpenseProduct, 'id'>) => void
     updateProduct: (id: string, updates: Partial<ExpenseProduct>) => void
     removeProduct: (id: string) => void
     toggleFavorite: (id: string) => void
+    toggleFolderVisibility: (id: string) => void
+    toggleProductVisibility: (id: string) => void
 }
 
 const generateId = () => Math.random().toString(36).substring(2, 9)
@@ -142,13 +146,13 @@ export const useExpenseProductsStore = create<ExpenseProductsState>()(
 
             addFolder: (name) => {
                 const id = generateId()
-                set(state => ({ folders: [...state.folders, { id, name }] }))
+                set(state => ({ folders: [...state.folders, { id, name, isVisible: true }] }))
                 return id
             },
 
-            updateFolder: (id, name) => {
+            updateFolder: (id, updates) => {
                 set(state => ({
-                    folders: state.folders.map(f => f.id === id ? { ...f, name } : f)
+                    folders: state.folders.map(f => f.id === id ? { ...f, ...updates } : f)
                 }))
             },
 
@@ -163,7 +167,8 @@ export const useExpenseProductsStore = create<ExpenseProductsState>()(
             addProduct: (product) => {
                 const newProduct: ExpenseProduct = {
                     id: generateId(),
-                    ...product
+                    ...product,
+                    isVisible: true
                 }
                 set(state => ({ products: [...state.products, newProduct] }))
             },
@@ -181,6 +186,18 @@ export const useExpenseProductsStore = create<ExpenseProductsState>()(
             toggleFavorite: (id) => {
                 set(state => ({
                     products: state.products.map(p => p.id === id ? { ...p, isFavorite: !p.isFavorite } : p)
+                }))
+            },
+
+            toggleFolderVisibility: (id) => {
+                set(state => ({
+                    folders: state.folders.map(f => f.id === id ? { ...f, isVisible: f.isVisible === false ? true : false } : f)
+                }))
+            },
+
+            toggleProductVisibility: (id) => {
+                set(state => ({
+                    products: state.products.map(p => p.id === id ? { ...p, isVisible: p.isVisible === false ? true : false } : p)
                 }))
             }
         }),

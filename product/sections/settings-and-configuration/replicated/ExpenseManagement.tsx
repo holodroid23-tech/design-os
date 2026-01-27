@@ -35,10 +35,7 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
 
 
 
-  const { products, folders } = useExpenseProductsStore()
-
-  const [enabledFolders, setEnabledFolders] = React.useState<Record<string, boolean>>({})
-  const [enabledExpenses, setEnabledExpenses] = React.useState<Record<string, boolean>>({})
+  const { products, folders, toggleFolderVisibility, toggleProductVisibility } = useExpenseProductsStore()
 
   if (selectedFolderId) {
     return <ExpenseManagementFolderDetail folderId={selectedFolderId} onBack={() => setSelectedFolderId(null)} />
@@ -81,13 +78,8 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
 
                   <SettingsItemAction>
                     <Switch
-                      checked={enabledFolders[folder.id] ?? true}
-                      onCheckedChange={(checked) =>
-                        setEnabledFolders((prev) => ({
-                          ...prev,
-                          [folder.id]: Boolean(checked),
-                        }))
-                      }
+                      checked={folder.isVisible !== false}
+                      onCheckedChange={() => toggleFolderVisibility(folder.id)}
                       aria-label={`Toggle ${folder.name}`}
                       onClick={(e) => e.stopPropagation()}
                     />
@@ -118,13 +110,8 @@ export default function ExpenseManagement({ onBack }: ExpenseManagementProps) {
 
                     <SettingsItemAction>
                       <Switch
-                        checked={enabledExpenses[expense.id] ?? true}
-                        onCheckedChange={(checked) =>
-                          setEnabledExpenses((prev) => ({
-                            ...prev,
-                            [expense.id]: Boolean(checked),
-                          }))
-                        }
+                        checked={expense.isVisible !== false}
+                        onCheckedChange={() => toggleProductVisibility(expense.id)}
                         aria-label={`Toggle ${expense.name}`}
                         onClick={(e) => e.stopPropagation()}
                       />

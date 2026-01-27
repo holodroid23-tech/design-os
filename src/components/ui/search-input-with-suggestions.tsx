@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Search, CupSoda, Utensils, Box, Coffee } from "lucide-react"
+import { Search, CupSoda, Utensils, Box, Coffee, ShoppingBag } from "lucide-react"
 import { cn } from "../../lib/utils"
 import { Input } from "./input"
 import { IconTile, SystemIcon } from "../atoms/icon"
@@ -19,6 +19,8 @@ export interface SearchSuggestion {
     icon?: React.ReactNode
     iconBg?: string
     price?: string
+    imageSrc?: string
+    color?: string
 }
 
 interface SearchInputWithSuggestionsProps extends React.ComponentProps<"input"> {
@@ -120,66 +122,79 @@ export function SearchInputWithSuggestions({
                 />
             </div>
 
-            {isOpen && filteredSuggestions.length > 0 && (
+            {isOpen && (
                 <div
                     className={cn(
-                        "absolute top-full left-0 right-0 mt-2 z-50 overflow-hidden rounded-md border shadow-xs animate-in fade-in zoom-in-95 duration-200",
+                        "absolute top-full left-0 right-0 mt-2 z-50 overflow-hidden rounded-md border shadow-2xl animate-in fade-in zoom-in-95 duration-200 backdrop-blur-xl",
                         tone === "onLayer"
-                            ? "border-border-inverse bg-layer-1 text-onLayer-primary"
-                            : "border-input bg-popover text-popover-foreground"
+                            ? "border-white/10 bg-stone-900/80 text-onLayer-primary"
+                            : "border-border bg-popover/80 text-popover-foreground"
                     )}
                 >
                     <div className="flex flex-col">
-                        {filteredSuggestions.map((suggestion) => (
-                            <button
-                                key={suggestion.id}
-                                className={cn(
-                                    "flex items-center gap-4 px-5 py-4 text-left transition-colors first:pt-5 last:pb-5 group",
-                                    tone === "onLayer" ? "hover:bg-layer-2" : "hover:bg-accent"
-                                )}
-                                onClick={() => {
-                                    if (!isControlled) setUncontrolledQuery(suggestion.label)
-                                    onValueChange?.(suggestion.label)
-                                    onSuggestionClick?.(suggestion)
-                                    setIsOpen(false)
-                                }}
-                            >
-                                <div className="shrink-0 transition-transform group-hover:scale-110">
-                                    {suggestion.leading ? (
-                                        suggestion.leading
-                                    ) : suggestion.icon ? (
-                                        <div
-                                            className={cn(
-                                                "flex size-9 items-center justify-center rounded-[12px]",
-                                                suggestion.iconBg ?? "bg-layer-level-2 text-onLayer-primary",
-                                            )}
-                                        >
-                                            {suggestion.icon}
-                                        </div>
-                                    ) : null}
-                                </div>
-                                <div className="flex flex-1 items-center justify-between">
-                                    <span
-                                        className={cn(
-                                            "text-base font-semibold",
-                                            tone === "onLayer" ? "text-onLayer-primary" : "text-foreground"
-                                        )}
-                                    >
-                                        {suggestion.label}
-                                    </span>
-                                    {suggestion.price && (
+                        {filteredSuggestions.length > 0 ? (
+                            filteredSuggestions.map((suggestion) => (
+                                <button
+                                    key={suggestion.id}
+                                    className={cn(
+                                        "flex items-center gap-4 px-5 py-4 text-left transition-colors first:pt-5 last:pb-5 group",
+                                        tone === "onLayer" ? "hover:bg-white/10" : "hover:bg-accent/50"
+                                    )}
+                                    onClick={() => {
+                                        if (!isControlled) setUncontrolledQuery("")
+                                        onValueChange?.("")
+                                        onSuggestionClick?.(suggestion)
+                                        setIsOpen(false)
+                                    }}
+                                >
+                                    <div className="shrink-0 transition-transform group-hover:scale-110">
+                                        {suggestion.leading ? (
+                                            suggestion.leading
+                                        ) : (suggestion.imageSrc || suggestion.color || suggestion.icon) ? (
+                                            suggestion.imageSrc ? (
+                                                <div className="inline-flex size-9 shrink-0 overflow-hidden rounded-[12px] bg-tile-default border border-white/10">
+                                                    <img src={suggestion.imageSrc} alt={suggestion.label} className="h-full w-full object-cover" />
+                                                </div>
+                                            ) : (
+                                                <IconTile
+                                                    icon={(suggestion.icon as any) || ShoppingBag}
+                                                    color={suggestion.color}
+                                                    size="small"
+                                                    className={suggestion.iconBg}
+                                                />
+                                            )
+                                        ) : null}
+                                    </div>
+                                    <div className="flex flex-1 items-center justify-between">
                                         <span
                                             className={cn(
-                                                "font-mono text-sm",
-                                                tone === "onLayer" ? "text-onLayer-secondary" : "text-muted-foreground"
+                                                "text-base font-semibold",
+                                                tone === "onLayer" ? "text-onLayer-primary" : "text-foreground"
                                             )}
                                         >
-                                            {suggestion.price}
+                                            {suggestion.label}
                                         </span>
-                                    )}
-                                </div>
-                            </button>
-                        ))}
+                                        {suggestion.price && (
+                                            <span
+                                                className={cn(
+                                                    "font-mono text-sm",
+                                                    tone === "onLayer" ? "text-onLayer-secondary" : "text-muted-foreground"
+                                                )}
+                                            >
+                                                {suggestion.price}
+                                            </span>
+                                        )}
+                                    </div>
+                                </button>
+                            ))
+                        ) : (
+                            <div className={cn(
+                                "px-5 py-8 text-center",
+                                tone === "onLayer" ? "text-onLayer-tertiary" : "text-muted-foreground"
+                            )}>
+                                <p className="text-sm font-medium">No results found</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

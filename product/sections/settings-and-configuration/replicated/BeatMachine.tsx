@@ -39,7 +39,9 @@ class PrecisionSynth {
 
     init() {
         if (!this.ctx) {
-            this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+            this.ctx = new (window.AudioContext || (window as any).webkitAudioContext)({
+                latencyHint: 'interactive'
+            });
             this.limiter = this.ctx.createDynamicsCompressor();
             this.limiter.threshold.setValueAtTime(-12, this.ctx.currentTime);
             this.limiter.knee.setValueAtTime(40, this.ctx.currentTime);
@@ -206,6 +208,7 @@ export default function BeatMachine({ onBack }: { onBack?: () => void }) {
     const [sequenceGrid, setSequenceGrid] = React.useState<Record<string, boolean[]>>(createEmptyGrid())
     const [mutedTracks, setMutedTracks] = React.useState<Record<string, boolean>>({})
     const [isBpmOpen, setIsBpmOpen] = React.useState(false)
+    const workerRef = React.useRef<Worker | null>(null)
 
     const [isPainting, setIsPainting] = React.useState(false)
     const [paintValue, setPaintValue] = React.useState(true)
@@ -251,7 +254,7 @@ export default function BeatMachine({ onBack }: { onBack?: () => void }) {
         }
     }, [isPlaying, isCountingIn, seqLength, sequenceGrid, mutedTracks, currentStyleSamples, tempo, activeStyle, isMetronomeEnabled])
 
-    const scheduler = () => {
+    const scheduler = React.useCallback(() => {
         if (!synth.ctx) return
 
         const scheduleAheadTime = 0.1
@@ -291,13 +294,47 @@ export default function BeatMachine({ onBack }: { onBack?: () => void }) {
                 stateRef.current.nextNoteTime += 60.0 / stateRef.current.tempo / 4.0
                 stateRef.current.currentStep = (stateRef.current.currentStep + 1) % stateRef.current.seqLength
             } else {
-                // If stopped during loop
                 return
             }
         }
+    }, [syncToState])
 
-        (window as any)._beatMachineTimer = setTimeout(scheduler, 25)
-    }
+    React.useEffect(() => {
+        // We use a blob to avoid external file loading issues in some environments
+        // or just import the file directly if Vite supports it.
+        // Vite supports ?worker, but let's use the explicit file path since we just created it.
+        const workerCode = `
+            let timerId = null;
+            let interval = 25;
+            self.onmessage = (e) => {
+                if (e.data === 'start') {
+                    if (timerId) clearInterval(timerId);
+                    timerId = self.setInterval(() => self.postMessage('tick'), interval);
+                } else if (e.data.interval) {
+                    interval = e.data.interval;
+                    if (timerId) {
+                        clearInterval(timerId);
+                        timerId = self.setInterval(() => self.postMessage('tick'), interval);
+                    }
+                } else if (e.data === 'stop') {
+                    if (timerId) { clearInterval(timerId); timerId = null; }
+                }
+            };
+        `;
+        const blob = new Blob([workerCode], { type: 'application/javascript' });
+        const worker = new Worker(URL.createObjectURL(blob));
+
+        worker.onmessage = (e) => {
+            if (e.data === 'tick') {
+                scheduler();
+            }
+        };
+
+        workerRef.current = worker;
+        return () => {
+            worker.terminate();
+        };
+    }, [scheduler])
 
     React.useEffect(() => {
         let rafId: number
@@ -320,7 +357,7 @@ export default function BeatMachine({ onBack }: { onBack?: () => void }) {
 
     const handleTogglePlay = () => {
         if (isPlaying || isCountingIn) {
-            clearTimeout((window as any)._beatMachineTimer)
+            workerRef.current?.postMessage('stop')
             setIsPlaying(false)
             setIsCountingIn(false)
             setCurrentStep(0)
@@ -338,7 +375,7 @@ export default function BeatMachine({ onBack }: { onBack?: () => void }) {
                 stateRef.current.isPlaying = true
                 setIsPlaying(true)
             }
-            scheduler()
+            workerRef.current?.postMessage('start')
         }
     }
 
@@ -458,7 +495,7 @@ export default function BeatMachine({ onBack }: { onBack?: () => void }) {
                                 count={notesCount || undefined}
                                 onPress={() => handlePadTap(sample.id)}
                                 className={cn(
-                                    "aspect-square !border !bg-transparent transition-all",
+                                    "aspect-square !border bg-layer-1/50 transition-all",
                                     notesCount > 0 ? "shadow-md scale-[1.02]" : "shadow-none",
                                     isMuted && "opacity-30 grayscale"
                                 )}
@@ -474,13 +511,13 @@ export default function BeatMachine({ onBack }: { onBack?: () => void }) {
                     <div className="flex items-center gap-4">
                         <div className="flex items-center gap-4">
                             {[16, 32, 64].map(l => (
-                                <button key={l} onClick={() => { setSeqLength(l); stateRef.current.currentStep = 0; setCurrentStep(0); }} className={cn("text-[12px] font-black uppercase tracking-widest", seqLength === l ? "text-primary" : "text-onLayer-tertiary")}>{l}</button>
+                                <button key={l} onClick={() => { setSeqLength(l); stateRef.current.currentStep = 0; setCurrentStep(0); }} className={cn("px-2 py-1 rounded bg-white/5 border border-white/5 text-[12px] font-black uppercase tracking-widest transition-all", seqLength === l ? "text-primary border-primary/50 bg-primary/10" : "text-onLayer-tertiary hover:bg-white/10")}>{l}</button>
                             ))}
                         </div>
                         <div className="h-6 w-[1px] bg-white/10" />
 
                         <button
-                            className="flex items-center gap-1 group outline-none"
+                            className="flex items-center gap-1.5 px-2 py-1 rounded bg-white/5 border border-white/5 group outline-none hover:bg-white/10 transition-all"
                             onClick={() => setIsBpmOpen(true)}
                         >
                             <span className="text-[12px] font-black uppercase tracking-widest text-onLayer-tertiary group-hover:text-onLayer-secondary transition-colors">BPM: {tempo}</span>

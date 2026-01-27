@@ -1,10 +1,9 @@
 "use client"
 
 import * as React from "react"
-import { type LucideIcon, Wallet, Pencil } from "lucide-react"
+import { Wallet } from "lucide-react"
 
-import { IconTile, SystemIcon } from "@/components/atoms/icon"
-import { Button } from "@/components/ui/button"
+import { IconTile } from "@/components/atoms/icon"
 import { ImageTile } from "@/components/ui/image-tile"
 import { cn } from "@/lib/utils"
 import {
@@ -23,9 +22,6 @@ export interface ExpenseLineItemRowProps extends Omit<React.ComponentProps<typeo
   imageAlt?: string
   color?: string
   strokeStyle?: string
-
-  editIcon?: LucideIcon
-  editAriaLabel?: string
   onEdit?: () => void
 }
 
@@ -47,8 +43,6 @@ export function ExpenseLineItemRow({
   imageAlt,
   color,
   strokeStyle,
-  editIcon: EditIcon = Pencil,
-  editAriaLabel = "Edit price",
   onEdit,
   ...props
 }: ExpenseLineItemRowProps) {
@@ -85,7 +79,8 @@ export function ExpenseLineItemRow({
 
   return (
     <SettingsItem
-      element="div"
+      element="button"
+      onPress={onEdit}
       className={cn(
         // Match DS "atomic item row" density while staying compatible with SettingsGroup dividers.
         "px-4 py-3 gap-3",
@@ -121,20 +116,6 @@ export function ExpenseLineItemRow({
       </SettingsItemContent>
 
       <SettingsItemAction className="flex items-center gap-4 text-foreground">
-        <Button
-          type="button"
-          variant="invisible"
-          size="icon-sm"
-          className="h-8 w-8 text-foreground"
-          aria-label={editAriaLabel}
-          disabled={!onEdit}
-          onClick={(e) => {
-            e.stopPropagation()
-            onEdit?.()
-          }}
-        >
-          <SystemIcon icon={EditIcon} size="regular" aria-hidden="true" />
-        </Button>
         <span className="text-sm font-mono font-bold text-foreground">{price}</span>
       </SettingsItemAction>
     </SettingsItem>

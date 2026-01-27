@@ -66,7 +66,12 @@ function BottomSlidingModalContent({
         )}
         {...props}
       >
-        <BottomSheetScaffold header={header} footer={footer} {...scaffoldProps}>
+        <BottomSheetScaffold
+          header={header}
+          footer={footer}
+          {...scaffoldProps}
+          className={cn("flex-1", scaffoldProps?.className)}
+        >
           {children}
         </BottomSheetScaffold>
       </DialogPrimitive.Content>

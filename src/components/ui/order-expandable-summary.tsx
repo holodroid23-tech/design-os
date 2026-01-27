@@ -17,7 +17,6 @@ import {
   SearchInputWithSuggestions,
   type SearchSuggestion,
 } from "@/components/ui/search-input-with-suggestions"
-import { ImageTile } from "@/components/ui/image-tile"
 import { SettingsGroup } from "@/components/settings/settings-group"
 import { cn } from "@/lib/utils"
 
@@ -70,6 +69,8 @@ export interface OrderExpandableSummaryProps extends Omit<React.HTMLAttributes<H
   collapsedAriaLabel?: string
   collapsedClassName?: string
   contentClassName?: string
+  suggestions?: SearchSuggestion[]
+  onSuggestionClick?: (suggestion: SearchSuggestion) => void
 }
 
 function defaultFormatMoney(value: number) {
@@ -110,6 +111,8 @@ export function OrderExpandableSummary({
   className,
   collapsedClassName,
   contentClassName,
+  suggestions,
+  onSuggestionClick,
   ...props
 }: OrderExpandableSummaryProps) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(false)
@@ -137,16 +140,19 @@ export function OrderExpandableSummary({
     [items, summaryText]
   )
 
-  const suggestions: SearchSuggestion[] = React.useMemo(
+  const defaultSuggestions: SearchSuggestion[] = React.useMemo(
     () =>
       items.map((item) => ({
         id: item.id,
         label: item.name,
-        leading: item.imageSrc ? <ImageTile size="small" src={item.imageSrc} alt={item.imageAlt ?? item.name} /> : undefined,
+        imageSrc: item.imageSrc,
+        color: item.color,
         price: formatMoney(item.unitPrice),
       })),
-    [formatMoney, items]
+    [items, formatMoney]
   )
+
+  const finalSuggestions = suggestions || defaultSuggestions
 
   return (
     <div className={cn("w-full", className)} {...props}>
@@ -198,7 +204,7 @@ export function OrderExpandableSummary({
 
         <BottomSlidingModalContent
           fullHeight
-          className={cn(contentClassName, "glass-modal-full bg-stone-900/40")}
+          className={cn(contentClassName, "glass-modal-full")}
           header={
             <SectionTitle
               titleAs="h2"
@@ -272,13 +278,14 @@ export function OrderExpandableSummary({
             className: "bg-transparent",
             headerClassName: "px-6 pt-7 pb-4 bg-transparent",
             bodyClassName: "min-h-0 bg-transparent",
-            footerClassName: "bg-transparent border-t border-border-inverse p-6 pt-5",
+            footerClassName: "bg-transparent border-t border-border-inverse p-6 pb-10",
           }}
         >
           <div className="px-6 pb-4">
             <SearchInputWithSuggestions
-              placeholder="Search items..."
-              suggestions={suggestions}
+              placeholder="Add item..."
+              suggestions={finalSuggestions}
+              onSuggestionClick={onSuggestionClick}
               tone="onLayer"
               className="h-10 rounded-[12px] bg-layer-2 border-border-inverse text-onLayer-primary placeholder:text-onLayer-tertiary"
             />

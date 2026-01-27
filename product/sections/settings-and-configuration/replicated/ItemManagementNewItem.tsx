@@ -59,6 +59,8 @@ export default function ItemManagementNewItem({ onClose }: ItemManagementNewItem
       }}
     >
       <BottomSlidingModalContent
+        className="bg-black"
+        scaffoldProps={{ className: "bg-black" }}
         header={
           <SectionTitle
             titleAs="h1"

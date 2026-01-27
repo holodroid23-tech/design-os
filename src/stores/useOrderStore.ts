@@ -41,7 +41,7 @@ const generateId = () => Math.random().toString(36).substring(2, 9)
 
 const DEFAULT_TAB: OrderTab = {
     id: 'default-tab',
-    label: 'Dine-in #1',
+    label: 'Table 1',
     items: []
 }
 
@@ -60,7 +60,7 @@ export const useOrderStore = create<OrderState>()(
                     const currentCount = state.orderCounter
                     const newTab = {
                         id: newId,
-                        label: label || `Order ${currentCount}`,
+                        label: label || `Table ${currentCount}`,
                         items: []
                     }
                     return {

@@ -3,7 +3,6 @@ import { XIcon } from "lucide-react"
 
 import { BottomSlidingModal, BottomSlidingModalClose, BottomSlidingModalContent } from "@/components/ui/bottom-sliding-modal"
 import { Button } from "@/components/ui/button"
-import { DatePicker } from "@/components/ui/date-picker"
 import { Input } from "@/components/ui/input"
 import { SystemIcon } from "@/components/ui/icon"
 import { Label } from "@/components/ui/label"
@@ -28,7 +27,6 @@ export interface CreateExpenseProps {
 }
 
 export default function CreateExpense({ onClose, initialName = "", initialAmount = 0, initialColor, initialStroke }: CreateExpenseProps) {
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
   const [name, setName] = React.useState(initialName)
   const [price, setPrice] = React.useState(initialAmount > 0 ? initialAmount.toString() : "0")
   const [tax, setTax] = React.useState<"0%" | "10%" | "21%">("0%")
@@ -37,7 +35,9 @@ export default function CreateExpense({ onClose, initialName = "", initialAmount
   const { addExpense } = useExpenseStore()
   const { currency } = useSettingsStore()
 
-  const handleSave = () => {
+  const handleSave = (e?: React.MouseEvent) => {
+    e?.preventDefault()
+    e?.stopPropagation()
     const amount = parseFloat(price)
     if (isNaN(amount) || amount <= 0) return // Basic validation
     if (!name.trim()) return
@@ -45,7 +45,7 @@ export default function CreateExpense({ onClose, initialName = "", initialAmount
     addExpense({
       name,
       amount,
-      date: date?.toISOString() || new Date().toISOString(),
+      date: new Date().toISOString(),
       category: "manual", // Could be enhanced
       color: initialColor,
       strokeStyle: initialStroke
@@ -61,12 +61,14 @@ export default function CreateExpense({ onClose, initialName = "", initialAmount
       }}
     >
       <BottomSlidingModalContent
+        className="bg-black"
+        scaffoldProps={{ className: "bg-black" }}
         header={
           <SectionTitle
             titleAs="h1"
             trailing={
               <BottomSlidingModalClose asChild>
-                <Button variant="invisible" size="icon" aria-label="Close">
+                <Button variant="invisible" size="icon" aria-label="Close" onClick={(e) => e.stopPropagation()}>
                   <SystemIcon icon={XIcon} />
                 </Button>
               </BottomSlidingModalClose>
@@ -77,17 +79,10 @@ export default function CreateExpense({ onClose, initialName = "", initialAmount
         }
         footer={
           <Button size="lg" className="w-full" onClick={handleSave}>
-            Save expense
+            Add expense
           </Button>
         }
       >
-        {/* Date */}
-        <div className="px-6 pb-5">
-          <div className="flex flex-col gap-2">
-            <Label>Date</Label>
-            <DatePicker date={date} onDateChange={setDate} placeholder="Select date" />
-          </div>
-        </div>
 
         {/* Name */}
         <div className="px-6 pb-5">

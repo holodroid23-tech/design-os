@@ -32,7 +32,7 @@ export function BottomSheetScaffold({
     <div
       className={cn(
         // Height capping lives on `BottomSlidingModalContent` so it can respect preview containers.
-        "bg-black text-foreground border border-border w-full min-h-0 flex flex-col overflow-hidden",
+        "bg-background text-foreground border border-border w-full min-h-0 flex flex-col overflow-hidden",
         className,
       )}
       {...props}
@@ -44,9 +44,8 @@ export function BottomSheetScaffold({
       </div>
 
       {footer ? (
-        <div className={cn("shrink-0 border-t bg-black p-6", footerClassName)}>{footer}</div>
+        <div className={cn("shrink-0 border-t bg-transparent p-6", footerClassName)}>{footer}</div>
       ) : null}
     </div>
   )
 }
-

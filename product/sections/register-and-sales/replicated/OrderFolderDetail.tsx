@@ -37,7 +37,7 @@ export default function OrderFolderDetail({
   const { taxRate, areTaxesEnabled, currency } = useSettingsStore()
 
   const category = categories.find(c => c.id === categoryId)
-  const categoryItems = inventoryItems.filter(i => i.categoryId === categoryId)
+  const categoryItems = inventoryItems.filter(i => i.categoryId === categoryId && i.isVisible !== false)
   const activeTab = tabs.find(t => t.id === activeTabId)
 
   // Format inventory items for the list

@@ -60,6 +60,7 @@ export default function OrdersMain({
     removeTab,
   } = useOrderStore()
 
+  const [isSummaryOpen, setIsSummaryOpen] = React.useState(false)
   const [isAddingItem, setIsAddingItem] = React.useState(false)
   const [editingTabId, setEditingTabId] = React.useState<string | null>(null)
   const [selectedFolderId, setSelectedFolderId] = React.useState<string | null>(null)
@@ -72,11 +73,13 @@ export default function OrdersMain({
 
   // Format inventory items for the list
   const formattedInventoryItems = React.useMemo(() => {
-    return inventoryItems.map(item => ({
-      ...item,
-      // Calculate if in current order
-      count: activeTab?.items.find(i => i.productId === item.id)?.qty || 0
-    }))
+    return inventoryItems
+      .filter(item => item.isVisible !== false)
+      .map(item => ({
+        ...item,
+        // Calculate if in current order
+        count: activeTab?.items.find(i => i.productId === item.id)?.qty || 0
+      }))
   }, [inventoryItems, activeTab])
 
   const favoritesItems = React.useMemo(() => {
@@ -150,12 +153,35 @@ export default function OrdersMain({
   const inventoryTiles = React.useMemo(() => {
     return [
       { id: "custom-item", label: "Custom item", icon: Plus, iconClassName: "text-primary" },
-      ...categories.map(c => ({ id: c.id, label: c.name, icon: Folder, iconClassName: "text-layer-info" }))
+      ...categories
+        .filter(c => c.isVisible !== false)
+        .map(c => ({ id: c.id, label: c.name, icon: Folder, iconClassName: "text-layer-info" }))
     ]
   }, [categories])
 
   const formatPrice = (price: number) => {
     return `${price.toLocaleString('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currency}`
+  }
+
+  const inventorySuggestions = React.useMemo(() => {
+    return inventoryItems
+      .filter(item => item.isVisible !== false)
+      .map(item => ({
+        id: item.id,
+        label: item.name,
+        price: formatPrice(item.price),
+        imageSrc: item.imageSrc,
+        color: item.color
+      }))
+  }, [inventoryItems, currency])
+
+  const handleSearchSuggestionClick = (suggestion: any) => {
+    if (!activeTabId) return
+
+    const product = inventoryItems.find(i => i.id === suggestion.id)
+    if (product) {
+      addItemToOrder(activeTabId, product)
+    }
   }
 
   if (selectedFolderId) {
@@ -336,11 +362,15 @@ export default function OrdersMain({
           items={orderSummaryItems}
           orderTitle={activeTab?.label || "Order"}
           tax={orderTaxAmount}
+          suggestions={inventorySuggestions}
+          onSuggestionClick={handleSearchSuggestionClick}
           onIncreaseItem={(itemId) => activeTabId && increaseItemQty(activeTabId, itemId)}
           onDecreaseItem={(itemId) => activeTabId && decreaseItemQty(activeTabId, itemId)}
           onPayCash={handlePayCash}
           onPayCard={handlePayCard}
           formatMoney={formatPrice}
+          open={isSummaryOpen}
+          onOpenChange={setIsSummaryOpen}
         />
       </FloatingBottomBar>
 

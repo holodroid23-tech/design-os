@@ -5,6 +5,7 @@ export interface InventoryCategory {
     id: string
     name: string
     color?: string
+    isVisible?: boolean
 }
 
 export interface InventoryItem {
@@ -16,6 +17,7 @@ export interface InventoryItem {
     imageAlt?: string
     isFavorite?: boolean
     color?: string
+    isVisible?: boolean
 }
 
 interface InventoryState {
@@ -23,7 +25,7 @@ interface InventoryState {
     items: InventoryItem[]
 
     addCategory: (name: string) => string
-    updateCategory: (id: string, name: string) => void
+    updateCategory: (id: string, updates: Partial<InventoryCategory>) => void
     deleteCategory: (id: string) => void
 
     addItem: (item: Omit<InventoryItem, 'id'>) => void
@@ -86,12 +88,12 @@ export const useInventoryStore = create<InventoryState>()(
 
             addCategory: (name) => {
                 const id = generateId()
-                set((state) => ({ categories: [...state.categories, { id, name }] }))
+                set((state) => ({ categories: [...state.categories, { id, name, isVisible: true }] }))
                 return id
             },
-            updateCategory: (id, name) =>
+            updateCategory: (id, updates) =>
                 set((state) => ({
-                    categories: state.categories.map((c) => (c.id === id ? { ...c, name } : c)),
+                    categories: state.categories.map((c) => (c.id === id ? { ...c, ...updates } : c)),
                 })),
             deleteCategory: (id) =>
                 set((state) => ({
@@ -99,7 +101,7 @@ export const useInventoryStore = create<InventoryState>()(
                     items: state.items.map((i) => (i.categoryId === id ? { ...i, categoryId: null } : i)),
                 })),
 
-            addItem: (item) => set((state) => ({ items: [...state.items, { ...item, id: generateId() }] })),
+            addItem: (item) => set((state) => ({ items: [...state.items, { ...item, id: generateId(), isVisible: true }] })),
             updateItem: (id, updates) =>
                 set((state) => ({
                     items: state.items.map((i) => (i.id === id ? { ...i, ...updates } : i)),

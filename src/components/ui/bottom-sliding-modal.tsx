@@ -92,12 +92,12 @@ function BottomSlidingModalContent({
         <BottomSheetScaffold
           header={header}
           footer={footer}
+          {...scaffoldProps}
           className={cn(
             "dark flex-1",
             fullHeight ? "rounded-none border-none" : "rounded-t-[18px]",
             scaffoldProps?.className // Allow scaffoldProps to also influence internal structure if needed
           )}
-          {...scaffoldProps}
         >
           {children}
         </BottomSheetScaffold>

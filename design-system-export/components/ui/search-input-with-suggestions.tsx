@@ -28,17 +28,24 @@ export interface SearchSuggestion {
     icon?: React.ReactNode
     iconBg?: string
     price?: string
+    imageSrc?: string
+    color?: string
 }
 
 interface SearchInputWithSuggestionsProps extends React.ComponentProps<"input"> {
     suggestions?: SearchSuggestion[]
     onSuggestionClick?: (suggestion: SearchSuggestion) => void
+    /**
+     * Visual tone for embedding in dark "onLayer" surfaces (e.g. bottom sheets).
+     */
+    tone?: "default" | "onLayer"
 }
 
 export function SearchInputWithSuggestions({
     className,
     suggestions = [],
     onSuggestionClick,
+    tone = "default",
     ...props
 }: SearchInputWithSuggestionsProps) {
     const [isOpen, setIsOpen] = React.useState(false)
@@ -94,7 +101,10 @@ export function SearchInputWithSuggestions({
             <div className="relative group">
                 <SystemIcon
                     icon={Search}
-                    className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-stone-400"
+                    className={cn(
+                        "absolute left-3 top-1/2 -translate-y-1/2 size-4",
+                        tone === "onLayer" ? "text-stone-400" : "text-muted-foreground"
+                    )}
                     aria-hidden="true"
                 />
                 <Input
@@ -113,41 +123,79 @@ export function SearchInputWithSuggestions({
                 />
             </div>
 
-            {isOpen && filteredSuggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-2 z-50 overflow-hidden rounded-md border border-border bg-popover shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            {isOpen && (
+                <div
+                    className={cn(
+                        "absolute top-full left-0 right-0 mt-2 z-50 overflow-hidden rounded-md border shadow-2xl animate-in fade-in zoom-in-95 duration-200 backdrop-blur-xl",
+                        tone === "onLayer"
+                            ? "border-white/10 bg-stone-900/80 text-white"
+                            : "border-border bg-popover/80 text-popover-foreground"
+                    )}
+                >
                     <div className="flex flex-col">
-                        {filteredSuggestions.map((suggestion) => (
-                            <button
-                                key={suggestion.id}
-                                className="flex items-center gap-4 px-5 py-4 text-left hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors first:pt-5 last:pb-5 group"
-                                onClick={() => {
-                                    setQuery(suggestion.label)
-                                    onSuggestionClick?.(suggestion)
-                                    setIsOpen(false)
-                                }}
-                            >
-                                <div className="shrink-0 transition-transform group-hover:scale-110">
-                                    {suggestion.leading ? (
-                                        suggestion.leading
-                                    ) : suggestion.icon ? (
-                                        <div
-                                            className={cn(
-                                                "flex size-9 items-center justify-center rounded-[12px]",
-                                                suggestion.iconBg ?? "bg-stone-500/10 text-stone-200",
-                                            )}
-                                        >
-                                            {suggestion.icon}
-                                        </div>
-                                    ) : null}
-                                </div>
-                                <div className="flex flex-1 items-center justify-between">
-                                    <span className="text-base font-semibold text-foreground">{suggestion.label}</span>
-                                    {suggestion.price && (
-                                        <span className="font-mono text-sm text-muted-foreground">{suggestion.price}</span>
+                        {filteredSuggestions.length > 0 ? (
+                            filteredSuggestions.map((suggestion) => (
+                                <button
+                                    key={suggestion.id}
+                                    className={cn(
+                                        "flex items-center gap-4 px-5 py-4 text-left transition-colors first:pt-5 last:pb-5 group",
+                                        tone === "onLayer" ? "hover:bg-white/10" : "hover:bg-stone-100 dark:hover:bg-stone-800"
                                     )}
-                                </div>
-                            </button>
-                        ))}
+                                    onClick={() => {
+                                        onSuggestionClick?.(suggestion)
+                                        setQuery("")
+                                        setIsOpen(false)
+                                    }}
+                                >
+                                    <div className="shrink-0 transition-transform group-hover:scale-110">
+                                        {suggestion.leading ? (
+                                            suggestion.leading
+                                        ) : (suggestion.imageSrc || suggestion.color || suggestion.icon) ? (
+                                            suggestion.imageSrc ? (
+                                                <div className="inline-flex size-9 shrink-0 overflow-hidden rounded-[12px] bg-stone-500/10 border border-white/10">
+                                                    <img src={suggestion.imageSrc} alt={suggestion.label} className="h-full w-full object-cover" />
+                                                </div>
+                                            ) : (
+                                                <div
+                                                    className={cn(
+                                                        "flex size-9 items-center justify-center rounded-[12px]",
+                                                        // Fallback to DS color mapping or provided iconBg
+                                                        suggestion.iconBg ?? (
+                                                            suggestion.color === 'blue' ? 'bg-blue-600 text-white' :
+                                                                suggestion.color === 'green' ? 'bg-emerald-600 text-white' :
+                                                                    suggestion.color === 'red' ? 'bg-red-600 text-white' :
+                                                                        suggestion.color === 'orange' ? 'bg-orange-600 text-white' :
+                                                                            suggestion.color === 'purple' ? 'bg-purple-600 text-white' :
+                                                                                (tone === "onLayer" ? "bg-white/5 text-white" : "bg-stone-500/10 text-stone-200")
+                                                        ),
+                                                    )}
+                                                >
+                                                    {suggestion.icon || <ShoppingBag className="size-[18px]" />}
+                                                </div>
+                                            )
+                                        ) : null}
+                                    </div>
+                                    <div className="flex flex-1 items-center justify-between">
+                                        <span className="text-base font-semibold">{suggestion.label}</span>
+                                        {suggestion.price && (
+                                            <span className={cn(
+                                                "font-mono text-sm",
+                                                tone === "onLayer" ? "text-stone-400" : "text-muted-foreground"
+                                            )}>
+                                                {suggestion.price}
+                                            </span>
+                                        )}
+                                    </div>
+                                </button>
+                            ))
+                        ) : (
+                            <div className={cn(
+                                "px-5 py-8 text-center",
+                                tone === "onLayer" ? "text-stone-400" : "text-muted-foreground"
+                            )}>
+                                <p className="text-sm font-medium">No results found</p>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}

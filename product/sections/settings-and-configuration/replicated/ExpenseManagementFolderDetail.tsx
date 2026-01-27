@@ -28,11 +28,9 @@ export default function ExpenseManagementFolderDetail({ folderId, onBack }: Expe
   const [addingItem, setAddingItem] = React.useState(false)
 
 
-  const { products, folders } = useExpenseProductsStore()
+  const { products, folders, toggleProductVisibility } = useExpenseProductsStore()
   const folder = folders.find(f => f.id === folderId)
   const items = products.filter(p => p.folderId === folderId)
-
-  const [enabledById, setEnabledById] = React.useState<Record<string, boolean>>({})
 
   return (
     <div className="flex h-full min-h-full flex-col bg-background">
@@ -84,13 +82,8 @@ export default function ExpenseManagementFolderDetail({ folderId, onBack }: Expe
 
                   <SettingsItemAction>
                     <Switch
-                      checked={enabledById[item.id]}
-                      onCheckedChange={(checked) =>
-                        setEnabledById((prev) => ({
-                          ...prev,
-                          [item.id]: Boolean(checked),
-                        }))
-                      }
+                      checked={item.isVisible !== false}
+                      onCheckedChange={() => toggleProductVisibility(item.id)}
                       aria-label={`Toggle ${item.name}`}
                       onClick={(e) => e.stopPropagation()}
                     />

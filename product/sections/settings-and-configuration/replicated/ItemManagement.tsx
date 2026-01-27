@@ -1,11 +1,9 @@
 import * as React from "react"
 import { Folder, Plus, Download, ShoppingBag } from "lucide-react"
-
-import { cn } from "@/lib/utils"
 import { PageHeader } from "@/components/ui/page-header"
 import { Switch } from "@/components/ui/switch"
 import { ImageTile } from "@/components/ui/image-tile"
-import { IconTile, SystemIcon } from "@/components/atoms/icon"
+import { IconTile } from "@/components/atoms/icon"
 import { SettingsGroup } from "@/components/settings/settings-group"
 import {
   SettingsItem,
@@ -36,10 +34,7 @@ export default function ItemManagement({ onBack }: ItemManagementProps) {
   const [selectedFolderId, setSelectedFolderId] = React.useState<string | null>(null)
 
 
-  const { items, categories } = useInventoryStore()
-
-  const [enabledFolders, setEnabledFolders] = React.useState<Record<string, boolean>>({})
-  const [enabledItems, setEnabledItems] = React.useState<Record<string, boolean>>({})
+  const { items, categories, updateCategory, updateItem } = useInventoryStore()
 
   if (selectedFolderId) {
     return <InventoryManagementFolderDetail categoryId={selectedFolderId} onBack={() => setSelectedFolderId(null)} />
@@ -81,12 +76,9 @@ export default function ItemManagement({ onBack }: ItemManagementProps) {
 
                   <SettingsItemAction>
                     <Switch
-                      checked={enabledFolders[folder.id] ?? true}
+                      checked={folder.isVisible !== false}
                       onCheckedChange={(checked) =>
-                        setEnabledFolders((prev) => ({
-                          ...prev,
-                          [folder.id]: Boolean(checked),
-                        }))
+                        updateCategory(folder.id, { isVisible: checked })
                       }
                       aria-label={`Toggle ${folder.name}`}
                       onClick={(e) => e.stopPropagation()}
@@ -123,12 +115,9 @@ export default function ItemManagement({ onBack }: ItemManagementProps) {
 
                     <SettingsItemAction>
                       <Switch
-                        checked={enabledItems[item.id] ?? true}
+                        checked={item.isVisible !== false}
                         onCheckedChange={(checked) =>
-                          setEnabledItems((prev) => ({
-                            ...prev,
-                            [item.id]: Boolean(checked),
-                          }))
+                          updateItem(item.id, { isVisible: checked })
                         }
                         aria-label={`Toggle ${item.name}`}
                         onClick={(e) => e.stopPropagation()}

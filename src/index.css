@@ -198,6 +198,11 @@
   --color-tile-teal: #14b8a6;
   --color-tile-slate: #64748b;
 
+  /* Button Shadows */
+  --shadow-btn: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 0 0.5px 0 rgba(0, 0, 0, 0.3);
+  --shadow-btn-destructive: 0 1px 3px 0 rgba(0, 0, 0, 0.2), 0 0 0.5px 0 rgba(0, 0, 0, 0.3);
+  --shadow-btn-dark: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 0 1px 0 rgba(0, 0, 0, 0.7);
+
   /* Standardized Tile Gradients - Cross-hue for visual distinction */
   --gradient-tile-blue: linear-gradient(135deg, #6366f1 0%, #0ea5e9 100%);
   --gradient-tile-green: linear-gradient(135deg, #22c55e 0%, #0d9488 100%);
@@ -644,11 +649,11 @@
 /* Glassmorphism utilities */
 @utility glass-floating-bar {
   /* Base: dark semi-transparent glass with blur */
-  @apply bg-stone-900/40 backdrop-blur-xl text-foreground border border-white/10 overflow-hidden shadow-layered rounded-[18px];
+  @apply bg-stone-900/80 backdrop-blur-xl text-foreground border border-white/10 overflow-hidden shadow-layered rounded-[18px];
 }
 
 @utility glass-modal-full {
-  @apply !bg-stone-900/40 !backdrop-blur-xl text-foreground border border-white/10 rounded-[24px] shadow-layered;
+  @apply !bg-stone-900/80 !backdrop-blur-xl text-foreground border border-white/10 rounded-[24px] shadow-layered;
 }
 
 @utility glass-card {

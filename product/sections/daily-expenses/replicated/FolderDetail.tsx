@@ -1,31 +1,14 @@
 import * as React from "react"
-import { ChevronDown } from "lucide-react"
-
-import { SystemIcon } from "@/components/atoms/icon"
-import {
-  BottomSlidingModal,
-  BottomSlidingModalClose,
-  BottomSlidingModalContent,
-  BottomSlidingModalTrigger,
-} from "@/components/ui/bottom-sliding-modal"
-import { Button } from "@/components/ui/button"
-import { ExpenseLineItemRow } from "@/components/ui/expense-line-item-row"
 import { FloatingBottomBar, FloatingBottomBarSpacer } from "@/components/ui/floating-bottom-bar"
-import { ImageTile } from "@/components/ui/image-tile"
-import {
-  SearchInputWithSuggestions,
-  type SearchSuggestion,
-} from "@/components/ui/search-input-with-suggestions"
-import { SectionTitle } from "@/components/ui/section-title"
 import { ProductTile } from "@/components/ui/product-tile"
 import { PageHeader } from "@/components/ui/page-header"
-import { SettingsGroup } from "@/components/settings/settings-group"
 import { cn } from "@/lib/utils"
 
 import { useExpenseProductsStore } from "@/stores/useExpenseProductsStore"
 import { useExpenseStore } from "@/stores/useExpenseStore"
 import { useSettingsStore } from "@/stores/useSettingsStore"
 import CreateExpense from "./CreateExpense"
+import { DailyExpensesSummaryBar } from "./DailyExpensesSummaryBar"
 
 export const designOS = {
   presentation: "mobile" as const,
@@ -40,7 +23,7 @@ export default function FolderDetail({
   folderId,
   onBack,
 }: DailyExpensesFolderDetailProps) {
-  const [open, setOpen] = React.useState(false)
+  const [isSummaryOpen, setIsSummaryOpen] = React.useState(false)
   const [isAddingExpense, setIsAddingExpense] = React.useState(false)
   const [expenseDraft, setExpenseDraft] = React.useState<{ name: string; amount?: number; color?: string; stroke?: string } | null>(null)
 
@@ -49,34 +32,8 @@ export default function FolderDetail({
   const { currency } = useSettingsStore()
 
   const folder = folders.find(f => f.id === folderId)
-  const folderProducts = products.filter(p => p.folderId === folderId)
-  // For now we don't filter logged items by folder, usually they are just shown as a list for today
-  // but if we wanted to filter we could.
+  const folderProducts = products.filter(p => p.folderId === folderId && p.isVisible !== false)
   const loggedItems = expenses
-
-  const formatMoney = (value: number) => `${currency}${value.toFixed(2)}`
-
-  const subtotal = React.useMemo(() => loggedItems.reduce((acc, e) => acc + e.amount, 0), [loggedItems])
-  const tax = 0 // Fixed for now
-  const total = subtotal + tax
-
-  const summaryText = React.useMemo(() => {
-    const base = loggedItems.map((e) => e.name).join(", ")
-    return base.length > 30 ? `${base.slice(0, 27)}...` : base
-  }, [loggedItems])
-
-  const suggestions: SearchSuggestion[] = React.useMemo(
-    () =>
-      loggedItems.map((e) => ({
-        id: e.id,
-        label: e.name,
-        leading: (e as any).imageSrc ? (
-          <ImageTile size="small" src={(e as any).imageSrc} alt={(e as any).imageAlt ?? e.name} />
-        ) : undefined,
-        price: formatMoney(e.amount),
-      })),
-    [loggedItems, currency]
-  )
 
   const handleTileClick = (item: any) => {
     setExpenseDraft({
@@ -85,6 +42,12 @@ export default function FolderDetail({
       stroke: item.strokeStyle
     })
     setIsAddingExpense(true)
+  }
+
+  const handleAddExpense = () => {
+    setExpenseDraft({ name: "" })
+    setIsAddingExpense(true)
+    setIsSummaryOpen(true)
   }
 
   return (
@@ -112,133 +75,25 @@ export default function FolderDetail({
         <FloatingBottomBarSpacer />
       </div>
 
-      {/* Floating expandable expense summary bar (uses pencil edit rows) */}
-      <FloatingBottomBar>
-        <div className="w-full">
-          <BottomSlidingModal open={open} onOpenChange={setOpen}>
-            <BottomSlidingModalTrigger asChild>
-              <Button
-                type="button"
-                variant="invisible"
-                className={cn(
-                  "w-full h-[96px] p-0 cursor-pointer active:scale-[0.99] transition-all relative group flex flex-col items-stretch justify-center text-left",
-                  "overflow-hidden rounded-[18px] border shadow-lg",
-                  "bg-layer-1 border-border-inverse text-onLayer-primary",
-                  "supports-[backdrop-filter]:backdrop-blur-md supports-[backdrop-filter]:bg-layer-1/90"
-                )}
-                aria-label="Expand expenses"
-              >
-                <div className="flex items-center justify-between mt-1 px-4">
-                  <div className="flex flex-col min-w-0">
-                    <div className="text-[30px] leading-none font-bold tracking-tight font-mono">
-                      {formatMoney(total)}
-                    </div>
-                    <div className="text-[12px] leading-[16px] text-onLayer-secondary mt-1 truncate max-w-[240px]">
-                      {summaryText || "No expenses yet"}
-                    </div>
-                  </div>
-
-                  <Button
-                    asChild
-                    variant="invisible"
-                    size="icon"
-                    className="text-onLayer-secondary hover:text-onLayer-primary hover:bg-transparent dark:hover:bg-transparent"
-                  >
-                    <span aria-hidden="true">
-                      <SystemIcon icon={ChevronDown} size="huge" className="rotate-180" aria-hidden="true" />
-                    </span>
-                  </Button>
-                </div>
-              </Button>
-            </BottomSlidingModalTrigger>
-
-            <BottomSlidingModalContent
-              header={
-                <SectionTitle
-                  titleAs="h2"
-                  className="[&_*]:text-onLayer-primary"
-                  trailing={
-                    <BottomSlidingModalClose asChild>
-                      <Button
-                        variant="invisible"
-                        size="icon"
-                        aria-label="Collapse expenses"
-                        className="text-onLayer-secondary hover:text-onLayer-primary hover:bg-layer-2"
-                      >
-                        <SystemIcon icon={ChevronDown} size="big" aria-hidden="true" />
-                      </Button>
-                    </BottomSlidingModalClose>
-                  }
-                >
-                  Today's expenses
-                </SectionTitle>
-              }
-              footer={
-                <div>
-                  <div className="space-y-2 mb-6">
-                    <div className="flex items-center justify-between gap-12 text-regular-semibold text-onLayer-secondary">
-                      <span>Subtotal</span>
-                      <span className="font-mono">{formatMoney(subtotal)}</span>
-                    </div>
-                    <div className="flex items-center justify-between gap-12 text-regular-semibold text-onLayer-secondary">
-                      <span>Tax</span>
-                      <span className="font-mono">{formatMoney(tax)}</span>
-                    </div>
-                    <div className="flex justify-between items-end pt-4 mt-2">
-                      <span className="text-regular-semibold text-onLayer-secondary mb-1.5">Total</span>
-                      <div className="text-[22px] leading-[30px] font-semibold tracking-tight font-mono text-onLayer-primary">
-                        {formatMoney(total)}
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="h-12 w-full rounded-[12px]"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setIsAddingExpense(true)
-                    }}
-                  >
-                    Add expense
-                  </Button>
-                </div>
-              }
-              scaffoldProps={{
-                className: "bg-layer-1 border-border-inverse text-onLayer-primary",
-                headerClassName: "px-6 pt-7 pb-4",
-                bodyClassName: "min-h-0",
-                footerClassName: "bg-layer-1 border-t border-border-inverse p-6 pt-5",
-              }}
-            >
-              <div className="px-6 pb-4">
-                <SearchInputWithSuggestions
-                  placeholder="Search expenses..."
-                  suggestions={suggestions}
-                  tone="onLayer"
-                  className="h-10 rounded-[12px] bg-layer-2 border-border-inverse text-onLayer-primary placeholder:text-onLayer-tertiary"
-                />
-              </div>
-
-              <div className="px-6 pb-6">
-                <SettingsGroup className="border-border-inverse">
-                  {loggedItems.map((e) => (
-                    <ExpenseLineItemRow
-                      key={e.id}
-                      name={e.name}
-                      price={formatMoney(e.amount)}
-                      imageSrc={(e as any).imageSrc}
-                      imageAlt={(e as any).imageAlt}
-                      color={e.color}
-                      strokeStyle={e.strokeStyle}
-                    />
-                  ))}
-                </SettingsGroup>
-              </div>
-            </BottomSlidingModalContent>
-          </BottomSlidingModal>
-        </div>
+      {/* Floating expandable expense summary bar */}
+      <FloatingBottomBar
+        insetClassName="px-4 pb-[96px]"
+        className={cn(
+          "transition-all duration-500 cubic-bezier(0.32, 0.72, 0, 1)",
+          loggedItems.length > 0
+            ? "translate-y-0 opacity-100"
+            : "translate-y-[200%] opacity-0 pointer-events-none"
+        )}
+      >
+        <DailyExpensesSummaryBar
+          title="Today's expenses"
+          items={loggedItems}
+          tax={0}
+          currency={currency}
+          onAddExpense={handleAddExpense}
+          isSummaryOpen={isSummaryOpen}
+          onSummaryOpenChange={setIsSummaryOpen}
+        />
       </FloatingBottomBar>
 
       {isAddingExpense && (
@@ -253,4 +108,3 @@ export default function FolderDetail({
     </div>
   )
 }
-
