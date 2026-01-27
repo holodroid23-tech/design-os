@@ -11,11 +11,15 @@ export interface ExpenseItem {
     imageAlt?: string
     color?: string
     strokeStyle?: string
+    note?: string
+    tax?: string
+    productId?: string
 }
 
 interface ExpenseState {
     expenses: ExpenseItem[]
     addExpense: (expense: Omit<ExpenseItem, 'id'>) => void
+    updateExpense: (id: string, updates: Partial<Omit<ExpenseItem, 'id'>>) => void
     removeExpense: (id: string) => void
     getTodayExpenses: () => ExpenseItem[]
 }
@@ -34,6 +38,12 @@ export const useExpenseStore = create<ExpenseState>()(
                     date: item.date || new Date().toISOString(),
                 }
                 set(state => ({ expenses: [...state.expenses, newItem] }))
+            },
+
+            updateExpense: (id, updates) => {
+                set(state => ({
+                    expenses: state.expenses.map(e => e.id === id ? { ...e, ...updates } : e)
+                }))
             },
 
             removeExpense: (id) => {

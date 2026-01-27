@@ -28,7 +28,7 @@ interface InventoryState {
     updateCategory: (id: string, updates: Partial<InventoryCategory>) => void
     deleteCategory: (id: string) => void
 
-    addItem: (item: Omit<InventoryItem, 'id'>) => void
+    addItem: (item: Omit<InventoryItem, 'id'>) => InventoryItem
     updateItem: (id: string, updates: Partial<InventoryItem>) => void
     deleteItem: (id: string) => void
     toggleFavorite: (id: string) => void
@@ -101,7 +101,11 @@ export const useInventoryStore = create<InventoryState>()(
                     items: state.items.map((i) => (i.categoryId === id ? { ...i, categoryId: null } : i)),
                 })),
 
-            addItem: (item) => set((state) => ({ items: [...state.items, { ...item, id: generateId(), isVisible: true }] })),
+            addItem: (item) => {
+                const newItem = { ...item, id: generateId(), isVisible: true }
+                set((state) => ({ items: [...state.items, newItem] }))
+                return newItem
+            },
             updateItem: (id, updates) =>
                 set((state) => ({
                     items: state.items.map((i) => (i.id === id ? { ...i, ...updates } : i)),

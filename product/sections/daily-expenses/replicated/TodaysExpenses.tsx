@@ -5,6 +5,7 @@ import { FloatingBottomBar, FloatingBottomBarSpacer } from "@/components/ui/floa
 import { ProductTile } from "@/components/ui/product-tile"
 import { PageHeader } from "@/components/ui/page-header"
 import { SectionTitle } from "@/components/ui/section-title"
+import { PaginationDots } from "@/components/ui/pagination-dots"
 import { cn } from "@/lib/utils"
 import { useExpenseProductsStore, type ExpenseProduct } from "@/stores/useExpenseProductsStore"
 import { DailyExpensesSummaryBar } from "./DailyExpensesSummaryBar"
@@ -14,7 +15,7 @@ import CreateExpense from "./CreateExpense"
 import FolderDetail from "./FolderDetail"
 
 // Store imports
-import { useExpenseStore, type ExpenseItem } from "@/stores/useExpenseStore"
+import { useExpenseStore } from "@/stores/useExpenseStore"
 import { useSettingsStore } from "@/stores/useSettingsStore"
 
 export const designOS = {
@@ -42,9 +43,11 @@ export default function TodaysExpenses({
   const [isSummaryOpen, setIsSummaryOpen] = React.useState(false)
   const [selectedFolderId, setSelectedFolderId] = React.useState<string | null>(null)
   const [isAddingExpense, setIsAddingExpense] = React.useState(false)
+  const [activePageIndex, setActivePageIndex] = React.useState(0)
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null)
 
   // New state to hold prepopulated data for the modal
-  const [expenseDraft, setExpenseDraft] = React.useState<{ name: string; amount?: number; color?: string; stroke?: string } | null>(null)
+  const [expenseDraft, setExpenseDraft] = React.useState<{ name: string; amount?: number; color?: string; stroke?: string; id?: string; productId?: string; tax?: string } | null>(null)
 
   // Global State
   const { expenses } = useExpenseStore()
@@ -57,18 +60,41 @@ export default function TodaysExpenses({
   const handleAddExpense = () => {
     setExpenseDraft({ name: "" })
     setIsAddingExpense(true)
-    setIsSummaryOpen(true) // Ensure it stays open
     onAddExpenseProp?.()
   }
 
+  const handleEditItem = (itemId: string) => {
+    const item = loggedItems.find(i => i.id === itemId)
+    if (item) {
+      setExpenseDraft({
+        id: item.id,
+        name: item.name,
+        amount: item.amount,
+        color: item.color,
+        stroke: item.strokeStyle,
+        tax: item.tax,
+        productId: item.productId
+      })
+      setIsAddingExpense(true)
+    }
+    onEditLoggedItem?.(itemId)
+  }
 
   const handleTileClick = (item: ExpenseProduct) => {
     setExpenseDraft({
       name: item.name,
       color: item.color,
-      stroke: item.strokeStyle
+      stroke: item.strokeStyle,
+      productId: item.id
+      // id remains undefined for new item
     })
     setIsAddingExpense(true)
+  }
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget
+    const index = Math.round(container.scrollLeft / container.clientWidth)
+    setActivePageIndex(index)
   }
 
   if (selectedFolderId) {
@@ -85,8 +111,23 @@ export default function TodaysExpenses({
         {/* Block 1: Favorites grid */}
         {favoritesItems.length > 0 && (
           <div className="px-4 pt-6">
-            <SectionTitle titleAs="h2" size="group">Favorites</SectionTitle>
-            <div className="mt-3 overflow-x-auto no-scrollbar snap-x snap-mandatory">
+            <SectionTitle
+              titleAs="h2"
+              size="group"
+              trailing={
+                <PaginationDots
+                  count={Math.ceil(favoritesItems.length / 9)}
+                  activeIndex={activePageIndex}
+                />
+              }
+            >
+              Favorites
+            </SectionTitle>
+            <div
+              ref={scrollContainerRef}
+              onScroll={handleScroll}
+              className="mt-3 overflow-x-auto no-scrollbar snap-x snap-mandatory"
+            >
               <div className="flex gap-3">
                 {chunkArray(favoritesItems, 9).map((page, pageIdx) => (
                   <div key={pageIdx} className="min-w-full shrink-0 snap-start">
@@ -111,7 +152,7 @@ export default function TodaysExpenses({
         <div className="px-4 pt-8 pb-10">
           <SectionTitle titleAs="h2" size="group">Expenses</SectionTitle>
 
-          {/* Action / Folders Grid */}
+          {/* Action / Folders and Products Grid */}
           <div className="mt-3 grid grid-cols-3 gap-3">
             {/* New Expense (Log) */}
             <GridActionTile
@@ -132,10 +173,7 @@ export default function TodaysExpenses({
                   onClick={() => setSelectedFolderId(folder.id)}
                 />
               ))}
-          </div>
 
-          {/* Products Grid (All non-favorites or all?) */}
-          <div className="mt-3 grid grid-cols-3 gap-3">
             {products
               .filter(item => item.isVisible !== false)
               .map((item) => (
@@ -168,7 +206,7 @@ export default function TodaysExpenses({
           items={loggedItems}
           tax={0}
           currency={currency}
-          onEditItem={onEditLoggedItem}
+          onEditItem={handleEditItem}
           onAddExpense={handleAddExpense}
           isSummaryOpen={isSummaryOpen}
           onSummaryOpenChange={setIsSummaryOpen}
@@ -177,11 +215,17 @@ export default function TodaysExpenses({
 
       {isAddingExpense && (
         <CreateExpense
-          onClose={() => setIsAddingExpense(false)}
+          onClose={() => {
+            setIsAddingExpense(false)
+            setExpenseDraft(null)
+          }}
           initialName={expenseDraft?.name}
           initialAmount={expenseDraft?.amount}
           initialColor={expenseDraft?.color}
           initialStroke={expenseDraft?.stroke}
+          initialTax={expenseDraft?.tax}
+          editId={expenseDraft?.id}
+          productId={expenseDraft?.productId}
         />
       )}
 

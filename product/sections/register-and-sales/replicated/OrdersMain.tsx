@@ -8,6 +8,7 @@ import { OrderTabs } from "@/components/ui/order-tabs"
 import { OrderProductTile } from "@/components/ui/order-product-tile"
 import { GridActionTile } from "@/components/patterns/grid-action-tile"
 import { PageHeader } from "@/components/ui/page-header"
+import { PaginationDots } from "@/components/ui/pagination-dots"
 import { cn } from "@/lib/utils"
 import ItemManagementNewItem from "../../settings-and-configuration/replicated/ItemManagementNewItem"
 import OrderEditTab from "./OrderEditTab"
@@ -64,6 +65,8 @@ export default function OrdersMain({
   const [isAddingItem, setIsAddingItem] = React.useState(false)
   const [editingTabId, setEditingTabId] = React.useState<string | null>(null)
   const [selectedFolderId, setSelectedFolderId] = React.useState<string | null>(null)
+  const [activePageIndex, setActivePageIndex] = React.useState(0)
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null)
 
   const { items: inventoryItems, categories } = useInventoryStore()
   const { taxRate, areTaxesEnabled, currency } = useSettingsStore()
@@ -152,12 +155,18 @@ export default function OrdersMain({
   // Inventory tiles from store
   const inventoryTiles = React.useMemo(() => {
     return [
-      { id: "custom-item", label: "Custom item", icon: Plus, iconClassName: "text-primary" },
+      { id: "custom-item", label: "New item", icon: Plus, iconClassName: "text-primary" },
       ...categories
         .filter(c => c.isVisible !== false)
         .map(c => ({ id: c.id, label: c.name, icon: Folder, iconClassName: "text-layer-info" }))
     ]
   }, [categories])
+
+  const handleSaveQuickItem = (item: any) => {
+    if (activeTabId) {
+      addItemToOrder(activeTabId, item)
+    }
+  }
 
   const formatPrice = (price: number) => {
     return `${price.toLocaleString('cs-CZ', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} ${currency}`
@@ -182,6 +191,12 @@ export default function OrdersMain({
     if (product) {
       addItemToOrder(activeTabId, product)
     }
+  }
+
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const container = e.currentTarget
+    const index = Math.round(container.scrollLeft / container.clientWidth)
+    setActivePageIndex(index)
   }
 
   if (selectedFolderId) {
@@ -214,9 +229,24 @@ export default function OrdersMain({
 
         {/* Block 2: Favorites grid */}
         <div className="px-4 pt-6">
-          <SectionTitle titleAs="h2" size="group">Favorites</SectionTitle>
+          <SectionTitle
+            titleAs="h2"
+            size="group"
+            trailing={
+              <PaginationDots
+                count={favoritePages.length}
+                activeIndex={activePageIndex}
+              />
+            }
+          >
+            Favorites
+          </SectionTitle>
 
-          <div className="mt-3 overflow-x-auto no-scrollbar snap-x snap-mandatory">
+          <div
+            ref={scrollContainerRef}
+            onScroll={handleScroll}
+            className="mt-3 overflow-x-auto no-scrollbar snap-x snap-mandatory"
+          >
             {favoritePages.length === 0 ? (
               <div className="text-sm text-muted-foreground italic">No favorites yet. Mark items as favorite in inventory to see them here.</div>
             ) : (
@@ -296,9 +326,7 @@ export default function OrdersMain({
                 }}
               />
             ))}
-          </div>
 
-          <div className="mt-3 grid grid-cols-3 gap-3">
             {formattedInventoryItems.map((item) => {
               const count = item.count
               const leftIcon = count <= 1 ? Trash2 : Minus
@@ -375,7 +403,11 @@ export default function OrdersMain({
       </FloatingBottomBar>
 
       {isAddingItem && (
-        <ItemManagementNewItem onClose={() => setIsAddingItem(false)} />
+        <ItemManagementNewItem
+          isOrderContext
+          onSave={handleSaveQuickItem}
+          onClose={() => setIsAddingItem(false)}
+        />
       )}
 
       {editingTabId && (

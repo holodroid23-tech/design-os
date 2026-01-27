@@ -13,9 +13,10 @@ export interface ExpenseProduct {
     name: string
     folderId?: string | null
     defaultPrice?: number
+    lastPrices?: number[] // Keep last 3 prices
     color?: string
-    strokeStyle?: 'none' | 'common' | 'dashed' | 'dotted' | 'double' | 'solid' // Extended for compatibility, but UI might only support subset for now
-    icon?: string // Optional icon name
+    strokeStyle?: 'none' | 'common' | 'dashed' | 'dotted' | 'double' | 'solid'
+    icon?: string
     isFavorite?: boolean
     isVisible?: boolean
 }
@@ -24,12 +25,13 @@ interface ExpenseProductsState {
     folders: ExpenseFolder[]
     products: ExpenseProduct[]
 
-    addFolder: (name: string) => string // Returns ID
+    addFolder: (name: string) => string
     updateFolder: (id: string, updates: Partial<ExpenseFolder>) => void
     removeFolder: (id: string) => void
 
     addProduct: (product: Omit<ExpenseProduct, 'id'>) => void
     updateProduct: (id: string, updates: Partial<ExpenseProduct>) => void
+    updateProductPrices: (id: string, newPrice: number) => void
     removeProduct: (id: string) => void
     toggleFavorite: (id: string) => void
     toggleFolderVisibility: (id: string) => void
@@ -176,6 +178,20 @@ export const useExpenseProductsStore = create<ExpenseProductsState>()(
             updateProduct: (id, updates) => {
                 set(state => ({
                     products: state.products.map(p => p.id === id ? { ...p, ...updates } : p)
+                }))
+            },
+
+            updateProductPrices: (id, newPrice) => {
+                set(state => ({
+                    products: state.products.map(p => {
+                        if (p.id === id) {
+                            const currentPrices = p.lastPrices || []
+                            // Add to front, remove duplicates, take first 3
+                            const updatedPrices = [newPrice, ...currentPrices.filter(pr => pr !== newPrice)].slice(0, 3)
+                            return { ...p, lastPrices: updatedPrices }
+                        }
+                        return p
+                    })
                 }))
             },
 

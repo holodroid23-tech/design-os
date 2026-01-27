@@ -25,7 +25,7 @@ export default function FolderDetail({
 }: DailyExpensesFolderDetailProps) {
   const [isSummaryOpen, setIsSummaryOpen] = React.useState(false)
   const [isAddingExpense, setIsAddingExpense] = React.useState(false)
-  const [expenseDraft, setExpenseDraft] = React.useState<{ name: string; amount?: number; color?: string; stroke?: string } | null>(null)
+  const [expenseDraft, setExpenseDraft] = React.useState<{ name: string; amount?: number; color?: string; stroke?: string; productId?: string } | null>(null)
 
   const { products, folders } = useExpenseProductsStore()
   const { expenses } = useExpenseStore()
@@ -39,7 +39,8 @@ export default function FolderDetail({
     setExpenseDraft({
       name: item.name,
       color: item.color,
-      stroke: item.strokeStyle
+      stroke: item.strokeStyle,
+      productId: item.id
     })
     setIsAddingExpense(true)
   }
@@ -47,7 +48,6 @@ export default function FolderDetail({
   const handleAddExpense = () => {
     setExpenseDraft({ name: "" })
     setIsAddingExpense(true)
-    setIsSummaryOpen(true)
   }
 
   return (
@@ -103,6 +103,7 @@ export default function FolderDetail({
           initialAmount={expenseDraft?.amount}
           initialColor={expenseDraft?.color}
           initialStroke={expenseDraft?.stroke}
+          productId={expenseDraft?.productId}
         />
       )}
     </div>
