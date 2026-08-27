@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rozbor krve — Emanuella</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#F6F7F9; --surface:#FFFFFF; --ink:#1B2733; --muted:#5B6B7A;
+  --line:#DEE4EA; --line-soft:#EAEEF2; --accent:#0E7C7B; --accent-ink:#0B5F5E;
+  --accent-soft:#E3F1F0; --band:#F0F4F6;
+}
+:root:not([data-theme="light"]){}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#10161C; --surface:#17202A; --ink:#E5EAEF; --muted:#93A3B1;
+    --line:#2A3642; --line-soft:#212C37; --accent:#3FB6AC; --accent-ink:#5FCCC3;
+    --accent-soft:#15302F; --band:#1B2631;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#10161C; --surface:#17202A; --ink:#E5EAEF; --muted:#93A3B1;
+  --line:#2A3642; --line-soft:#212C37; --accent:#3FB6AC; --accent-ink:#5FCCC3;
+  --accent-soft:#15302F; --band:#1B2631;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  font-size:15px; line-height:1.5;
+}
+.wrap{max-width:1080px; margin:0 auto; padding:40px 20px 64px}
+.eyebrow{
+  color:var(--accent-ink); font-size:12px; font-weight:600;
+  text-transform:uppercase; letter-spacing:.12em; margin:0 0 6px;
+}
+h1{font-size:30px; font-weight:700; margin:0 0 4px; letter-spacing:-.01em; text-wrap:balance}
+.sub{color:var(--muted); margin:0 0 20px; max-width:64ch}
+.legend{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 28px}
+.chip{
+  display:inline-flex; align-items:baseline; gap:6px;
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:999px; padding:4px 12px; font-size:13px;
+}
+.chip b{font-weight:600; color:var(--accent-ink)}
+.chip span{color:var(--muted)}
+.tablecard{
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:10px; overflow-x:auto;
+}
+table{border-collapse:collapse; width:100%; min-width:720px}
+th,td{padding:8px 14px; text-align:right; white-space:nowrap}
+th:first-child, td:first-child{text-align:left}
+thead th{
+  position:sticky; top:0; background:var(--surface);
+  border-bottom:2px solid var(--accent);
+  font-size:13px; font-weight:600; color:var(--accent-ink);
+  text-transform:uppercase; letter-spacing:.06em;
+}
+tbody tr{border-bottom:1px solid var(--line-soft)}
+tbody tr:last-child{border-bottom:none}
+tr.panel td{
+  background:var(--band); color:var(--ink); font-weight:600; font-size:13px;
+  text-transform:uppercase; letter-spacing:.08em; text-align:left;
+  border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+  padding-top:10px; padding-bottom:10px;
+}
+td.val{
+  font-family:"IBM Plex Mono", ui-monospace, monospace; font-size:13.5px;
+  font-variant-numeric:tabular-nums;
+}
+td.val.dash{color:var(--muted); opacity:.55}
+td.name{font-weight:500}
+td.name small{display:block; font-weight:400; color:var(--muted); font-size:12px}
+.note{
+  margin-top:20px; padding:14px 18px; background:var(--accent-soft);
+  border:1px solid var(--line); border-radius:10px;
+  color:var(--muted); font-size:13px; max-width:78ch;
+}
+.note b{color:var(--ink)}
+footer{margin-top:28px; color:var(--muted); font-size:12.5px}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">Emanuella — zdravotní přehled</p>
+  <h1>Rozbor krve</h1>
+  <p class="sub">Všechny markery seskupené podle panelů, přepočtené do jednotek běžných v ČR (SI). Pomlčka = daný den neměřeno.</p>
+
+  <div class="legend">
+    <span class="chip"><b>18.&nbsp;5.</b><span>vstupní odběr</span></span>
+    <span class="chip"><b>8.&nbsp;6.</b><span>druhý odběr</span></span>
+    <span class="chip"><b>30.&nbsp;6. + 29.&nbsp;7.</b><span>kontroly</span></span>
+    <span class="chip"><b>19.&nbsp;8.</b><span>poslední odběr (3.&nbsp;den cyklu)</span></span>
+  </div>
+
+  <div class="tablecard">
+  <table>
+    <thead>
+      <tr><th>Marker</th><th>18. 5.</th><th>8. 6.</th><th>30. 6.</th><th>29. 7.</th><th>19. 8.</th></tr>
+    </thead>
+    <tbody>
+      <tr class="panel"><td colspan="6">Moč — chemicky (proužek)</td></tr>
+      <tr><td class="name">Specifická hmotnost</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">1,020</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">pH</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">7,0</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Bílkovina</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">negativní</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Glukóza</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">negativní</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Ketolátky</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">negativní</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Urobilinogen</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">negativní</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Bilirubin</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">negativní</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Krev</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">negativní</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Leukocytární esteráza</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">negativní</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Nitrity</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">negativní</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+
+      <tr class="panel"><td colspan="6">Moč — sediment</td></tr>
+      <tr><td class="name">Erytrocyty<small>/µl</small></td><td class="val dash">–</td><td class="val dash">–</td><td class="val">9</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Leukocyty<small>/µl</small></td><td class="val dash">–</td><td class="val dash">–</td><td class="val">7</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Dlaždicové epitelie<small>/µl</small></td><td class="val dash">–</td><td class="val dash">–</td><td class="val">6</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Bakterie<small>/µl</small></td><td class="val dash">–</td><td class="val dash">–</td><td class="val">3</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+
+      <tr class="panel"><td colspan="6">Moč — kultivace</td></tr>
+      <tr><td class="name">Aerobní kultivace</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">bez nárůstu</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+
+      <tr class="panel"><td colspan="6">Základní biochemie</td></tr>
+      <tr><td class="name">Urea<small>mmol/l</small></td><td class="val">5,1</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Kreatinin<small>µmol/l</small></td><td class="val">62</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">eGFR<small>ml/min/1,73&nbsp;m²</small></td><td class="val">122</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Kyselina močová<small>µmol/l</small></td><td class="val">291</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Bilirubin celkový<small>µmol/l</small></td><td class="val">7,2</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Albumin<small>g/l</small></td><td class="val">45</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Měď (Cu)<small>µmol/l</small></td><td class="val dash">–</td><td class="val">20,9</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Zinek (Zn)<small>µmol/l</small></td><td class="val dash">–</td><td class="val">12,2</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+
+      <tr class="panel"><td colspan="6">Jaterní testy</td></tr>
+      <tr><td class="name">ALT<small>µkat/l</small></td><td class="val">0,40</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">AST<small>µkat/l</small></td><td class="val">0,45</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">GGT<small>µkat/l</small></td><td class="val">0,35</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">ALP<small>µkat/l</small></td><td class="val">1,25</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+
+      <tr class="panel"><td colspan="6">Zánět</td></tr>
+      <tr><td class="name">CRP → hsCRP<small>mg/l</small></td><td class="val">10,9</td><td class="val">19,2</td><td class="val">9,2</td><td class="val">11,1</td><td class="val dash">–</td></tr>
+
+      <tr class="panel"><td colspan="6">Glykémie a inzulin</td></tr>
+      <tr><td class="name">Glukóza nalačno<small>mmol/l</small></td><td class="val">5,1</td><td class="val">4,4</td><td class="val">4,6</td><td class="val dash">–</td><td class="val">4,9</td></tr>
+      <tr><td class="name">HbA1c<small>mmol/mol</small></td><td class="val">22</td><td class="val dash">–</td><td class="val">24</td><td class="val dash">–</td><td class="val">22</td></tr>
+      <tr><td class="name">Inzulin nalačno<small>mIU/l</small></td><td class="val">10,4</td><td class="val">8,9</td><td class="val">7,0</td><td class="val dash">–</td><td class="val">9,9</td></tr>
+      <tr><td class="name">HOMA-IR</td><td class="val">2,34</td><td class="val">1,76</td><td class="val">1,42</td><td class="val dash">–</td><td class="val">2,18</td></tr>
+
+      <tr class="panel"><td colspan="6">Lipidy</td></tr>
+      <tr><td class="name">Celkový cholesterol<small>mmol/l</small></td><td class="val">5,2</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">4,0</td></tr>
+      <tr><td class="name">Triglyceridy<small>mmol/l</small></td><td class="val">0,47</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">0,40</td></tr>
+      <tr><td class="name">HDL cholesterol<small>mmol/l</small></td><td class="val">1,73</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">1,24</td></tr>
+      <tr><td class="name">LDL cholesterol<small>mmol/l</small></td><td class="val">3,13</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">2,20</td></tr>
+      <tr><td class="name">Non-HDL cholesterol<small>mmol/l</small></td><td class="val">3,49</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">2,79</td></tr>
+
+      <tr class="panel"><td colspan="6">Štítná žláza</td></tr>
+      <tr><td class="name">TSH<small>mIU/l</small></td><td class="val">1,56</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Volný T4 (fT4)<small>pmol/l</small></td><td class="val">14,3</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Celkový T4<small>nmol/l</small></td><td class="val">133</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Volný T3 (fT3)<small>pmol/l</small></td><td class="val">4,8</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Celkový T3<small>nmol/l</small></td><td class="val">2,0</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+
+      <tr class="panel"><td colspan="6">Reprodukční hormony</td></tr>
+      <tr><td class="name">FSH<small>IU/l</small></td><td class="val">7,0</td><td class="val">3,0</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">7,1</td></tr>
+      <tr><td class="name">LH<small>IU/l</small></td><td class="val">9,5</td><td class="val">8,8</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">10,1</td></tr>
+      <tr><td class="name">Estradiol<small>pmol/l</small></td><td class="val">264</td><td class="val">525</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">192</td></tr>
+      <tr><td class="name">Progesteron<small>nmol/l</small></td><td class="val dash">–</td><td class="val">28,9</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">&lt;1,6</td></tr>
+      <tr><td class="name">Prolaktin<small>mIU/l</small></td><td class="val">346</td><td class="val">502</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">244</td></tr>
+      <tr><td class="name">Testosteron<small>nmol/l</small></td><td class="val">1,24</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">SHBG<small>nmol/l</small></td><td class="val">65,4</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">FAI<small>%</small></td><td class="val">1,90</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+
+      <tr class="panel"><td colspan="6">Nadledviny a stres</td></tr>
+      <tr><td class="name">Kortizol ranní<small>nmol/l</small></td><td class="val">270</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">DHEA-S<small>µmol/l</small></td><td class="val">3,68</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+
+      <tr class="panel"><td colspan="6">Železo a vitaminy</td></tr>
+      <tr><td class="name">Železo (Fe)<small>µmol/l</small></td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">6,6</td></tr>
+      <tr><td class="name">Feritin<small>µg/l</small></td><td class="val">41,2</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">99,7</td></tr>
+      <tr><td class="name">Vitamin D (25-OH)<small>nmol/l</small></td><td class="val">89</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td><td class="val">115</td></tr>
+      <tr><td class="name">Folát (kys. listová)<small>nmol/l</small></td><td class="val dash">–</td><td class="val">13,8</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Aktivní B12 (holoTC)<small>pmol/l</small></td><td class="val dash">–</td><td class="val">41,9</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+
+      <tr class="panel"><td colspan="6">Krevní obraz</td></tr>
+      <tr><td class="name">Leukocyty<small>10⁹/l</small></td><td class="val dash">–</td><td class="val">4,5</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Hemoglobin<small>g/l</small></td><td class="val dash">–</td><td class="val">128</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Hematokrit<small>podíl</small></td><td class="val dash">–</td><td class="val">0,381</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Erytrocyty<small>10¹²/l</small></td><td class="val dash">–</td><td class="val">4,33</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">MCV<small>fl</small></td><td class="val dash">–</td><td class="val">88,0</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">MCH<small>pg</small></td><td class="val dash">–</td><td class="val">30</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">MCHC<small>g/l</small></td><td class="val dash">–</td><td class="val">336</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">RDW-CV<small>%</small></td><td class="val dash">–</td><td class="val">12,0</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Trombocyty<small>10⁹/l</small></td><td class="val dash">–</td><td class="val">229</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Neutrofily<small>%</small></td><td class="val dash">–</td><td class="val">55,3</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Lymfocyty<small>%</small></td><td class="val dash">–</td><td class="val">26,2</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Monocyty<small>%</small></td><td class="val dash">–</td><td class="val">11,2</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Eozinofily<small>%</small></td><td class="val dash">–</td><td class="val">6,9</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+      <tr><td class="name">Bazofily<small>%</small></td><td class="val dash">–</td><td class="val">0,4</td><td class="val dash">–</td><td class="val dash">–</td><td class="val dash">–</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <p class="note"><b>Poznámka k přepočtu:</b> hodnoty byly převedeny z amerických jednotek do SI (glukóza a lipidy → mmol/l; kreatinin, kys. močová, bilirubin, železo, měď, zinek → µmol/l; jaterní enzymy U/l → µkat/l ×0,0167; HbA1c % (DCCT) → mmol/mol (IFCC); estradiol → pmol/l; progesteron a testosteron → nmol/l; prolaktin → mIU/l; kortizol → nmol/l; vitamin D a folát → nmol/l; hemoglobin a MCHC → g/l). Zaokrouhleno na běžnou laboratorní přesnost.</p>
+
+  <footer>Emanuella — zdravotní přehled · laboratorní výsledky květen–srpen 2026</footer>
+</div>
+</body>
+</html>
